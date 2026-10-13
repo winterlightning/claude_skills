@@ -145,7 +145,18 @@ fn clauses(p: &Params, parts: Parts, args: &mut Args) -> Vec<String> {
     // matchesFamily
     match p.family.as_str() {
         "" => {}
-        "side_main" | "side_sub" => { w.push("u.side_role = ?".into()); args.push(json!(&p.family[5..])); }
+        "side_main" => { w.push("u.side_role = ?".into()); args.push(json!("main")); }
+        "side_sub" | "sub_side" => {
+            // Include every side-sub alternative linked to an actual combination reference.
+            // Keep selected uploads too, even if they have no icon_references row.
+            // IN deduplicates drawings shared by several pairs without merging their reviews.
+            w.push("u.key IN (SELECT p.icon FROM reference_parts p JOIN \"references\" r ON r.reference_id = p.reference_id \
+                WHERE p.role = 'sub' AND r.kind = 'combination' UNION \
+                SELECT ir.icon FROM icon_references ir JOIN reference_parts p ON p.part_reference_id = ir.reference_id \
+                JOIN \"references\" r ON r.reference_id = p.reference_id \
+                JOIN icons linked ON linked.key = ir.icon \
+                WHERE p.role = 'sub' AND r.kind = 'combination' AND linked.family IN ('sub', 'text'))".into());
+        }
         family => { w.push("u.family = ?".into()); args.push(json!(family)); }
     }
     if p.style != "all" && !p.style.is_empty() {
@@ -291,6 +302,7 @@ fn review_join(alias: &str) -> String {
 /// Whether the counts can come from icon_counts: only family, state and category narrow the list.
 fn counted(p: &Params) -> bool {
     p.q.is_empty() && p.terms.is_empty() && p.profile.is_empty() && !p.narrowed() && p.pending_feedback.is_empty()
+        && !matches!(p.family.as_str(), "side_sub" | "sub_side")
 }
 
 /// icon_counts conditions for the family and (optionally) the section and category.

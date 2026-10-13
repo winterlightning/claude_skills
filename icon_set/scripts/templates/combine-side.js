@@ -25,6 +25,29 @@
   // At 72 the sub is placed exactly as drawn on its 36 grid (sizeLock 'exact'); spacing is the same at both sizes.
   const SIZES = {64: {canvas: 64, main: 48, sub: 32}, 72: {canvas: 72, main: 54, sub: 36}};
   const sizeOf = size => SIZES[size ?? 64] || fail('A side pair is 64 or 72.');
+  // The keyshapes of the combined icon's canvas (painted boxes [x0, y0, x1, y1], centered). 64 is CONTAINER64; 72 keeps
+  // the same rule (square padding 4, the long side padding 2, HRECT short side 0.75 x canvas, M = HRECT - 4). The circle
+  // is not offered: its box is the whole padded canvas, so only ink inside the circle could prove it.
+  const CANVAS_KEYSHAPES = Object.fromEntries([64, 72].map(c => {
+    const box = (w, h) => [(c - w) / 2, (c - h) / 2, (c + w) / 2, (c + h) / 2];
+    const long = c - 4, rect = c === 64 ? 48 : Math.round(0.75 * c), m = rect - 4;
+    return [c, {SQUARE: box(c - 8, c - 8), HRECT: box(long, rect), HRECT_M: box(long, m), VRECT: box(rect, long), VRECT_M: box(m, long)}];
+  }));
+  // The canvas keyshape a built pair sits in: of the keyshapes that hold both parts' painted boxes, the shape closest
+  // to the pair's own, then the smaller one. null when none holds it (the parts spread past every keyshape).
+  function canvasKeyshape(placements, size = 64) {
+    const table = CANVAS_KEYSHAPES[size];
+    if (!table) return null;
+    const boxes = placements.map(p => p.painted_box);
+    const u = [Math.min(...boxes.map(b => b.x)), Math.min(...boxes.map(b => b.y)),
+               Math.max(...boxes.map(b => b.x + b.w)), Math.max(...boxes.map(b => b.y + b.h))];
+    // eps: the engine measures a scaled part with float noise (46.004 for a 46 box); a twentieth of a unit never shows.
+    const aspect = Math.log((u[2] - u[0]) / (u[3] - u[1])), eps = 0.05;
+    const fits = Object.entries(table).filter(([, k]) => u[0] >= k[0] - eps && u[1] >= k[1] - eps && u[2] <= k[2] + eps && u[3] <= k[3] + eps)
+      .map(([name, k]) => ({name, bounds: k, off: Math.abs(aspect - Math.log((k[2] - k[0]) / (k[3] - k[1]))), area: (k[2] - k[0]) * (k[3] - k[1])}))
+      .sort((a, b) => a.off - b.off || a.area - b.area);
+    return fits.length ? {name: fits[0].name, bounds: fits[0].bounds} : null;
+  }
   const SHAPES = ['path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon'];
   const GEOM = ['path', 'circle', 'ellipse', 'rect', 'line', 'polygon', 'polyline'];
   const SKIP = ['defs', 'clipPath', 'mask', 'title', 'desc', 'metadata', 'style'];
@@ -247,10 +270,14 @@
       }
       return out;
     };
+    // The previous curve's last control point, for S / T (their first control point is its reflection), and its kind.
+    let control = null, kind = null;
     for (const [, cmd, params] of d.matchAll(/([MLHVZCQTSAmlhvzcqtsa])\s*([^MLHVZCQTSAmlhvzcqtsa]*)/g)) {
       const n = (params.match(NUMBER) || []).map(Number);
       const rel = cmd === cmd.toLowerCase();
-      switch (cmd.toUpperCase()) {
+      const upperCmd = cmd.toUpperCase();
+      if (!['C', 'S', 'Q', 'T'].includes(upperCmd)) { control = null; kind = null; }
+      switch (upperCmd) {
         case 'M':
           for (let i = 0; i + 1 < n.length; i += 2) {
             current = rel ? [current[0] + n[i], current[1] + n[i + 1]] : [n[i], n[i + 1]];
@@ -277,7 +304,18 @@
             const end = rel ? [current[0] + n[i + 4], current[1] + n[i + 5]] : [n[i + 4], n[i + 5]];
             const s = current;
             for (let j = 0; j < curveSegments; j++) lines.push([cubic(j / curveSegments, s, c1, c2, end), cubic((j + 1) / curveSegments, s, c1, c2, end)]);
-            current = end;
+            current = end; control = c2; kind = 'C';
+          }
+          break;
+        case 'S':
+          // Smooth cubic: the first control point reflects the previous C / S's second one (else it is the current point).
+          for (let i = 0; i + 3 < n.length; i += 4) {
+            const c1 = kind === 'C' && control ? [2 * current[0] - control[0], 2 * current[1] - control[1]] : current;
+            const c2 = rel ? [current[0] + n[i], current[1] + n[i + 1]] : [n[i], n[i + 1]];
+            const end = rel ? [current[0] + n[i + 2], current[1] + n[i + 3]] : [n[i + 2], n[i + 3]];
+            const s = current;
+            for (let j = 0; j < curveSegments; j++) lines.push([cubic(j / curveSegments, s, c1, c2, end), cubic((j + 1) / curveSegments, s, c1, c2, end)]);
+            current = end; control = c2; kind = 'C';
           }
           break;
         case 'Q':
@@ -286,7 +324,17 @@
             const end = rel ? [current[0] + n[i + 2], current[1] + n[i + 3]] : [n[i + 2], n[i + 3]];
             const s = current;
             for (let j = 0; j < curveSegments; j++) lines.push([quadratic(j / curveSegments, s, c, end), quadratic((j + 1) / curveSegments, s, c, end)]);
-            current = end;
+            current = end; control = c; kind = 'Q';
+          }
+          break;
+        case 'T':
+          // Smooth quadratic: its control point reflects the previous Q / T's (else it is the current point).
+          for (let i = 0; i + 1 < n.length; i += 2) {
+            const c = kind === 'Q' && control ? [2 * current[0] - control[0], 2 * current[1] - control[1]] : current;
+            const end = rel ? [current[0] + n[i], current[1] + n[i + 1]] : [n[i], n[i + 1]];
+            const s = current;
+            for (let j = 0; j < curveSegments; j++) lines.push([quadratic(j / curveSegments, s, c, end), quadratic((j + 1) / curveSegments, s, c, end)]);
+            current = end; control = c; kind = 'Q';
           }
           break;
         case 'A':
@@ -299,7 +347,6 @@
         case 'Z':
           if (current[0] !== start[0] || current[1] !== start[1]) { lines.push([current, start]); current = start; }
           break;
-        // S and T are ignored by the engine.
       }
     }
     return lines;
@@ -394,15 +441,66 @@
       const s = 'stroke' in el.attrib ? el.attrib.stroke : stroke;
       return (s || 'none').trim().toLowerCase() === 'none' ? null : s;
     };
-    const prune = (parent, stroke) => {
+    // A filled, unstroked dot (a wifi source dot, eyes, a sun's dot rays) is ink too: keep it as the stroke-width dot it
+    // looks like (a circle of radius r - 2 under the 4-unit stroke), so the main still draws it and the cut sees it.
+    // Other unstroked shapes are dropped as before (2026-10-11: Sunny Day Building, wifi, avatar eyes).
+    const fillOf = (el, fill) => 'fill' in el.attrib ? el.attrib.fill : fill;
+    const dot = (el, fill) => {
+      const name = local(el.tag).toLowerCase(), f = (fillOf(el, fill) || 'black').trim().toLowerCase();
+      if (f === 'none' || !['circle', 'ellipse'].includes(name)) return false;
+      const keys = name === 'circle' ? ['r'] : ['rx', 'ry'];
+      for (const k of keys) el.attrib[k] = fmt(Math.max(pyFloat(el.attrib[k] ?? '0') - STROKE / 2, 0.05));
+      return true;
+    };
+    const prune = (parent, stroke, fill) => {
       for (const el of [...parent.children]) {
-        const s = inherited(el, stroke);
-        if (GEOM.includes(local(el.tag).toLowerCase())) { if (s === null) removeChild(parent, el); continue; }
-        prune(el, s);
+        const s = inherited(el, stroke), f = fillOf(el, fill);
+        if (GEOM.includes(local(el.tag).toLowerCase())) { if (s === null && !dot(el, f)) removeChild(parent, el); continue; }
+        prune(el, s, f);
       }
     };
-    prune(rootEl, inherited(rootEl, null));
+    prune(rootEl, inherited(rootEl, null), rootEl.attrib.fill);
   }
+
+  // An element's transform="..." (and its groups'), as one 2x3 matrix [a b c d e f]. The engine flattens shapes from their
+  // own coordinates, so a rotated rect (a diagonal capsule, a dumbbell plate) must be mapped through this matrix, or it
+  // comes out unrotated (2026-10-11: medicine-pill-capsule, fresh-cucumber and fitness dumbbell mains).
+  const IDENTITY = [1, 0, 0, 1, 0, 0];
+  const mulMatrix = (a, b) => [a[0] * b[0] + a[2] * b[1], a[1] * b[0] + a[3] * b[1], a[0] * b[2] + a[2] * b[3], a[1] * b[2] + a[3] * b[3],
+                               a[0] * b[4] + a[2] * b[5] + a[4], a[1] * b[4] + a[3] * b[5] + a[5]];
+  function parseTransform(text) {
+    let m = IDENTITY;
+    const re = /(matrix|translate|scale|rotate|skewX|skewY)\s*\(([^)]*)\)/g;
+    let t;
+    while ((t = re.exec(text || ''))) {
+      const v = t[2].trim().split(/[\s,]+/).filter(Boolean).map(Number);
+      if (v.some(n => !Number.isFinite(n))) fail('The SVG has a transform that cannot be read.');
+      const rad = deg => deg * Math.PI / 180;
+      let n = IDENTITY;
+      if (t[1] === 'matrix' && v.length === 6) n = v;
+      else if (t[1] === 'translate') n = [1, 0, 0, 1, v[0] || 0, v[1] || 0];
+      else if (t[1] === 'scale') n = [v[0] ?? 1, 0, 0, v[1] ?? v[0] ?? 1, 0, 0];
+      else if (t[1] === 'rotate') {
+        const c = Math.cos(rad(v[0] || 0)), sn = Math.sin(rad(v[0] || 0)), cx = v[1] || 0, cy = v[2] || 0;
+        n = [c, sn, -sn, c, cx - c * cx + sn * cy, cy - sn * cx - c * cy];
+      } else if (t[1] === 'skewX') n = [1, 0, Math.tan(rad(v[0] || 0)), 1, 0, 0];
+      else if (t[1] === 'skewY') n = [1, Math.tan(rad(v[0] || 0)), 0, 1, 0, 0];
+      m = mulMatrix(m, n);
+    }
+    return m;
+  }
+  function transformMatrices(rootEl) {
+    const out = new Map();
+    const walk = (node, parent) => {
+      const own = node.attrib && node.attrib.transform ? mulMatrix(parent, parseTransform(node.attrib.transform)) : parent;
+      out.set(node, own);
+      for (const child of node.children || []) walk(child, own);
+    };
+    walk(rootEl, IDENTITY);
+    return out;
+  }
+  const mapSegments = (segs, m) => (!m || m === IDENTITY) ? segs
+    : segs.map(seg => seg.map(([x, y]) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]]));
 
   function parseGeometry(rootEl, spacing = 1.0) {
     for (const style of findall(rootEl, 'svg', 'style')) {
@@ -413,11 +511,12 @@
     }
     removeClipPathElements(rootEl);
     for (const el of iter(rootEl)) delete el.attrib.style;
+    const matrices = transformMatrices(rootEl), at = el => matrices.get(el);
     const segments = [];
     const both = name => [...findall(rootEl, 'svg', name), ...findall(rootEl, 'none', name), ...findall(rootEl, 'any', name)];
     for (const path of both('path')) {
       const d = path.attrib.d;
-      if (d) segments.push(...parseSvgPath(d));
+      if (d) segments.push(...mapSegments(parseSvgPath(d), at(path)));
     }
     const once = name => {
       const seen = new Set(), out = [];
@@ -428,30 +527,30 @@
     };
     for (const c of once('circle')) {
       const r = pyFloat(c.attrib.r ?? '0');
-      if (r > 0) segments.push(...circleSegments(pyFloat(c.attrib.cx ?? '0'), pyFloat(c.attrib.cy ?? '0'), r, spacing));
+      if (r > 0) segments.push(...mapSegments(circleSegments(pyFloat(c.attrib.cx ?? '0'), pyFloat(c.attrib.cy ?? '0'), r, spacing), at(c)));
     }
     for (const r of once('rect')) {
       const x = pyFloat(r.attrib.x), y = pyFloat(r.attrib.y), w = pyFloat(r.attrib.width), h = pyFloat(r.attrib.height);
       let rx = 'rx' in r.attrib ? pyFloat(r.attrib.rx) : null, ry = 'ry' in r.attrib ? pyFloat(r.attrib.ry) : null;
       if (rx === null && ry === null) { rx = 0.0; ry = 0.0; } else if (rx === null) rx = ry; else if (ry === null) ry = rx;
-      if (w > 0 && h > 0) segments.push(...rectSegments(x, y, w, h, spacing, rx, ry));
+      if (w > 0 && h > 0) segments.push(...mapSegments(rectSegments(x, y, w, h, spacing, rx, ry), at(r)));
     }
     for (const e of both('ellipse')) {
       const cx = pyFloatStrict(e.attrib.cx ?? 0), cy = pyFloatStrict(e.attrib.cy ?? 0), rx = pyFloatStrict(e.attrib.rx ?? 0), ry = pyFloatStrict(e.attrib.ry ?? 0);
-      if (rx > 0 && ry > 0) segments.push(...ellipseSegments(cx, cy, rx, ry, spacing));
+      if (rx > 0 && ry > 0) segments.push(...mapSegments(ellipseSegments(cx, cy, rx, ry, spacing), at(e)));
     }
     for (const p of both('polygon')) {
       const text = p.attrib.points || '';
       const pts = text.trim() ? pointsOf(text) : null;
-      if (pts) for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; segments.push(...lineSegments(a[0], a[1], b[0], b[1], spacing)); }
+      if (pts) for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; segments.push(...mapSegments(lineSegments(a[0], a[1], b[0], b[1], spacing), at(p))); }
     }
     for (const p of both('polyline')) {
       const text = p.attrib.points || '';
       const pts = text.trim() ? pointsOf(text) : null;
-      if (pts) for (let i = 0; i + 1 < pts.length; i++) segments.push(...lineSegments(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], spacing));
+      if (pts) for (let i = 0; i + 1 < pts.length; i++) segments.push(...mapSegments(lineSegments(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], spacing), at(p)));
     }
     for (const l of both('line')) {
-      segments.push(...lineSegments(pyFloatStrict(l.attrib.x1 ?? 0), pyFloatStrict(l.attrib.y1 ?? 0), pyFloatStrict(l.attrib.x2 ?? 0), pyFloatStrict(l.attrib.y2 ?? 0), spacing));
+      segments.push(...mapSegments(lineSegments(pyFloatStrict(l.attrib.x1 ?? 0), pyFloatStrict(l.attrib.y1 ?? 0), pyFloatStrict(l.attrib.x2 ?? 0), pyFloatStrict(l.attrib.y2 ?? 0), spacing), at(l)));
     }
     return segments;
   }
@@ -626,13 +725,52 @@
 
   // ======== baking a hand-adjusted layout (combination_layout_svg.component) ========
 
+  // A basic shape with its own transform="..." (a rotated capsule rect, a flipped circle) is rewritten as a plain path
+  // with the transform built in, so a layout can move and scale it like any other element. Only rotations, flips,
+  // even scales and moves (a similarity) are exact this way; anything else (a skew, an uneven scale, a transformed
+  // group or path) returns false and stays refused. 2026-10-11: capsule, cucumber, dumbbell, usb-type-c, pad, pill.
+  function bakeShapeTransform(el) {
+    const name = local(el.tag), a = el.attrib;
+    if (!['rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon'].includes(name)) return false;
+    const m = parseTransform(a.transform), det = m[0] * m[3] - m[1] * m[2];
+    const scale = Math.hypot(m[0], m[1]);
+    if (Math.abs(Math.abs(det) - scale * scale) > 1e-6 || Math.abs(m[0] * m[2] + m[1] * m[3]) > 1e-6) return false;
+    const P = (x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]].map(fmt).join(' ');
+    const turn = fmt(Math.atan2(m[1], m[0]) * 180 / Math.PI), flip = det < 0;
+    const A = (rx, ry, large, sweep, x, y) => `A ${fmt(rx * scale)} ${fmt(ry * scale)} ${turn} ${large} ${flip ? 1 - sweep : sweep} ${P(x, y)}`;
+    const n = k => pyFloat(a[k] ?? '0');
+    let d;
+    if (name === 'rect') {
+      const x = n('x'), y = n('y'), w = n('width'), h = n('height');
+      let rx = 'rx' in a ? n('rx') : null, ry = 'ry' in a ? n('ry') : null;
+      if (rx === null && ry === null) { rx = 0; ry = 0; } else if (rx === null) rx = ry; else if (ry === null) ry = rx;
+      rx = Math.min(rx, w / 2); ry = Math.min(ry, h / 2);
+      d = rx > 0 && ry > 0
+        ? `M ${P(x + rx, y)} L ${P(x + w - rx, y)} ${A(rx, ry, 0, 1, x + w, y + ry)} L ${P(x + w, y + h - ry)} ${A(rx, ry, 0, 1, x + w - rx, y + h)} `
+          + `L ${P(x + rx, y + h)} ${A(rx, ry, 0, 1, x, y + h - ry)} L ${P(x, y + ry)} ${A(rx, ry, 0, 1, x + rx, y)} Z`
+        : `M ${P(x, y)} L ${P(x + w, y)} L ${P(x + w, y + h)} L ${P(x, y + h)} Z`;
+    } else if (name === 'circle' || name === 'ellipse') {
+      const cx = n('cx'), cy = n('cy'), rx = name === 'circle' ? n('r') : n('rx'), ry = name === 'circle' ? n('r') : n('ry');
+      d = `M ${P(cx - rx, cy)} ${A(rx, ry, 1, 0, cx + rx, cy)} ${A(rx, ry, 1, 0, cx - rx, cy)} Z`;
+    } else if (name === 'line') d = `M ${P(n('x1'), n('y1'))} L ${P(n('x2'), n('y2'))}`;
+    else {
+      const pts = pointsOf(a.points || '');
+      if (!pts || !pts.length) return false;
+      d = `M ${pts.map(([x, y]) => P(x, y)).join(' L ')}${name === 'polygon' ? ' Z' : ''}`;
+    }
+    for (const k of ['x', 'y', 'width', 'height', 'rx', 'ry', 'r', 'cx', 'cy', 'x1', 'y1', 'x2', 'y2', 'points', 'transform']) delete a[k];
+    el.tag = el.tag.slice(0, -name.length) + 'path';
+    a.d = d;
+    return true;
+  }
+
   function drawables(rootEl) {
     const found = [];
     const walk = (node, inherited) => {
       for (const child of node.children) {
         const name = local(child.tag);
         if (SKIP.includes(name)) continue;
-        if (child.attrib.transform) fail('Artwork with transforms cannot be adjusted.');
+        if (child.attrib.transform) { if (!bakeShapeTransform(child)) fail('Artwork with transforms cannot be adjusted.'); }
         const own = {...inherited};
         for (const k of INHERITED) if (k in child.attrib) own[k] = child.attrib[k];
         if (SHAPES.includes(name)) found.push([child, own]);
@@ -703,7 +841,9 @@
     }
   }
 
-  function bake(role, documentText, layout, canvas) {
+  // `drawn` ({document, fit}): another drawing of the same elements in the same order (a redrawn sub's own curves,
+  // `fit` = [scale, tx, ty] into documentText's units), placed by documentText's boxes and drawn instead of it.
+  function bake(role, documentText, layout, canvas, drawn = null) {
     const rootEl = parseXml(documentText);
     const base = parseFloat(rootEl.attrib['stroke-width'] || String(STROKE)) || STROKE;
     const found = drawables(rootEl);
@@ -716,6 +856,14 @@
     const out = element(`{${SVG}}svg`, {width: String(canvas), height: String(canvas), viewBox: `0 0 ${canvas} ${canvas}`,
       fill: rootEl.attrib.fill ?? 'none', stroke: rootEl.attrib.stroke ?? 'currentColor', 'stroke-width': String(STROKE),
       'stroke-linecap': rootEl.attrib['stroke-linecap'] ?? 'round', 'stroke-linejoin': rootEl.attrib['stroke-linejoin'] ?? 'round'});
+    let shown = found, shownBase = base, fit = [1, 0, 0];
+    if (drawn) {
+      const drawnRoot = parseXml(drawn.document);
+      shown = drawables(drawnRoot);
+      if (shown.length !== found.length) fail('The drawing and its snapped copy differ.');
+      shownBase = parseFloat(drawnRoot.attrib['stroke-width'] || String(STROKE)) || STROKE;
+      fit = drawn.fit;
+    }
     const placed = new Map();
     for (const group of layout) {
       const [x0, y0, x1, y1] = union(group.paths.map(i => source[i]));
@@ -727,17 +875,21 @@
       let [sx, sy] = scales;
       if (x1 - x0 <= 1e-9 && y1 - y0 > 1e-9) sx = sy;
       if (y1 - y0 <= 1e-9 && x1 - x0 > 1e-9) sy = sx;
+      // A group of only circles (a dot, a head) stays round instead of stretching to its whole-unit box (roundPlacement).
+      const round = roundPlacement(group, [x0, y0, x1, y1], sx, sy, found.map(([el]) => local(el.tag) === 'circle'), canvas);
+      if (round) { for (const i of group.paths) placed.set(i, round); continue; }
       for (const i of group.paths) placed.set(i, [sx, sy, group.x - x0 * sx, group.y - y0 * sy]);
     }
     const boxes = [];
-    found.forEach(([el, own], i) => {
+    shown.forEach(([el, own], i) => {
       if (!placed.has(i)) return;
       const [sx, sy, dx, dy] = placed.get(i);
       const copy = deepcopy(el);
       copy.tail = null;
       for (const [k, v] of Object.entries(own)) copy.attrib[k] = v;
-      if (copy.attrib['stroke-width'] != null) copy.attrib['stroke-width'] = fmt(parseFloat(copy.attrib['stroke-width']) / base * STROKE);
+      if (copy.attrib['stroke-width'] != null) copy.attrib['stroke-width'] = fmt(parseFloat(copy.attrib['stroke-width']) / shownBase * STROKE);
       delete copy.attrib.id;
+      if (drawn) transformElement(copy, fit[0], fit[0], fit[1], fit[2]);
       transformElement(copy, sx, sy, dx, dy);
       out.children.push(copy);
       boxes.push(bbox(segmentsOf(copy, {'stroke-width': String(STROKE)})));
@@ -1283,6 +1435,29 @@
   }
   const pyNumber = v => pyStr(v);  // the canvas is a float here (a viewBox size): str(48.0) is '48.0'
 
+  // A drawing on a non-square viewBox (an upload of 32 x 24, or 40 x 19 shown at 48): squared the way a browser shows it
+  // (preserveAspectRatio xMidYMid meet: the short side centered in the long one), so it can be measured and combined.
+  function squareViewBox(text) {
+    let root;
+    try { root = parseXml(text); } catch { return text; }
+    const v = (root.attrib.viewBox ?? '').trim().split(/[\s,]+/).map(Number);
+    if (v.length !== 4 || v.some(Number.isNaN) || !(v[2] > 0 && v[3] > 0) || (v[0] === 0 && v[1] === 0 && v[2] === v[3])) return text;
+    const side = Math.max(v[2], v[3]), num = x => String(+x.toFixed(6));
+    const dx = (side - v[2]) / 2 - v[0], dy = (side - v[3]) / 2 - v[1];
+    // The shift goes into the geometry itself (a transform would keep the drawing out of the layout editor); a drawing
+    // that carries transforms of its own keeps one wrapping group instead.
+    const all = [], walk = el => { for (const c of el.children) { all.push(c); walk(c); } };
+    walk(root);
+    if (all.some(el => el.attrib.transform != null)) {
+      const g = {tag: `{${SVG}}g`, attrib: {transform: `translate(${num(dx)},${num(dy)})`}, text: root.text, tail: null, children: root.children};
+      root.text = null; root.children = [g];
+    } else {
+      for (const el of all) if (GEOM.includes(local(el.tag))) transformElement(el, 1, 1, dx, dy);
+    }
+    root.attrib.viewBox = `0 0 ${num(side)} ${num(side)}`;
+    return tostring(root);
+  }
+
   // combination_experiment.custom_item: a drawing measured for combining (its bounds and canvas).
   function customItem(text, role, pairSize = 64) {
     if (new TextEncoder().encode(text).length > 1024 * 1024 || /<!(DOCTYPE|ENTITY)/i.test(text)) fail('Upload a plain SVG up to 1 MB without entity declarations.');
@@ -1314,9 +1489,9 @@
       const published = new Set([item.sha256, item.source_sha256].filter(Boolean));
       if (svg && svg !== item.document && !published.has(sha256(svg)) && !item.native_text) {
         if (role === 'sub' && item.ink32 && item.family !== 'text' && size === 64) {
-          normalizedSub(item, inlineClassStyles(svg));
+          normalizedSub(item, squareViewBox(inlineClassStyles(svg)));
         } else {
-          const measured = customItem(inlineClassStyles(svg), role, size);
+          const measured = customItem(squareViewBox(inlineClassStyles(svg)), role, size);
           for (const field of ['engine_document', 'ink32', 'sizing_kind', 'sub32_status']) delete item[field];
           Object.assign(item, measured, {icon: name});
         }
@@ -1387,8 +1562,15 @@
           if (!drawables(parseXml(entry.item.engine_document ?? entry.item.document)).length) fail('The artwork has no drawable elements.');
           continue;
         }
-        const baked = bake(entry.role, entry.item.engine_document ?? entry.item.document, groups, canvas);
-        entry.item = {icon: entry.item.icon, document: baked.document, canvas, bounds: baked.bounds};
+        const source = entry.item.engine_document ?? entry.item.document, baked = bake(entry.role, source, groups, canvas);
+        const was = entry.item;
+        entry.item = {icon: was.icon, document: baked.document, canvas, bounds: baked.bounds};
+        // A redrawn sub keeps its own curves (restoreOriginalSub), placed by the snapped copy's boxes.
+        if (was.display_document && was.display_fit) {
+          let shown = null;
+          try { shown = bake(entry.role, source, groups, canvas, {document: was.display_document, fit: was.display_fit}); } catch (e) { if (!(e instanceof CombineError)) throw e; }
+          if (shown) Object.assign(entry.item, {display_document: shown.document, display_fit: [1, 0, 0]});
+        }
         entry.p = layoutPlacement(baked.bounds, canvas);
         const b = entry.p.painted_box;
         if (b.x < -1e-6 || b.y < -1e-6 || b.x + b.w > canvas + 1e-6 || b.y + b.h > canvas + 1e-6) {
@@ -1463,7 +1645,8 @@
     const part = (role, i) => ({icon: icons[role] || null, svg_sha256: icons[role] ? drawings.get(icons[role]).svg_sha256 : null,
                                 layout: (hand && hand[role]) || box(result.placements[i]), ...(role === 'sub' ? {position: row.position} : {})});
     return {svg: result.svg, result, current,
-            request: {reference_id: item.reference_id, svg: result.svg, parts: {main: part('main', 0), sub: part('sub', 1)}}};
+            request: {reference_id: item.reference_id, svg: result.svg, parts: {main: part('main', 0), sub: part('sub', 1)},
+                      keyshape: canvasKeyshape(result.placements, size)?.name ?? null}};
   }
 
   // ======== element layouts (combination_layout_svg.component and combination_layouts._map, for the editor) ========
@@ -1475,6 +1658,18 @@
     const strokeAttrs = Object.fromEntries(Object.entries(rootEl.attrib).filter(([k]) => INHERITED.includes(k)));
     const found = drawables(rootEl);
     const segments = found.map(([el, own]) => segmentsOf(el, {...strokeAttrs, ...own}));
+    // inkSegments: what the engine actually draws for each element. A filled, unstroked dot is drawn as a stroke-width
+    // dot (stripUnstroked), smaller than its outline; the measuring tools use these so a dot does not read as cut.
+    // `sources` stay the outline boxes, which every stored layout was made with.
+    const rootFill = rootEl.attrib.fill;
+    const inkSegments = found.map(([el, own], i) => {
+      const name = local(el.tag).toLowerCase(), fill = (own.fill ?? el.attrib.fill ?? rootFill ?? 'black').trim().toLowerCase();
+      const stroke = (own.stroke ?? el.attrib.stroke ?? strokeAttrs.stroke ?? 'none').trim().toLowerCase();
+      if (!['circle', 'ellipse'].includes(name) || fill === 'none' || stroke !== 'none') return segments[i];
+      const copy = deepcopy(el);
+      for (const k of name === 'circle' ? ['r'] : ['rx', 'ry']) copy.attrib[k] = fmt(Math.max(pyFloat(copy.attrib[k] ?? '0') - STROKE / 2, 0.05));
+      return segmentsOf(copy, {...strokeAttrs, ...own});
+    });
     const markup = found.map(([el, own]) => {
       const copy = deepcopy(el);
       copy.tail = null;
@@ -1482,7 +1677,8 @@
       delete copy.attrib.id;
       return tostring(copy);
     });
-    return {segments, sources: segments.map(bbox), markup, names: found.map(([el]) => el.attrib.id || local(el.tag))};
+    return {segments, sources: segments.map(bbox), markup, names: found.map(([el]) => el.attrib.id || local(el.tag)),
+            round: found.map(([el]) => local(el.tag) === 'circle'), inkSegments};
   }
 
   function segmentDistance([a, b], [c, d]) {
@@ -1517,11 +1713,24 @@
   }
 
   // Where a group's elements land: its source box mapped onto its (x, y, w, h); a flat axis takes the other's scale.
-  function groupTransform(group, sources) {
+  // `round` (elementParts().round): which elements are circles. A group of only circles keeps its round shape, the same
+  // rule bake() draws with, so the measuring tools see the main where the engine drew it.
+  function groupTransform(group, sources, round = null, canvas = null) {
     const [x0, y0, x1, y1] = union(group.paths.map(i => sources[i]));
     let sx = x1 - x0 > 1e-9 ? group.w / (x1 - x0) : null, sy = y1 - y0 > 1e-9 ? group.h / (y1 - y0) : null;
     sx ??= sy ?? 1; sy ??= sx;
+    const r = roundPlacement(group, [x0, y0, x1, y1], sx, sy, round, canvas);
+    if (r) return {sx: r[0], sy: r[1], tx: r[2], ty: r[3]};
     return {sx, sy, tx: group.x - x0 * sx, ty: group.y - y0 * sy};
+  }
+  // A group of only circles (a dot, a head) whose whole-unit box is a unit off on one axis (4 x 3, 10 x 9): scale it
+  // evenly by the average (it keeps its size), centre it in the box, keep its ink inside the canvas. Else null.
+  function roundPlacement(group, [x0, y0, x1, y1], sx, sy, round, canvas) {
+    if (!round || Math.abs(sx - sy) <= 1e-9 || !group.paths.every(i => round[i])) return null;
+    const k = (sx + sy) / 2, half = [(x1 - x0) / 2 * k + STROKE / 2, (y1 - y0) / 2 * k + STROKE / 2];
+    const clamp = (v, h) => canvas ? Math.min(Math.max(v, h), canvas - h) : v;
+    const cx = clamp(group.x + group.w / 2, half[0]), cy = clamp(group.y + group.h / 2, half[1]);
+    return [k, k, cx - (x0 + x1) / 2 * k, cy - (y0 + y1) / 2 * k];
   }
 
   // Split layout groups into the pieces `partition` (lists of element numbers) cuts them into, each piece placed
@@ -1614,6 +1823,6 @@
     return found.map(([el, own], i) => bbox(segmentsOf(el, own)) ? i : null).filter(i => i !== null);
   }
 
-  return {SIZES, render, withDocuments, drawableIndices, elementParts, connected, splitGroups, mapGroups, groupsBox, groupTransform, transfer, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
+  return {SIZES, CANVAS_KEYSHAPES, canvasKeyshape, squareViewBox, render, withDocuments, drawableIndices, elementParts, connected, splitGroups, mapGroups, groupsBox, groupTransform, transfer, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
           internals: {Area, hull, clip, fitInto, intersect, orientation}};
 });

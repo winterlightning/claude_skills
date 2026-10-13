@@ -33,6 +33,12 @@ describe('rules', () => {
     expect(category(s, rows[0], () => false, 'built')).toMatchObject({ready: true, built: true, made: false, uncombined: false});
     expect(category(s, rows[1], () => false, undefined)).toMatchObject({fix: true, unbuilt: true, made: true, uncombined: true});
   });
+  test('combined disapproved: only the combined icon\'s own review counts', () => {
+    const s = {...store(), item: id => ({p1: {icon: {key: 'side_combination64/p1', review: 'ready'}}, p2: {icon: {key: 'side_combination64/p2'}}})[id]};
+    s.reviews = {'side_combination64/p1': 'pending', 'sub/star': 'pending'};
+    expect(category(s, rows[0], () => false, 'built').combinedfix).toBe(true);
+    expect(category(s, rows[1], () => true, 'built').combinedfix).toBe(false);
+  });
   test('search covers concepts, ids and icon names', () => {
     const s = store();
     expect(rows.filter(r => matches(s, r, 'star')).map(r => r.id)).toEqual(['p2']);
