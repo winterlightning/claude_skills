@@ -24,8 +24,8 @@ class Drawing(Sub32):
     def build(self):
         self.add_line('p1-r1-1', (4, 2), (17, 2))
         self.add_line('p1-r1-2', (17, 2), (17, 9))
-        self.add_bezier('p1-r1-3', (17, 9), ((17, 12), (20, 13), (24, 14)))
-        self.add_bezier('p1-r1-4', (24, 14), ((28, 15), (30, 18), (30, 22)))
+        self.add_bezier('p1-r1-3', (17, 9), ((17, 14), (22, 14), (26, 17)))
+        self.add_bezier('p1-r1-4', (26, 17), ((28, 18), (30, 20), (30, 22)))
         self.add_line('p1-r1-5', (30, 22), (5, 22))
         self.add_bezier('p1-r1-6', (5, 22), ((3, 22), (2, 20), (2, 18)))
         self.add_bezier('p1-r1-7', (2, 18), ((2, 15), (4, 14), (4, 11)))

@@ -22,15 +22,15 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 16), (12, 16))
+        self.add_line('p1-r1-1', (2, 16), (13, 16))
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
         self.add_line('p2-r1-1', (20, 16), (30, 16))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (2, 4), (12, 4))
+        self.add_line('p3-r1-1', (2, 5), (13, 5))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (20, 4), (30, 4))
+        self.add_line('p4-r1-1', (20, 5), (30, 5))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (2, 28), (12, 28))
+        self.add_line('p5-r1-1', (2, 27), (13, 27))
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.add_line('p6-r1-1', (20, 28), (30, 28))
+        self.add_line('p6-r1-1', (20, 27), (30, 27))
         self.add_contour('path-6-1', 'p6-r1-1', closed=False)

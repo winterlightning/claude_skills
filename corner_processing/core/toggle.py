@@ -57,7 +57,7 @@ from .detect import (CORNER_MAX_R, CONTACT_TOL, CORNER_MIN_TURN, EPS, NODE_TOL, 
                       detect, tangent,
                       unit)
 from .paths import OUT_DIR
-from .svg_io import DEFAULT_INPUT, canvas_size, element_to_path, iter_skeleton_shapes, localname
+from .svg_io import DEFAULT_INPUT, element_to_path, iter_skeleton_shapes, localname
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -113,7 +113,6 @@ def close(a, b, tol=NODE_TOL):
 class Icon:
     def __init__(self, path):
         self.root = ET.parse(path).getroot()
-        self.canvas = _n(canvas_size(self.root))   # 48 (solo) or 72 (icon-72): the output keeps it
         self.title = next((el.text for el in self.root.iter()
                            if localname(el.tag) == "title" and el.text), None)
         self.items = []        # [(element, [Stroke] or None)]  None = copy element as is
@@ -148,8 +147,7 @@ class Icon:
         return [s for _, ss, _ in self.items for s in ss] + self.extra
 
     def svg(self, style=None):
-        size = {"width": self.canvas, "height": self.canvas, "viewBox": f"0 0 {self.canvas} {self.canvas}"}
-        out = ET.Element(f"{{{SVG_NS}}}svg", {**ROOT_ATTRS, **size, **(style or {})})
+        out = ET.Element(f"{{{SVG_NS}}}svg", {**ROOT_ATTRS, **(style or {})})
         if self.title:
             ET.SubElement(out, f"{{{SVG_NS}}}title").text = self.title
         root = out
@@ -1424,16 +1422,6 @@ def _soft(c):
     return gap <= SOFT_GAP
 
 
-KEEP_MATCH = 0.5   # u — a kept apex this close to a round corner's apex is that corner
-
-
-def keep_why(keep, apex, default="kept as drawn"):
-    """Why round corner `apex` stays as drawn, or None. keep: {apex: why} or a list of apexes."""
-    P = complex(*apex)
-    items = keep.items() if isinstance(keep, dict) else ((k, default) for k in keep)
-    return next((why or default for k, why in items if close(complex(*k), P, KEEP_MATCH)), None)
-
-
 def make_sharp(path, sharpen_curved=False, keep_big=True, fit=None, limit=MITER_LOW, keep=(), max_r=None,
                force=(), crossed=()):
     """Round corners whose two sides are straight lines -> their apex; so is a small fillet
@@ -1459,10 +1447,9 @@ def make_sharp(path, sharpen_curved=False, keep_big=True, fit=None, limit=MITER_
             log.append({"p": c["apex"], "angle": c["angle"], "r": c["r"],
                         "status": "kept round", "why": "sharp point would cross a stroke"})
             continue
-        why = keep_why(keep, c["apex"], "rounding past keyshape")
-        if why:
+        if any(close(complex(*c["apex"]), complex(*k), 0.05) for k in keep):
             log.append({"p": c["apex"], "angle": c["angle"], "r": c["r"],
-                        "status": "kept round", "why": why})
+                        "status": "kept round", "why": "rounding past keyshape"})
             continue
         if _point_past_keyshape(fit, c, limit):
             log.append({"p": c["apex"], "angle": c["angle"], "r": c["r"],
@@ -1526,12 +1513,11 @@ CROSS_NEAR = 1.0          # u — a new crossing this close to a sharpened corne
                           #     r 6 top corners: the sharp point pokes through the band)
 
 
-def _sharp_output(src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed=(), tip_fit=None, shift=True,
-                  keep=()):
+def _sharp_output(src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed=(), tip_fit=None, shift=True):
     """SHARP output of one icon -> (icon, log, res, svg, out_strokes, after, check)."""
     icon, log, res = make_sharp(src, sharpen_all, fit=fit, limit=limit,
                                 keep_big=name not in SHARP_EVERY_CORNER,
-                                force=SHARP_THESE_CORNERS.get(name, ()), crossed=crossed, keep=keep)
+                                force=SHARP_THESE_CORNERS.get(name, ()), crossed=crossed)
     icon.fit = fit
     dot_tiny_loops(icon)
     butt_joints(icon)
@@ -1573,12 +1559,9 @@ def make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved=False, 
     radius would poke past the keyshape is not re-rounded: it keeps the corner as drawn (a
     second pass with those apexes in `keep`, which make_sharp leaves round). So does a corner
     drawn round that has no room for even r 1 once sharpened (`no_room`: a vr headset's band
-    runs down through the visor's top corners) — it would otherwise come out square. So does one
-    whose re-rounding fails. keep: {apex: why} — round corners kept as drawn in BOTH outputs
-    (process_icon's shared decision), passed on to make_sharp."""
-    keep = dict(keep) if isinstance(keep, dict) else {tuple(k): "band radius past keyshape" for k in keep}
-    # every straight-sided corner not in keep: the round output re-rounds them all with the
-    # band radii (the shared decision keeps big rounds as drawn, as the SHARP output does)
+    runs down through the visor's top corners) — it would otherwise come out square."""
+    # every straight-sided corner, big ones too: the round output re-rounds them all with the
+    # band radii (BIG_ROUND_R only keeps big rounds in the SHARP output)
     sharp_icon, _, res0 = make_sharp(path, sharpen_curved, keep_big=False, keep=keep, max_r=max_r)
     tmp = os.path.join(tmp_dir, os.path.basename(path))
     with open(tmp, "w", encoding="utf-8") as fh:
@@ -1599,26 +1582,23 @@ def make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved=False, 
             plan.append((c, None, 0, 0, gmean[i]))   # between two curves: part of the curve
             continue
         band = band_radius(gmean[i], bands)
-        room = next((k for k in range(band, MIN_RADIUS - 1, -1) if _fits(icon, c, k)), 0)
-        r = room if fallback == "reduce" else (band if room == band else 0)
-        plan.append((c, band, room, r, gmean[i]))     # (not `fit`: that is the keyshape fit)
-    if icon.fit is not None:                # band radius pokes past the keyshape: keep as drawn
+        fit = next((k for k in range(band, MIN_RADIUS - 1, -1) if _fits(icon, c, k)), 0)
+        r = fit if fallback == "reduce" else (band if fit == band else 0)
+        plan.append((c, band, fit, r, gmean[i]))
+    if icon.fit is not None and not keep:     # band radius pokes past the keyshape: keep as drawn
         out = [tuple(c["p"]) for c, band, _, r, _ in plan if band is not None and r >= MIN_RADIUS and
-               not keep_why(keep, c["p"]) and
                _band_past_keyshape(icon, c, r, next((v for k, v in drawn.items()
                                                      if close(complex(*k), complex(*c["p"]))), None))]
         if out:
-            return make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved, fit,
-                              keep={**keep, **{p: "band radius past keyshape" for p in out}},
-                              max_r=max_r, no_room=no_room)
+            return make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved, fit, keep=out,
+                              max_r=max_r)
     stuck = [tuple(c["p"]) for c, band, _, r, _ in plan if band is not None and r < MIN_RADIUS and
-             any(close(complex(*k), complex(*c["p"])) for k in drawn) and not keep_why(keep, c["p"])]
+             any(close(complex(*k), complex(*c["p"])) for k in drawn) and tuple(c["p"]) not in keep]
     if stuck:                               # drawn round, no room to re-round: keep as drawn
         return make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved, fit,
-                          keep={**keep, **{p: "no room to re-round" for p in stuck}}, max_r=max_r,
-                          no_room=tuple(no_room) + tuple(stuck))
+                          keep=tuple(keep) + tuple(stuck), max_r=max_r, no_room=tuple(no_room) + tuple(stuck))
     log = []
-    for c, band, room, r, gm in plan:
+    for c, band, fit, r, gm in plan:
         P = complex(*c["p"])
         was = next((v for k, v in drawn.items() if close(complex(*k), P)), None)
         entry = {"p": c["p"], "angle": c["angle"], "group": round(gm, 1), "band": band,
@@ -1627,7 +1607,7 @@ def make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved=False, 
         if band is None:
             entry.update(status="kept sharp", why="curve + curve")
         elif r < MIN_RADIUS:
-            entry.update(status="skipped", why=f"band r {band} doesn't fit" if room else "no room for r 1")
+            entry.update(status="skipped", why=f"band r {band} doesn't fit" if fit else "no room for r 1")
         else:
             ok, _ = round_corner(icon, c, r)
             entry.update(status="rounded" if ok else "skipped", r=r, reduced=r < band,
@@ -1635,24 +1615,13 @@ def make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved=False, 
             if not ok:
                 entry["why"] = "geometry"
         log.append(entry)
-    failed = [tuple(e["p"]) for e in log if e["status"] == "skipped" and e["was_round"] is not None
-              and not keep_why(keep, e["p"])]
-    if failed:                              # drawn round, its re-rounding failed: keep as drawn
-        return make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved, fit,
-                          keep={**keep, **{p: "no room to re-round" for p in failed}}, max_r=max_r,
-                          no_room=tuple(no_room) + tuple(failed))
-    for c in res["round"]:                  # round corners kept as drawn (curved side, or kept)
-        why = keep_why(keep, c["apex"]) or "curved side"
+    for c in res["round"]:                  # curved-side round corners, kept as drawn
+        nr = any(close(complex(*c["apex"]), complex(*k), 0.6) for k in no_room)
+        ks = not nr and any(close(complex(*c["apex"]), complex(*k), 0.6) for k in keep)
         log.append({"p": c["apex"], "angle": c["angle"], "group": None, "band": None,
-                    "curved": why == "curved side", "was_round": c["r"], "status": "kept round", "r": c["r"],
-                    "why": why, **({"keyshape": True} if "keyshape" in why else {})})
-    lost = [tuple(c["apex"]) for c in res0["round"] if not keep_why(keep, c["apex"]) and
-            not any(e["status"] in ("rounded", "kept round") and close(complex(*e["p"]), complex(*c["apex"]), KEEP_MATCH)
-                    for e in log)]
-    if lost:                                # drawn round, sharpened into no corner to re-round (two
-        return make_round(path, bands, group_tol, fallback, tmp_dir, sharpen_curved, fit,   # fillets
-                          keep={**keep, **{p: "no corner to re-round" for p in lost}},      # meeting at
-                          max_r=max_r, no_room=no_room)                                     # a junction)
+                    "curved": not (ks or nr), "was_round": c["r"], "status": "kept round", "r": c["r"],
+                    "why": "no room to re-round" if nr else "band radius past keyshape" if ks else "curved side",
+                    **({"keyshape": True} if ks else {})})
     for c in res0["curve"]:                 # too wide for a corner: kept as drawn
         if c.get("big"):
             log.append({"p": c["apex"], "angle": c["angle"], "group": None, "band": None,
@@ -1874,7 +1843,7 @@ def cut_tips(icon, log, limit, fit=None, ok=0.0, ends=False):
                     log.append({"p": [fmt(E.real), fmt(E.imag)], "status": "end cut",
                                 "by": round(fit.past_near([E + n, E - n], E), 2)})
     if cuts:
-        icon.clip = keyshape_fit.clip_d(cuts, float(icon.canvas))
+        icon.clip = keyshape_fit.clip_d(cuts)
 
 
 def input_fit(src, rec):
@@ -1894,79 +1863,48 @@ def input_fit(src, rec):
     return keyshape_fit.Fit(rec, inp.strokes(), circles)
 
 
-SHARED_PASSES = 4   # rebuilds while either output finds another round corner to keep as drawn
-NOT_SHARED = (None, "curved side",   # kept in both outputs anyway
-              "drawn as separate strokes")   # not a corner to the input's detection: nothing to share
-
-
-def _shared_keeps(*logs):
-    """{apex: why} of the ROUND corners an output kept as drawn for a reason that is not the
-    corner's own shape (a curved side stays round in both outputs anyway): too big, no room to
-    re-round, a sharp point crossing a stroke, the keyshape, or a sharpening that failed."""
-    out = {}
-    for log in logs:
-        for e in log:
-            if e.get("status") == "kept round" and e.get("why") not in NOT_SHARED:
-                out[tuple(e["p"])] = e["why"]
-            elif e.get("status") == "skipped" and e.get("r") is not None and "band" not in e:
-                out[tuple(e["p"])] = "could not be sharpened"      # make_sharp's failed sharpen
-    return out
-
-
-def _build_sharp(src, name, sharpen_all, fit, limit, miter, tmp_dir, tip_fit, keep):
-    """The sharp output with its retries: a sharpened point another stroke crosses stays round;
-    a --miter shift that broke the drawing is undone. -> (log, res, svg, after, check)."""
-    icon, log, res, svg, out_strokes, after, check = _sharp_output(
-        src, name, sharpen_all, fit, limit, miter, tmp_dir, tip_fit=tip_fit, keep=keep)
-    crossed = _crossed_corners(log, check)
-    if crossed:                            # a sharpened point another stroke crosses stays round
-        icon, log, res, svg, out_strokes, after, check = _sharp_output(
-            src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed, tip_fit, keep=keep)
-    if miter == "shift" and check["status"] == "fail" and any(e["status"] == "tip shifted" for e in log):
-        # a moved corner tilts its arms into another stroke: slice this icon instead
-        icon, log, res, svg, out_strokes, after, check = _sharp_output(
-            src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed, tip_fit, shift=False, keep=keep)
-        log.append({"status": "shift undone", "why": "moving a corner broke the drawing"})
-    return log, res, svg, after, check
-
-
 def process_icon(args):
-    """Worker: build both outputs of one icon and check them. -> (name, entry, error).
-
-    Round and sharp take ONE decision per round corner: a round corner either output keeps as
-    drawn (too big, no room, a crossing point, ...) is kept as drawn in the other too. Both
-    outputs are built with the shared keeps until neither finds another; only `modes` are written."""
+    """Worker: build both outputs of one icon and check them. -> (name, entry, error)."""
     src, name, out, bands, group_tol, fallback, sharpen_all, modes, miter, ks, max_r, ks_tip = args
     tmp_dir = tempfile.mkdtemp(prefix="corner48_")     # per icon: workers never share files
     try:
+        entry = {}
         fit = input_fit(src, ks)
         limit = MITER_HIGH if miter in ("4",) + KS_MODES else MITER_LOW
         tip_fit = (fit or input_fit(src, ks_tip)) if miter in KS_MODES else None
-        keep = {}
-        for _ in range(SHARED_PASSES):
-            r_svg, r_log, r_res = make_round(src, bands, group_tol, fallback, tmp_dir, sharpen_all, fit,
-                                             keep=keep, max_r=max_r)
-            s_log, s_res, s_svg, s_after, s_check = _build_sharp(src, name, sharpen_all, fit, limit, miter,
-                                                                  tmp_dir, tip_fit, keep)
-            new = {p: why for p, why in _shared_keeps(r_log, s_log).items() if not keep_why(keep, p)}
-            if not new:
-                break
-            keep.update(new)
-        entry = {}
         for mode in modes:
+            if mode == "round":
+                svg, log, res = make_round(src, bands, group_tol, fallback, tmp_dir, sharpen_all, fit,
+                                           max_r=max_r)
+            else:
+                # the sharp output keeps rounds wider than BIG_ROUND_R (6) as drawn: lower
+                # than max_r, which only the round output uses
+                icon, log, res, svg, out_strokes, after, check = _sharp_output(
+                    src, name, sharpen_all, fit, limit, miter, tmp_dir, tip_fit=tip_fit)
+                crossed = _crossed_corners(log, check)
+                if crossed:                        # a sharpened point another stroke crosses
+                    icon, log, res, svg, out_strokes, after, check = _sharp_output(  # stays round
+                        src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed, tip_fit)
+                if miter == "shift" and check["status"] == "fail" and \
+                        any(e["status"] == "tip shifted" for e in log):
+                    # a moved corner tilts its arms into another stroke: slice this icon instead
+                    icon, log, res, svg, out_strokes, after, check = _sharp_output(
+                        src, name, sharpen_all, fit, limit, miter, tmp_dir, crossed, tip_fit, shift=False)
+                    log.append({"status": "shift undone", "why": "moving a corner broke the drawing"})
+                with open(os.path.join(out, mode, name), "w", encoding="utf-8") as fh:
+                    fh.write(svg)
+                entry[mode] = {"log": log, "after": {k: len(after[k]) for k in
+                                                     ("sharp", "round", "junction", "kink", "curve")},
+                               "check": check}
+                continue
             dst = os.path.join(out, mode, name)
             with open(dst, "w", encoding="utf-8") as fh:
-                fh.write(r_svg if mode == "round" else s_svg)
-            if mode == "round":
-                after = detect(dst)           # re-detection check of the output
-                check, log, res = check_output(r_res, after, mode, r_log), r_log, r_res
-            else:
-                after, check, log, res = s_after, s_check, s_log, s_res
+                fh.write(svg)
+            after = detect(dst)           # re-detection check of the output
             entry[mode] = {"log": log, "after": {k: len(after[k]) for k in
                                                  ("sharp", "round", "junction", "kink", "curve")},
-                           "check": check}
+                           "check": check_output(res, after, mode, log)}
         entry["before"] = {k: len(res[k]) for k in ("sharp", "round", "junction", "kink", "curve")}
-        entry["shared_keep"] = [{"p": list(p), "why": why} for p, why in keep.items()]
         return name, entry, None
     except Exception as e:
         return name, None, f"{type(e).__name__}: {e}"

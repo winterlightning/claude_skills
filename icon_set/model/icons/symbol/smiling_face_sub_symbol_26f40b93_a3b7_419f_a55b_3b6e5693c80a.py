@@ -31,6 +31,6 @@ class SmilingFaceSubContainerSymbol(Sub32):
             self.add_arc(name + '-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
             self.add_contour(name, name + '-top', name + '-bottom', closed=True)
         circle('face', 16, 16, 14)
-        for x in (12, 20):
-            self.add_line(f'eye-{x}', (x, 12), (x, 12))
-        self.add_arc('smile', (13, 20), (19, 20), radius_x=3, radius_y=2, sweep=False)
+        for x in (10, 22):
+            self.add_line(f'eye-{x}', (x, 11), (x, 13))
+        self.add_arc('smile', (11, 20), (21, 20), radius_x=5, radius_y=3, sweep=False)

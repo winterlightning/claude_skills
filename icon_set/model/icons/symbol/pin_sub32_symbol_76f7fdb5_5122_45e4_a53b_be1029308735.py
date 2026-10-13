@@ -27,10 +27,10 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (4, 14), (28, 14), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_bezier('p1-r1-2', (28, 14), ((28, 22), (21, 26), (16, 30)))
-        self.add_bezier('p1-r1-3', (16, 30), ((11, 26), (4, 22), (4, 14)))
+        self.add_arc('p1-r1-1', (5, 13), (27, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_bezier('p1-r1-2', (27, 13), ((27, 20), (20, 26), (16, 30)))
+        self.add_bezier('p1-r1-3', (16, 30), ((12, 26), (5, 20), (5, 13)))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_arc('p2-r1-1', (12, 14), (20, 14), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (20, 14), (12, 14), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-1', (13, 13), (20, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (20, 13), (13, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)

@@ -30,6 +30,6 @@ class DrawingContainerSymbol(Sub32):
         self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (16, 10), (16, 16))
+        self.add_line('p2-r1-1', (16, 8), (16, 16))
         self.add_line('p2-r1-2', (16, 16), (21, 16))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)

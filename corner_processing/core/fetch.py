@@ -8,7 +8,6 @@ folder first and only then replaces svg/ and model/, so a failed fetch leaves th
 
   python3 -m core.fetch                       # -> input/solo48/{svg,model,icons.csv,...}
   python3 -m core.fetch --family icon-72      # -> input/icon72/
-  python3 -m core.fetch --status all          # every normal icon, not only the approved ones
   python3 -m core.fetch --api https://pictographic-review.pictographic.workers.dev
 
 icons.csv columns: key, icon_id, approved_by, file, model, svg_matches_model, keyshape,
@@ -52,26 +51,24 @@ def get(url, tries=4):
                 raise
 
 
-def approved(api, family="solo", status="approve"):
+def approved(api, family="solo"):
     """Every approved icon of the family, once. Reviews change while the list is paged (an icon approved or
     disapproved meanwhile shifts the pages: one page repeats an icon, the next skips one), so the list is read
     again until it holds as many icons as the Worker says there are (at most three passes)."""
     found, total = {}, None
     for _ in range(3):
-        items, total = _approved_pass(api, family, status)
+        items, total = _approved_pass(api, family)
         found.update((item["key"], item) for item in items)
         if len(found) >= total:
             break
     return list(found.values())
 
 
-def _approved_pass(api, family, status="approve"):
+def _approved_pass(api, family):
     items, offset = [], 0
     while True:
-        q = {"family": family, "style": "normal", "limit": PAGE, "offset": offset, "sort": "name"}
-        if status != "all":
-            q["status"] = status
-        q = urllib.parse.urlencode(q)
+        q = urllib.parse.urlencode({"family": family, "status": "approve", "limit": PAGE,
+                                    "offset": offset, "sort": "name"})
         d = json.loads(get(f"{api}/api/icons?{q}"))
         items += d["items"]
         offset += PAGE
@@ -180,13 +177,11 @@ def main(argv=None):
     ap.add_argument("--dest", help="set folder holding svg/ and model/ (default: input/solo48 or input/icon72)")
     ap.add_argument("--skills", default=SKILLS)
     ap.add_argument("--jobs", type=int, default=16)
-    ap.add_argument("--status", default="approve",
-                    help="review status to fetch (approve, ready, pending, failed) or all (every normal icon)")
     cfg = ap.parse_args(argv)
     cfg.dest = cfg.dest or os.path.join(INPUT_DIR, SETS[cfg.family])
     os.makedirs(cfg.dest, exist_ok=True)
 
-    items = approved(cfg.api, cfg.family, cfg.status)
+    items = approved(cfg.api, cfg.family)
     tmp = tempfile.mkdtemp(prefix="approved-", dir=cfg.dest)
     os.makedirs(os.path.join(tmp, "svg")), os.makedirs(os.path.join(tmp, "model"))
 
@@ -220,7 +215,6 @@ def main(argv=None):
                                                       else "uploaded SVG, no Python model"))
             rows.append({"key": item["key"], "icon_id": item["icon_id"], "svg_sha256": item.get("svg_sha256") or "",
                          "approved_by": (item.get("review") or {}).get("by") or "",
-                         "review_status": (item.get("review") or {}).get("status") or "",
                          "file": f"svg/{name}.svg", "model": model or "",
                          "svg_matches_model": "yes" if model and not item.get("artwork_source") else "no",
                          "keyshape": item.get("keyshape") or "",
@@ -244,7 +238,7 @@ def main(argv=None):
             os.remove(dst)
         os.rename(os.path.join(tmp, part), dst)
     shutil.rmtree(tmp, ignore_errors=True)       # only Finder litter (.DS_Store) is left
-    print(f"{len(rows)} {cfg.status} icons -> {cfg.dest}/svg | {len(rows) - len(no_model)} with a model, "
+    print(f"{len(rows)} approved icons -> {cfg.dest}/svg | {len(rows) - len(no_model)} with a model, "
           f"{len(no_model)} without | {len(failed)} failed")
     for line in failed[:10]:
         print("  FAILED", line)

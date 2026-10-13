@@ -29,9 +29,9 @@ class DrawingContainerSymbol(Sub32):
     def build(self):
         self.add_line('p1-r1-1', (2, 30), (30, 30))
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (7, 11), (7, 22))
+        self.add_line('p2-r1-1', (7, 11), (7, 24))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (16, 2), (16, 22))
+        self.add_line('p3-r1-1', (16, 2), (16, 24))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (25, 18), (25, 22))
+        self.add_line('p4-r1-1', (25, 18), (25, 24))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)

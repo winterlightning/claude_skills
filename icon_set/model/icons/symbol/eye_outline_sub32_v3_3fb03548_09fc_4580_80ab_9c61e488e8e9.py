@@ -31,6 +31,6 @@ class DrawingVariant3(Sub32):
         self.add_line('bottom', (18, 26), (14, 26))
         self.add_bezier('ll', (14, 26), ((10, 26), (6, 23), (2, 16)))
         self.add_contour('eye', 'ul', 'top', 'ur', 'lr', 'bottom', 'll', closed=True)
-        self.add_arc('pupil-top', (14, 16), (18, 16), radius_x=2, radius_y=2, sweep=True)
-        self.add_arc('pupil-bottom', (18, 16), (14, 16), radius_x=2, radius_y=2, sweep=True)
+        self.add_arc('pupil-top', (13, 16), (19, 16), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('pupil-bottom', (19, 16), (13, 16), radius_x=3, radius_y=3, sweep=True)
         self.add_contour('pupil', 'pupil-top', 'pupil-bottom', closed=True)

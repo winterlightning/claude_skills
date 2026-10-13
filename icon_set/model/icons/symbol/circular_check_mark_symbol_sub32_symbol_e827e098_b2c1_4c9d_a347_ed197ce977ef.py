@@ -27,7 +27,7 @@ class DrawingContainerSymbol(Sub32):
 
     def build(self):
         self.add_arc('open-circle', (30, 16), (16, 2), radius_x=14, radius_y=14, large_arc=True, sweep=True)
-        self.add_line('check-1', (11, 16), (16, 21))
-        self.add_line('check-2', (16, 21), (26, 8))
+        self.add_line('check-1', (10, 15), (16, 21))
+        self.add_line('check-2', (16, 21), (27, 9))
         self.add_contour('check', 'check-1', 'check-2', closed=False)
         self.add_anchor('center', (16, 16))

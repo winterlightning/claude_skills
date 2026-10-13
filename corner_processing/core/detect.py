@@ -53,14 +53,14 @@ from svgpathtools import Arc, CubicBezier, Line, QuadraticBezier
 
 from .progress import Progress
 from .paths import OUT_DIR
-from .svg_io import DEFAULT_INPUT, canvas_size, element_to_path, iter_skeleton_shapes, localname
+from .svg_io import DEFAULT_INPUT, element_to_path, iter_skeleton_shapes, localname
 
 SMOOTH_TOL = 2.0         # deg — a join turning less than this is tangent-continuous (G1)
 CORNER_MIN_TURN = 25.0   # deg — a turn below this is a kink, not a corner (= 1024 pipeline
                          #       ANGLE_THRESHOLD; interior angle > 155 deg)
 MIN_ANGLE = 30.0         # deg — a round corner sharper than this would toggle into a spike
                          #       (= 1024 pipeline MIN_ANGLE): it is a curve
-CANVAS = 48.0            # u   — a round corner's apex must lie on the canvas (default; the SVG's viewBox wins)
+CANVAS = 48.0            # u   — a round corner's apex must lie on the canvas
 ROUND_MAX_TURN = 170.0   # deg — a curved run turning more is a cap / loop (a stadium's 180deg
                          #       end), not one corner
 INFLECT_TOL = 0.5        # deg — per-sample opposite turning below this is ignored as noise
@@ -297,7 +297,7 @@ def curve_runs(st):
     return out
 
 
-def classify_run(st, run, total, inflect, attached_end, canvas=CANVAS):
+def classify_run(st, run, total, inflect, attached_end):
     """Round-corner record (dict) or a curve record with the rule that failed."""
     i0, i1 = run[0], run[-1]
     s0, s1 = st.segs[i0], st.segs[i1]
@@ -355,7 +355,7 @@ def classify_run(st, run, total, inflect, attached_end, canvas=CANVAS):
     if theta < MIN_ANGLE:
         rec["why"] = "spike"
         return rec
-    if not (0.0 <= apex.real <= canvas and 0.0 <= apex.imag <= canvas):
+    if not (0.0 <= apex.real <= CANVAS and 0.0 <= apex.imag <= CANVAS):
         rec["why"] = "apex off canvas"
         rec["apex"] = pt(apex)
         return rec
@@ -661,7 +661,6 @@ def detect(path, max_r=None):
     """Corners, junctions, kinks and curves of one icon. max_r: a round corner wider than this
     is reported as a curve ("too large for a corner"), not as a round corner."""
     strokes, extras = load_strokes(path)
-    canvas = canvas_size(ET.parse(path).getroot(), CANVAS)
     nodes = find_nodes(strokes)
 
     def attached_end(st, which):
@@ -678,7 +677,7 @@ def detect(path, max_r=None):
                                "segs": [seg_d(st.segs[i]) for i in run], "turn": fmt(abs(total)),
                                "start": pt(st.segs[run[0]].start), "end": pt(st.segs[run[-1]].end)})
                 continue
-            rec = classify_run(st, run, total, inflect, attached_end, canvas)
+            rec = classify_run(st, run, total, inflect, attached_end)
             rec["_run"] = (st.sid, run)
             (rounds if rec["kind"] == "round" else curves).append(rec)
 

@@ -24,9 +24,9 @@ class CompleteReferenceRedrawContainerSymbol(Sub32):
 
     def build(self):
         self.add_line('handset-0-0', (7, 2), (14, 9))
-        self.add_line('handset-0-1', (14, 9), (12, 11))
-        self.add_bezier('handset-0-2', (12, 11), ((15, 15), (17, 18), (21, 20)))
-        self.add_line('handset-0-3', (21, 20), (23, 18))
+        self.add_line('handset-0-1', (14, 9), (11, 13))
+        self.add_bezier('handset-0-2', (11, 13), ((13.0, 17.0), (16.0, 20.0), (20, 21)))
+        self.add_line('handset-0-3', (20, 21), (23, 18))
         self.add_line('handset-0-4', (23, 18), (30, 25))
         self.add_bezier('handset-0-5', (30, 25), ((30.0, 28.0), (27.0, 30.0), (24, 30)))
         self.add_bezier('handset-0-6', (24, 30), ((14.0, 29.0), (3.0, 18.0), (2, 8)))

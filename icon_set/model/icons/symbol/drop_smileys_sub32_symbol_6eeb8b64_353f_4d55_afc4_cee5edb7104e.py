@@ -27,10 +27,10 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (16, 2), ((12, 7), (4, 14), (4, 19)))
-        self.add_bezier('p1-r1-2', (4, 19), ((4, 25), (10, 30), (16, 30)))
-        self.add_bezier('p1-r1-3', (16, 30), ((22, 30), (28, 25), (28, 19)))
-        self.add_bezier('p1-r1-4', (28, 19), ((28, 14), (20, 7), (16, 2)))
+        self.add_bezier('p1-r1-1', (16, 2), ((12, 7), (5, 14), (5, 19)))
+        self.add_bezier('p1-r1-2', (5, 19), ((5, 25), (10, 30), (16, 30)))
+        self.add_bezier('p1-r1-3', (16, 30), ((22, 30), (27, 25), (27, 19)))
+        self.add_bezier('p1-r1-4', (27, 19), ((27, 14), (20, 7), (16, 2)))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_arc('p2-r1-1', (16, 22), (19, 19), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-1', (16, 23), (20, 19), radius_x=4, radius_y=4, large_arc=False, sweep=False)
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)

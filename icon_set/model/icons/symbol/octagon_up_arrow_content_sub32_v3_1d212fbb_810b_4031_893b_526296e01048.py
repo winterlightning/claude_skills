@@ -28,4 +28,4 @@ class DrawingVariant3(Sub32):
         self.add_line('shaft', (16, 2), (16, 8))
         self.relate('connect', 'shaft', 'arrow-1')
         self.relate('connect', 'shaft', 'arrow-2')
-        self.add_polyline('octagon', (12, 16), (20, 16), (24, 20), (24, 26), (20, 30), (12, 30), (8, 26), (8, 20), closed=True)
+        self.add_polyline('octagon', (12, 14), (20, 14), (24, 18), (24, 26), (20, 30), (12, 30), (8, 26), (8, 18), closed=True)

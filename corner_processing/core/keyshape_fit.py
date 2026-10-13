@@ -28,7 +28,7 @@ KS_TOL = 0.1           # u — ink this little past the keyshape (or the input) 
 NEAR = 2.5             # u — input ink this close to a point counts as "the input there"
 NEAR_SIDE = 6.0        # u — region_near: input ink within this far along a side sets that side
 SAMPLES = 24           # samples per segment
-CANVAS = box(-16, -16, 64, 64)   # clip region outside the cuts (generous: never clips by itself); 48 canvas
+CANVAS = box(-16, -16, 64, 64)   # clip region outside the cuts (generous: never clips by itself)
 
 
 def load(path):
@@ -129,10 +129,9 @@ def mitre_tip(V, u_in, u_out, limit):
     return [T], Polygon([(a.real, a.imag), (T.real, T.imag), (b.real, b.imag)])
 
 
-def clip_d(cuts, canvas=48):
-    """SVG path d of CANVAS (16 u round the icon's canvas) minus the cuts (holes), for a clipPath with clip-rule evenodd."""
-    region = CANVAS if canvas == 48 else box(-16, -16, canvas + 16, canvas + 16)
-    keep = region.difference(unary_union(cuts))
+def clip_d(cuts):
+    """SVG path d of CANVAS minus the cuts (holes), for a clipPath with clip-rule evenodd."""
+    keep = CANVAS.difference(unary_union(cuts))
     polys = [keep] if keep.geom_type == "Polygon" else list(keep.geoms)
     out = []
     for poly in polys:

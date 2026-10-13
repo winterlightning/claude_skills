@@ -27,20 +27,21 @@ class DrawingVariant2ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 4), (22, 4))
-        self.add_line('p1-r1-2', (22, 4), (22, 10))
+        short_axis = 16
+        short_half_span = 12
+        short_low, short_high = (short_axis - short_half_span, short_axis + short_half_span)
+        self.add_line('p1-r1-1', (2, short_low), (22, short_low))
+        self.add_line('p1-r1-2', (22, short_low), (22, 10))
         self.add_line('p1-r1-3', (22, 10), (22, 20))
-        self.add_arc('p1-r1-4', (22, 20), (15, 28), radius_x=7, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-5', (15, 28), (9, 28))
-        self.add_arc('p1-r1-6', (9, 28), (2, 20), radius_x=7, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-7', (2, 20), (2, 4))
+        self.add_arc('p1-r1-4', (22, 20), (15, short_high), radius_x=7, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (15, short_high), (9, short_high))
+        self.add_arc('p1-r1-6', (9, short_high), (2, 20), radius_x=7, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (2, 20), (2, short_low))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
-        # Handle: a rounded-square loop with an 8-unit opening against the cup wall.
-        self.add_line('p2-r1-1', (22, 10), (30, 10))
-        self.add_line('p2-r1-2', (30, 10), (30, 20))
-        self.add_line('p2-r1-3', (30, 20), (22, 20))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        self.add_line('p2-r1-1', (22, 10), (24, 10))
+        self.add_arc('p2-r1-2', (24, 10), (30, 16), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-3', (30, 16), (24, 22), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('p2-r1-4', (24, 22), (22, 22))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
         self.relate('connect', 'p1-r1-2', 'p2-r1-1')
         self.relate('connect', 'p1-r1-3', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-3')
-        self.relate('connect', 'p1-r1-4', 'p2-r1-3')

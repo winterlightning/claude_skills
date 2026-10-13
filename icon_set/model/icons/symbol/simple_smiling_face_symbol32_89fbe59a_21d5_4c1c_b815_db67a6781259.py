@@ -28,6 +28,6 @@ class Drawing(Symbol32):
         self.add_arc('face-bottom', (axis+radius, axis), (axis-radius, axis), radius_x=radius)
         self.add_contour('face', 'face-top', 'face-bottom', closed=True)
         for side in (-1, 1):
-            x = axis + side * 4
-            self.add_line(f'eye-{side}', (x, 12), (x, 12))
-        self.add_arc('smile', (13, 20), (19, 20), radius_x=3, radius_y=2, sweep=False)
+            x = axis + side * 5
+            self.add_line(f'eye-{side}', (x, 11), (x, 12))
+        self.add_arc('smile', (10, 20), (22, 20), radius_x=6, radius_y=3, sweep=False)

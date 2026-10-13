@@ -11,7 +11,7 @@ export const STATE_HINTS = {
   waiting: 'Main and sub are drawn but not combined yet.', main: 'No 48×48 solo main icon yet.', sub: 'No 32×32 sub icon yet.',
   textsub: 'The sub is text or a number and is not drawn yet. It is generated separately.'};
 export const FILTERS = {'': 'All', ...STATES, uncombined: 'Not combined', text: 'Text sub', multi: '2+ subs', made: 'From review',
-  changed: 'Main / sub changed', combinedfix: 'Combined disapproved', built: 'Built', stale: 'Stale (built from older drawings)', unbuilt: 'Not built'};
+  changed: 'Main / sub changed', built: 'Built', stale: 'Stale (built from older drawings)', unbuilt: 'Not built'};
 export const GROUPS = {'': 'No grouping', main: 'Group by main', sub: 'Group by sub'};
 export const PAGE_SIZES = [24, 48, 96];
 export const REVIEW_LABELS = {approve: 'Approved', ready: 'To review', 're-generated': 'To review', pending: 'Needs fix', disapprove: 'Needs fix',
@@ -76,10 +76,8 @@ export function category(s, row, flagged, buildState) {
   // Not combined: main and sub are both drawn, but no combined icon is stored for the pair.
   const uncombined = !['main', 'fixmain', 'sub', 'textsub'].includes(k) && !both && !s.previews[row.id];
   const subNeeded = k === 'fixmain' && s.componentStatus.sub.get(row.sub_id) === 'missing' ? (subIsText(s, row, pair) ? 'textsub' : 'sub') : null;
-  // The combined icon's own Icon review (as CombinedReview shows it); main / sub reviews do not count here.
-  const icon = s.item?.(row.id)?.icon, review = icon ? s.reviews[icon.key] || icon.review : null;
   // The pair's build in D1: built, stale (a part redrawn since) or not built.
-  return {combinedfix: ['pending', 'disapprove', 'claimed'].includes(review), [buildState || 'unbuilt']: true, made: !!pair?.custom && !pair.published, changed: !!pair?.published, [both ? 'main' : k]: true,
+  return {[buildState || 'unbuilt']: true, made: !!pair?.custom && !pair.published, changed: !!pair?.published, [both ? 'main' : k]: true,
           ...(both ? {[k === 'both' ? 'sub' : 'textsub']: true} : {}), ...(subNeeded ? {[subNeeded]: true} : {}), uncombined,
           multi: (pair?.subs.length || 0) > 1, text: subIsText(s, row, pair)};
 }

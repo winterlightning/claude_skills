@@ -22,16 +22,17 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        # Hook on the left; fish with a pointed lens body and a V tail (no eye: no 4-unit room).
-        self.add_line('p1-r1-1', (2, 4), (2, 25))
-        self.add_arc('p1-r1-2', (2, 25), (8, 25), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p1-r1-1', (2, 5), (2, 24))
+        self.add_arc('p1-r1-2', (2, 24), (8, 24), radius_x=3, radius_y=3, large_arc=False, sweep=False)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (13, 16), (28, 16), radius_x=9, radius_y=12, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (28, 16), (13, 16), radius_x=9, radius_y=12, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=True)
-        self.add_line('p3-r1-1', (30, 10), (28, 16))
-        self.add_line('p3-r1-2', (28, 16), (30, 22))
+        self.add_arc('p2-r1-1', (13, 19), (30, 19), radius_x=10, radius_y=18, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (30, 19), (13, 19), radius_x=10, radius_y=18, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (30, 12), (30, 19))
+        self.add_line('p3-r1-2', (30, 19), (30, 27))
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.add_line('p4-r1-1', (22, 19), (22, 19))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
         self.relate('connect', 'p2-r1-1', 'p3-r1-1')
         self.relate('connect', 'p2-r1-1', 'p3-r1-2')
         self.relate('connect', 'p2-r1-2', 'p3-r1-1')

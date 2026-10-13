@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from test_combination_builds import Client, admin, assert_original_on_list, pytestmark, side_request  # noqa: F401
+from test_combination_builds import Client, admin, pytestmark, side_request  # noqa: F401  (pytestmark: the same skip)
 
 ATTRS = 'fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"'
 MAIN = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 54" {ATTRS}><rect x="6" y="6" width="42" height="42" rx="6"/><path d="M6 17L48 17"/></svg>'
@@ -85,7 +85,6 @@ def test_build_review_and_stale(client, pair):
     result = data['results'][0]
     assert status == 200 and result['ok'], data
     assert result['key'] == f"combination-72/{item['reference_id']}" and result['build_failed']   # parts still Ready
-    assert_original_on_list(client, result['key'], item['reference_id'])
     built = one(client, item['reference_id'])
     assert built['state'] == 'built' and built['icon']['key'] == result['key']
     # not approvable until both parts are

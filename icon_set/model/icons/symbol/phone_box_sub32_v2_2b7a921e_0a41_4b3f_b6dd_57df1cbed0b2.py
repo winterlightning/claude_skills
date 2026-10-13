@@ -34,7 +34,7 @@ class DrawingVariant2(Sub32):
         self.add_line('p2-r1-2', (short_low, 13), (short_high, 13))
         self.add_line('p2-r1-3', (short_high, 13), (short_high, 30))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.add_line('p3-r1-1', (16, 21), (16, 30))
+        self.add_line('p3-r1-1', (16, 20), (16, 30))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-1', 'p2-r1-2')

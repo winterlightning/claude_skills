@@ -22,17 +22,17 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        # Head, level pushing arms, torso leaning back to the hip, bent legs.
-        self.add_arc('p1-r1-1', (16, 6), (24, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (24, 6), (16, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=True)
-        self.add_line('p2-r1-1', (16, 18), (8, 26))
-        self.add_line('p2-r1-2', (8, 26), (2, 30))
+        self.add_arc('p1-r1-1', (16, 7), (25, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (25, 7), (16, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (16, 18), (10, 24))
+        self.add_line('p2-r1-2', (10, 24), (2, 30))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (16, 18), (30, 18))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (8, 26), (20, 26))
-        self.add_line('p4-r1-2', (20, 26), (17, 30))
+        self.add_line('p3-r1-1', (16, 18), (19, 19))
+        self.add_line('p3-r1-2', (19, 19), (30, 19))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.add_line('p4-r1-1', (10, 24), (19, 25))
+        self.add_line('p4-r1-2', (19, 25), (16, 30))
         self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
         self.relate('connect', 'p2-r1-1', 'p3-r1-1')
         self.relate('connect', 'p2-r1-1', 'p4-r1-1')

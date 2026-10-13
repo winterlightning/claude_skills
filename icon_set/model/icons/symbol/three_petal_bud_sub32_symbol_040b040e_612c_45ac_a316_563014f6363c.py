@@ -27,12 +27,12 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (4, 6), (13, 12))
-        self.add_arc('p1-r1-2', (13, 12), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (16, 2), (19, 12), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('p1-r1-4', (19, 12), (28, 6))
-        self.add_arc('p1-r1-5', (28, 6), (16, 24), radius_x=12, radius_y=18, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-6', (16, 24), (4, 6), radius_x=12, radius_y=18, large_arc=False, sweep=True)
+        self.add_line('p1-r1-1', (5, 8), (12, 12))
+        self.add_arc('p1-r1-2', (12, 12), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-3', (16, 2), (20, 12), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_line('p1-r1-4', (20, 12), (27, 8))
+        self.add_arc('p1-r1-5', (27, 8), (16, 24), radius_x=11, radius_y=17, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-6', (16, 24), (5, 8), radius_x=11, radius_y=17, large_arc=False, sweep=True)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
         self.add_line('p2-r1-1', (16, 24), (16, 30))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
