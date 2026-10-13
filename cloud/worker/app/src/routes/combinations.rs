@@ -474,6 +474,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         }
         let sha = hex::encode(Sha256::digest(svg.as_bytes()));
         let key = combined_key(kind, size, id);
+        let original_sources = super::icons::original_reference(ctx, id).await?.unwrap_or_else(|| json!([]));
         let (profile, category) = if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
                                   else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
         let mut record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
@@ -491,16 +492,16 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
-            preview_url, build_failed, uploaded, record, pushed_at) \
-            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
+            preview_url, build_failed, uploaded, record, pushed_at, original_sources) \
+            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
-            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
+            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record, original_sources = excluded.original_sources WHERE icons.uploaded = 0",
             args![key.clone(), id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
-                  !errors.is_empty(), record.to_string(), now.clone()])?);
+                  !errors.is_empty(), record.to_string(), now.clone(), original_sources.to_string()])?);
         // What Icon review lists of it: the record /api/icon-artwork/overrides gives a browser build.
         let listed = built_record(BuiltRow { key: key.clone(), icon_id: id.to_string(), name: None, family: combined_family(kind, size).to_string(),
             category: Some(category.to_string()), canvas_size: Some(canvas as f64), svg_sha256: sha.clone(), build_failed: (!errors.is_empty()) as i32 as f64,
-            original_sources: "[]".into(), record: record.to_string() });
+            original_sources: original_sources.to_string(), record: record.to_string() });
         statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("uploaded = 0"))?);
         // Its name is the reference's concept, known here only in SQL (search text as core icon_index joins it).
         statements.push(db::stmt(&ctx.db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
