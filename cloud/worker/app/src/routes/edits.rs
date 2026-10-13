@@ -708,13 +708,10 @@ async fn stored_drawing(ctx: &Ctx, sha: &str) -> Result<Response> {
     }
 }
 
-/// The drawing a picked choice displays (deploy.py serves the choice before a worker's fix), or None.
-pub async fn picked_drawing(ctx: &Ctx, icon: &Icon) -> Result<Option<Response>> {
-    let Some(choice) = document(ctx, ARTWORK, &icon.key).await? else { return Ok(None) };
-    let sha = baseline_sha(ctx, icon, Some(&choice)).await?;
-    if choice["source_svg_sha256"].as_str() != Some(sha.as_str()) {
-        return Ok(None); // made for an older generated drawing
-    }
+/// The drawing an icon's artwork choice displays, or None. The caller has read from the stored `icons.picked` that the
+/// choice applies (made for the current drawing, not an uploaded icon), as the gallery card does.
+pub async fn picked_drawing(ctx: &Ctx, key: &str) -> Result<Option<Response>> {
+    let Some(choice) = document(ctx, ARTWORK, key).await? else { return Ok(None) };
     Ok(match (choice["source_mode"].as_str(), choice["selected_svg_sha256"].as_str()) {
         (Some("use_edited" | "use_upload"), Some(selected)) => Some(stored_drawing(ctx, selected).await?),
         (Some("use_upload"), None) => choice["selected_upload"]["svg"].as_str().or(choice["uploaded"]["svg"].as_str())
