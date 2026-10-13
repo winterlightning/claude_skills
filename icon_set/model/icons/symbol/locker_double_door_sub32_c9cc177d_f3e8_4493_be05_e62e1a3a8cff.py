@@ -36,4 +36,3 @@ class Drawing(Sub32):
         self.relate('connect', 'p1-r1-2', 'p2-r1-1')
         self.relate('connect', 'p1-r1-4', 'p2-r1-1')
         self.relate('connect', 'p1-r1-5', 'p2-r1-1')
-

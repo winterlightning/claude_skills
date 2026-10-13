@@ -39,4 +39,3 @@ class Drawing(Sub32):
         self.add_arc('p5-r1-3', (21, 16), (16, 21), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_arc('p5-r1-4', (16, 21), (11, 16), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', 'p5-r1-3', 'p5-r1-4', closed=True)
-

@@ -38,4 +38,3 @@ class Drawing(Sub32):
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
         self.relate('connect', 'p1-r1-2', 'p2-r1-1')
         self.relate('connect', 'p1-r1-3', 'p2-r1-1')
-
