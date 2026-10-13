@@ -9,6 +9,8 @@ Visible keyshape extremes: (0, 4, 64, 60).
 Hosting measured with compose.py: plus does not clear, heart passes, check passes.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (heart-outline-container HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -21,19 +23,15 @@ AUTHOR = 'claude-opus-5-5'
 
 class HeartOutlineContainer(Container64):
     icon_id = 'heart-outline-container'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     category = 'romance'
     categories = ('romance', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('heart', 'outline', 'container')
 
     def build(self) -> None:
-        self.add_arc('heart-0', (32, 17), (20, 10), radius_x=12, radius_y=7, sweep=False)
-        self.add_arc('heart-1', (20, 10), (4, 24), radius_x=16, radius_y=14, sweep=False)
-        self.add_arc('heart-2', (4, 24), (12, 36), radius_x=13, sweep=False)
-        self.add_line('heart-3', (12, 36), (32, 54))
-        self.add_line('heart-4', (32, 54), (52, 36))
-        self.add_arc('heart-5', (52, 36), (60, 24), radius_x=13, sweep=False)
-        self.add_arc('heart-6', (60, 24), (44, 10), radius_x=16, radius_y=14, sweep=False)
-        self.add_arc('heart-7', (44, 10), (32, 17), radius_x=12, radius_y=7, sweep=False)
-        self.add_contour('heart', 'heart-0', 'heart-1', 'heart-2', 'heart-3', 'heart-4', 'heart-5', 'heart-6', 'heart-7', closed=True)
+        # SQUARE (was HRECT_L): a full heart, lobes topping out at (18,6)/(46,6), widest at y 27, tip at (32,58);
+        # mirrored about x = 32. Holds a symbol of 24 with a 4 px gap (was 15.5 in the landscape frame).
+        self.add_bezier('heart-left', (32, 12), ((30, 8), (25, 6), (18, 6)), ((10, 6), (6, 14), (6, 27)), ((6, 42), (21, 51), (32, 58)))
+        self.add_bezier('heart-right', (32, 58), ((43, 51), (58, 42), (58, 27)), ((58, 14), (54, 6), (46, 6)), ((39, 6), (34, 8), (32, 12)))
+        self.add_contour('heart', 'heart-left', 'heart-right', closed=True)

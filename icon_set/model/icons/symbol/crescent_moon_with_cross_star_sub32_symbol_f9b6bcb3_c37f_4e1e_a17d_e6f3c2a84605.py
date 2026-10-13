@@ -34,7 +34,7 @@ class DrawingContainerSymbol(Sub32):
         self.add_bezier('p1-r1-5', (26, 21), ((20, 21), (15, 17), (15, 10)))
         self.add_bezier('p1-r1-6', (15, 10), ((15, 8), (16, 5), (18, 2)))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (23, 8), (27, 8))
+        self.add_line('p2-r1-1', (24, 8), (27, 8))
         self.add_line('p2-r1-2', (27, 8), (30, 8))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
         self.add_line('p3-r1-1', (27, 5), (27, 8))

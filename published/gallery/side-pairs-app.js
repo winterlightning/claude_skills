@@ -5363,6 +5363,7 @@ createHTML: (html) => {
 		multi: "2+ subs",
 		made: "From review",
 		changed: "Main / sub changed",
+		combinedfix: "Combined disapproved",
 		built: "Built",
 		stale: "Stale (built from older drawings)",
 		unbuilt: "Not built"
@@ -5440,7 +5441,13 @@ createHTML: (html) => {
 			"textsub"
 		].includes(k) && !both && !s.previews[row.id];
 		const subNeeded = k === "fixmain" && s.componentStatus.sub.get(row.sub_id) === "missing" ? subIsText(s, row, pair) ? "textsub" : "sub" : null;
+		const icon = s.item?.(row.id)?.icon, review = icon ? s.reviews[icon.key] || icon.review : null;
 		return {
+			combinedfix: [
+				"pending",
+				"disapprove",
+				"claimed"
+			].includes(review),
 			[buildState || "unbuilt"]: true,
 			made: !!pair?.custom && !pair.published,
 			changed: !!pair?.published,

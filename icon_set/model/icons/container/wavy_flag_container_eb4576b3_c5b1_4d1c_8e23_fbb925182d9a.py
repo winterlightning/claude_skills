@@ -9,6 +9,8 @@ Visible keyshape extremes: (0, 4, 64, 60).
 Hosting measured with compose.py: plus passes, heart passes, check passes.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (wavy-flag-container HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -21,17 +23,19 @@ AUTHOR = 'claude-opus-5-5'
 
 class WavyFlagContainer(Container64):
     icon_id = 'wavy-flag-container'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     category = 'social'
     categories = ('social', 'primitives')
     aliases = ()
     keywords = ('wavy', 'flag', 'container')
 
     def build(self) -> None:
-        self.add_arc('flag-0', (4, 14), (32, 14), radius_x=14, radius_y=4)
-        self.add_arc('flag-1', (32, 14), (60, 14), radius_x=14, radius_y=4, sweep=False)
-        self.add_line('flag-2', (60, 14), (60, 50))
-        self.add_arc('flag-3', (60, 50), (32, 50), radius_x=14, radius_y=4)
-        self.add_arc('flag-4', (32, 50), (4, 50), radius_x=14, radius_y=4, sweep=False)
-        self.add_line('flag-5', (4, 50), (4, 14))
+        # SQUARE (was HRECT_L): the flag spans 6..58 with its wavy edges on 10 and 54 (amplitude 4), so it holds a
+        # symbol of 27 with a 4 px gap (was 19).
+        self.add_arc('flag-0', (6, 10), (32, 10), radius_x=13, radius_y=4)
+        self.add_arc('flag-1', (32, 10), (58, 10), radius_x=13, radius_y=4, sweep=False)
+        self.add_line('flag-2', (58, 10), (58, 54))
+        self.add_arc('flag-3', (58, 54), (32, 54), radius_x=13, radius_y=4)
+        self.add_arc('flag-4', (32, 54), (6, 54), radius_x=13, radius_y=4, sweep=False)
+        self.add_line('flag-5', (6, 54), (6, 10))
         self.add_contour('flag', 'flag-0', 'flag-1', 'flag-2', 'flag-3', 'flag-4', 'flag-5', closed=True)

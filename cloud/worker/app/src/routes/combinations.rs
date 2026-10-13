@@ -21,6 +21,24 @@ use worker::{Response, Result};
 
 const DEFAULT_LIMIT: i64 = 100;
 const SIDE_POSITIONS: [&str; 8] = ["tl", "tr", "bl", "br", "ri", "le", "bo", "to"];
+
+/// The keyshapes of a side pair's canvas (painted boxes [x0, y0, x1, y1], centered), as combine-side.js
+/// CANVAS_KEYSHAPES has them: 64 is CONTAINER64; 72 keeps the rule (square padding 4, long side padding 2, HRECT short
+/// side 0.75 x canvas, M = HRECT - 4). A build names the one its pair sits in; only these names are stored.
+fn side_keyshape(size: i64, name: &str) -> Option<[f64; 4]> {
+    let c = size as f64;
+    let rect = if size == 64 { 48.0 } else if size == 72 { 54.0 } else { return None };
+    let (long, m) = (c - 4.0, rect - 4.0);
+    let (w, h) = match name {
+        "SQUARE" => (c - 8.0, c - 8.0),
+        "HRECT" => (long, rect),
+        "HRECT_M" => (long, m),
+        "VRECT" => (rect, long),
+        "VRECT_M" => (m, long),
+        _ => return None,
+    };
+    Some([(c - w) / 2.0, (c - h) / 2.0, (c + w) / 2.0, (c + h) / 2.0])
+}
 const MAX_LIMIT: i64 = 500;
 
 /// One row per combination: its kind, build state and whether a part has no icon picked, from its parts. At size
@@ -456,24 +474,34 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         }
         let sha = hex::encode(Sha256::digest(svg.as_bytes()));
         let key = combined_key(kind, size, id);
+        let original_sources = super::icons::original_reference(ctx, id).await?.unwrap_or_else(|| json!([]));
         let (profile, category) = if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
                                   else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
-        let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
-                            "errors": errors, "built_by": user, "built_at": now});
+        let mut record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
+                                "errors": errors, "built_by": user, "built_at": now});
+        // The canvas keyshape the browser found the pair in (side pairs only; an unknown name is not stored).
+        if kind == "side" {
+            if let Some(name) = b["keyshape"].as_str() {
+                if let Some(bounds) = side_keyshape(size, name) {
+                    record["keyshape"] = json!(name);
+                    record["keyshape_bounds"] = json!(bounds);
+                }
+            }
+        }
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
-            preview_url, build_failed, uploaded, record, pushed_at) \
-            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
+            preview_url, build_failed, uploaded, record, pushed_at, original_sources) \
+            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
-            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
+            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record, original_sources = excluded.original_sources WHERE icons.uploaded = 0",
             args![key.clone(), id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
-                  !errors.is_empty(), record.to_string(), now.clone()])?);
+                  !errors.is_empty(), record.to_string(), now.clone(), original_sources.to_string()])?);
         // What Icon review lists of it: the record /api/icon-artwork/overrides gives a browser build.
         let listed = built_record(BuiltRow { key: key.clone(), icon_id: id.to_string(), name: None, family: combined_family(kind, size).to_string(),
             category: Some(category.to_string()), canvas_size: Some(canvas as f64), svg_sha256: sha.clone(), build_failed: (!errors.is_empty()) as i32 as f64,
-            original_sources: "[]".into(), record: record.to_string() });
+            original_sources: original_sources.to_string(), record: record.to_string() });
         statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("uploaded = 0"))?);
         // Its name is the reference's concept, known here only in SQL (search text as core icon_index joins it).
         statements.push(db::stmt(&ctx.db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
@@ -609,6 +637,7 @@ pub fn built_record(r: BuiltRow) -> Value {
                           "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
            "original_sources": serde_json::from_str::<Value>(&r.original_sources).unwrap_or(json!([])),
            "main_key": record["parts"][main], "sub_key": record["parts"][sub], "created_at": record["built_at"],
+           "keyshape": record["keyshape"], "keyshape_bounds": record["keyshape_bounds"],
            "created_at_source": if container { "container-pair" } else { "side-pair" }})
 }
 

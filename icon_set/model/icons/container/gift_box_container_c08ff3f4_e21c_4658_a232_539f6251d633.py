@@ -6,6 +6,8 @@ without duplicate strokes. The plain lid is eight units high on centerlines.
 Paired symbols measured separately; native 32 does not fit. 24-unit prototypes are measured separately.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (gift-box-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -25,29 +27,29 @@ class GiftBoxContainer(Container64):
     keywords = ('gift', 'box', 'container')
 
     def build(self) -> None:
-        self.add_line('lid-0', (18, 20), (10, 20))
-        self.add_arc('lid-1', (10, 20), (6, 24), radius_x=4, sweep=False)
-        self.add_arc('lid-2', (6, 24), (10, 28), radius_x=4, sweep=False)
-        self.add_line('lid-3', (10, 28), (54, 28))
-        self.add_arc('lid-4', (54, 28), (58, 24), radius_x=4, sweep=False)
-        self.add_arc('lid-5', (58, 24), (54, 20), radius_x=4, sweep=False)
-        self.add_line('lid-6', (54, 20), (46, 20))
-        self.add_line('box-0', (10, 28), (10, 52))
+        # A smaller bow (6..14) on a slimmer lid (14..22) so the box below runs 22..58 and holds a symbol of 24 with
+        # a 4 px gap (was 18). Mirrored about x = 32.
+        self.add_line('lid-0', (10, 14), (22, 14))
+        self.add_arc('lid-1', (54, 14), (58, 18), radius_x=4)
+        self.add_arc('lid-2', (58, 18), (54, 22), radius_x=4)
+        self.add_line('lid-3', (54, 22), (10, 22))
+        self.add_arc('lid-4', (10, 22), (6, 18), radius_x=4)
+        self.add_arc('lid-5', (6, 18), (10, 14), radius_x=4)
+        self.add_line('lid-6', (42, 14), (54, 14))
+        self.add_line('box-0', (10, 22), (10, 52))
         self.add_arc('box-1', (10, 52), (16, 58), radius_x=6, sweep=False)
         self.add_line('box-2', (16, 58), (48, 58))
         self.add_arc('box-3', (48, 58), (54, 52), radius_x=6, sweep=False)
-        self.add_line('box-4', (54, 52), (54, 28))
-        self.add_arc('bow--1-0', (32, 20), (18, 6), radius_x=14, sweep=False)
-        self.add_arc('bow--1-1', (18, 6), (18, 20), radius_x=9, radius_y=7, sweep=False)
-        self.add_line('bow--1-2', (18, 20), (32, 20))
-        self.add_arc('bow-1-0', (32, 20), (46, 6), radius_x=14)
-        self.add_arc('bow-1-1', (46, 6), (46, 20), radius_x=9, radius_y=7)
-        self.add_line('bow-1-2', (46, 20), (32, 20))
-        self.add_contour('lid', 'lid-0', 'lid-1', 'lid-2', 'lid-3', 'lid-4', 'lid-5', 'lid-6')
+        self.add_line('box-4', (54, 52), (54, 22))
+        self.add_bezier('bow-left-0', (32, 14), ((29, 9), (24, 6), (21, 6)), ((18, 6), (17, 8), (17, 10)), ((17, 12), (19, 14), (22, 14)))
+        self.add_line('bow-left-1', (22, 14), (32, 14))
+        self.add_bezier('bow-right-0', (32, 14), ((35, 9), (40, 6), (43, 6)), ((46, 6), (47, 8), (47, 10)), ((47, 12), (45, 14), (42, 14)))
+        self.add_line('bow-right-1', (42, 14), (32, 14))
+        self.add_contour('lid', 'lid-6', 'lid-1', 'lid-2', 'lid-3', 'lid-4', 'lid-5', 'lid-0')
+        self.add_contour('bow-left', 'bow-left-0', 'bow-left-1', closed=True)
+        self.add_contour('bow-right', 'bow-right-0', 'bow-right-1', closed=True)
         self.add_contour('box', 'box-0', 'box-1', 'box-2', 'box-3', 'box-4')
-        self.add_contour('bow--1', 'bow--1-0', 'bow--1-1', 'bow--1-2', closed=True)
-        self.add_contour('bow-1', 'bow-1-0', 'bow-1-1', 'bow-1-2', closed=True)
         self.relate('connect', 'box', 'lid')
-        self.relate('connect', 'bow--1', 'lid')
-        self.relate('connect', 'bow-1', 'lid')
-        self.relate('connect', 'bow--1', 'bow-1')
+        self.relate('connect', 'bow-left', 'lid')
+        self.relate('connect', 'bow-right', 'lid')
+        self.relate('connect', 'bow-left', 'bow-right')
