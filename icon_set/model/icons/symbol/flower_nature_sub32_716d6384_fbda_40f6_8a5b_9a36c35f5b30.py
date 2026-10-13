@@ -37,6 +37,5 @@ class Drawing(Sub32):
         self.add_bezier('p1-r1-13', (8, 9), ((9, 9), (10, 9), (10, 10)))
         self.add_bezier('p1-r1-14', (10, 10), ((10, 7), (13, 5), (16, 5)))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', 'p1-r1-13', 'p1-r1-14', closed=False)
-        self.add_arc('p2-r1-1', (13, 16), (19, 16), radius_x=3, radius_y=2, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (19, 16), (13, 16), radius_x=3, radius_y=2, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p2-r1-1', (16, 16), (16, 16))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)

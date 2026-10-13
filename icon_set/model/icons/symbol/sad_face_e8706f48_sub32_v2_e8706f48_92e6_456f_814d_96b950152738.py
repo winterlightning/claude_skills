@@ -24,16 +24,16 @@ class DrawingVariant2(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 14), (30, 14))
+        self.add_line('p1-r1-1', (2, 13), (30, 13))
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_bezier('p2-r1-1', (5, 14), ((6, 7), (7, 2), (12, 2)))
+        self.add_bezier('p2-r1-1', (5, 13), ((6, 7), (7, 2), (12, 2)))
         self.add_bezier('p2-r1-2', (12, 2), ((14, 2), (18, 2), (20, 2)))
-        self.add_bezier('p2-r1-3', (20, 2), ((25, 2), (26, 7), (27, 14)))
+        self.add_bezier('p2-r1-3', (20, 2), ((25, 2), (26, 7), (27, 13)))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
         self.add_line('p3-r1-1', (10, 21), (10, 21))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
         self.add_line('p4-r1-1', (22, 21), (22, 21))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_arc('p5-r1-1', (7, 30), (25, 30), radius_x=9, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('p5-r1-1', (7, 30), (25, 30), radius_x=9, radius_y=1, large_arc=False, sweep=True)
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
         self.relate('connect', 'path-1-1', 'path-2-1')

@@ -5,6 +5,10 @@ Lucide map-pin informs a round crown flowing into paired tapered sides. The supp
 Hosting (compose.py): plus invalid, heart invalid, check invalid.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (location-marker-pin SQUARE -> CIRCLE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn as a real map pin. The v2 body was as wide as it was tall with a short point and read as a
+shell. Now a round crown r24 centred (32, 28) whose sides leave it vertically and taper as cubics to the point (32, 60),
+the Lucide map-pin outline: 48 wide, 56 tall. Symbol room 25 (was 26), still a symbol 24.
 """
 
 from ...keyshapes import Keyshape
@@ -20,10 +24,8 @@ class LocationMarkerPin(Container64):
     keywords = ('location', 'marker', 'pin')
 
     def build(self) -> None:
-        self.add_arc('crown-left', (4, 32), (32, 4), radius_x=28)
-        self.add_arc('crown-right', (32, 4), (60, 32), radius_x=28)
-        self.add_arc('shoulder-right', (60, 32), (51, 45), radius_x=21)
-        self.add_arc('neck-right', (51, 45), (32, 60), radius_x=34, sweep=False)
-        self.add_arc('neck-left', (32, 60), (13, 45), radius_x=34, sweep=False)
-        self.add_arc('shoulder-left', (13, 45), (4, 32), radius_x=21)
-        self.add_contour('outline', 'crown-left', 'crown-right', 'shoulder-right', 'neck-right', 'neck-left', 'shoulder-left', closed=True)
+        self.add_arc('crown-left', (8, 28), (32, 4), radius_x=24)
+        self.add_arc('crown-right', (32, 4), (56, 28), radius_x=24)
+        self.add_bezier('side-right', (56, 28), ((56, 41.5), (39.4, 55.6), (32, 60)))
+        self.add_bezier('side-left', (32, 60), ((24.6, 55.6), (8, 41.5), (8, 28)))
+        self.add_contour('outline', 'crown-left', 'crown-right', 'side-right', 'side-left', closed=True)

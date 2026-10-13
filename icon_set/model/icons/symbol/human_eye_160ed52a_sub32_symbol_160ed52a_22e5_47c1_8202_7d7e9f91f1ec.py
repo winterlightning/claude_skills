@@ -27,9 +27,8 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=18, radius_y=24, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=18, radius_y=24, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=14, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=14, radius_y=8, large_arc=False, sweep=True)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (13, 16), (20, 16), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (20, 16), (13, 16), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p2-r1-1', (16, 16), (16, 16))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)

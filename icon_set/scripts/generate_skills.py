@@ -1402,7 +1402,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
                 render_codex(sub).replace("# /side-sub-make-thuan —", "# $side-sub-make-thuan —", 1)
             )
     if agent in ("all", "codex"):
-        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue", "generate-png-solo", "generate-png-solo-with-reference"):
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-fill", "icon-duotone", "icon-animate", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue", "generate-png-solo", "generate-png-solo-with-reference"):
             if skill is not None and skill != name:
                 continue
             source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")

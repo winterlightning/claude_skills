@@ -424,6 +424,21 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         }
         statements.push(db::stmt(&ctx.db, &format!("UPDATE icons SET svg_sha256 = ? WHERE key = ? AND {landed}"),
                                  args![drawing.clone(), key.clone(), key.clone(), revision, now.clone()])?);
+        // The shown drawing changed: a keyshape stored for an earlier drawing no longer applies.
+        statements.push(db::stmt(&ctx.db, &format!("DELETE FROM icon_keyshapes WHERE key = ? AND svg_sha256 != ? AND {landed}"),
+                                 args![key.clone(), drawing.clone(), key.clone(), revision, now.clone()])?);
+        // A Browser Edit saves its keyshape with the drawing: the edited graph's keyshape and visible bounds become the
+        // icon's keyshape (icon_keyshapes, and the list row's card and keyshape column), so the API lists what is shown.
+        let graph = &selected["graph"];
+        let bounds: Vec<f64> = graph["keyshape_bounds"].as_array().map(|b| b.iter().filter_map(Value::as_f64).collect()).unwrap_or_default();
+        if let (Some(name), true) = (graph["keyshape"].as_str(), bounds.len() == 4) {
+            statements.push(db::stmt(&ctx.db, &format!("INSERT INTO icon_keyshapes(key, svg_sha256, keyshape, keyshape_bounds, measured_at, measured_by) \
+                SELECT ?, ?, ?, ?, ?, ? WHERE {landed} ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, \
+                keyshape = excluded.keyshape, keyshape_bounds = excluded.keyshape_bounds, measured_at = excluded.measured_at, \
+                measured_by = excluded.measured_by"),
+                args![key.clone(), drawing.clone(), name, json!(bounds).to_string(), now.clone(), user, key.clone(), revision, now.clone()])?);
+            statements.push(super::icon_list::measured_statement(&ctx.db, &key)?);
+        }
         statements.push(db::stmt(&ctx.db, &format!("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) \
             SELECT ?, ?, 'approve', ?, ? WHERE {landed} ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = excluded.status, \
             updated_at = excluded.updated_at, updated_by = excluded.updated_by, worker = NULL, claimed_at = NULL, note = ''"),

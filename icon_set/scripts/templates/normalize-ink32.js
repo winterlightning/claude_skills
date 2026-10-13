@@ -400,7 +400,8 @@
       } else if (command === 'A') {
         const radius = pt(), rotation = num(), large = num(), sweep = num();
         let e = pt(); if (!absolute) e = add(e, current);
-        segs.push(radius[0] === 0 || radius[1] === 0 ? {type: 'L', start: current, end: e} : arc(current, radius, rotation, large, sweep, e));
+        // An arc whose two endpoints are the same draws nothing (SVG 1.1 F.6.2: omitted), as a browser shows it.
+        if (!same(current, e)) segs.push(radius[0] === 0 || radius[1] === 0 ? {type: 'L', start: current, end: e} : arc(current, radius, rotation, large, sweep, e));
         current = e;
       }
     }
