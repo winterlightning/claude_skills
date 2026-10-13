@@ -144,7 +144,7 @@ that split instead of treating the combination as one primitive.
 Open **Icon review → Upload icon** and choose an SVG up to 1 MB. No login is
 required for the upload page or `POST /api/icons/upload`. The page shows the full
 production endpoint and a copyable curl example:
-`https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload`. Anonymous uploads are attributed to
+`https://pictographic-review.pictographic.workers.dev/api/icons/upload`. Anonymous uploads are attributed to
 `system`; an optional login attributes approval, disapproval, and other actions
 to a named reviewer.
 Enter its name and optional category (defaults to `manual_upload`). Every upload
