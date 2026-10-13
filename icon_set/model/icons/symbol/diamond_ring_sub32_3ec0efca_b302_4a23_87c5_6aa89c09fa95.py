@@ -22,17 +22,18 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
+        # Adopted from the production stroke edit (Browser Edit by hina).
         self.add_line('p1-r1-1', (10, 10), (9, 5))
         self.add_line('p1-r1-2', (9, 5), (12, 2))
         self.add_line('p1-r1-3', (12, 2), (20, 2))
         self.add_line('p1-r1-4', (20, 2), (23, 5))
         self.add_line('p1-r1-5', (23, 5), (22, 10))
-        self.add_arc('p1-r1-6', (22, 10), (27, 19), radius_x=6, radius_y=8, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-7', (27, 19), (16, 30), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-8', (16, 30), (5, 19), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-9', (5, 19), (10, 10), radius_x=6, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-6', (22, 10), (28, 18), radius_x=6, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-7', (28, 18), (16, 30), radius_x=12, radius_y=12, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-8', (16, 30), (4, 18), radius_x=12, radius_y=12, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-9', (4, 18), (10, 10), radius_x=6, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p2-r1-1', (10, 10), (22, 10))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', closed=False)
-        self.add_arc('p2-r1-1', (10, 10), (22, 10), radius_x=6, radius_y=3, large_arc=False, sweep=True)
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-5', 'p2-r1-1')

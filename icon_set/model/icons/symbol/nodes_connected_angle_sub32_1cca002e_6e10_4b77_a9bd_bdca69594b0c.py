@@ -22,20 +22,15 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (9, 12), (9, 20), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (9, 20), (9, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (23, 2), (23, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (23, 10), (23, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_arc('p3-r1-1', (23, 22), (23, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p3-r1-2', (23, 30), (23, 22), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (9, 12), (19, 6))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (9, 20), (19, 26))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p4-r1-1')
-        self.relate('connect', 'p1-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p4-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p5-r1-1')
+        # Connected nodes: a large node linked to two small ones, links ending exactly on the rings.
+        self.add_arc('n0-1', (4, 16), (14, 16), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('n0-2', (14, 16), (4, 16), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('hub', 'n0-1', 'n0-2', closed=True)
+        for k, y in enumerate((6, 26)):
+            self.add_arc(f'n{k + 1}-1', (20, y), (28, y), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+            self.add_arc(f'n{k + 1}-2', (28, y), (20, y), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+            self.add_contour(f'node-{k}', f'n{k + 1}-1', f'n{k + 1}-2', closed=True)
+        self.add_line('link-0', (12, 12), (20, 6))
+        self.add_line('link-1', (12, 20), (20, 26))
+        for a, b in (('hub', 'link-0'), ('node-0', 'link-0'), ('hub', 'link-1'), ('node-1', 'link-1')):
+            self.relate('connect', a, b)

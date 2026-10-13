@@ -37,6 +37,6 @@ class Drawing(Sub32):
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
         self.add_arc('p3-r1-1', (14, 28), (18, 28), radius_x=2, radius_y=2, large_arc=False, sweep=True)
         self.add_arc('p3-r1-2', (18, 28), (14, 28), radius_x=2, radius_y=2, large_arc=False, sweep=True)
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=True)
         self.relate('connect', 'p2-r1-3', 'p3-r1-1')
         self.relate('connect', 'p2-r1-3', 'p3-r1-2')

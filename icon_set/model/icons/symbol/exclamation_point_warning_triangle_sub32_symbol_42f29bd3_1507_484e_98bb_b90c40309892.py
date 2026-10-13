@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/exclamation-point-warning-triangle-sub32'
     counterpart_icon_id = 'exclamation-point-warning-triangle-sub32'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
@@ -27,11 +27,8 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (16, 2), (27, 30))
-        self.add_line('p1-r1-2', (27, 30), (5, 30))
-        self.add_line('p1-r1-3', (5, 30), (16, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_line('p2-r1-1', (16, 17), (16, 19))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (16, 24), (16, 24))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        # Warning triangle: the ! stem hangs from the apex (a shared joint), its dot 4 units clear of every side.
+        self.add_polyline('triangle', (16, 2), (30, 30), (2, 30), closed=True)
+        self.add_line('stem', (16, 2), (16, 14))
+        self.add_line('dot', (16, 22), (16, 22))
+        self.relate('connect', 'triangle', 'stem')

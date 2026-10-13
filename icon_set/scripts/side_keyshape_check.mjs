@@ -6,6 +6,7 @@
 // 2. The combined icon sits in one keyshape of the canvas (combine-side.js CANVAS_KEYSHAPES; 64: SQUARE 56, HRECT
 //    60x48, HRECT_M 60x44, VRECT 48x60, VRECT_M 44x60). The sub is anchored at its position's corner or side of that
 //    canvas keyshape, the main at the opposite one; the main may move by whole units at a preset size, inside it.
+//    A pair that fills its canvas keyshape exactly passes even with a part at an in-between size (user, 2026-10-12).
 // A layout that stretches a part, or spreads main + sub past every canvas keyshape, is never accepted.
 //
 //   node icon_set/scripts/side_keyshape_check.mjs <dir> [<dir> ...]   proposed layout (layout.json)
@@ -155,8 +156,16 @@ export function keyshapeCheck(dir, layout, roles = ['main', 'sub']) {
         || list.find(a => Math.abs(a.box[2] - a.box[0] - w) < 1e-6 && Math.abs(a.box[3] - a.box[1] - h) < 1e-6);
       moved = !!hit;
     }
+    // A pair that fills its canvas keyshape exactly (centred in it, user decision 2026-10-12) is on the system even when
+    // a part sits at an in-between size: the part keeps its own keyshape (named after the nearest preset).
+    let fills = false;
+    if (!hit && frame?.name && frame.union.every((v, i) => Math.abs(v - frame.box[i]) <= 0.5)) {
+      const near = list.filter(a => a.name !== 'as drawn').map(a => ({...a, d: dist(a.box, box)})).sort((a, b) => a.d - b.d)[0];
+      if (near) { hit = near; fills = true; }
+    }
     const r = {box: fmt(box), ok: !!hit};
-    if (hit) r.preset = `${hit.name} at ${hit.size}`, r.frame = moved ? frame?.name || null : hit.frame, moved && (r.moved = true);
+    if (hit) r.preset = fills ? `${hit.name} (in-between size, the pair fills ${frame.name})` : `${hit.name} at ${hit.size}`,
+      r.frame = moved || fills ? frame?.name || null : hit.frame, moved && (r.moved = true), fills && (r.fills = true);
     else {
       r.problem = `the ${role} box ${fmt(box)} is not a keyshape preset at ${layout.position}`;
       r.nearest = list.map(a => ({...a, d: dist(a.box, box)})).sort((a, b) => a.d - b.d).slice(0, 4)

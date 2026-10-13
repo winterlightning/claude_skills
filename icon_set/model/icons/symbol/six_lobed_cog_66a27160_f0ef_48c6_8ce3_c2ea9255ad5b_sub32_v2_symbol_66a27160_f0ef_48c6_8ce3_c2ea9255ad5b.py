@@ -27,22 +27,8 @@ class DrawingVariant2ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('lobe-0', (16, 2), ((21, 2), (18, 9), (23, 9)))
-        self.add_bezier('lobe-1', (23, 9), ((24, 9), (25, 6), (27, 6)))
-        self.add_bezier('lobe-2', (27, 6), ((29, 6), (30, 8), (30, 10)))
-        self.add_bezier('lobe-3', (30, 10), ((30, 13), (25, 13), (25, 16)))
-        self.add_bezier('lobe-4', (25, 16), ((25, 19), (30, 19), (30, 22)))
-        self.add_bezier('lobe-5', (30, 22), ((30, 24), (29, 26), (27, 26)))
-        self.add_bezier('lobe-6', (27, 26), ((25, 26), (24, 23), (23, 23)))
-        self.add_bezier('lobe-7', (23, 23), ((18, 23), (21, 30), (16, 30)))
-        self.add_bezier('lobe-8', (16, 30), ((11, 30), (14, 23), (9, 23)))
-        self.add_bezier('lobe-9', (9, 23), ((8, 23), (7, 26), (5, 26)))
-        self.add_bezier('lobe-10', (5, 26), ((3, 26), (2, 24), (2, 22)))
-        self.add_bezier('lobe-11', (2, 22), ((2, 19), (7, 19), (7, 16)))
-        self.add_bezier('lobe-12', (7, 16), ((7, 13), (2, 13), (2, 10)))
-        self.add_bezier('lobe-13', (2, 10), ((2, 8), (3, 6), (5, 6)))
-        self.add_bezier('lobe-14', (5, 6), ((7, 6), (8, 9), (9, 9)))
-        self.add_bezier('lobe-15', (9, 9), ((14, 9), (11, 2), (16, 2)))
-        self.add_contour('cog', 'lobe-0', 'lobe-1', 'lobe-2', 'lobe-3', 'lobe-4', 'lobe-5', 'lobe-6', 'lobe-7', 'lobe-8', 'lobe-9', 'lobe-10', 'lobe-11', 'lobe-12', 'lobe-13', 'lobe-14', 'lobe-15', closed=True)
-        self.add_line('axle', (16, 15), (16, 17))
-        self.add_contour('center', 'axle', closed=False)
+        # Six trapezoid teeth that taper enough to keep the 4-unit rule, small closed centre hole.
+        self.add_polyline('gear', (20, 6), (18, 2), (14, 2), (12, 6), (10, 7), (5, 7), (2, 11), (5, 15), (5, 17), (2, 21), (5, 25), (10, 25), (12, 26), (14, 30), (18, 30), (20, 26), (22, 25), (27, 25), (30, 21), (27, 17), (27, 15), (30, 11), (27, 7), (22, 7), closed=True)
+        self.add_arc('hole-top', (14, 16), (18, 16), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('hole-bottom', (18, 16), (14, 16), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('hole', 'hole-top', 'hole-bottom', closed=True)

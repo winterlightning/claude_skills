@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '30d92cc2968ca337407f56ab814c76c75706859b73ce37125ae57
 
 class Drawing(Sub32):
     icon_id = 'counterclockwise-refresh-arrow-sub32'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'interface-essential'
@@ -22,10 +22,10 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (16, 30), (2, 16), radius_x=14, radius_y=14, large_arc=True, sweep=False)
+        self.add_arc('p1-r1-1', (18, 28), (6, 16), radius_x=12, radius_y=12, large_arc=True, sweep=False)
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (2, 10), (2, 16))
-        self.add_line('p2-r1-2', (2, 16), (8, 11))
+        self.add_line('p2-r1-1', (2, 12), (6, 16))
+        self.add_line('p2-r1-2', (6, 16), (10, 12))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-1', 'p2-r1-2')

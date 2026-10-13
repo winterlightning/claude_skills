@@ -40,3 +40,5 @@ class Drawing(Sub32):
         self.add_bezier('p2-r1-14', (5, 16), ((5, 16), (5, 16), (5, 17)))
         self.add_bezier('p2-r1-15', (5, 17), ((5, 18), (6, 21), (8, 22)))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', 'p2-r1-8', 'p2-r1-9', 'p2-r1-10', 'p2-r1-11', 'p2-r1-12', 'p2-r1-13', 'p2-r1-14', 'p2-r1-15', closed=False)
+        # Declared joints: these strokes meet or cross on purpose.
+        self.relate('connect', 'path-1-1', 'path-2-1')

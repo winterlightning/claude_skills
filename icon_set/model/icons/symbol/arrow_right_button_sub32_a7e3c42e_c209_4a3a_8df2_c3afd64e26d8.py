@@ -22,11 +22,12 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (5, 2), (13, 2))
-        self.add_line('p1-r1-2', (13, 2), (27, 16))
-        self.add_line('p1-r1-3', (27, 16), (13, 30))
-        self.add_line('p1-r1-4', (13, 30), (5, 30))
-        self.add_line('p1-r1-5', (5, 30), (19, 16))
-        self.add_line('p1-r1-6', (19, 16), (5, 2))
-        self.add_line('p1-r1-7', (5, 2), (5, 2))
+        # Adopted from the production stroke edit (Browser Edit by hina).
+        self.add_line('p1-r1-1', (4, 2), (16, 2))
+        self.add_line('p1-r1-2', (16, 2), (28, 16))
+        self.add_line('p1-r1-3', (28, 16), (16, 30))
+        self.add_line('p1-r1-4', (16, 30), (4, 30))
+        self.add_line('p1-r1-5', (4, 30), (16, 16))
+        self.add_line('p1-r1-6', (16, 16), (4, 2))
+        self.add_line('p1-r1-7', (4, 2), (4, 2))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)

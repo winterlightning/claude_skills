@@ -22,19 +22,20 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
+        # Adopted from the production stroke edit (Browser Edit by hina).
         self.add_arc('p1-r1-1', (16, 2), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-2', (30, 16), (16, 30), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-3', (16, 30), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-4', (2, 16), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_arc('p2-r1-1', (16, 2), (9, 16), radius_x=7, radius_y=14, large_arc=False, sweep=False)
-        self.add_arc('p2-r1-2', (9, 16), (16, 30), radius_x=7, radius_y=14, large_arc=False, sweep=False)
-        self.add_arc('p2-r1-3', (16, 30), (23, 16), radius_x=7, radius_y=14, large_arc=False, sweep=False)
-        self.add_arc('p2-r1-4', (23, 16), (16, 2), radius_x=7, radius_y=14, large_arc=False, sweep=False)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.add_arc('p2-r1-1', (16, 2), (11, 16), radius_x=5, radius_y=14, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-2', (11, 16), (16, 30), radius_x=5, radius_y=14, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-3', (16, 30), (21, 16), radius_x=5, radius_y=14, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-4', (21, 16), (16, 2), radius_x=5, radius_y=14, large_arc=False, sweep=False)
         self.add_line('p3-r1-1', (2, 16), (9, 16))
         self.add_line('p3-r1-2', (9, 16), (23, 16))
         self.add_line('p3-r1-3', (23, 16), (30, 16))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-1', 'p2-r1-4')

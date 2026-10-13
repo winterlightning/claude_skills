@@ -22,20 +22,9 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        # Handle: two parallel 45-degree edges 8.5 units apart, square cap with one round corner.
-        self.add_line('p1-r1-1', (10, 14), (22, 2))
-        self.add_line('p1-r1-2', (22, 2), (27, 2))
-        self.add_arc('p1-r1-3', (27, 2), (30, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-4', (30, 5), (30, 6))
-        self.add_line('p1-r1-5', (30, 6), (16, 20))
-        # Ferrule edge, square to the handle.
-        self.add_line('p1-r1-6', (16, 20), (10, 14))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=True)
-        # Bristles: two smooth curves meeting at the tip.
-        self.add_bezier('p2-r1-1', (10, 14), ((5, 17), (2, 22), (2, 30)))
-        self.add_bezier('p2-r1-2', (2, 30), ((7, 29), (13, 25), (16, 20)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-2')
+        # Paintbrush on the diagonal: straight handle, a clean ferrule edge and a pointed brush tip.
+        self.add_polyline('handle', (15, 11), (24, 2), (30, 8), (21, 17), closed=True)
+        self.add_bezier('tip-a', (15, 11), ((9, 17), (4, 22), (2, 30)))
+        self.add_bezier('tip-b', (2, 30), ((10, 28), (15, 23), (21, 17)))
+        self.add_contour('tip', 'tip-a', 'tip-b')
+        self.relate('connect', 'handle', 'tip')

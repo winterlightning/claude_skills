@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '44cd8f3f11e7c65201dedc9ad2eac3493ff48839cbeab06008c97
 
 class Drawing(Sub32):
     icon_id = 'acoustic-guitar-sub32'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'music'
@@ -22,24 +22,27 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (16, 10), ((13, 10), (10, 11), (10, 14)))
-        self.add_bezier('p1-r1-2', (10, 14), ((10, 15), (10, 15), (10, 16)))
-        self.add_bezier('p1-r1-3', (10, 16), ((11, 17), (11, 18), (11, 18)))
-        self.add_bezier('p1-r1-4', (11, 18), ((11, 19), (11, 19), (10, 20)))
-        self.add_bezier('p1-r1-5', (10, 20), ((9, 22), (8, 23), (8, 24)))
-        self.add_bezier('p1-r1-6', (8, 24), ((8, 29), (12, 30), (16, 30)))
-        self.add_bezier('p1-r1-7', (16, 30), ((20, 30), (24, 29), (24, 24)))
-        self.add_bezier('p1-r1-8', (24, 24), ((24, 23), (23, 22), (22, 20)))
-        self.add_bezier('p1-r1-9', (22, 20), ((21, 19), (21, 19), (21, 18)))
-        self.add_bezier('p1-r1-10', (21, 18), ((21, 18), (21, 17), (22, 16)))
-        self.add_bezier('p1-r1-11', (22, 16), ((22, 15), (22, 15), (22, 14)))
-        self.add_bezier('p1-r1-12', (22, 14), ((22, 11), (19, 10), (16, 10)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', closed=False)
+        self.add_line('p1-r1-1', (13, 2), (19, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
         self.add_line('p2-r1-1', (16, 2), (16, 10))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (13, 2), (20, 2))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_arc('p3-r1-1', (16, 10), (10, 14), radius_x=6, radius_y=4, large_arc=False, sweep=False)
+        self.add_bezier('p3-r1-2', (10, 14), ((10, 17), (6, 18), (6, 22)))
+        self.add_arc('p3-r1-3', (6, 22), (16, 30), radius_x=10, radius_y=8, large_arc=False, sweep=False)
+        self.add_arc('p3-r1-4', (16, 30), (26, 22), radius_x=10, radius_y=8, large_arc=False, sweep=False)
+        self.add_bezier('p3-r1-5', (26, 22), ((26, 18), (22, 17), (22, 14)))
+        self.add_arc('p3-r1-6', (22, 14), (16, 10), radius_x=6, radius_y=4, large_arc=False, sweep=False)
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', 'p3-r1-5', 'p3-r1-6', closed=True)
         self.add_line('p4-r1-1', (16, 22), (16, 22))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-12', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-1', 'p4-r1-1')
+        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
+        self.relate('connect', 'p2-r1-1', 'p3-r1-6')
+        self.relate('connect', 'p2-r1-1', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-1', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-2', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-3', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-4', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-5', 'p4-r1-1')
+        self.relate('connect', 'p3-r1-6', 'p4-r1-1')

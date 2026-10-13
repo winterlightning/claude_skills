@@ -22,11 +22,12 @@ class TwoMinusOneSymbol(Symbol32):
     keywords = ('math', 'subtract', 'expression')
 
     def build(self) -> None:
+        # Digits from the official typeface (grid-hinted v2); a short dash keeps 4 units to each digit.
         self.add_bezier('two-0-0-0', (2, 13), ((2, 11.34), (3.34, 10), (5, 10)), ((6.66, 10), (8, 11.34), (8, 13)), ((8, 13.9), (7.66, 14.72), (7, 15)))
         self.add_line('two-0-0-1', (7, 15), (2, 22))
         self.add_line('two-0-0-2', (2, 22), (8, 22))
         self.add_contour('two-0-0', 'two-0-0-0', 'two-0-0-1', 'two-0-0-2')
-        self.add_line('minus', (14, 16), (20, 16))
+        self.add_line('minus', (16, 16), (18, 16))
         self.add_line('one-0-0-0', (30, 22), (30, 10))
         self.add_line('one-0-0-1', (30, 10), (26, 12))
         self.add_contour('one-0-0', 'one-0-0-0', 'one-0-0-1')

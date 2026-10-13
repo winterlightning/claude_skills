@@ -32,5 +32,5 @@ class DrawingVariant3ContainerSymbol(Sub32):
         self.add_bezier('upper-left', (4, 18), ((4, 12), (8, 8), (14, 8)))
         self.add_bezier('tip', (14, 8), ((22, 8), (26, 8), (30, 4)))
         self.add_contour('leaf', 'right', 'lower-left', 'upper-left', 'tip', closed=True)
-        self.add_bezier('vein', (2, 28), ((8, 21), (13, 17), (22, 13)))
+        self.add_bezier('vein', (2, 28), ((8, 22), (13, 19), (18, 17)))
         self.relate('connect', 'leaf', 'vein')

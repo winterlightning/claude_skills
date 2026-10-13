@@ -22,14 +22,11 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 5), (19, 3))
-        self.add_bezier('p1-r1-2', (19, 3), ((22, 2), (22, 2), (24, 2)))
-        self.add_bezier('p1-r1-3', (24, 2), ((28, 2), (30, 5), (30, 10)))
-        self.add_bezier('p1-r1-4', (30, 10), ((30, 14), (27, 15), (25, 19)))
-        self.add_line('p1-r1-5', (25, 19), (21, 27))
-        self.add_bezier('p1-r1-6', (21, 27), ((21, 28), (20, 30), (18, 30)))
-        self.add_bezier('p1-r1-7', (18, 30), ((15, 30), (12, 29), (11, 28)))
-        self.add_line('p1-r1-8', (11, 28), (15, 18))
-        self.add_line('p1-r1-9', (15, 18), (2, 14))
-        self.add_line('p1-r1-10', (2, 14), (2, 5))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
+        self.add_line('p1-r1-1', (2, 2), (23, 2))
+        self.add_arc('p1-r1-2', (23, 2), (23, 16), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (23, 16), (21, 30))
+        self.add_line('p1-r1-4', (21, 30), (12, 30))
+        self.add_line('p1-r1-5', (12, 30), (14, 16))
+        self.add_line('p1-r1-6', (14, 16), (2, 12))
+        self.add_line('p1-r1-7', (2, 12), (2, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=True)

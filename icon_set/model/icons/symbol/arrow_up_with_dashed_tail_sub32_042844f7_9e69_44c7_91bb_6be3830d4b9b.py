@@ -22,14 +22,7 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (12, 22), (12, 13))
-        self.add_line('p1-r1-2', (12, 13), (5, 13))
-        self.add_line('p1-r1-3', (5, 13), (16, 2))
-        self.add_line('p1-r1-4', (16, 2), (27, 13))
-        self.add_line('p1-r1-5', (27, 13), (20, 13))
-        self.add_line('p1-r1-6', (20, 13), (20, 22))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (12, 27), (12, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (20, 27), (20, 30))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        # Block arrow pointing up with a dotted tail, every gap 4 units.
+        self.add_polyline('arrow', (12, 22), (12, 14), (4, 14), (16, 2), (28, 14), (20, 14), (20, 22))
+        self.add_dot('dot-1', (12, 30))
+        self.add_dot('dot-2', (20, 30))

@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = 'a1a189c8ba0c55beae8fee4f4d551ba5c6848be6aa60a0a307e33
 
 class Drawing(Sub32):
     icon_id = 'mountain-climber-sub32'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'sports'
@@ -22,34 +22,20 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (6, 7), (11, 7), radius_x=2.5, radius_y=2.5, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (11, 7), (6, 7), radius_x=2.5, radius_y=2.5, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (30, 2), (25, 8))
-        self.add_line('p2-r1-2', (25, 8), (25, 13))
-        self.add_line('p2-r1-3', (25, 13), (22, 16))
-        self.add_line('p2-r1-4', (22, 16), (25, 22))
-        self.add_line('p2-r1-5', (25, 22), (25, 30))
-        self.add_line('p2-r1-6', (25, 30), (30, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
-        self.add_line('p3-r1-1', (10, 16), (7, 25))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (10, 16), (16, 16))
-        self.add_line('p4-r1-2', (16, 16), (22, 16))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
-        self.add_line('p5-r1-1', (10, 16), (2, 14))
-        self.add_line('p5-r1-2', (2, 14), (2, 17))
-        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
-        self.add_line('p6-r1-1', (7, 25), (2, 30))
-        self.add_contour('path-6-1', 'p6-r1-1', closed=False)
-        self.add_line('p7-r1-1', (7, 25), (16, 22))
-        self.add_line('p7-r1-2', (16, 22), (18, 28))
-        self.add_contour('path-7-1', 'p7-r1-1', 'p7-r1-2', closed=False)
-        self.relate('connect', 'p2-r1-3', 'p4-r1-2')
-        self.relate('connect', 'p2-r1-4', 'p4-r1-2')
-        self.relate('connect', 'p3-r1-1', 'p4-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p6-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p7-r1-1')
-        self.relate('connect', 'p4-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p6-r1-1', 'p7-r1-1')
+        # Mountain climber: head dot, arm reaching up to the wall, the other arm out, legs apart.
+        self.add_arc('head-1', (10, 4), (14, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('head-2', (14, 4), (10, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_line('torso', (12, 15), (12, 23))
+        self.add_line('arm-up', (12, 15), (26, 10))
+        self.add_line('arm-out', (12, 15), (6, 19))
+        self.add_line('leg-l', (12, 23), (6, 30))
+        self.add_line('leg-r', (12, 23), (18, 30))
+        self.add_line('wall', (26, 2), (26, 30))
+        self.relate('connect', 'torso', 'arm-up')
+        self.relate('connect', 'torso', 'arm-out')
+        self.relate('connect', 'arm-up', 'arm-out')
+        self.relate('connect', 'arm-up', 'wall')
+        self.relate('connect', 'torso', 'leg-l')
+        self.relate('connect', 'torso', 'leg-r')
+        self.relate('connect', 'leg-l', 'leg-r')

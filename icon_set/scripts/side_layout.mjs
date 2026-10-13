@@ -90,7 +90,7 @@ export const unapprovedParts = item => item.parts.filter(p => p.icon && p.review
   .map(p => `${p.role} ${p.icon} (${p.review || 'not reviewed'})`);
 const writeJSON = (file, data) => writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
 
-async function itemOf(id) {
+export async function itemOf(id) {
   const {data} = await api(query({q: id, limit: '5', offset: '0'}));
   return data.items.find(i => i.reference_id === id) || null;
 }

@@ -24,24 +24,14 @@ class DrawingVariant2(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        short_axis = 16
-        short_half_span = 12
-        short_low, short_high = (short_axis - short_half_span, short_axis + short_half_span)
-        self.add_line('p1-r1-1', (6, short_low), (2, 8))
+        # Adopted from the production stroke edit (Browser Edit by hina).
+        self.add_line('p1-r1-1', (8, 4), (2, 10))
+        self.add_line('p3-r1-1', (2, 10), (30, 10))
+        self.add_line('p5-r1-1', (30, 22), (2, 22))
+        self.add_line('p6-r1-1', (30, 22), (24, 28))
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (2, 8), (6, 12))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (2, 8), (30, 8))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (26, 20), (30, 24))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (30, 24), (2, 24))
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.add_line('p6-r1-1', (30, 24), (26, short_high))
         self.add_contour('path-6-1', 'p6-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p4-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p4-r1-1', 'p6-r1-1')
         self.relate('connect', 'p5-r1-1', 'p6-r1-1')

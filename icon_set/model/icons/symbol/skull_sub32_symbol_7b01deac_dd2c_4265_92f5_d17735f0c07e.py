@@ -27,16 +27,14 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (9, 30), ((9, 28), (9, 26), (8, 24)))
-        self.add_bezier('p1-r1-2', (8, 24), ((6, 21), (5, 20), (5, 15)))
-        self.add_bezier('p1-r1-3', (5, 15), ((5, 8), (9, 2), (16, 2)))
-        self.add_bezier('p1-r1-4', (16, 2), ((23, 2), (27, 8), (27, 15)))
-        self.add_bezier('p1-r1-5', (27, 15), ((27, 20), (26, 21), (24, 24)))
-        self.add_bezier('p1-r1-6', (24, 24), ((23, 27), (23, 28), (23, 30)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (16, 30), (16, 26))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (11, 14), (11, 14))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (21, 14), (21, 14))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        # Skull: rounded cranium narrowing to the jaw, two eye dots, a tooth line.
+        self.add_bezier('s-1', (8, 30), ((8, 28), (8, 26), (7, 24)))
+        self.add_bezier('s-2', (7, 24), ((5, 21), (4, 20), (4, 15)))
+        self.add_bezier('s-3', (4, 15), ((4, 8), (9, 2), (16, 2)))
+        self.add_bezier('s-4', (16, 2), ((23, 2), (28, 8), (28, 15)))
+        self.add_bezier('s-5', (28, 15), ((28, 20), (27, 21), (25, 24)))
+        self.add_bezier('s-6', (25, 24), ((24, 26), (24, 28), (24, 30)))
+        self.add_contour('skull', 's-1', 's-2', 's-3', 's-4', 's-5', 's-6')
+        self.add_dot('eye-l', (12, 15))
+        self.add_dot('eye-r', (20, 15))
+        self.add_line('tooth', (16, 26), (16, 30))

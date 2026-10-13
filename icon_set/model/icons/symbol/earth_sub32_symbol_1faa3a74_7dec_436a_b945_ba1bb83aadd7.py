@@ -27,6 +27,7 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
+        # Adopted from the production stroke edit (Browser Edit by hina).
         self.add_arc('p1-r1-1', (5, 8), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-2', (16, 2), (24, 5), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-3', (24, 5), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
@@ -35,16 +36,16 @@ class DrawingContainerSymbol(Sub32):
         self.add_arc('p1-r1-6', (16, 30), (8, 27), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-7', (8, 27), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('p1-r1-8', (2, 16), (5, 8), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
-        self.add_bezier('p2-r1-1', (5, 8), ((6, 8), (8, 9), (10, 10)))
-        self.add_line('p2-r1-2', (10, 10), (8, 16))
-        self.add_bezier('p2-r1-3', (8, 16), ((8, 17), (12, 18), (14, 19)))
+        self.add_bezier('p2-r1-1', (5, 8), ((6, 8), (9, 9), (11, 10)))
+        self.add_line('p2-r1-2', (11, 10), (11, 15))
+        self.add_bezier('p2-r1-3', (11, 15), ((11, 16), (12, 18), (14, 19)))
         self.add_bezier('p2-r1-4', (14, 19), ((14, 23), (12, 26), (8, 27)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
         self.add_bezier('p3-r1-1', (24, 5), ((20, 6), (18, 8), (18, 10)))
         self.add_bezier('p3-r1-2', (18, 10), ((18, 12), (21, 13), (22, 15)))
         self.add_line('p3-r1-3', (22, 15), (23, 20))
         self.add_bezier('p3-r1-4', (23, 20), ((24, 22), (25, 24), (27, 24)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-2', 'p3-r1-1')

@@ -495,7 +495,8 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             preview_url, build_failed, uploaded, record, pushed_at, original_sources) \
             VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
-            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record, original_sources = excluded.original_sources WHERE icons.uploaded = 0",
+            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record, \
+            original_sources = excluded.original_sources WHERE icons.uploaded = 0",
             args![key.clone(), id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
                   !errors.is_empty(), record.to_string(), now.clone(), original_sources.to_string()])?);
         // What Icon review lists of it: the record /api/icon-artwork/overrides gives a browser build.

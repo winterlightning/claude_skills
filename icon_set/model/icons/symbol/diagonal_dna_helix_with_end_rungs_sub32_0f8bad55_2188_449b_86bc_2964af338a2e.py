@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = 'f6268bd9b2ed31030db06aec05daf019e46d4744683b61f74a2f7
 
 class Drawing(Sub32):
     icon_id = 'diagonal-dna-helix-with-end-rungs-sub32'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'artificial-intelligence'
@@ -22,37 +22,17 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (2, 21), ((4, 19), (5, 18), (7, 18)))
-        self.add_bezier('p1-r1-2', (7, 18), ((8, 18), (10, 19), (11, 21)))
-        self.add_bezier('p1-r1-3', (11, 21), ((13, 22), (14, 23), (16, 23)))
-        self.add_bezier('p1-r1-4', (16, 23), ((18, 23), (19, 22), (21, 21)))
-        self.add_bezier('p1-r1-5', (21, 21), ((22, 19), (23, 18), (23, 16)))
-        self.add_bezier('p1-r1-6', (23, 16), ((23, 14), (22, 13), (21, 11)))
-        self.add_bezier('p1-r1-7', (21, 11), ((19, 10), (18, 8), (18, 7)))
-        self.add_bezier('p1-r1-8', (18, 7), ((18, 5), (19, 4), (21, 2)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
-        self.add_bezier('p2-r1-1', (11, 30), ((13, 28), (14, 27), (14, 25)))
-        self.add_bezier('p2-r1-2', (14, 25), ((14, 24), (13, 22), (11, 21)))
-        self.add_bezier('p2-r1-3', (11, 21), ((10, 19), (9, 18), (9, 16)))
-        self.add_bezier('p2-r1-4', (9, 16), ((9, 14), (10, 13), (11, 11)))
-        self.add_bezier('p2-r1-5', (11, 11), ((13, 10), (14, 9), (16, 9)))
-        self.add_bezier('p2-r1-6', (16, 9), ((18, 9), (19, 10), (21, 11)))
-        self.add_bezier('p2-r1-7', (21, 11), ((22, 13), (24, 14), (25, 14)))
-        self.add_bezier('p2-r1-8', (25, 14), ((27, 14), (28, 13), (30, 11)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', 'p2-r1-8', closed=False)
-        self.add_line('p3-r1-1', (2, 21), (11, 30))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (21, 2), (30, 11))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-2', 'p2-r1-3')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-3')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-6')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-7')
-        self.relate('connect', 'p1-r1-7', 'p2-r1-6')
-        self.relate('connect', 'p1-r1-7', 'p2-r1-7')
-        self.relate('connect', 'p1-r1-8', 'p4-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-8', 'p4-r1-1')
+        # Double helix: two strands crossing twice, rungs at both ends and in the middle.
+        self.add_bezier('strand-a-1', (8, 2), ((8, 8), (24, 10), (24, 16)))
+        self.add_bezier('strand-a-2', (24, 16), ((24, 22), (8, 24), (8, 30)))
+        self.add_contour('strand-a', 'strand-a-1', 'strand-a-2')
+        self.add_bezier('strand-b-1', (24, 2), ((24, 8), (8, 10), (8, 16)))
+        self.add_bezier('strand-b-2', (8, 16), ((8, 22), (24, 24), (24, 30)))
+        self.add_contour('strand-b', 'strand-b-1', 'strand-b-2')
+        self.add_line('rung-top', (8, 2), (24, 2))
+        self.add_line('rung-mid', (8, 16), (24, 16))
+        self.add_line('rung-bottom', (8, 30), (24, 30))
+        for rung in ('rung-top', 'rung-mid', 'rung-bottom'):
+            self.relate('connect', 'strand-a', rung)
+            self.relate('connect', 'strand-b', rung)
+        self.relate('connect', 'strand-a', 'strand-b')

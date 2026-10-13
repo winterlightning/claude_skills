@@ -27,15 +27,16 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
+        # Adopted from the production stroke edit (Browser Edit by hina).
         self.add_bezier('p1-r1-1', (2, 30), ((2, 22), (2, 15), (5, 11)))
-        self.add_bezier('p1-r1-2', (5, 11), ((9, 7), (14, 4), (20, 4)))
-        self.add_bezier('p1-r1-3', (20, 4), ((22, 4), (23, 4), (25, 5)))
+        self.add_bezier('p1-r1-2', (5, 11), ((11, 4), (14, 3), (20, 3)))
+        self.add_bezier('p1-r1-3', (20, 3), ((22, 3), (23, 4), (25, 5)))
         self.add_bezier('p1-r1-4', (25, 5), ((27, 7), (28, 10), (28, 13)))
         self.add_bezier('p1-r1-5', (28, 13), ((28, 16), (27, 19), (25, 22)))
         self.add_bezier('p1-r1-6', (25, 22), ((19, 30), (9, 30), (2, 30)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_bezier('p2-r1-1', (2, 30), ((8, 17), (18, 11), (25, 5)))
+        self.add_bezier('p2-r1-1', (2, 30), ((10, 20), (19, 13), (25, 5)))
         self.add_bezier('p2-r1-2', (25, 5), ((28, 5), (29, 4), (30, 2)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-3', 'p2-r1-1')

@@ -22,18 +22,8 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 22), (11, 12))
-        self.add_bezier('p1-r1-2', (11, 12), ((9, 12), (9, 11), (9, 9)))
-        self.add_bezier('p1-r1-3', (9, 9), ((9, 9), (9, 8), (9, 7)))
-        self.add_bezier('p1-r1-4', (9, 7), ((9, 4), (13, 2), (16, 2)))
-        self.add_line('p1-r1-5', (16, 2), (21, 2))
-        self.add_line('p1-r1-6', (21, 2), (16, 7))
-        self.add_line('p1-r1-7', (16, 7), (18, 11))
-        self.add_bezier('p1-r1-8', (18, 11), ((18, 11), (19, 12), (19, 12)))
-        self.add_bezier('p1-r1-9', (19, 12), ((19, 15), (17, 17), (14, 17)))
-        self.add_line('p1-r1-10', (14, 17), (8, 27))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
-        self.add_line('p2-r1-1', (30, 13), (21, 21))
-        self.add_line('p2-r1-2', (21, 21), (30, 21))
-        self.add_line('p2-r1-3', (30, 21), (22, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        # Open-jaw wrench (upright) beside a lightning bolt, 4 units apart.
+        self.add_arc('jaw', (11, 5), (3, 5), radius_x=5, radius_y=5, large_arc=True, sweep=True)
+        self.add_line('handle', (7, 14), (7, 30))
+        self.add_polyline('bolt', (30, 2), (20, 16), (30, 16), (20, 30))
+        self.relate('connect', 'jaw', 'handle')

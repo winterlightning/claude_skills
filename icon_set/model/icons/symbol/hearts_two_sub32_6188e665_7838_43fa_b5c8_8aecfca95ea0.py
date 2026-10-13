@@ -22,16 +22,13 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (14, 16), (2, 16), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_arc('p1-r1-2', (2, 16), (7, 22), radius_x=9, radius_y=9, large_arc=False, sweep=False)
-        self.add_line('p1-r1-3', (7, 22), (16, 30))
-        self.add_line('p1-r1-4', (16, 30), (24, 22))
-        self.add_arc('p1-r1-5', (24, 22), (25, 21), radius_x=9, radius_y=9, large_arc=False, sweep=False)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
-        self.add_arc('p2-r1-1', (24, 5), (18, 5), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('p2-r1-2', (18, 5), (20, 8))
-        self.add_line('p2-r1-3', (20, 8), (24, 13))
-        self.add_line('p2-r1-4', (24, 13), (28, 8))
-        self.add_line('p2-r1-5', (28, 8), (30, 5))
-        self.add_arc('p2-r1-6', (30, 5), (24, 5), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
+        # Two hearts: a full heart in front (top right) and the heart behind it showing its left lobe, side and tip, 4 units clear of the front heart.
+        self.add_arc('front-1', (10, 7), (20, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('front-2', (20, 7), (30, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('front-3', (30, 7), (20, 21))
+        self.add_line('front-4', (20, 21), (10, 7))
+        self.add_contour('front', 'front-1', 'front-2', 'front-3', 'front-4', closed=True)
+        self.add_arc('back-1', (3, 13), (2, 16), radius_x=5, radius_y=5, large_arc=False, sweep=False)
+        self.add_line('back-2', (2, 16), (12, 30))
+        self.add_line('back-3', (12, 30), (14, 27))
+        self.add_contour('back', 'back-1', 'back-2', 'back-3')

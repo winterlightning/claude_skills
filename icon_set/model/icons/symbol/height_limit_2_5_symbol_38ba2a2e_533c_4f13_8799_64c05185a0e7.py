@@ -22,6 +22,6 @@ class HeightLimit25Symbol(Symbol32):
     keywords = ('height', 'limit', 'clearance')
 
     def build(self) -> None:
-        self.add_polyline('arrow-top', (8, 2), (16, 10), (24, 2))
+        self.add_polyline('arrow-top', (10, 2), (16, 8), (22, 2))
         self.add_line('limit', (2, 16), (30, 16))
-        self.add_polyline('arrow-bottom', (8, 30), (16, 22), (24, 30))
+        self.add_polyline('arrow-bottom', (10, 30), (16, 24), (22, 30))

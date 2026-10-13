@@ -22,17 +22,12 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (13, 14), (19, 14), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (19, 14), (13, 14), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (16, 2), (16, 11))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (13, 4), (16, 2))
-        self.add_line('p3-r1-2', (16, 2), (19, 4))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (2, 24), (30, 24))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (2, 30), (30, 30))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p3-r1-2')
+        # Arrow rising from a dot on the ground line, every gap 4 units.
+        self.add_arc('ring-1', (14, 20), (18, 20), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('ring-2', (18, 20), (14, 20), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('ring', 'ring-1', 'ring-2', closed=True)
+        self.add_line('stem', (16, 2), (16, 18))
+        self.add_polyline('head', (12, 6), (16, 2), (20, 6))
+        self.add_line('ground', (2, 30), (30, 30))
+        self.relate('connect', 'ring', 'stem')
+        self.relate('connect', 'stem', 'head')

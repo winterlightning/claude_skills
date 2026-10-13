@@ -22,16 +22,15 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (12, 2), (20, 2))
-        self.add_arc('p1-r1-2', (20, 2), (23, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-3', (23, 5), (23, 9))
-        self.add_arc('p1-r1-4', (23, 9), (9, 9), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_line('p1-r1-5', (9, 9), (9, 5))
-        self.add_arc('p1-r1-6', (9, 5), (12, 2), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (5, 30), (5, 27))
-        self.add_arc('p2-r1-2', (5, 27), (13, 19), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p2-r1-3', (13, 19), (19, 19))
-        self.add_arc('p2-r1-4', (19, 19), (27, 27), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p2-r1-5', (27, 27), (27, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        # Man with short hair: squared head with a rounded chin, open shoulders 8 units below.
+        self.add_line('h-1', (12, 2), (20, 2))
+        self.add_arc('h-2', (20, 2), (23, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('h-3', (23, 5), (23, 7))
+        self.add_arc('h-4', (23, 7), (9, 7), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_line('h-5', (9, 7), (9, 5))
+        self.add_arc('h-6', (9, 5), (12, 2), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('head', 'h-1', 'h-2', 'h-3', 'h-4', 'h-5', 'h-6', closed=True)
+        self.add_arc('s-1', (4, 30), (12, 22), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('s-2', (12, 22), (20, 22))
+        self.add_arc('s-3', (20, 22), (28, 30), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_contour('shoulders', 's-1', 's-2', 's-3')

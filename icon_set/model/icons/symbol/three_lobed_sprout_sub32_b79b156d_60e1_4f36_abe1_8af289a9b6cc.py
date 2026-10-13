@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '53acc94d294059479f57a469b2b080e85f07ff8cf6efc5470d0e0
 
 class Drawing(Sub32):
     icon_id = 'three-lobed-sprout-sub32'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'nature'
@@ -22,14 +22,16 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (5, 12), (12, 16), radius_x=11, radius_y=7, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (12, 16), (16, 2), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (16, 2), (20, 16), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-4', (20, 16), (27, 12), radius_x=11, radius_y=7, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-5', (27, 12), (16, 24), radius_x=11, radius_y=13, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-6', (16, 24), (5, 12), radius_x=11, radius_y=13, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (16, 24), (16, 30))
+        self.add_line('p1-r1-1', (12, 16), (2, 6))
+        self.add_line('p1-r1-2', (2, 6), (2, 16))
+        self.add_arc('p1-r1-3', (2, 16), (12, 26), radius_x=10, radius_y=10, large_arc=False, sweep=False)
+        self.add_line('p1-r1-4', (12, 26), (20, 26))
+        self.add_arc('p1-r1-5', (20, 26), (30, 16), radius_x=10, radius_y=10, large_arc=False, sweep=False)
+        self.add_line('p1-r1-6', (30, 16), (30, 6))
+        self.add_line('p1-r1-7', (30, 6), (20, 16))
+        self.add_bezier('p1-r1-8', (20, 16), ((21, 9), (19, 5), (16, 2)))
+        self.add_bezier('p1-r1-9', (16, 2), ((13, 5), (11, 9), (12, 16)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', closed=True)
+        self.add_line('p2-r1-1', (16, 26), (16, 30))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-5', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-4', 'p2-r1-1')

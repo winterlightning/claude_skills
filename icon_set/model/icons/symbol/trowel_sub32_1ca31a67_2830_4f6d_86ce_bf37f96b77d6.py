@@ -22,17 +22,18 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 30), (10, 13))
-        self.add_line('p1-r1-2', (10, 13), (13, 11))
-        self.add_line('p1-r1-3', (13, 11), (18, 14))
-        self.add_line('p1-r1-4', (18, 14), (22, 19))
-        self.add_line('p1-r1-5', (22, 19), (21, 22))
-        self.add_line('p1-r1-6', (21, 22), (5, 30))
-        self.add_line('p1-r1-7', (5, 30), (2, 30))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
+        # Adopted from the production stroke edit (Browser Edit by hina).
+        self.add_line('p1-r1-1', (2, 30), (9, 8))
+        self.add_line('p1-r1-2', (9, 8), (9, 8))
+        self.add_line('p1-r1-3', (9, 8), (17, 15))
+        self.add_line('p1-r1-4', (17, 15), (26, 23))
+        self.add_line('p1-r1-5', (26, 23), (26, 23))
+        self.add_line('p1-r1-6', (26, 23), (2, 30))
+        self.add_line('p1-r1-7', (2, 30), (2, 30))
         self.add_line('p2-r1-1', (13, 19), (18, 14))
-        self.add_line('p2-r1-2', (18, 14), (18, 11))
-        self.add_line('p2-r1-3', (18, 11), (30, 2))
+        self.add_line('p2-r1-2', (18, 14), (18, 8))
+        self.add_line('p2-r1-3', (18, 8), (30, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
         self.relate('connect', 'p1-r1-3', 'p2-r1-1')
         self.relate('connect', 'p1-r1-3', 'p2-r1-2')
