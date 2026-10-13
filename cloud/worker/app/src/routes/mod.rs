@@ -115,7 +115,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
-    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex", "/api/icons/records",
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex", "/api/icons/records", "/api/icons/keyshape",
     "/api/icons/refresh", "/api/icons/styled"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
@@ -167,6 +167,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
         "/api/icons/reindex" => icon_list::reindex(ctx, &data).await,
+        "/api/icons/keyshape" => icon_list::post_keyshape(ctx, &data, user).await,
         "/api/icons/records" => icon_list::records(ctx, &data).await,
         "/api/icons/refresh" => icon_list::refresh(ctx, &data, user).await,
         "/api/icons/styled" => styled::post_styled(ctx, &data, user).await,
