@@ -21,13 +21,12 @@ class DiagonalRoundBowKeySymbol(Symbol32):
     keywords = ('diagonal', 'round', 'bow', 'key', 'symbol')
 
     def build(self) -> None:
-        # Bow has radius ten and an exact 6-8-10 shaft attachment at (18,12).
-        self.add_arc('bow-a',(18,12),(6,28),radius_x=10)
-        self.add_arc('bow-b',(6,28),(18,12),radius_x=10)
-        self.add_contour('bow','bow-a','bow-b',closed=True)
-        self.add_polyline('shaft',(18,12),(24,6),(30,2))
-        self.add_line('tooth-top',(30,2),(26,2))
-        self.add_line('tooth-lower',(24,6),(20,2))
-        self.relate('connect','bow','shaft')
-        self.relate('connect','shaft','tooth-top')
-        self.relate('connect','shaft','tooth-lower')
+        self.add_arc('p1-r1-1', (2, 20), (22, 20), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (22, 20), (2, 20), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=True)
+        self.add_line('p2-r1-1', (18, 12), (28, 2))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (25, 5), (30, 10))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
+        self.relate('connect', 'path-1-1', 'path-2-1')

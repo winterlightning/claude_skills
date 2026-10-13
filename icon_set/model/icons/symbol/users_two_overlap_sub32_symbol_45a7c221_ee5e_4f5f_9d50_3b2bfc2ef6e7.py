@@ -27,15 +27,12 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (3, 8), (9, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (9, 8), (3, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (17, 10), (29, 10), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (29, 10), (17, 10), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (2, 24), (2, 23))
-        self.add_arc('p3-r1-2', (2, 23), (6, 17), radius_x=4, radius_y=6, large_arc=False, sweep=True)
-        self.add_line('p3-r1-3', (6, 17), (9, 17))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
-        self.add_arc('p4-r1-1', (13, 27), (30, 27), radius_x=8.5, radius_y=5.3125, large_arc=False, sweep=True)
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        # Two users: a person in front (right) and one behind (left), 4 units apart.
+        self.add_arc('head-front-1', (18, 8), (26, 8), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-front-2', (26, 8), (18, 8), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('head-front', 'head-front-1', 'head-front-2', closed=True)
+        self.add_arc('head-back-1', (4, 8), (8, 8), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('head-back-2', (8, 8), (4, 8), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('head-back', 'head-back-1', 'head-back-2', closed=True)
+        self.add_arc('body-front', (14, 28), (30, 28), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_bezier('body-back', (2, 28), ((2, 22), (4, 18), (8, 18)))

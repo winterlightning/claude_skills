@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '772dc5df9f11485f338a96a7c263a913ba5d8182b3ea0f7c009a9
 
 class Drawing(Sub32):
     icon_id = 'pie-chart-with-summary-lines-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
@@ -22,23 +22,11 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (19, 16), (10, 27), radius_x=8, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (10, 27), (2, 16), radius_x=8, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (2, 16), (10, 5), radius_x=8, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-4', (10, 5), (19, 16), radius_x=8, radius_y=11, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_line('p2-r1-1', (10, 5), (10, 16))
-        self.add_line('p2-r1-2', (10, 16), (19, 16))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (10, 16), (4, 24))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (25, 11), (30, 11))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (25, 21), (30, 21))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-4', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-4', 'p2-r1-2')
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-2', 'p3-r1-1')
+        # Pie chart: a true circle with one slice, and two legend marks beside it.
+        self.add_arc('pie-1', (2, 16), (22, 16), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('pie-2', (22, 16), (2, 16), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_contour('pie', 'pie-1', 'pie-2', closed=True)
+        self.add_polyline('slice', (12, 6), (12, 16), (22, 16))
+        self.relate('connect', 'pie', 'slice')
+        self.add_line('sum-1', (30, 12), (30, 12))
+        self.add_line('sum-2', (30, 20), (30, 20))

@@ -22,17 +22,13 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (11, 7), (16, 2), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (16, 2), (21, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (21, 7), (16, 12), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-4', (16, 12), (11, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_bezier('p2-r1-1', (16, 17), ((12, 17), (8, 22), (5, 22)))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_bezier('p3-r1-1', (16, 17), ((20, 17), (24, 22), (27, 22)))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (16, 17), (16, 30))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p4-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p4-r1-1')
+        # Person: head, arms curving out from the shoulders, body line.
+        self.add_arc('head-1', (12, 6), (20, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-2', (20, 6), (12, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_bezier('arm-l', (16, 18), ((12, 18), (8, 24), (4, 24)))
+        self.add_bezier('arm-r', (16, 18), ((20, 18), (24, 24), (28, 24)))
+        self.add_line('body', (16, 18), (16, 30))
+        self.relate('connect', 'arm-l', 'body')
+        self.relate('connect', 'arm-r', 'body')
+        self.relate('connect', 'arm-l', 'arm-r')

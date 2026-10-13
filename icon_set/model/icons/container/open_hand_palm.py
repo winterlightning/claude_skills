@@ -11,6 +11,9 @@ this isolated hand has no head/body proportions or detached-head gap to measure.
 Hosting (compose.py): heart valid; plus, check blocked.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (open-hand-palm VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+
+v3 (2026-10-07): simplified to one outline so a container symbol has room (container-combination64): a symbol of 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -32,25 +35,26 @@ class OpenHandPalm(Container64):
     keywords = ('hand', 'palm', 'human', 'greeting', 'stop', 'attention')
 
     def build(self) -> None:
-        self.add_line('index-left', (21, 28), (21, 13))
-        self.add_arc('index-tip', (21, 13), (29, 13), radius_x=4)
-        self.add_line('middle-left', (29, 13), (29, 8))
-        self.add_arc('middle-tip', (29, 8), (37, 8), radius_x=4)
-        self.add_line('middle-right', (37, 8), (37, 13))
-        self.add_arc('ring-tip', (37, 13), (45, 13), radius_x=4)
-        self.add_line('ring-right', (45, 13), (44, 23))
-        self.add_arc('little-tip', (44, 23), (54, 23), radius_x=5)
-        self.add_line('palm-right', (54, 23), (54, 42))
-        self.add_arc('palm-base-right', (54, 42), (37, 60), radius_x=17, radius_y=18)
-        self.add_arc('palm-base-left', (37, 60), (17, 50), radius_x=25)
-        self.add_line('thumb-side', (17, 50), (12, 42))
-        self.add_arc('thumb-heel', (12, 42), (10, 36), radius_x=10)
-        self.add_arc('thumb-tip', (10, 36), (20, 36), radius_x=5)
-        self.add_line('thumb-web', (20, 36), (24, 42))
-        self.add_line('finger-crease-28', (29, 13), (29, 28))
-        self.add_line('finger-crease-38', (37, 13), (37, 28))
-        self.add_line('finger-crease-48', (44, 23), (45, 28))
-        self.add_contour('outline', 'index-left', 'index-tip', 'middle-left', 'middle-tip', 'middle-right', 'ring-tip', 'ring-right', 'little-tip', 'palm-right', 'palm-base-right', 'palm-base-left', 'thumb-side', 'thumb-heel', 'thumb-tip', 'thumb-web')
-        self.relate('connect', 'finger-crease-28', 'outline')
-        self.relate('connect', 'finger-crease-38', 'outline')
-        self.relate('connect', 'finger-crease-48', 'outline')
+        # One simple outline: four finger arches of width 10 (tops 10, 4, 8, 14) over a broad palm 14..54 with a
+        # small thumb bump on the left, and short creases between the fingers that stop at y 19. The palm holds a
+        # symbol of 24 with a 4 px gap (was 15 with the long creases and inset thumb).
+        self.add_line('index-left', (14, 38), (14, 15))
+        self.add_arc('index-tip', (14, 15), (24, 15), radius_x=5)
+        self.add_line('middle-left', (24, 15), (24, 9))
+        self.add_arc('middle-tip', (24, 9), (34, 9), radius_x=5)
+        self.add_line('middle-right', (34, 9), (34, 13))
+        self.add_arc('ring-tip', (34, 13), (44, 13), radius_x=5)
+        self.add_line('ring-right', (44, 13), (44, 19))
+        self.add_arc('little-tip', (44, 19), (54, 19), radius_x=5)
+        self.add_line('palm-right', (54, 19), (54, 44))
+        self.add_bezier('palm-base', (54, 44), ((54, 54), (45, 60), (34, 60)))
+        self.add_line('palm-bottom', (34, 60), (28, 60))
+        self.add_bezier('heel', (28, 60), ((21, 60), (16, 56), (13, 50)))
+        self.add_line('thumb-side', (13, 50), (10, 44))
+        self.add_line('thumb-front', (10, 44), (10, 42))
+        self.add_arc('thumb-tip', (10, 42), (14, 38), radius_x=4)
+        self.add_line('crease-24', (24, 15), (24, 19))
+        self.add_line('crease-34', (34, 13), (34, 19))
+        self.add_contour('outline', 'index-left', 'index-tip', 'middle-left', 'middle-tip', 'middle-right', 'ring-tip', 'ring-right', 'little-tip', 'palm-right', 'palm-base', 'palm-bottom', 'heel', 'thumb-side', 'thumb-front', 'thumb-tip', closed=True)
+        self.relate('connect', 'outline', 'crease-24')
+        self.relate('connect', 'outline', 'crease-34')

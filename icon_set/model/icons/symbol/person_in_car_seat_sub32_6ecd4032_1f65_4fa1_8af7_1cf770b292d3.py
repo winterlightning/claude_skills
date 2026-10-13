@@ -22,20 +22,17 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (16, 10), (16, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (16, 2), (16, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (16, 16), (16, 22))
+        # Seated person in an L-shaped seat: head ring, short torso, thigh and shin (no room for an arm).
+        self.add_arc('p1-r1-1', (10, 6), (18, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (18, 6), (10, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=True)
+        self.add_line('p2-r1-1', (14, 18), (14, 22))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (16, 22), (24, 22))
+        self.add_line('p3-r1-1', (14, 22), (24, 22))
         self.add_line('p3-r1-2', (24, 22), (30, 28))
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (16, 16), (23, 16))
-        self.add_line('p4-r1-2', (23, 16), (28, 11))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
-        self.add_line('p5-r1-1', (2, 15), (2, 24))
+        self.add_line('p5-r1-1', (2, 12), (2, 24))
         self.add_arc('p5-r1-2', (2, 24), (8, 30), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_line('p5-r1-3', (8, 30), (22, 30))
+        self.add_line('p5-r1-3', (8, 30), (20, 30))
         self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', 'p5-r1-3', closed=False)
         self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p4-r1-1')

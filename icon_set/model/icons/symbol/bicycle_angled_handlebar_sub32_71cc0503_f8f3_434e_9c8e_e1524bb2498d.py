@@ -42,3 +42,6 @@ class Drawing(Sub32):
         self.relate('connect', 'p3-r1-2', 'p4-r1-2')
         self.relate('connect', 'p3-r1-2', 'p5-r1-1')
         self.relate('connect', 'p3-r1-3', 'p5-r1-1')
+        # Declared joints: these strokes meet or cross on purpose.
+        self.relate('connect', 'path-1-1', 'path-3-1')
+        self.relate('connect', 'path-2-1', 'path-3-1')

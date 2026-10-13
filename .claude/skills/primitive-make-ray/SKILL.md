@@ -31,7 +31,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Exports to | `RESULT_DIR/` only; no gallery or manifest updates |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abacus-two-rods-four-beads`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo` |
+| Existing icons to imitate | `a-79c9f630`, `a-frame-church`, `a-line-skirt`, `a-with-sync-arrow`, `abacus-two-rods-four-beads`, `abdominal-muscles` |
 
 A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 

@@ -22,14 +22,13 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (16, 2), (22, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (22, 8), (16, 13), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (16, 13), (10, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-4', (10, 8), (16, 2), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_line('p2-r1-1', (5, 30), (5, 24))
-        self.add_arc('p2-r1-2', (5, 24), (13, 16), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p2-r1-3', (13, 16), (19, 16))
-        self.add_arc('p2-r1-4', (19, 16), (27, 24), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p2-r1-5', (27, 24), (27, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        # User avatar: head above rounded shoulders, 4 units apart.
+        self.add_arc('head-1', (11, 7), (21, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('head-2', (21, 7), (11, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_line('s-1', (4, 30), (4, 28))
+        self.add_arc('s-2', (4, 28), (12, 20), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('s-3', (12, 20), (20, 20))
+        self.add_arc('s-4', (20, 20), (28, 28), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('s-5', (28, 28), (28, 30))
+        self.add_contour('shoulders', 's-1', 's-2', 's-3', 's-4', 's-5')

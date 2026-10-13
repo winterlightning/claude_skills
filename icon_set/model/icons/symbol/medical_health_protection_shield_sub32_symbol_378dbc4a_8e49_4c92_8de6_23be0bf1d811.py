@@ -27,10 +27,10 @@ class DrawingContainerSymbol(Sub32):
 
     def build(self):
         self.add_bezier('shield', (16, 2), ((12, 4), (8, 6), (4, 6)), ((4, 17), (4, 24), (16, 30)), ((28, 24), (28, 17), (28, 6)), ((24, 6), (20, 4), (16, 2)))
-        self.add_line('cross-h-1', (11, 15), (16, 15))
-        self.add_line('cross-h-2', (16, 15), (21, 15))
-        self.add_line('cross-v-1', (16, 10), (16, 15))
-        self.add_line('cross-v-2', (16, 15), (16, 20))
+        self.add_line('cross-h-1', (13, 15), (16, 15))
+        self.add_line('cross-h-2', (16, 15), (19, 15))
+        self.add_line('cross-v-1', (16, 12), (16, 15))
+        self.add_line('cross-v-2', (16, 15), (16, 18))
         self.add_contour('outline', 'shield', closed=True)
         self.add_contour('cross-h', 'cross-h-1', 'cross-h-2', closed=False)
         self.add_contour('cross-v', 'cross-v-1', 'cross-v-2', closed=False)

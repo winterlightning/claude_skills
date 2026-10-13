@@ -21,6 +21,15 @@ def localname(tag):
     return tag.split("}")[-1] if "}" in tag else tag
 
 
+def canvas_size(root, default=48.0):
+    """The icon's canvas edge in u, from its viewBox (else width): 48 for solo, 72 for icon-72."""
+    vb = (root.get("viewBox") or "").replace(",", " ").split()
+    try:
+        return float(vb[2]) if len(vb) == 4 else float(root.get("width") or default)
+    except ValueError:
+        return default
+
+
 _TOKEN = re.compile(r"[MmLlHhVvCcSsQqTtAaZz]|[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?")
 _ARGS = {"M": 2, "L": 2, "H": 1, "V": 1, "C": 6, "S": 4, "Q": 4, "T": 2, "A": 7, "Z": 0}
 

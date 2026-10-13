@@ -27,21 +27,9 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (13, 5), (19, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (19, 5), (13, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (16, 8), (16, 13))
-        self.add_line('p2-r1-2', (16, 13), (16, 19))
-        self.add_line('p2-r1-3', (16, 19), (24, 19))
-        self.add_line('p2-r1-4', (24, 19), (28, 28))
-        self.add_line('p2-r1-5', (28, 28), (30, 28))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
-        self.add_line('p3-r1-1', (16, 13), (24, 13))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_bezier('p4-r1-1', (5, 16), ((3, 18), (2, 20), (2, 22)))
-        self.add_bezier('p4-r1-2', (2, 22), ((2, 24), (3, 26), (4, 28)))
-        self.add_bezier('p4-r1-3', (4, 28), ((6, 29), (8, 30), (10, 30)))
-        self.add_bezier('p4-r1-4', (10, 30), ((12, 30), (14, 29), (16, 27)))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', closed=False)
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-2', 'p3-r1-1')
+        # Wheelchair (access symbol): head dot, back, seat, leg forward, wheel arc around the seat.
+        self.add_arc('head-1', (12, 4), (16, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('head-2', (16, 4), (12, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_polyline('body', (14, 14), (14, 20), (22, 20), (26, 28), (30, 28))
+        self.add_arc('wheel', (4, 14), (12, 30), radius_x=10, radius_y=10, large_arc=False, sweep=False)

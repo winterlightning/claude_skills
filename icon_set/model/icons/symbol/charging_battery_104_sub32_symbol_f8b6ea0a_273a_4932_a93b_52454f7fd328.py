@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/charging-battery-104-sub32'
     counterpart_icon_id = 'charging-battery-104-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
@@ -27,19 +27,16 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (9, 5), (5, 5))
-        self.add_arc('p1-r1-2', (5, 5), (2, 8), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('p1-r1-3', (2, 8), (2, 24))
-        self.add_arc('p1-r1-4', (2, 24), (5, 27), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('p1-r1-5', (5, 27), (7, 27))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
-        self.add_line('p2-r1-1', (24, 9), (24, 24))
-        self.add_arc('p2-r1-2', (24, 24), (22, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p2-r1-3', (22, 27), (21, 27))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.add_line('p3-r1-1', (30, 13), (30, 19))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (17, 5), (10, 17))
-        self.add_line('p4-r1-2', (10, 17), (17, 17))
-        self.add_line('p4-r1-3', (17, 17), (13, 27))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', closed=False)
+        # Battery with a terminal stub beside a lightning bolt (the bolt cannot fit inside the battery).
+        self.add_line('p1-r1-1', (2, 6), (12, 6))
+        self.add_line('p1-r1-2', (12, 6), (12, 30))
+        self.add_line('p1-r1-3', (12, 30), (2, 30))
+        self.add_line('p1-r1-4', (2, 30), (2, 6))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=True)
+        self.add_line('p2-r1-1', (7, 2), (7, 6))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (30, 2), (20, 16))
+        self.add_line('p3-r1-2', (20, 16), (30, 16))
+        self.add_line('p3-r1-3', (30, 16), (20, 30))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
+        self.relate('connect', 'p1-r1-1', 'p2-r1-1')

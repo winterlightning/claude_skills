@@ -27,10 +27,10 @@ class DrawingVariant3ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_polyline('board', (2, 13), (16, 6), (30, 13), (16, 20), closed=True)
-        self.add_line('right', (24, 16), (24, 21))
+        self.add_polyline('board', (2, 11), (16, 6), (30, 11), (16, 18), closed=True)
+        self.add_line('right', (24, 14), (24, 21))
         self.add_bezier('br', (24, 21), ((24, 24), (20, 26), (16, 26)))
         self.add_bezier('bl', (16, 26), ((12, 26), (8, 24), (8, 21)))
-        self.add_line('left', (8, 21), (8, 16))
+        self.add_line('left', (8, 21), (8, 14))
         self.add_contour('band', 'right', 'br', 'bl', 'left')
         self.relate('connect', 'board', 'band')

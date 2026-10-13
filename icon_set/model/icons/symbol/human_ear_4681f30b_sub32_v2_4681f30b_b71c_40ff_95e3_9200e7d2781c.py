@@ -29,6 +29,6 @@ class DrawingVariant2(Sub32):
         self.add_bezier('p1-r1-3', (20, 23), ((17, 25), (18, 30), (13, 30)))
         self.add_arc('p1-r1-4', (13, 30), (6, 23), radius_x=7, radius_y=7, large_arc=False, sweep=True)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_arc('p2-r1-1', (13, 10), (17, 14), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (17, 14), (13, 18), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-1', (15, 11), (17, 13), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (17, 13), (15, 15), radius_x=2, radius_y=2, large_arc=False, sweep=True)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)

@@ -19,7 +19,7 @@ class DrawingVariant3ContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/flash-sub32-v3'
     counterpart_icon_id = 'flash-sub32-v3'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'interface-essential'
@@ -27,4 +27,5 @@ class DrawingVariant3ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_polyline('bolt', (15, 2), (26, 2), (17, 13), (26, 13), (9, 30), (15, 19), (6, 19), closed=True)
+        # Lightning bolt redrawn so both arms are 8 units thick.
+        self.add_polyline('bolt', (14, 2), (28, 2), (17, 12), (30, 12), (8, 30), (8, 19), (2, 19), closed=True)

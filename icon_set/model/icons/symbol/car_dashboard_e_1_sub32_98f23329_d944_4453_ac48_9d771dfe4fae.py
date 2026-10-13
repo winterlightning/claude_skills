@@ -22,11 +22,8 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (13, 2), (5, 2))
-        self.add_line('p1-r1-2', (5, 2), (5, 18))
-        self.add_line('p1-r1-3', (5, 18), (13, 18))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_line('p2-r1-1', (5, 10), (12, 10))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (27, 12), (9, 30))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        # Fuel gauge E (empty) with a slash, 4 units apart.
+        self.add_polyline('e', (12, 2), (4, 2), (4, 18), (12, 18))
+        self.add_line('e-mid', (4, 10), (11, 10))
+        self.add_line('slash', (28, 14), (12, 30))
+        self.relate('connect', 'e', 'e-mid')

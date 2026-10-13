@@ -22,15 +22,12 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (5, 13), (27, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (27, 13), (5, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (11, 13), (15, 17))
-        self.add_line('p2-r1-2', (15, 17), (20, 11))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (8, 22), (5, 30))
-        self.add_line('p3-r1-2', (5, 30), (13, 26))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (24, 22), (27, 30))
-        self.add_line('p4-r1-2', (27, 30), (19, 26))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        # Quality award: medal circle with a check mark, two ribbon tails.
+        self.add_arc('medal-1', (4, 14), (28, 14), radius_x=12, radius_y=12, large_arc=False, sweep=True)
+        self.add_arc('medal-2', (28, 14), (4, 14), radius_x=12, radius_y=12, large_arc=False, sweep=True)
+        self.add_contour('medal', 'medal-1', 'medal-2', closed=True)
+        self.add_polyline('check', (13, 14), (15, 16), (19, 12))
+        self.add_line('ribbon-l', (8, 23), (5, 30))
+        self.add_line('ribbon-r', (24, 23), (27, 30))
+        self.relate('connect', 'medal', 'ribbon-l')
+        self.relate('connect', 'medal', 'ribbon-r')

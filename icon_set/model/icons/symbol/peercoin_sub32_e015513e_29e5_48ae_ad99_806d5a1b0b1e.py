@@ -23,9 +23,9 @@ class Drawing(Sub32):
 
     def build(self):
         self.add_line('p1-r1-1', (10, 30), (10, 2))
-        self.add_line('p1-r1-2', (10, 2), (19, 2))
-        self.add_arc('p1-r1-3', (19, 2), (19, 19), radius_x=8.5, radius_y=8.5, large_arc=False, sweep=True)
-        self.add_line('p1-r1-4', (19, 19), (10, 19))
+        self.add_line('p1-r1-2', (10, 2), (21, 2))
+        self.add_arc('p1-r1-3', (21, 2), (21, 16), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_line('p1-r1-4', (21, 16), (10, 16))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_line('p2-r1-1', (5, 24), (22, 24))
+        self.add_line('p2-r1-1', (4, 24), (20, 24))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)

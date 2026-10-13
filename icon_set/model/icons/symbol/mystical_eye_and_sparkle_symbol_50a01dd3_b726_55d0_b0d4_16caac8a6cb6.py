@@ -21,9 +21,9 @@ class MysticalEyeAndSparkleSymbol(Symbol32):
     keywords = ('mystical', 'eye', 'and', 'sparkle', 'symbol')
 
     def build(self) -> None:
-        self.add_bezier('eye-top',(2,25),((6,22),(11,20),(16,20)),((21,20),(26,22),(30,25)))
-        self.add_bezier('eye-bottom',(30,25),((26,28),(21,30),(16,30)),((11,30),(6,28),(2,25)))
+        self.add_bezier('eye-top',(2,26),((6,23),(11,22),(16,22)),((21,22),(26,23),(30,26)))
+        self.add_bezier('eye-bottom',(30,26),((26,29),(21,30),(16,30)),((11,30),(6,29),(2,26)))
         self.add_contour('eye','eye-top','eye-bottom',closed=True)
-        self.add_line('iris',(16,20),(16,30))
+        self.add_line('iris',(16,22),(16,30))
         self.relate('connect','eye','iris')
         self.add_polyline('sparkle',(24,2),(30,8),(24,14),(18,8),closed=True)

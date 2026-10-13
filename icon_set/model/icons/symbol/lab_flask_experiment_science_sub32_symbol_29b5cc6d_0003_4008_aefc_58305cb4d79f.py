@@ -27,23 +27,7 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (12, 2), (20, 2))
-        self.add_line('p1-r1-2', (20, 2), (20, 13))
-        self.add_bezier('p1-r1-3', (20, 13), ((20, 15), (27, 15), (27, 22)))
-        self.add_arc('p1-r1-4', (27, 22), (19, 30), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-5', (19, 30), (13, 30))
-        self.add_arc('p1-r1-6', (13, 30), (5, 22), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_bezier('p1-r1-7', (5, 22), ((5, 15), (12, 15), (12, 13)))
-        self.add_line('p1-r1-8', (12, 13), (12, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
-        self.add_bezier('p2-r1-1', (5, 22), ((6, 21), (7, 20), (8, 20)))
-        self.add_bezier('p2-r1-2', (8, 20), ((10, 20), (11, 23), (13, 23)))
-        self.add_bezier('p2-r1-3', (13, 23), ((14, 23), (15, 22), (16, 22)))
-        self.add_bezier('p2-r1-4', (16, 22), ((17, 21), (18, 20), (19, 20)))
-        self.add_bezier('p2-r1-5', (19, 20), ((21, 20), (22, 23), (24, 23)))
-        self.add_bezier('p2-r1-6', (24, 23), ((25, 23), (26, 22), (27, 22)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
-        self.relate('connect', 'p1-r1-3', 'p2-r1-6')
-        self.relate('connect', 'p1-r1-4', 'p2-r1-6')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-7', 'p2-r1-1')
+        # Lab flask: neck widening to a flat-bottomed body, a straight liquid line.
+        self.add_polyline('flask', (12, 2), (12, 12), (4, 28), (4, 30), (28, 30), (28, 28), (20, 12), (20, 2), closed=True)
+        self.add_line('liquid', (8, 20), (24, 20))
+        self.relate('connect', 'flask', 'liquid')

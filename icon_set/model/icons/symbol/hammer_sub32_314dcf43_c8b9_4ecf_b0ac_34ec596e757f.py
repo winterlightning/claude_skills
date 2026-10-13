@@ -30,3 +30,5 @@ class Drawing(Sub32):
         self.add_arc('p2-r1-4', (12, 2), (13, 2), radius_x=27, radius_y=27, large_arc=False, sweep=False)
         self.add_line('p2-r1-5', (13, 2), (22, 11))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        # Declared joints: these strokes meet or cross on purpose.
+        self.relate('connect', 'path-1-1', 'path-2-1')

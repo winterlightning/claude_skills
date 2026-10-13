@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/thumb-sub32'
     counterpart_icon_id = 'thumb-sub32'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
@@ -27,16 +27,17 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (5, 15), ((8, 15), (10, 14), (11, 12)))
-        self.add_bezier('p1-r1-2', (11, 12), ((12, 9), (12, 2), (15, 2)))
-        self.add_bezier('p1-r1-3', (15, 2), ((19, 2), (21, 3), (21, 6)))
-        self.add_line('p1-r1-4', (21, 6), (20, 14))
-        self.add_line('p1-r1-5', (20, 14), (24, 15))
-        self.add_bezier('p1-r1-6', (24, 15), ((27, 15), (27, 16), (27, 17)))
-        self.add_line('p1-r1-7', (27, 17), (24, 27))
-        self.add_bezier('p1-r1-8', (24, 27), ((24, 29), (22, 30), (20, 30)))
-        self.add_line('p1-r1-9', (20, 30), (13, 30))
-        self.add_bezier('p1-r1-10', (13, 30), ((10, 30), (10, 27), (8, 27)))
-        self.add_line('p1-r1-11', (8, 27), (5, 27))
-        self.add_line('p1-r1-12', (5, 27), (5, 15))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', closed=False)
+        self.add_line('p1-r1-1', (2, 14), (10, 14))
+        self.add_bezier('p1-r1-2', (10, 14), ((12, 12), (12, 8), (12, 6)))
+        self.add_arc('p1-r1-3', (12, 6), (20, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-4', (20, 6), (20, 14))
+        self.add_line('p1-r1-5', (20, 14), (26, 14))
+        self.add_arc('p1-r1-6', (26, 14), (26, 30), radius_x=4, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (26, 30), (2, 30))
+        self.add_line('p1-r1-8', (2, 30), (2, 14))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=True)
+        self.add_line('p2-r1-1', (10, 14), (10, 30))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-2', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-7', 'p2-r1-1')

@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '248232e9f63f23b3e63f09edfe6ed7ae9e16c71cbf9004cb875fb
 
 class Drawing(Sub32):
     icon_id = 'simple-business-briefcase-38cb7135-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'container'
@@ -22,24 +22,20 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (5, 10), (10, 10))
-        self.add_line('p1-r1-2', (10, 10), (22, 10))
-        self.add_line('p1-r1-3', (22, 10), (27, 10))
-        self.add_arc('p1-r1-4', (27, 10), (30, 13), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-5', (30, 13), (30, 24))
-        self.add_arc('p1-r1-6', (30, 24), (27, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-7', (27, 27), (5, 27))
-        self.add_arc('p1-r1-8', (5, 27), (2, 24), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-9', (2, 24), (2, 13))
-        self.add_arc('p1-r1-10', (2, 13), (5, 10), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
-        self.add_line('p2-r1-1', (10, 10), (10, 8))
-        self.add_arc('p2-r1-2', (10, 8), (13, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p2-r1-3', (13, 5), (19, 5))
-        self.add_arc('p2-r1-4', (19, 5), (22, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p2-r1-5', (22, 8), (22, 10))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p2-r1-5')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-5')
+        # Briefcase: rounded body, a handle 8 units tall meeting the lid.
+        self.add_line('b-1', (5, 10), (27, 10))
+        self.add_arc('b-2', (27, 10), (30, 14), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-3', (30, 14), (30, 26))
+        self.add_arc('b-4', (30, 26), (27, 30), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-5', (27, 30), (5, 30))
+        self.add_arc('b-6', (5, 30), (2, 26), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-7', (2, 26), (2, 14))
+        self.add_arc('b-8', (2, 14), (5, 10), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('body', 'b-1', 'b-2', 'b-3', 'b-4', 'b-5', 'b-6', 'b-7', 'b-8', closed=True)
+        self.add_line('h-1', (10, 10), (10, 6))
+        self.add_arc('h-2', (10, 6), (13, 2), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('h-3', (13, 2), (19, 2))
+        self.add_arc('h-4', (19, 2), (22, 6), radius_x=3, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('h-5', (22, 6), (22, 10))
+        self.add_contour('handle', 'h-1', 'h-2', 'h-3', 'h-4', 'h-5')
+        self.relate('connect', 'body', 'handle')

@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '365667a38a52e3912ff5f6573ad8ffa3d41e6f4c8c28e6f61e284
 
 class Drawing(Sub32):
     icon_id = 'arrows-diagonal-resize-sub32'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
@@ -22,17 +22,10 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (5, 19), (22, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (13, 2), (22, 2))
-        self.add_line('p2-r1-2', (22, 2), (22, 10))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (27, 13), (10, 30))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (10, 22), (10, 30))
-        self.add_line('p4-r1-2', (10, 30), (19, 30))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-1', 'p2-r1-2')
-        self.relate('connect', 'p3-r1-1', 'p4-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p4-r1-2')
+        # Diagonal resize: two arrows pointing out from the centre along one diagonal.
+        self.add_line('shaft-1', (20, 12), (30, 2))
+        self.add_polyline('head-1', (22, 2), (30, 2), (30, 10))
+        self.add_line('shaft-2', (12, 20), (2, 30))
+        self.add_polyline('head-2', (2, 22), (2, 30), (10, 30))
+        self.relate('connect', 'shaft-1', 'head-1')
+        self.relate('connect', 'shaft-2', 'head-2')

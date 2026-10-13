@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '828c31eb173125a2423d3d6b310d12ffc1d1d349051de06a9f3f3
 
 class Drawing(Sub32):
     icon_id = 'code-programing-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'programing'
@@ -22,11 +22,7 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (13, 27), (20, 5))
-        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (8, 8), (2, 16))
-        self.add_line('p2-r1-2', (2, 16), (8, 24))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (24, 8), (30, 16))
-        self.add_line('p3-r1-2', (30, 16), (24, 24))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        # Code: angle brackets with a slash between them, 4 units clear.
+        self.add_line('slash', (15, 24), (17, 8))
+        self.add_polyline('left', (7, 8), (2, 16), (7, 24))
+        self.add_polyline('right', (25, 8), (30, 16), (25, 24))

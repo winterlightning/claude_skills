@@ -22,9 +22,7 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (16, 20), (10, 11))
-        self.add_line('p1-r1-2', (10, 11), (2, 27))
-        self.add_line('p1-r1-3', (2, 27), (30, 27))
-        self.add_line('p1-r1-4', (30, 27), (18, 5))
-        self.add_line('p1-r1-5', (18, 5), (13, 15))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+        # Mountain with a zigzag snowcap.
+        self.add_polyline('peak', (2, 28), (16, 4), (30, 28), closed=True)
+        self.add_polyline('snow', (10, 14), (16, 20), (22, 14))
+        self.relate('connect', 'peak', 'snow')

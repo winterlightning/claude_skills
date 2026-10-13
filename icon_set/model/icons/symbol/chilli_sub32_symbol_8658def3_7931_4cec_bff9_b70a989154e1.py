@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/chilli-sub32'
     counterpart_icon_id = 'chilli-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
@@ -27,16 +27,10 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (2, 16), ((4, 16), (5, 17), (7, 17)))
-        self.add_bezier('p1-r1-2', (7, 17), ((13, 17), (17, 14), (22, 12)))
-        self.add_bezier('p1-r1-3', (22, 12), ((23, 11), (24, 10), (25, 10)))
-        self.add_bezier('p1-r1-4', (25, 10), ((26, 10), (27, 11), (27, 13)))
-        self.add_bezier('p1-r1-5', (27, 13), ((28, 14), (28, 15), (28, 16)))
-        self.add_bezier('p1-r1-6', (28, 16), ((28, 21), (22, 27), (15, 27)))
-        self.add_bezier('p1-r1-7', (15, 27), ((8, 27), (4, 21), (2, 16)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
-        self.add_bezier('p2-r1-1', (27, 13), ((29, 12), (30, 10), (30, 8)))
-        self.add_bezier('p2-r1-2', (30, 8), ((30, 6), (29, 5), (27, 5)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.relate('connect', 'p1-r1-4', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p2-r1-1')
+        # Chili pepper: pod tapering from a slanted top to a curled tip, short stem on top.
+        self.add_line('top', (16, 12), (28, 6))
+        self.add_arc('outer', (28, 6), (4, 30), radius_x=24, radius_y=24, large_arc=False, sweep=True)
+        self.add_arc('inner', (4, 30), (16, 12), radius_x=13, radius_y=13, large_arc=False, sweep=False)
+        self.add_contour('pod', 'top', 'outer', 'inner', closed=True)
+        self.add_line('stem', (20, 10), (18, 2))
+        self.relate('connect', 'pod', 'stem')

@@ -22,12 +22,7 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (8, 16), (16, 5))
-        self.add_line('p1-r1-2', (16, 5), (24, 16))
-        self.add_line('p1-r1-3', (24, 16), (8, 16))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_line('p2-r1-1', (2, 22), (30, 22))
-        self.add_line('p2-r1-2', (30, 22), (24, 27))
-        self.add_line('p2-r1-3', (24, 27), (8, 27))
-        self.add_line('p2-r1-4', (8, 27), (2, 22))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        # Sailboat: mast with a triangular sail over a trapezoid hull.
+        self.add_polyline('sail', (16, 20), (16, 4), (28, 20))
+        self.add_polyline('hull', (2, 20), (30, 20), (24, 28), (8, 28), closed=True)
+        self.relate('connect', 'sail', 'hull')
