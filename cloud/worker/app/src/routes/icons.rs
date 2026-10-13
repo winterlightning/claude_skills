@@ -408,23 +408,18 @@ pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
         return super::edits::get_artwork_variant(ctx, &variant).await;
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Icon not found.") };
-    // A picked version (browser edit or manual SVG) is what the gallery shows, before a worker's fix.
+    // A picked version (browser edit or manual SVG) is what the gallery shows; picking it approved it.
     if let Some(response) = super::edits::picked_drawing(ctx, &icon).await? {
         return Ok(response);
     }
     #[derive(Deserialize)]
     struct Row { svg: String }
+    // The revision the record names, as the gallery shows it (/solo48/<id>.svg). A worker's uploaded fix is not
+    // served here: it is unreviewed until a rebuilt model makes it a revision, and /api/work/result serves it.
     let row: Option<Row> = if icon.uploaded {
         db::first(&ctx.db, "SELECT svg FROM uploaded_icons WHERE icon = ?", args![key]).await?
     } else {
-        // A worker's uploaded fix of the current revision is what the gallery shows (deploy.py `serve_work_fix`);
-        // an artwork choice gives the icon a different svg_sha256, so it never matches a fix.
-        let fix: Option<Row> = db::first(&ctx.db, "SELECT svg FROM work_results WHERE icon = ? AND svg_sha256 = ? AND stage = 'after'",
-                                         args![key, icon.svg_sha256.clone()]).await?;
-        match fix {
-            Some(fix) => Some(fix),
-            None => db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?,
-        }
+        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?
     };
     match row {
         Some(row) => http::svg(&row.svg),
