@@ -1,5 +1,6 @@
 """primitive_fix: claim solo icons, keep the first version, upload before/after, report."""
 from contextlib import closing
+import hashlib
 import http.client
 import io
 import json
@@ -207,7 +208,8 @@ FIXED = SVG.replace('r="12"', 'r="9"')
 
 
 class WorkFixDisplayTests(ServerBase):
-    """An uploaded after SVG is what the gallery shows until the rebuilt Python model changes the revision."""
+    """An uploaded after SVG is not the icon's drawing: the gallery and /api/icon-artwork/svg serve the revision the
+    record names until a rebuilt Python model makes the fix a revision; /api/work/result still serves the fix."""
 
     @staticmethod
     def raw(server, path):
@@ -215,17 +217,12 @@ class WorkFixDisplayTests(ServerBase):
         try:
             connection.request('GET', path)
             response = connection.getresponse()
-            return response.status, response.read().decode('utf-8')
+            return response.status, response.read().decode('utf-8'), response.getheader('X-SVG-SHA256')
         finally:
             connection.close()
 
-    def assert_fixed(self, response):
-        status, text = response
-        self.assertEqual(status, 200, text)
-        self.assertIn('r="9"', text, 'the uploaded fix, as sanitised on upload')
-
-    def fixed_server(self, root):
-        server, _ = self.start(root, production=True, family='solo', folder_name='solo48', names=('anchor', 'bell'), canvas=48, svg=SVG)
+    def fixed_server(self, root, **options):
+        server, _ = self.start(root, family='solo', folder_name='solo48', names=('anchor', 'bell'), canvas=48, svg=SVG, **options)
         cookie = self.login(server)
         self.request(server, 'POST', '/api/reviews', {'icon': 'solo/anchor', 'svg_sha256': 'abc', 'status': 'disapprove',
                                                        'reason': 'bad-stroke', 'feedback': 'x'}, cookie)
@@ -239,44 +236,36 @@ class WorkFixDisplayTests(ServerBase):
         icons = self.request(server, 'GET', '/gallery/icons.json')[1]['icons']
         return {row['key']: row for row in icons}
 
-    def test_production_shows_the_uploaded_fix_with_the_python_revision(self):
+    def assert_revision(self, server):
+        status, text, sha = self.raw(server, '/api/icon-artwork/svg?icon=solo/anchor')
+        self.assertEqual(status, 200, text)
+        self.assertNotIn('r="9"', text, 'the uploaded fix is not the default drawing')
+        self.assertIn('M12 24L36 24', text, 'the revision the record names')
+        self.assertEqual(sha, hashlib.sha256(text.encode('utf-8')).hexdigest(), 'the header names the drawing served')
+
+    def test_the_fix_is_not_served_as_the_drawing(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        server = self.fixed_server(Path(temp.name))
-        rows = self.catalog(server)
-        anchor, bell = rows['solo/anchor'], rows['solo/bell']
-        self.assertEqual((anchor['artwork_source'], anchor['svg_sha256'], anchor['work_fix']['worker']), ('work_fix', 'abc', 'thuan-mac'))
-        self.assertIn('/api/icon-artwork/svg?icon=solo%2Fanchor&v=abc-', anchor['preview_url'])
-        self.assertNotIn('work_fix', bell)
-        self.assert_fixed(self.raw(server, "/api/icon-artwork/svg?icon=solo/anchor"))
-        self.assertEqual(self.request(server, 'GET', '/api/icon-artwork?icon=solo/anchor')[1]['source_mode'], 'use_org',
-                         'a fix is not a saved artwork choice')
-        self.assertEqual(self.request(server, 'GET', '/api/reviews')[1]['solo/anchor'], 'ready', 'the review status keeps its key')
-        self.assertEqual(self.request(server, 'GET', '/api/work/review?state=done')[1]['total'], 1)
-        self.assertEqual(self.request(server, 'GET', '/api/work/fixes')[1]['fixes'][0]['icon'], 'solo/anchor')
-        # A rebuilt model is a new revision: the fix no longer applies and the Python drawing is shown.
+        server = self.fixed_server(Path(temp.name), production=True)
+        # The fixture's records carry no geometry; give the revision one so the server can draw it.
         catalog = Path(temp.name) / 'dist' / 'gallery' / 'icons.json'
         data = json.loads(catalog.read_text())
         for row in data['icons']:
-            row['svg_sha256'] = 'rebuilt'
+            row.update(profile='SOLO48', keyshape='CIRCLE', primitives=[{'element_id': 'bar', 'kind': 'line', 'start': [12, 24], 'end': [36, 24]}])
         catalog.write_text(json.dumps(data))
-        self.assertNotIn('work_fix', self.catalog(server)['solo/anchor'])
+        anchor = self.catalog(server)['solo/anchor']
+        self.assertEqual((anchor.get('artwork_source', 'use_org'), anchor['svg_sha256']), ('use_org', 'abc'))
+        self.assertNotIn('work_fix', anchor)
+        self.assertNotIn('/api/icon-artwork/svg', anchor.get('preview_url', ''), 'the card shows the published revision')
+        self.assert_revision(server)
+        self.assertEqual(self.request(server, 'GET', '/api/icon-artwork?icon=solo/anchor')[1]['source_mode'], 'use_org')
+        # The fix stays reachable explicitly, for review.
+        status, text, _ = self.raw(server, '/api/work/result?icon=solo/anchor&svg_sha256=abc&stage=after&part=svg')
+        self.assertEqual(status, 200, text)
+        self.assertIn('r="9"', text)
+        self.assertEqual(self.request(server, 'GET', '/api/reviews')[1]['solo/anchor'], 'ready', 'the review status keeps its key')
+        self.assertEqual(self.request(server, 'GET', '/api/work/fixes')[1]['fixes'][0]['icon'], 'solo/anchor')
 
-    def test_development_shows_production_fixes_and_survives_an_outage(self):
-        temp = tempfile.TemporaryDirectory()
-        self.addCleanup(temp.cleanup)
-        root = Path(temp.name)
-        (root / 'prod').mkdir()
-        (root / 'dev').mkdir()
-        production = self.fixed_server(root / 'prod')
-        development, _ = self.start(root / 'dev', production=False, sync_source=f'http://127.0.0.1:{production.server_port}',
-                                    family='solo', folder_name='solo48', names=('anchor', 'bell'), canvas=48, svg=SVG)
-        self.assertEqual(self.catalog(development)['solo/anchor']['artwork_source'], 'work_fix')
-        self.assert_fixed(self.raw(development, "/api/icon-artwork/svg?icon=solo/anchor"))
-        production.shutdown()
-        production.server_close()
-        development.fixes_cache = None
-        self.assertEqual(self.catalog(development)['solo/anchor'].get('artwork_source', 'use_org'), 'use_org')
 
 if __name__ == '__main__':
     unittest.main()

@@ -47,6 +47,11 @@ impl Decision {
         Decision { status: "ready".into(), actor: None, stamp: None }
     }
 
+    /// The decision a write stored on the icon (`icons.decision`, by the rule of `current_decisions`); none is ready.
+    pub fn stored(status: Option<&str>, actor: Option<String>, stamp: Option<String>) -> Self {
+        Decision { status: normalized(status.unwrap_or("ready")), actor, stamp }
+    }
+
     /// `{'status', 'updated_by', 'updated_at'}` as review_detail returns it.
     pub fn detail(&self) -> Value {
         json!({"status": self.status, "updated_by": self.actor, "updated_at": self.stamp})
