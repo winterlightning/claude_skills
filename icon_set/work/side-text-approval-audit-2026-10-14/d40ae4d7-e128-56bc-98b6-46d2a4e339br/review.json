@@ -1,0 +1,102 @@
+{
+  "reference_id": "d40ae4d7-e128-56bc-98b6-46d2a4e339br",
+  "concept": "Double Casino Chip Stack",
+  "verdict": "fix",
+  "note": "Rank 2: X2 accompanies a complete stack; all three tiers and the top ellipse are preserved.",
+  "reviewed_at": "2026-10-14T03:48:40.647Z",
+  "model": "gpt-6",
+  "before": {
+    "position": "br",
+    "main": [
+      4,
+      4,
+      32,
+      40
+    ],
+    "sub": [
+      35,
+      45,
+      25,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": -0.81,
+    "erased_pct": 4.5,
+    "main_to_sub": 2.83,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 2,
+        "name": "right",
+        "erased_pct": 8.3
+      },
+      {
+        "index": 5,
+        "name": "tier-2",
+        "erased_pct": 25.6
+      }
+    ],
+    "contact": "fail",
+    "contact_problems": [
+      "tiny overlap: the sub only grazes the main (reach -0.81, want -2 or less for a knockout, or 4 to 4.5 clear)"
+    ],
+    "keyshape": {
+      "main": "VRECT_XL at 48 (moved)",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "br",
+    "main": [
+      6,
+      6,
+      24,
+      32
+    ],
+    "sub": [
+      33,
+      43,
+      25,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": 4.01,
+    "erased_pct": 0,
+    "main_to_sub": 2.23,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 3,
+        "name": "tier-0",
+        "erased_pct": 0.1
+      },
+      {
+        "index": 4,
+        "name": "tier-1",
+        "erased_pct": 0.1
+      }
+    ],
+    "contact": "clear",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "VRECT_XL at 40",
+      "sub": "native text at 32",
+      "canvas": "SQUARE"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

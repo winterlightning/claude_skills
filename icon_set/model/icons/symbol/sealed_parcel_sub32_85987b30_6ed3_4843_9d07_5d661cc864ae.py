@@ -39,7 +39,7 @@ class Drawing(Sub32):
         self.add_line('p3-r1-3', (16, 11), (22, 15))
         self.add_line('p3-r1-4', (22, 15), (22, 2))
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
-        self.add_line('p4-r1-1', (19, 23), (23, 23))
+        self.add_line('p4-r1-1', (14, 22), (18, 22))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
         self.relate('connect', 'p1-r1-1', 'p2-r1-7')
         self.relate('connect', 'p1-r1-1', 'p3-r1-1')

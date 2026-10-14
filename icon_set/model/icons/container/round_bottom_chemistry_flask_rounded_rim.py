@@ -7,6 +7,8 @@ No decorative details added; all identifying source parts retained.
 Hosting: plus passes, heart does not clear, check does not clear.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (round-bottom-chemistry-flask-rounded-rim VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -17,24 +19,22 @@ AUTHOR = 'claude-opus-5-5'
 
 class RoundBottomChemistryFlaskRoundedRim(Container64):
     icon_id = 'round-bottom-chemistry-flask-rounded-rim'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     aliases = ('round-flask-rounded-rim',)
     keywords = ('round', 'bottom', 'chemistry', 'flask', 'rounded', 'rim')
 
     def build(self) -> None:
-        self.add_line('neck-left', (25, 12), (25, 20))
-        self.add_arc('bulb-left-top', (25, 20), (12, 38), radius_x=13, radius_y=18, sweep=False)
-        self.add_arc('bulb-bottom', (12, 38), (52, 38), radius_x=20, radius_y=22, sweep=False)
-        self.add_arc('bulb-right-top', (52, 38), (39, 20), radius_x=13, radius_y=18, sweep=False)
-        self.add_line('neck-right', (39, 20), (39, 12))
+        # VRECT_L (was VRECT_M): the round-bottom body of round-bottom-chemistry-flask (10..54, bottom at 60) under
+        # a short neck and the rounded rim, so the bulb holds a symbol of 24 with a 4 px gap (was 20.5).
+        self.add_line('neck-left', (26, 12), (26, 15))
+        self.add_arc('bulb-left-top', (26, 15), (10, 38), radius_x=16, radius_y=23, sweep=False)
+        self.add_arc('bulb-bottom', (10, 38), (54, 38), radius_x=22, sweep=False)
+        self.add_arc('bulb-right-top', (54, 38), (38, 15), radius_x=16, radius_y=23, sweep=False)
+        self.add_line('neck-right', (38, 15), (38, 12))
         self.add_line('rim0', (25, 4), (39, 4))
-        self.add_arc('rim1', (39, 4), (43, 8), radius_x=4)
-        self.add_dot('rim2', (43, 8))
-        self.add_arc('rim3', (43, 8), (39, 12), radius_x=4)
-        self.add_line('rim4', (39, 12), (25, 12))
-        self.add_arc('rim5', (25, 12), (21, 8), radius_x=4)
-        self.add_dot('rim6', (21, 8))
-        self.add_arc('rim7', (21, 8), (25, 4), radius_x=4)
+        self.add_arc('rim1', (39, 4), (39, 12), radius_x=4)
+        self.add_line('rim2', (39, 12), (25, 12))
+        self.add_arc('rim3', (25, 12), (25, 4), radius_x=4)
         self.add_contour('vessel', 'neck-left', 'bulb-left-top', 'bulb-bottom', 'bulb-right-top', 'neck-right')
-        self.add_contour('rim', 'rim0', 'rim1', 'rim2', 'rim3', 'rim4', 'rim5', 'rim6', 'rim7', closed=True)
-        self.relate('connect', 'rim', 'vessel')
+        self.add_contour('rim', 'rim0', 'rim1', 'rim2', 'rim3', closed=True)
+        self.relate('connect', 'vessel', 'rim')

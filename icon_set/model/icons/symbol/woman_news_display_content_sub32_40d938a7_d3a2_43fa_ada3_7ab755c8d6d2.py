@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = 'eb97162081ad5d577a4c763d2e75592fac245fcde28503961eea5
 
 class Drawing(Sub32):
     icon_id = 'woman-news-display-content-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'users'
@@ -22,19 +22,20 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (16, 9), (24, 9), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (24, 9), (16, 9), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        # Adopted from the production stroke edit (Browser Edit by hina).
+        self.add_arc('p1-r1-1', (20, 10), (28, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (28, 10), (20, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-1', (19, 26), (29, 26), radius_x=5, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p3-r1-1', (2, 11), (10, 11))
+        self.add_line('p3-r1-2', (10, 11), (10, 19))
+        self.add_line('p3-r1-3', (10, 19), (2, 19))
+        self.add_line('p3-r1-4', (2, 19), (2, 11))
+        self.add_line('p4-r1-1', (20, 10), (18, 14))
+        self.add_line('p5-r1-1', (28, 10), (30, 13))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (10, 27), (30, 27), radius_x=10, radius_y=8, large_arc=False, sweep=True)
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (2, 5), (8, 5))
-        self.add_line('p3-r1-2', (8, 5), (8, 13))
-        self.add_line('p3-r1-3', (8, 13), (2, 13))
-        self.add_line('p3-r1-4', (2, 13), (2, 5))
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
-        self.add_line('p4-r1-1', (16, 9), (15, 14))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (24, 9), (26, 14))
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
         self.relate('connect', 'p1-r1-1', 'p4-r1-1')
         self.relate('connect', 'p1-r1-1', 'p5-r1-1')

@@ -24,18 +24,14 @@ class DrawingVariant3(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('dome', (8, 22), (30, 22), radius_x=11, radius_y=12, sweep=True)
+        # Crawling beetle: domed shell with a centred seam, antenna curling forward, two legs.
+        self.add_arc('dome', (8, 22), (30, 22), radius_x=11, radius_y=12, large_arc=False, sweep=True)
         self.add_line('belly', (30, 22), (8, 22))
-        self.add_contour('body', 'dome', 'belly', closed=True)
-        self.add_line('seam', (19, 10), (15, 22))
-        self.relate('connect', 'seam', 'body')
-        self.add_bezier('antenna-root', (19, 10), ((17, 6), (12, 4), (8, 4)))
-        self.add_bezier('antenna-tip', (8, 4), ((4, 4), (2, 6), (2, 8)))
-        self.add_contour('antenna', 'antenna-root', 'antenna-tip')
-        self.relate('connect', 'antenna', 'body')
-        self.relate('connect', 'antenna', 'seam')
-        self.add_line('front-leg', (15, 22), (10, 28))
-        self.add_line('back-leg', (24, 22), (27, 28))
-        self.relate('connect', 'front-leg', 'body')
-        self.relate('connect', 'back-leg', 'body')
-        self.relate('connect', 'front-leg', 'seam')
+        self.add_contour('shell', 'dome', 'belly', closed=True)
+        self.add_line('seam', (19, 10), (19, 22))
+        self.add_bezier('antenna', (19, 10), ((16, 6), (10, 4), (6, 4)), ((3, 4), (2, 6), (2, 8)))
+        self.add_line('front-leg', (13, 22), (9, 28))
+        self.add_line('back-leg', (25, 22), (28, 28))
+        for a in ('seam', 'antenna', 'front-leg', 'back-leg'):
+            self.relate('connect', 'shell', a)
+        self.relate('connect', 'seam', 'antenna')

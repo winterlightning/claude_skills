@@ -1,0 +1,104 @@
+{
+  "reference_id": "21759546-02bd-4d62-ac32-6ad48db5fabr",
+  "concept": "3D Printer Printing Triangle",
+  "verdict": "fix",
+  "note": "Rank 1: the 3D label cuts the lower-right printer frame; nozzle and printed triangle remain readable.",
+  "reviewed_at": "2026-10-14T03:48:32.525Z",
+  "model": "gpt-6",
+  "before": {
+    "position": "br",
+    "main": [
+      4,
+      4,
+      36,
+      36
+    ],
+    "sub": [
+      36,
+      45,
+      24,
+      15
+    ],
+    "flags": [
+      "shaved"
+    ],
+    "penalty": 9.9,
+    "reach": 1,
+    "erased_pct": 3.9,
+    "main_to_sub": 2.39,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "frame",
+        "erased_pct": 5.4
+      },
+      {
+        "index": 2,
+        "name": "print",
+        "erased_pct": 3.8
+      }
+    ],
+    "contact": "fail",
+    "contact_problems": [
+      "tiny clearance: the sub does not touch the main (reach 1), yet the cut margin erases it; move the main clear to reach 4 to 4.5, or into the sub"
+    ],
+    "keyshape": {
+      "main": "SQUARE at 48 (moved)",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "br",
+    "main": [
+      6,
+      6,
+      36,
+      36
+    ],
+    "sub": [
+      34,
+      43,
+      24,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": -3,
+    "erased_pct": 10.6,
+    "main_to_sub": 2.22,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "frame",
+        "erased_pct": 12.7
+      },
+      {
+        "index": 2,
+        "name": "print",
+        "erased_pct": 20.2
+      }
+    ],
+    "contact": "knockout",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "SQUARE at 48",
+      "sub": "native text at 32",
+      "canvas": "SQUARE"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

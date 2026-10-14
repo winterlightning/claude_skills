@@ -27,7 +27,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `published/symbol32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church-sub32-v3`, `access-key-card-sub32-symbol`, `account-profile-card-sub32`, `account-profile-card-sub32-resize`, `acoustic-guitar-sub32`, `active-sporting-figure-sub32` |
+| Existing icons to imitate | `a-frame-church-sub32-v3`, `access-key-card-sub32-symbol`, `account-profile-card-sub32`, `acoustic-guitar-sub32`, `active-sporting-figure-sub32`, `add-sub32-symbol` |
 
 A **symbol** is content placed inside a container. Keep its Python source independent from its linked side sub-icon; use the SYMBOL32 profile and its contract values below.
 
@@ -40,6 +40,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 - `$icon-solo` — solo family, `SOLO48`, 48×48
 - `$icon-container` — container family, `CONTAINER64`, 64×64
 - `$icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
+- `/symbol-24` — symbol24 family, `SYMBOL24`, 24×24
 
 ## Visual priorities
 

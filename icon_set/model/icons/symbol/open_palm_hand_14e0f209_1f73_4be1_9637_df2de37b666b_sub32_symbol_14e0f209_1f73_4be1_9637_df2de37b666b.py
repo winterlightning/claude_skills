@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32'
     counterpart_icon_id = 'open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'holidays'
@@ -27,30 +27,19 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (8, 19), (8, 9))
-        self.add_arc('p1-r1-2', (8, 9), (13, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-3', (13, 9), (13, 8))
-        self.add_arc('p1-r1-4', (13, 8), (19, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-5', (19, 8), (19, 9))
-        self.add_arc('p1-r1-6', (19, 9), (24, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-7', (24, 9), (24, 13))
-        self.add_arc('p1-r1-8', (24, 13), (30, 13), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('p1-r1-9', (30, 13), (30, 19))
-        self.add_arc('p1-r1-10', (30, 19), (22, 27), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-11', (22, 27), (16, 27))
-        self.add_bezier('p1-r1-12', (16, 27), ((10, 27), (6, 23), (2, 19)))
-        self.add_bezier('p1-r1-13', (2, 19), ((2, 17), (3, 16), (4, 16)))
-        self.add_bezier('p1-r1-14', (4, 16), ((5, 16), (6, 17), (8, 19)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', 'p1-r1-13', 'p1-r1-14', closed=False)
-        self.add_line('p2-r1-1', (13, 9), (13, 16))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (19, 9), (19, 16))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (24, 13), (24, 17))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-2', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-6', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-7', 'p4-r1-1')
-        self.relate('connect', 'p1-r1-8', 'p4-r1-1')
+        # Open palm: three 8-unit fingers (middle one tallest) over a rounded palm, finger dividers.
+        self.add_line('h-1', (4, 22), (4, 10))
+        self.add_arc('h-2', (4, 10), (12, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('h-3', (12, 10), (12, 6))
+        self.add_arc('h-4', (12, 6), (20, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('h-5', (20, 6), (20, 10))
+        self.add_arc('h-6', (20, 10), (28, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('h-7', (28, 10), (28, 22))
+        self.add_arc('h-8', (28, 22), (20, 30), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('h-9', (20, 30), (12, 30))
+        self.add_arc('h-10', (12, 30), (4, 22), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_contour('hand', 'h-1', 'h-2', 'h-3', 'h-4', 'h-5', 'h-6', 'h-7', 'h-8', 'h-9', 'h-10', closed=True)
+        self.add_line('gap-1', (12, 10), (12, 18))
+        self.add_line('gap-2', (20, 10), (20, 18))
+        self.relate('connect', 'hand', 'gap-1')
+        self.relate('connect', 'hand', 'gap-2')

@@ -125,8 +125,7 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     if is_final {
         // Combined icons belong to the combination tables (built in the browser, combinations.rs): a push adds
         // the ones it builds but never removes one.
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? \
-            AND family NOT IN ('side_combination64', 'container_combination64', 'combination-72')", args![push_id])?);
+        statements.push(db::stmt(&ctx.db, pictographic_core::combined_parts::PRUNE_CATALOG, args![push_id])?);
         let push_details = data.get("details").cloned().unwrap_or(json!({}));
         statements.push(db::stmt(&ctx.db, "INSERT INTO catalog_pushes(pushed_at, pushed_by, details) VALUES (?, ?, ?)",
                                  args![now.clone(), user, python_json(&push_details)])?);

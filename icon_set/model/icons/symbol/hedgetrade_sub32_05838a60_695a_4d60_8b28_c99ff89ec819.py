@@ -28,3 +28,6 @@ class Drawing(Sub32):
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
         self.add_line('p3-r1-1', (30, 2), (23, 30))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        # Declared joints: these strokes meet or cross on purpose.
+        self.relate('connect', 'path-1-1', 'path-2-1')
+        self.relate('connect', 'path-2-1', 'path-3-1')

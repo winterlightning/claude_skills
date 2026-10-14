@@ -133,6 +133,10 @@ writing a partial result. Retry after the first operation completes.
 
 ## Release and rollback
 
+Production deployment requires explicit user permission. Local fixes and pull
+request updates do not authorize Worker deployment, asset uploads, production
+icon builds, or approval changes. Keep review proposals local until approved.
+
 An exported release is an immutable snapshot of `published/` outside the
 checkout, for deployments that need atomic switching rather than a Git pull:
 
@@ -332,3 +336,23 @@ Its `count` is the number shown on the Experiment tab, in the Experiment grid, a
 (`side_combination64/<pair id>`). Reviews key on the combined SVG's sha, so a pair whose drawing changes
 comes back for review. Disapproved combinations stay out of the default fix queue: they are fixed through
 their main and sub.
+
+### Reviewable native text components
+
+A legacy side pair can have a native typeface SVG in its form but no picked sub
+icon. Register that existing drawing with an authenticated
+`POST /api/combinations/text {"reference_id": "..."}`. The route preserves the
+SVG and its native dimensions, creates a `text/` catalog entry, and links only
+the requested pair. It never approves the text or overwrites an existing pick.
+If a historical text ID names different SVGs, registration uses a hash-suffixed
+ID for the new revision and preserves the existing drawing and its reviews.
+On Progression › Side, use **Register text for review**, then the sub
+**Approve** control; native text keeps its authored dimensions after linking.
+Review the text on its current hash, rebuild the combination, then review the
+combined SVG. Approving a newer part without rebuilding cannot approve a stale
+combination. Linked text survives full catalog pushes.
+
+Side builds must declare a valid canvas keyshape and keep both painted part
+bounds inside it. Native text remains at its authored size; a label too wide
+for the 64px keyshape needs a separate typography/layout decision and must not
+be approved by bypassing the gate.

@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/message-bubble-lines-sub32'
     counterpart_icon_id = 'message-bubble-lines-sub32'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
@@ -27,19 +27,18 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (3, 5), (29, 5))
-        self.add_bezier('p1-r1-2', (29, 5), ((29, 5), (30, 6), (30, 8)))
-        self.add_line('p1-r1-3', (30, 8), (30, 20))
-        self.add_bezier('p1-r1-4', (30, 20), ((30, 21), (29, 22), (29, 23)))
-        self.add_line('p1-r1-5', (29, 23), (15, 23))
-        self.add_line('p1-r1-6', (15, 23), (8, 27))
-        self.add_line('p1-r1-7', (8, 27), (8, 23))
-        self.add_line('p1-r1-8', (8, 23), (3, 23))
-        self.add_bezier('p1-r1-9', (3, 23), ((3, 22), (2, 21), (2, 20)))
-        self.add_line('p1-r1-10', (2, 20), (2, 8))
-        self.add_bezier('p1-r1-11', (2, 8), ((2, 6), (3, 5), (3, 5)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', closed=False)
-        self.add_line('p2-r1-1', (9, 11), (23, 11))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (9, 17), (23, 17))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        # Speech bubble with rounded corners, a tail at the bottom left and two text lines.
+        self.add_line('b-1', (6, 2), (26, 2))
+        self.add_arc('b-2', (26, 2), (30, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-3', (30, 6), (30, 22))
+        self.add_arc('b-4', (30, 22), (26, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-5', (26, 26), (16, 26))
+        self.add_line('b-6', (16, 26), (10, 30))
+        self.add_line('b-7', (10, 30), (10, 26))
+        self.add_line('b-8', (10, 26), (6, 26))
+        self.add_arc('b-9', (6, 26), (2, 22), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('b-10', (2, 22), (2, 6))
+        self.add_arc('b-11', (2, 6), (6, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('bubble', 'b-1', 'b-2', 'b-3', 'b-4', 'b-5', 'b-6', 'b-7', 'b-8', 'b-9', 'b-10', 'b-11', closed=True)
+        self.add_line('text-1', (10, 10), (22, 10))
+        self.add_line('text-2', (10, 18), (18, 18))

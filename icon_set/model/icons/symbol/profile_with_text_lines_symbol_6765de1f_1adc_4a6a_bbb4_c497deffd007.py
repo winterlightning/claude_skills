@@ -46,4 +46,4 @@ class ProfileWithTextLinesSymbol(Symbol32):
         self.add_contour('body','left-side')
         self.relate('connect','shoulders','left-side')
         self.relate('connect','shoulders','right-side')
-        for y in (16,24): self.add_line(f'text-{y}',(23,y),(30,y))
+        for y in (16,24): self.add_line(f'text-{y}',(24,y),(30,y))

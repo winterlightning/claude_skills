@@ -38,6 +38,8 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
 | Existing icons to imitate | `a-frame-church-sub32`, `a-frame-church-sub32-v2`, `ab-text`, `ab-text-v2`, `access-key-card-sub32`, `add-location-map-pin-sub32` |
 
+For SUB32 parallel straight strokes, the same 2px visible ink gap means at least 6px between their centerlines. The 4px stroke width is included in that distance.
+
 Every input stays in `RESULT_DIR/` and subclasses `Sub32`. Modifiers, states and verbs declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `star`) declares `MAIN` with `semantic_kind = "noun"`. Keep the complete reference on the 32×32 canvas; do not reroute it to another family or enlarge the canvas.
 
 ## Visual priorities

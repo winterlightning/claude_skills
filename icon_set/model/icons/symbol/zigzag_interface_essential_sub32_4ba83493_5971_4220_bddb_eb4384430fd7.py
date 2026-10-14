@@ -22,15 +22,5 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (23, 17), (27, 21))
-        self.add_line('p1-r1-2', (27, 21), (22, 24))
-        self.add_line('p1-r1-3', (22, 24), (27, 30))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_line('p2-r1-1', (8, 16), (11, 21))
-        self.add_line('p2-r1-2', (11, 21), (5, 24))
-        self.add_line('p2-r1-3', (5, 24), (9, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.add_line('p3-r1-1', (13, 2), (18, 6))
-        self.add_line('p3-r1-2', (18, 6), (13, 10))
-        self.add_line('p3-r1-3', (13, 10), (18, 14))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
+        # Zigzag: one line folding back and forth, folds 4 units apart.
+        self.add_polyline('zigzag', (4, 2), (28, 12), (4, 21), (28, 30))

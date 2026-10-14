@@ -1,0 +1,95 @@
+{
+  "reference_id": "14a4d481-c5b0-4f7a-a4cf-47cecb08dftr",
+  "concept": "CCPA Folded Map",
+  "verdict": "fix",
+  "note": "Rank 2: CCPA sits above a complete folded map; all three panels and both folds remain intact.",
+  "reviewed_at": "2026-10-14T03:48:41.115Z",
+  "model": "gpt-6",
+  "before": {
+    "position": "tr",
+    "main": [
+      4,
+      24,
+      36,
+      36
+    ],
+    "sub": [
+      4,
+      4,
+      56,
+      15
+    ],
+    "flags": [
+      "shaved"
+    ],
+    "penalty": 9.3,
+    "reach": 2.38,
+    "erased_pct": 3.3,
+    "main_to_sub": 1.35,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "map",
+        "erased_pct": 4.4
+      },
+      {
+        "index": 1,
+        "name": "fold-left",
+        "erased_pct": 4
+      }
+    ],
+    "contact": "fail",
+    "contact_problems": [
+      "nick: 11 unit² shaved off the main at 10.8,22,18,28.5 (deepest 1, a knockout reaches 1.5)",
+      "nick: 13.5 unit² shaved off the main at 34.8,22,42,28.5 (deepest 1, a knockout reaches 1.5)",
+      "tiny clearance: the sub does not touch the main (reach 2.38), yet the cut margin erases it; move the main clear to reach 4 to 4.5, or into the sub"
+    ],
+    "keyshape": {
+      "main": "SQUARE at 48 (moved)",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "to",
+    "main": [
+      22,
+      33,
+      20,
+      20
+    ],
+    "sub": [
+      4,
+      10,
+      56,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": 4.03,
+    "erased_pct": 0,
+    "main_to_sub": 0.73,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [],
+    "contact": "clear",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "SQUARE at 32 (moved)",
+      "sub": "native text at 32",
+      "canvas": "HRECT"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

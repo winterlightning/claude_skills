@@ -10,6 +10,12 @@
 //! Each statement binds one JSON array of combined icon keys (`?1`). App routes run `CHANGED` for the pairs that
 //! use a part whose review was written, then, for each changed icon, its uncount, `UPDATE` and recount.
 
+/// A full generated-catalog push may remove stale generated rows, but combinations and
+/// their independently uploaded text drawings belong to the persistent combination parts.
+pub const PRUNE_CATALOG: &str = "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ?1 \
+    AND family NOT IN ('side_combination64', 'container_combination64', 'combination-72') \
+    AND NOT (family = 'text' AND EXISTS (SELECT 1 FROM reference_parts p WHERE p.icon = icons.key))";
+
 /// The not-approved parts of the combined icons in `?1`, as `errs(key, errors)`: errors is a JSON array of
 /// "Main x is not approved in Icon review", the text the build writes, sorted by role.
 macro_rules! part_errors {
@@ -17,15 +23,15 @@ macro_rules! part_errors {
         "WITH parts AS (\
            SELECT i.key, p.role, p.icon FROM icons i JOIN reference_parts p ON p.reference_id = i.icon_id \
             WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family IN ('side_combination64', 'container_combination64') \
-              AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
+              AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve' \
            UNION ALL \
            SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_sizes p ON p.reference_id = i.icon_id AND p.size = 72 \
             WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family = 'combination-72' \
-              AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
+              AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve'), \
          errs AS (SELECT key, json_group_array(upper(substr(role, 1, 1)) || substr(role, 2) || ' ' || \
-                         substr(icon, instr(icon, '/') + 1) || ' is not approved in Icon review') AS errors \
+                         COALESCE(substr(icon, instr(icon, '/') + 1), '(none picked)') || ' is not approved in Icon review') AS errors \
                   FROM (SELECT key, role, icon FROM parts ORDER BY key, role) GROUP BY key) "
     };
 }
@@ -104,6 +110,16 @@ mod tests {
     }
 
     #[test]
+    fn missing_text_part_is_failed_until_linked_and_reviewed() {
+        let db = db();
+        db.execute_batch("UPDATE reference_parts SET icon = NULL, built_sha = NULL WHERE role = 'sub';
+            INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve');").unwrap();
+        let (failed, errors, _) = update(&db);
+        assert!(failed);
+        assert_eq!(errors, r#"["Sub (none picked) is not approved in Icon review"]"#);
+    }
+
+    #[test]
     fn approving_the_parts_ends_the_failed_build() {
         let db = db();
         db.execute_batch("INSERT INTO reviews VALUES ('solo/bag', 'm1', 'pending'), ('sub/check', 's1', 'approve');").unwrap();
@@ -118,6 +134,38 @@ mod tests {
         assert_eq!(card["validation"]["status"], "valid");
         assert!(changed(&db).is_empty());
         assert_eq!(db.query_row(USING_PART, params!["sub/check"], |r| r.get::<_, String>(0)).unwrap(), "side_combination64/p1");
+    }
+
+    #[test]
+    fn catalog_refresh_keeps_text_owned_by_combination_parts() {
+        let db = db();
+        db.execute_batch("ALTER TABLE icons ADD COLUMN pushed_at TEXT DEFAULT 'old';
+            INSERT INTO icons(key, icon_id, family, svg_sha256, record) VALUES
+            ('text/used', 'used', 'text', 't1', '{}'), ('text/unused', 'unused', 'text', 't2', '{}');
+            UPDATE reference_parts SET icon = 'text/used', built_sha = 't1' WHERE role = 'sub';
+            UPDATE icons SET pushed_at = 'new' WHERE key = 'solo/bag';").unwrap();
+        db.execute(PRUNE_CATALOG, params!["new"]).unwrap();
+        let mut stmt = db.prepare("SELECT key FROM icons ORDER BY key").unwrap();
+        let keys: Vec<String> = stmt.query_map([], |r| r.get(0)).unwrap().map(Result::unwrap).collect();
+        assert_eq!(keys, ["side_combination64/p1", "solo/bag", "text/used"]);
+    }
+
+    #[test]
+    fn linked_text_needs_its_own_review_and_approval_clears_the_pair() {
+        let db = db();
+        db.execute_batch("INSERT INTO icons(key, icon_id, family, svg_sha256, record) VALUES
+            ('text/label', 'label', 'text', 't1', '{}');
+            UPDATE reference_parts SET icon = 'text/label', built_sha = 't1' WHERE role = 'sub';
+            INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve'), ('text/label', 't1', 'ready');").unwrap();
+        let (failed, errors, _) = update(&db);
+        assert!(failed);
+        assert_eq!(errors, r#"["Sub label is not approved in Icon review"]"#);
+        assert_eq!(db.query_row(USING_PART, params!["text/label"], |r| r.get::<_, String>(0)).unwrap(), "side_combination64/p1");
+        db.execute("UPDATE reviews SET status = 'approve' WHERE icon = 'text/label'", []).unwrap();
+        assert_eq!(changed(&db), vec!["side_combination64/p1"]);
+        let (failed, errors, _) = update(&db);
+        assert!(!failed);
+        assert_eq!(errors, "[]");
     }
 
     #[test]

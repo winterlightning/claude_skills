@@ -40,7 +40,7 @@ export function pairEntry(item) {
   const part = role => item.parts.find(p => p.role === role) || {}, m = part('main'), s = part('sub');
   const icon = p => p.icon ? [{icon: p.icon.split('/')[1], family: p.icon.split('/')[0], model_key: p.icon, preview_url: iconURL(p.icon, p.current_sha)}] : [];
   const status = !m.icon && !s.icon ? 'needs_both' : !m.icon ? 'needs_main' : !s.icon ? 'needs_sub' : item.state === 'built' ? 'generated' : 'waiting';
-  const formKey = f => f && !f.native_text ? (f.model_key || f.family + '/' + f.icon) : null;
+  const formKey = f => f ? (f.model_key || f.family + '/' + f.icon) : null;
   return {row: {id: item.reference_id, position: s.position, mains: icon(m), subs: icon(s), generated: item.icon ? {at: item.icon.svg_sha256} : null,
                 main_name: m.icon ? null : m.draw_name || null, sub_name: s.icon ? null : s.draw_name || null, forms: {main: formKey(m.form), sub: formKey(s.form)}},
           status, main: m.icon ? {preview_url: icon(m)[0].preview_url} : null, sub: s.icon ? {preview_url: icon(s)[0].preview_url} : null};

@@ -22,14 +22,14 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (5, 13), (13, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (13, 13), (5, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-1', (4, 12), (12, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (12, 12), (4, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (19, 13), (27, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (27, 13), (19, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-1', (20, 12), (28, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (28, 12), (20, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
         self.add_arc('p3-r1-1', (12, 26), (20, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('p3-r1-2', (20, 26), (12, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (16, 2), (16, 4))
+        self.add_line('p4-r1-1', (16, 2), (16, 3))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)

@@ -38,6 +38,14 @@ SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
 CODEX_SKILLS_DIR = REPO_ROOT / ".agents" / "skills"
 SHARED = "icon_set/skills/icon-design"
 
+# Hand-authored workflow skills share their body with Codex; keep discovery concise.
+CODEX_WORKFLOW_DESCRIPTIONS = {
+    "side-layout-adjust": "Review and adjust Pictographic 64px side-combination layouts using the existing main and sub drawings. Use for balancing, overlap, position and canvas-keyshape fixes; record each visual verdict and proposed layout. Do not redraw or swap components.",
+    "side-layout-adjust-72": "Review and adjust Pictographic 72px side-combination layouts using main-54 and sub-36 drawings. Follow the shared side-layout workflow with SIDE_SIZE=72, preserving approved parts and recording visual verdicts and proposed layouts.",
+    "container-combination-review": "Review Pictographic CONTAINER64 and SYMBOL32 combinations and propose symbol size and position changes. Use for container layout, balance and clearance review. Inspect rendered pairs, preserve approved decisions, and leave proposals for the user to approve; do not redraw or approve icons.",
+    "icon-twotone": "Create or revise Pictographic Twotone stroke variants without changing the source geometry or stroke width. Keep primary strokes at full colour and secondary strokes at 40 percent opacity, splitting shared paths at junctions when needed. Use for Twotone variants rather than filled Duotone or multicolour artwork.",
+}
+
 
 def _keyshape_table(profile: Profile) -> str:
     rows = ["| Keyshape | Visible ink | Centerline box (author to this) |", "|---|---|---|"]
@@ -889,6 +897,22 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     content = content.replace("skills/icon-design", "\0")
     content = re.sub(r"(?<![\w./-])/icon-", "$icon-", content)
     content = content.replace("\0", "skills/icon-design")
+    for name in CODEX_WORKFLOW_DESCRIPTIONS:
+        content = re.sub(rf"(?<![\w./-])/{re.escape(name)}\b", f"${name}", content)
+    if source_skill in CODEX_WORKFLOW_DESCRIPTIONS:
+        content = re.sub(r"(?m)^description: .*", "description: " + CODEX_WORKFLOW_DESCRIPTIONS[source_skill], content, count=1)
+        _, frontmatter, body = content.split("---", 2)
+        content = "---" + frontmatter + "---" + body.replace(
+            "Hand-authored; edit this file directly.",
+            f"Generated from .claude/skills/{source_skill}/SKILL.md; edit that source and run icon_set/scripts/generate_skills.py.",
+        )
+        content = content.replace(
+            "Read `.claude/skills/side-layout-adjust/SKILL.md` first",
+            "Read [the shared side-layout workflow](../side-layout-adjust/SKILL.md) first",
+        )
+        content = content.replace(
+            "\n---\n", "\n---\n\nGenerated from `.claude/skills/" + source_skill + "/SKILL.md` by `icon_set/scripts/generate_skills.py`; edit the source, not this copy.\n", 1
+        )
     content = content.replace(
         "Request (name and reference path pairs): $ARGUMENTS",
         "Use the name and reference path pairs from the user's skill invocation or request.",
@@ -1402,7 +1426,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
                 render_codex(sub).replace("# /side-sub-make-thuan —", "# $side-sub-make-thuan —", 1)
             )
     if agent in ("all", "codex"):
-        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue", "generate-png-solo", "generate-png-solo-with-reference"):
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-fill", "icon-duotone", "icon-animate", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue", "generate-png-solo", "generate-png-solo-with-reference", *CODEX_WORKFLOW_DESCRIPTIONS):
             if skill is not None and skill != name:
                 continue
             source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")

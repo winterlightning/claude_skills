@@ -27,14 +27,12 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (16, 2), ((21, 4), (22, 8), (22, 11)))
-        self.add_bezier('p1-r1-2', (22, 11), ((22, 13), (22, 15), (21, 17)))
-        self.add_bezier('p1-r1-3', (21, 17), ((21, 18), (21, 19), (21, 19)))
-        self.add_bezier('p1-r1-4', (21, 19), ((21, 20), (21, 20), (21, 20)))
-        self.add_bezier('p1-r1-5', (21, 20), ((23, 20), (25, 18), (26, 15)))
-        self.add_bezier('p1-r1-6', (26, 15), ((26, 17), (27, 18), (27, 20)))
-        self.add_bezier('p1-r1-7', (27, 20), ((27, 27), (22, 30), (16, 30)))
-        self.add_bezier('p1-r1-8', (16, 30), ((9, 30), (5, 26), (5, 21)))
-        self.add_bezier('p1-r1-9', (5, 21), ((5, 12), (17, 10), (17, 4)))
-        self.add_bezier('p1-r1-10', (17, 4), ((17, 4), (16, 3), (16, 2)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
+        # Flame with an inner flick, the flick 4 units clear of the outer edge.
+        self.add_bezier('f-1', (16, 2), ((21.833333, 4), (23, 8), (23, 11)))
+        self.add_bezier('f-2', (23, 11), ((23, 14), (21, 17), (18, 19)))
+        self.add_bezier('f-3', (18, 19), ((21, 19), (25.833333, 17), (27, 14)))
+        self.add_bezier('f-4', (27, 14), ((27, 16), (28, 18), (28, 20)))
+        self.add_bezier('f-5', (28, 20), ((28, 27), (22.545455, 30), (16, 30)))
+        self.add_bezier('f-6', (16, 30), ((8.363636, 30), (4, 26), (4, 21)))
+        self.add_bezier('f-7', (4, 21), ((4, 12), (16, 13), (16, 2)))
+        self.add_contour('flame', 'f-1', 'f-2', 'f-3', 'f-4', 'f-5', 'f-6', 'f-7', closed=True)

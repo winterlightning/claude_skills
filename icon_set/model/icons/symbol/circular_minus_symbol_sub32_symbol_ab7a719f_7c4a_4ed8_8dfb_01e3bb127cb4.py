@@ -28,6 +28,6 @@ class DrawingContainerSymbol(Sub32):
     def build(self):
         self.add_arc('outline-top', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('outline-bottom', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('minus', (9, 16), (23, 16))
+        self.add_line('minus', (10, 16), (22, 16))
         self.add_contour('outline', 'outline-top', 'outline-bottom', closed=True)
         self.add_anchor('center', (16, 16))

@@ -27,24 +27,11 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (29, 9), (25, 6))
-        self.add_bezier('p1-r1-2', (25, 6), ((25, 5), (24, 5), (23, 4)))
-        self.add_bezier('p1-r1-3', (23, 4), ((21, 3), (19, 2), (17, 2)))
-        self.add_bezier('p1-r1-4', (17, 2), ((16, 2), (16, 2), (16, 2)))
-        self.add_bezier('p1-r1-5', (16, 2), ((16, 2), (15, 2), (15, 2)))
-        self.add_bezier('p1-r1-6', (15, 2), ((14, 2), (13, 2), (12, 3)))
-        self.add_bezier('p1-r1-7', (12, 3), ((8, 4), (5, 7), (3, 10)))
-        self.add_bezier('p1-r1-8', (3, 10), ((2, 12), (2, 13), (2, 15)))
-        self.add_bezier('p1-r1-9', (2, 15), ((2, 15), (2, 15), (2, 15)))
-        self.add_bezier('p1-r1-10', (2, 15), ((2, 16), (2, 16), (2, 16)))
-        self.add_bezier('p1-r1-11', (2, 16), ((2, 22), (6, 27), (11, 29)))
-        self.add_bezier('p1-r1-12', (11, 29), ((13, 30), (14, 30), (15, 30)))
-        self.add_bezier('p1-r1-13', (15, 30), ((16, 30), (16, 30), (16, 30)))
-        self.add_bezier('p1-r1-14', (16, 30), ((16, 30), (17, 30), (17, 30)))
-        self.add_bezier('p1-r1-15', (17, 30), ((21, 30), (26, 27), (28, 23)))
-        self.add_bezier('p1-r1-16', (28, 23), ((28, 23), (28, 22), (28, 21)))
-        self.add_line('p1-r1-17', (28, 21), (30, 18))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', 'p1-r1-13', 'p1-r1-14', 'p1-r1-15', 'p1-r1-16', 'p1-r1-17', closed=False)
-        self.add_line('p2-r1-1', (22, 10), (29, 10))
-        self.add_line('p2-r1-2', (29, 10), (29, 3))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        # Clockwise circular arrow: a true r14 circle three-quarters round, sweeping from the top into an
+        # L-shaped head in the top-right corner, 4 units clear of where the arc starts.
+        self.add_arc('arc-1', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('arc-2', (2, 16), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_bezier('arc-3', (16, 2), ((20, 2), (25, 3), (30, 8)))
+        self.add_contour('path-1-1', 'arc-1', 'arc-2', 'arc-3', closed=False)
+        self.add_polyline('head', (30, 2), (30, 8), (22, 8))
+        self.relate('connect', 'path-1-1', 'head')

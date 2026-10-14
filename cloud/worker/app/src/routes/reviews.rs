@@ -32,8 +32,7 @@ fn feedback_row(row: Map<String, Value>) -> Value {
 }
 
 pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
-    let catalog = data::review_catalog(&ctx.db).await?;
-    let decisions = data::review_decisions(&ctx.db, &catalog).await?;
+    let decisions = data::stored_decisions(&ctx.db).await?;
     let reviews = current_reviews(&decisions);
     if ctx.query.get("include_approvers").map(|v| v == &vec!["1".to_string()]).unwrap_or(false) {
         #[derive(Deserialize)]
@@ -41,7 +40,7 @@ pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
         let authors: Vec<Row> = db::all(&ctx.db, "SELECT DISTINCT icon, author FROM feedback WHERE author IS NOT NULL ORDER BY icon, author", vec![]).await?;
         let mut feedback_by: Map<String, Value> = Map::new();
         for row in authors {
-            if catalog.contains(&row.icon) && !row.author.is_empty() {
+            if reviews.statuses.contains_key(&row.icon) && !row.author.is_empty() {
                 feedback_by.entry(row.icon).or_insert_with(|| json!([])).as_array_mut().unwrap().push(json!(row.author));
             }
         }
@@ -176,7 +175,7 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
     if let (true, Some(size)) = (status == "approve", side_size) {
         let reference = key.split_once('/').map_or("", |(_, id)| id);
         if let Some(waiting) = super::combinations::unapproved_parts(&ctx.db, reference, size).await? {
-            return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
+            return http::error(409, &format!("Approve {waiting} first, then rebuild: the combined icon must use the current approved drawings."));
         }
     }
     let sha = icon.svg_sha256.clone();

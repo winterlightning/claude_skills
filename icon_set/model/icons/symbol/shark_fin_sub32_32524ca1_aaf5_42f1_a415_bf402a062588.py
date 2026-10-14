@@ -22,9 +22,9 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_bezier('p1-r1-1', (3, 17), ((7, 10), (13, 5), (20, 5)))
-        self.add_bezier('p1-r1-2', (20, 5), ((20, 11), (24, 15), (30, 17)))
+        self.add_bezier('p1-r1-1', (3, 17), ((7, 10), (13, 4), (20, 4)))
+        self.add_bezier('p1-r1-2', (20, 4), ((20, 11), (24, 15), (30, 17)))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (2, 24), (16, 24), radius_x=7, radius_y=3, large_arc=False, sweep=False)
-        self.add_arc('p2-r1-2', (16, 24), (30, 24), radius_x=7, radius_y=3, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-1', (2, 25), (16, 25), radius_x=7, radius_y=3, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-2', (16, 25), (30, 25), radius_x=7, radius_y=3, large_arc=False, sweep=False)
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)

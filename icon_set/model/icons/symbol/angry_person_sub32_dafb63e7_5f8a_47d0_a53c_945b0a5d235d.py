@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '4ecc72aa7bda85e6b1e97b0021380500b4843c8e405d213f478ec
 
 class Drawing(Sub32):
     icon_id = 'angry-person-sub32'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
@@ -22,15 +22,9 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (5, 13), (27, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (27, 13), (5, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_bezier('p2-r1-1', (5, 30), ((8, 26), (12, 24), (16, 24)))
-        self.add_bezier('p2-r1-2', (16, 24), ((20, 24), (24, 26), (27, 30)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_line('p3-r1-1', (12, 10), (13, 11))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (19, 11), (20, 10))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_arc('p5-r1-1', (14, 17), (18, 17), radius_x=2, radius_y=1, large_arc=False, sweep=True)
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        # Angry face: head circle, brows pulled down into a V, a flat grim mouth.
+        self.add_arc('h-1', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('h-2', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_contour('head', 'h-1', 'h-2', closed=True)
+        self.add_polyline('brows', (13, 11), (16, 13), (19, 11))
+        self.add_line('mouth', (13, 21), (19, 21))

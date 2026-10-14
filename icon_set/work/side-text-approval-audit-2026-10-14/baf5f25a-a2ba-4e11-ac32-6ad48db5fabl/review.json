@@ -1,0 +1,88 @@
+{
+  "reference_id": "baf5f25a-a2ba-4e11-ac32-6ad48db5fabl",
+  "concept": "3D Video Camera",
+  "verdict": "fix",
+  "note": "Rank 1: 3D sits at the camera lower-left; the camera body and flared lens remain recognizable.",
+  "reviewed_at": "2026-10-14T03:48:32.898Z",
+  "model": "gpt-6",
+  "before": {
+    "position": "bl",
+    "main": [
+      20,
+      4,
+      40,
+      28
+    ],
+    "sub": [
+      4,
+      45,
+      24,
+      15
+    ],
+    "flags": [
+      "detached"
+    ],
+    "penalty": 19,
+    "reach": 9,
+    "erased_pct": 0,
+    "main_to_sub": 1.97,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [],
+    "contact": "fail",
+    "contact_problems": [
+      "detached: reach 9 floats apart (want 4 to 4.5)"
+    ],
+    "keyshape": {
+      "main": "HRECT_M at 48 (moved)",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "bl",
+    "main": [
+      20,
+      10,
+      40,
+      28
+    ],
+    "sub": [
+      4,
+      39,
+      24,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": -3,
+    "erased_pct": 11.5,
+    "main_to_sub": 1.74,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "outline",
+        "erased_pct": 11.5
+      }
+    ],
+    "contact": "knockout",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "HRECT_M at 48",
+      "sub": "native text at 32",
+      "canvas": "HRECT"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

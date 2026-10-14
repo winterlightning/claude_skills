@@ -30,7 +30,7 @@ import tempfile
 import zipfile
 import urllib.error
 import urllib.request
-from urllib.parse import parse_qs, unquote, urlsplit, urlencode
+from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
 if __package__:
@@ -114,13 +114,9 @@ REVIEWS_TABLE = '''CREATE TABLE IF NOT EXISTS reviews (
 REVIEWS_COLUMNS = ('icon', 'svg_sha256', 'status', 'updated_at', 'updated_by', 'worker', 'claimed_at', 'note')
 WORK_FORWARD_TIMEOUT = 30
 WORK_CACHE_SECONDS = 10
-# Uploaded fixes shown in the gallery: a short timeout so a dead production never stalls the catalog.
-FIXES_TIMEOUT = 4
-FIXES_CACHE_SECONDS = 30
 # The fix review listing rebuilds the whole catalog; reuse it until icons.json or the database changes. The age cap
 # lets leases that expired with no write in between show as expired.
 REVIEW_CACHE_SECONDS = 60
-FIXES_RETRY_SECONDS = 60
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
 # Artwork choices and stroke edits are database tables now; only reference image bytes
 # still live in a folder beside the database, so only that folder travels with it.
@@ -614,72 +610,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def catalog(self, *, include_failed=False):
         data = self.catalog_data()
         rows = data['icons'] + data.get('failed_icons', [])
-        fixes = self.work_fixes()
         with self.server.artwork.snapshot():
-            current = [self.artwork_record(item, fixes) for item in rows]
+            current = [self.selected_artwork(item) for item in rows]
             return {item['key']: item for item in current if include_failed or not item.get('build_failed')}
 
     def catalog_icon(self, key):
         data = self.catalog_data()
         record = next((row for row in data['icons'] + data.get('failed_icons', []) if row['key'] == key), None)
-        return self.artwork_record(record, self.work_fixes()) if record else None
-
-    def work_fixes(self):
-        """(icon, sha) -> {worker, saved_at} for each uploaded fix: production's own table, or production's via the sync source."""
-        if getattr(self.server, 'production', False):
-            try:
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    return work_claims.after_results(connection)
-            except sqlite3.Error:
-                return {}
-        cached = getattr(self.server, 'fixes_cache', None)
-        if cached and cached[0] > time.monotonic():
-            return cached[1]
-        def fetch(route):
-            # Cloudflare's bot filter refuses Python's default User-Agent.
-            request = urllib.request.Request(self.work_origin() + route, headers={'Accept': 'application/json',
-                                                                                  'User-Agent': 'pictographic-gallery/1.0'})
-            with urllib.request.urlopen(request, timeout=FIXES_TIMEOUT) as response:
-                return json.loads(response.read().decode('utf-8'))
-
-        try:
-            try:
-                rows = fetch('/api/work/fixes')['fixes']
-                fixes = {(row['icon'], row['svg_sha256']): {'worker': row['worker'], 'saved_at': row['saved_at']} for row in rows}
-            except urllib.error.HTTPError as error:
-                if error.code != 404:
-                    raise
-                # A production running an older deploy.py: its fix queue listing says which revisions have an after upload.
-                fixes, offset = {}, 0
-                while offset is not None:
-                    page = fetch(f'/api/work/review?limit=500&offset={offset}')
-                    for item in page['items']:
-                        if 'after' in (item.get('work') or {}).get('results', []):
-                            work = item['work']
-                            fixes[(item['key'], item['svg_sha256'])] = {'worker': work.get('worker'),
-                                                                       'saved_at': work.get('updated_at') or work.get('claimed_at')}
-                    offset = page.get('next_offset')
-            expires = FIXES_CACHE_SECONDS
-        except (urllib.error.URLError, TimeoutError, OSError, ValueError, KeyError, TypeError):
-            fixes, expires = (cached[1] if cached else {}), FIXES_RETRY_SECONDS  # keep the last good answer
-        self.server.fixes_cache = (time.monotonic() + expires, fixes)
-        return fixes
-
-    def artwork_record(self, record, fixes=None):
-        """The catalog record as displayed: a human artwork choice, else a worker's uploaded fix for this exact revision.
-
-        The fix changes only the drawing shown. svg_sha256 stays the Python revision, so reviews, claims and
-        feedback keep their keys, and a rebuilt model (a new revision) replaces the fix without any cleanup.
-        """
-        from urllib.parse import quote
-        result = self.selected_artwork(record)
-        sha = baseline(record)['svg_sha256']
-        fix = (fixes or {}).get((record['key'], sha))
-        if fix and result.get('svg_sha256') == sha and result.get('artwork_source', 'use_org') == 'use_org' and not record.get('uploaded_icon'):
-            result.update(artwork_source='work_fix', work_fix=dict(fix))
-            result['preview_url'] = ('../api/icon-artwork/svg?icon=' + quote(record['key'], safe='')
-                                     + '&v=' + quote(sha[:12] + '-' + str(fix.get('saved_at') or ''), safe=''))
-        return result
+        return self.selected_artwork(record) if record else None
 
     def selected_artwork(self, record):
         from urllib.parse import quote
@@ -730,18 +668,18 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         source = baseline(icon)
         choice = self.server.artwork.get(icon['key'])
         edit = self.stroke_edits.get(icon['key'], source['svg_sha256'])
-        fallback = 'use_org' if icon.get('artwork_source') == 'work_fix' else icon.get('artwork_source', 'use_org')  # a fix is not a saved choice
-        return {'choice': choice, 'source_mode': (choice or {}).get('source_mode', fallback), 'svg_sha256': source['svg_sha256'],
+        return {'choice': choice, 'source_mode': (choice or {}).get('source_mode', icon.get('artwork_source', 'use_org')), 'svg_sha256': source['svg_sha256'],
                 'edit_revision': (edit or (choice or {}).get('edited') or {}).get('revision'),
                 'preview_url': '../api/icon-artwork/svg?icon='+quote(icon['key'], safe='')+'&v='+str((choice or {}).get('revision', 0)),
-                'record': self.artwork_record(icon)}
+                'record': self.selected_artwork(icon)}
 
     def effective_catalog(self):
-        """/gallery/icons.json as shown: artwork choices and uploaded fixes applied; an approved exception is a built icon."""
-        data, fixes = dict(self.catalog_data()), self.work_fixes()
+        """/gallery/icons.json as shown: artwork choices applied; an approved exception is a built icon. A worker's
+        uploaded fix is not shown: it stays under /api/work/result until a rebuilt model makes it a revision."""
+        data = dict(self.catalog_data())
         with self.server.artwork.snapshot():
             for field in ('icons', 'failed_icons'):
-                data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
+                data[field] = [{k: v for k, v in self.selected_artwork(row).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
         data['icons'].extend(row for row in data['failed_icons'] if not row.get('build_failed'))
         data['failed_icons'] = [row for row in data['failed_icons'] if row.get('build_failed')]
         return data
@@ -938,12 +876,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             # The built preview list lacks uploads (icon-72); append them so the preview can use them.
             try:
                 data = json.loads((self.root / 'gallery/preview-icons.json').read_text(encoding='utf-8'))
-                fixes = self.work_fixes()
                 uploads = [row for row in self.catalog_data()['icons'] if row.get('uploaded_icon') or 'uploaded_svg' in row]
                 with self.server.artwork.snapshot():
                     data['icons'] = data['icons'] + [
                         {key: record.get(key, '') for key in ('icon_id', 'name', 'family', 'preview_url', 'category')}
-                        for record in (self.artwork_record(row, fixes) for row in uploads)]
+                        for record in (self.selected_artwork(row) for row in uploads)]
                 return self.json_response(data)
             except (OSError, ValueError, KeyError, sqlite3.Error):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
@@ -961,8 +898,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path == '/api/icon-artwork':
                     return self.json_response(self.artwork_response(icon))
                 variant = parse_qs(parsed.query).get('variant', [None])[0]
-                if variant is None and icon.get('artwork_source') == 'work_fix':
-                    return self.serve_work_fix(key, icon['svg_sha256'])
                 choice = self.server.artwork.get(key)
                 if variant == 'browser_edit':
                     edit = self.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
@@ -984,6 +919,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-Type', 'image/svg+xml')
                 self.send_header('Content-Length', str(len(content)))
+                self.send_header('X-SVG-SHA256', hashlib.sha256(content).hexdigest())  # the drawing served, to check against the record
                 self.send_header('Cache-Control', 'no-store')
                 self.send_header('X-Content-Type-Options', 'nosniff')
                 self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
@@ -1749,28 +1685,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return {k: v for k, v in row.items() if k not in ('icon', 'current', 'status')}
         return remote
 
-    def serve_work_fix(self, key, sha):
-        """The uploaded after SVG of a fixed revision, as /api/work/result serves it (forwarded in development)."""
-        from urllib.parse import quote
-        path = '/api/work/result?icon=' + quote(key, safe='') + '&svg_sha256=' + quote(sha, safe='') + '&stage=after&part=svg'
-        if not getattr(self.server, 'production', False):
-            return self.forward_to_production('GET', path)
-        # One row read: the grid requests this for every fixed tile, so it must not rebuild the catalog.
-        with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-            row = work_claims.load_result(connection, key, sha, 'after')
-        if row is None:
-            return self.json_response({'error': 'No uploaded result for this revision and stage.'}, 404)
-        content = row['svg'].encode('utf-8')
-        self.send_response(200)
-        self.send_header('Content-Type', 'image/svg+xml')
-        self.send_header('Content-Length', str(len(content)))
-        self.send_header('Cache-Control', 'no-store')
-        self.send_header('X-Content-Type-Options', 'nosniff')
-        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
-        self.end_headers()
-        if self.command != 'HEAD':
-            self.wfile.write(content)
-
     def review_items(self, connection, now):
         """work_claims.review_items, cached per server until icons.json or the database files change."""
         def stamp(path):
@@ -2366,18 +2280,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         icon = self.catalog_icon(key)
         if not icon:
             raise ValueError('The current drawing is unavailable: ' + key)
-        if icon.get('artwork_source') == 'work_fix':
-            if getattr(self.server, 'production', False):
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    result = work_claims.load_result(connection, key, icon['svg_sha256'], 'after')
-                if not result:
-                    raise ValueError('The saved fix is unavailable: ' + key)
-                return result['svg']
-            query = urlencode({'icon': key, 'svg_sha256': icon['svg_sha256'], 'stage': 'after', 'part': 'svg'})
-            request = urllib.request.Request(self.work_origin() + '/api/work/result?' + query,
-                                             headers={'User-Agent': 'pictographic-gallery/1.0'})
-            with urllib.request.urlopen(request, timeout=30) as response:
-                return response.read().decode('utf-8')
         selected = resolve_artwork(icon, self.server.artwork.get(key))
         return selected['svg'] if selected else icon_from_graph(baseline(icon)).to_svg()
 

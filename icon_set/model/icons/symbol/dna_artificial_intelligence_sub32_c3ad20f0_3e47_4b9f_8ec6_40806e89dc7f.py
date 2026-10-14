@@ -14,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '183e50db85fbd5abb575ab3af8146af4e1f46271022ec00bb129e
 
 class Drawing(Sub32):
     icon_id = 'dna-artificial-intelligence-sub32'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'artificial-intelligence'
@@ -22,22 +22,18 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (21, 2), (20, 10), radius_x=8, radius_y=8, large_arc=False, sweep=False)
-        self.add_line('p1-r1-2', (20, 10), (21, 11))
-        self.add_line('p1-r1-3', (21, 11), (18, 11))
-        self.add_arc('p1-r1-4', (18, 11), (11, 17), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_line('p1-r1-5', (11, 17), (11, 24))
-        self.add_arc('p1-r1-6', (11, 24), (10, 30), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_arc('p2-r1-1', (30, 8), (25, 11), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_line('p2-r1-2', (25, 11), (21, 11))
-        self.add_arc('p2-r1-3', (21, 11), (19, 19), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-4', (19, 19), (18, 20), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('p2-r1-5', (18, 20), (15, 21))
-        self.add_arc('p2-r1-6', (15, 21), (5, 20), radius_x=30, radius_y=30, large_arc=False, sweep=False)
-        self.add_arc('p2-r1-7', (5, 20), (2, 21), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', closed=False)
+        self.add_bezier('p1-r1-1', (4, 2), ((4, 6), (28, 10), (28, 16)))
+        self.add_bezier('p1-r1-2', (28, 16), ((28, 22), (4, 26), (4, 30)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_bezier('p2-r1-1', (28, 2), ((28, 6), (4, 10), (4, 16)))
+        self.add_bezier('p2-r1-2', (4, 16), ((4, 22), (28, 26), (28, 30)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (4, 16), (28, 16))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.relate('connect', 'p1-r1-1', 'p3-r1-1')
+        self.relate('connect', 'p1-r1-2', 'p3-r1-1')
+        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
+        self.relate('connect', 'p2-r1-2', 'p3-r1-1')
+        self.relate('connect', 'path-1-1', 'path-2-1')
+        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
         self.relate('connect', 'p1-r1-2', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-2', 'p2-r1-3')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-3', 'p2-r1-3')

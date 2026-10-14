@@ -22,22 +22,15 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (6, 22), (6, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (6, 30), (6, 22), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (26, 22), (26, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p2-r1-2', (26, 30), (26, 22), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
-        self.add_arc('p3-r1-1', (19, 2), (19, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('p3-r1-2', (19, 8), (19, 2), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_bezier('p4-r1-1', (19, 14), ((19, 16), (17, 16), (15, 16)))
-        self.add_bezier('p4-r1-2', (15, 16), ((13, 16), (12, 16), (11, 16)))
-        self.add_bezier('p4-r1-3', (11, 16), ((11, 16), (10, 16), (10, 16)))
-        self.add_line('p4-r1-4', (10, 16), (16, 19))
-        self.add_line('p4-r1-5', (16, 19), (16, 21))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', 'p4-r1-5', closed=False)
-        self.add_line('p5-r1-1', (19, 14), (21, 15))
-        self.add_line('p5-r1-2', (21, 15), (27, 15))
-        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
-        self.relate('connect', 'p4-r1-1', 'p5-r1-1')
+        # Cyclist: two wheels, bike frame from rim to rim, rider leaning forward from the seat, head dot.
+        for k, x in enumerate((7, 25)):
+            self.add_arc(f'w{k}-1', (x - 5, 25), (x + 5, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+            self.add_arc(f'w{k}-2', (x + 5, 25), (x - 5, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+            self.add_contour(f'wheel-{k}', f'w{k}-1', f'w{k}-2', closed=True)
+        self.add_polyline('frame', (10, 21), (14, 14), (18, 14), (25, 20))
+        self.add_line('torso', (14, 14), (17, 10))
+        self.add_arc('head-1', (23, 4), (27, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('head-2', (27, 4), (23, 4), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        for a, b in (('frame', 'wheel-0'), ('frame', 'wheel-1'), ('frame', 'torso')):
+            self.relate('connect', a, b)

@@ -27,17 +27,17 @@ class DrawingVariant2ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
+        # Adopted from the production stroke edit (Browser Edit by hina).
         self.add_arc('head-top', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('head-bottom', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'head-top', 'head-bottom', closed=True)
-        self.add_bezier('hair', (16, 2), ((16, 6), (16, 8), (12, 8)))
-        self.add_contour('path-2-1', 'hair', closed=False)
-        self.relate('connect', 'head-top', 'hair')
+        self.add_bezier('hair', (17, 3), ((17, 6), (16, 9), (14, 9)))
         self.add_line('p3-r1-1', (10, 16), (10, 16))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
         self.add_line('p4-r1-1', (22, 16), (22, 16))
+        self.add_line('p5-r1-1', (16, 22), (16, 22))
+        self.add_contour('path-1-1', 'head-top', 'head-bottom', closed=True)
+        self.add_contour('path-2-1', 'hair', closed=False)
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_bezier('p5-r1-1', (13, 22), ((14, 23), (15, 23), (16, 23)))
-        self.add_bezier('p5-r1-2', (16, 23), ((17, 23), (18, 23), (19, 22)))
-        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.relate('connect', 'head-top', 'hair')
         self.relate('connect', 'path-1-1', 'path-2-1')

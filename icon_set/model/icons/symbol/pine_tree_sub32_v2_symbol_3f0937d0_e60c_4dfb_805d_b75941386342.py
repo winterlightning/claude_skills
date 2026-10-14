@@ -27,20 +27,13 @@ class DrawingVariant2ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        short_axis = 16
-        short_half_span = 12
-        short_low, short_high = (short_axis - short_half_span, short_axis + short_half_span)
-        self.add_line('p1-r1-1', (16, 2), (short_low, 13))
-        self.add_line('p1-r1-2', (short_low, 13), (13, 13))
-        self.add_line('p1-r1-3', (13, 13), (short_low, 24))
-        self.add_line('p1-r1-4', (short_low, 24), (16, 24))
-        self.add_line('p1-r1-5', (16, 24), (short_high, 24))
-        self.add_line('p1-r1-6', (short_high, 24), (19, 13))
-        self.add_line('p1-r1-7', (19, 13), (short_high, 13))
-        self.add_line('p1-r1-8', (short_high, 13), (16, 2))
-        self.add_line('p1-r1-9', (16, 2), (16, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', closed=False)
+        # Single-tier tree (a tiered outline cannot keep 4 units under each tier at this size).
+        self.add_line('p1-r1-1', (16, 2), (4, 24))
+        self.add_line('p1-r1-2', (4, 24), (16, 24))
+        self.add_line('p1-r1-3', (16, 24), (28, 24))
+        self.add_line('p1-r1-4', (28, 24), (16, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=True)
         self.add_line('p2-r1-1', (16, 24), (16, 30))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-4', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-2', 'p2-r1-1')
+        self.relate('connect', 'p1-r1-3', 'p2-r1-1')

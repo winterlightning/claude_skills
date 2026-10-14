@@ -22,15 +22,10 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (2, 16), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (16, 2), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-3', (30, 16), (16, 30), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-4', (16, 30), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_arc('p2-r1-1', (8, 13), (13, 13), radius_x=2.5, radius_y=2.5, large_arc=False, sweep=True)
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_arc('p3-r1-1', (20, 13), (24, 13), radius_x=2, radius_y=2, large_arc=False, sweep=True)
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_bezier('p4-r1-1', (9, 20), ((10, 22), (13, 24), (16, 24)))
-        self.add_bezier('p4-r1-2', (16, 24), ((19, 24), (22, 22), (23, 20)))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        # Smile: face circle, two eye dots, a gentle smile.
+        self.add_arc('f-1', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('f-2', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_contour('face', 'f-1', 'f-2', closed=True)
+        self.add_dot('eye-l', (12, 12))
+        self.add_dot('eye-r', (20, 12))
+        self.add_arc('mouth', (13, 20), (19, 20), radius_x=3, radius_y=2, large_arc=False, sweep=False)

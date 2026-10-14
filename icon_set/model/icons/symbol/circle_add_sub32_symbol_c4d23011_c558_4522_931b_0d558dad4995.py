@@ -26,9 +26,9 @@ class GridAlignedSubContainerSymbol(Sub32):
     def build(self):
         self.add_arc('sym-e0', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('sym-e1', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('sym-e2', (16, 16), (16, 23))
-        self.add_line('sym-e3', (9, 16), (23, 16))
-        self.add_line('sym-e5', (16, 9), (16, 16))
+        self.add_line('sym-e2', (16, 16), (16, 22))
+        self.add_line('sym-e3', (10, 16), (22, 16))
+        self.add_line('sym-e5', (16, 10), (16, 16))
         self.add_contour('sym-c0', *['sym-e0', 'sym-e1'], closed=True)
         self.add_contour('sym-c1', *['sym-e2'], closed=False)
         self.add_contour('sym-c2', *['sym-e3'], closed=False)

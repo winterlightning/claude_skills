@@ -22,14 +22,11 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 30), (26, 30))
-        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (30, 7), (14, 22))
-        self.add_arc('p2-r1-2', (14, 22), (2, 30), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('p2-r1-3', (2, 30), (3, 27))
-        self.add_arc('p2-r1-4', (3, 27), (4, 21), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('p2-r1-5', (4, 21), (25, 2))
-        self.add_line('p2-r1-6', (25, 2), (30, 7))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-2')
-        self.relate('connect', 'p1-r1-1', 'p2-r1-3')
+        # Pencil on the diagonal writing a line.
+        self.add_polyline('body', (9, 17), (24, 2), (30, 8), (15, 23), closed=True)
+        self.add_line('tip-a', (9, 17), (2, 30))
+        self.add_line('tip-b', (15, 23), (2, 30))
+        self.add_line('line', (20, 30), (30, 30))
+        self.relate('connect', 'body', 'tip-a')
+        self.relate('connect', 'body', 'tip-b')
+        self.relate('connect', 'tip-a', 'tip-b')

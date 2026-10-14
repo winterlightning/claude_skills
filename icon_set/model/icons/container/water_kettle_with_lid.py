@@ -6,6 +6,8 @@ Essential reference features retained.
 Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (water-kettle-with-lid SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): the left side's inward dent eased (10,28 -> 8,28) so a symbol of 24 fits with a 4 px gap (was 23.5); container-combination64 space check.
 """
 
 from ...keyshapes import Keyshape
@@ -27,8 +29,8 @@ class WaterKettleWithLid(Container64):
         self.add_arc('body-3', (52, 52), (46, 58), radius_x=6)
         self.add_line('body-4', (46, 58), (12, 58))
         self.add_arc('body-5', (12, 58), (6, 52), radius_x=6)
-        self.add_line('body-6', (6, 52), (10, 28))
-        self.add_line('body-7', (10, 28), (6, 18))
+        self.add_line('body-6', (6, 52), (8, 28))
+        self.add_line('body-7', (8, 28), (6, 18))
         self.add_arc('lid-0', (15, 18), (25, 8), radius_x=10)
         self.add_arc('lid-1', (25, 8), (35, 18), radius_x=10)
         self.add_line('knob', (25, 6), (25, 8))

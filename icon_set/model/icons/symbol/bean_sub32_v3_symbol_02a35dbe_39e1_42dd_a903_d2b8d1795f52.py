@@ -27,14 +27,12 @@ class DrawingVariant3ContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        short_axis = 16
-        short_half_span = 12
-        short_low, short_high = (short_axis - short_half_span, short_axis + short_half_span)
-        self.add_bezier('p1-r1-1', (16, 10), ((16, 7), (19, short_low), (23, short_low)))
-        self.add_bezier('p1-r1-2', (23, short_low), ((27, short_low), (30, 7), (30, 10)))
-        self.add_bezier('p1-r1-3', (30, 10), ((30, 15), (27, 19), (23, 22)))
-        self.add_bezier('p1-r1-4', (23, 22), ((19, 25), (14, short_high), (8, short_high)))
-        self.add_bezier('p1-r1-5', (8, short_high), ((5, short_high), (2, 25), (2, 22)))
+        # Adopted from the production stroke edit (Browser Edit by hina).
+        self.add_bezier('p1-r1-1', (16, 10), ((16, 7), (19, 4), (23, 4)))
+        self.add_bezier('p1-r1-2', (23, 4), ((27, 4), (30, 6), (30, 10)))
+        self.add_bezier('p1-r1-3', (30, 10), ((30, 11.338912), (30, 12.677824), (30, 14)), ((30, 17.607306), (29.444444, 21.077626), (25, 24)))
+        self.add_bezier('p1-r1-4', (25, 24), ((20, 28), (14, 28), (8, 28)))
+        self.add_bezier('p1-r1-5', (8, 28), ((4, 28), (2, 25), (2, 22)))
         self.add_bezier('p1-r1-6', (2, 22), ((2, 19), (5, 16), (8, 16)))
         self.add_bezier('p1-r1-7', (8, 16), ((10, 16), (13, 15), (14, 14)))
         self.add_bezier('p1-r1-8', (14, 14), ((15, 13), (16, 12), (16, 10)))

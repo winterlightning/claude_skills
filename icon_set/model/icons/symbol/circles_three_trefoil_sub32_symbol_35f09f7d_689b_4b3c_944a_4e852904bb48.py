@@ -27,14 +27,13 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_arc('p1-r1-1', (7, 11), (25, 11), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('p1-r1-2', (25, 11), (7, 11), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_arc('p2-r1-1', (2, 21), (21, 21), radius_x=9.5, radius_y=9.5, large_arc=False, sweep=True)
-        self.add_bezier('p2-r1-2', (21, 21), ((21, 26), (16, 30), (11, 30)))
-        self.add_bezier('p2-r1-3', (11, 30), ((6, 30), (2, 26), (2, 21)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.add_arc('p3-r1-1', (11, 21), (30, 21), radius_x=9.5, radius_y=9.5, large_arc=False, sweep=True)
-        self.add_bezier('p3-r1-2', (30, 21), ((30, 26), (26, 30), (21, 30)))
-        self.add_bezier('p3-r1-3', (21, 30), ((16, 30), (11, 26), (11, 21)))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
+        # Trefoil of three circles in a triangle, each 4 units clear of the others (overlapping circles always leave slivers).
+        self.add_arc('c1-1', (11, 7), (21, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('c1-2', (21, 7), (11, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('top', 'c1-1', 'c1-2', closed=True)
+        self.add_arc('c2-1', (2, 25), (12, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('c2-2', (12, 25), (2, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('left', 'c2-1', 'c2-2', closed=True)
+        self.add_arc('c3-1', (20, 25), (30, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('c3-2', (30, 25), (20, 25), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('right', 'c3-1', 'c3-2', closed=True)

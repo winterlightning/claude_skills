@@ -35,7 +35,7 @@ from io import BytesIO
 import numpy as np
 from PIL import Image
 
-from .svg_io import DEFAULT_INPUT
+from .svg_io import DEFAULT_INPUT, canvas_size
 
 from .paths import OUT_DIR, SKILLS
 PAD, PX = 8, 10        # raster: 8 u margin round the canvas, 10 px per u (0.1 u steps)
@@ -45,11 +45,12 @@ OVER_TOL = 0.1         # u — ink this little past the keyshape is on it, not o
 PARTS = ("input", "round", "sharp")
 
 
-def ink_mask(path):
-    """Rendered ink of an SVG as a boolean array over (-PAD .. 48+PAD) u."""
+def ink_mask(path, canvas=None):
+    """Rendered ink of an SVG as a boolean array over (-PAD .. canvas+PAD) u (canvas: its viewBox)."""
     root = ET.parse(path).getroot()
-    size = (48 + 2 * PAD) * PX
-    root.set("viewBox", f"{-PAD} {-PAD} {48 + 2 * PAD} {48 + 2 * PAD}")
+    canvas = canvas or canvas_size(root)
+    size = int((canvas + 2 * PAD) * PX)
+    root.set("viewBox", f"{-PAD} {-PAD} {canvas + 2 * PAD} {canvas + 2 * PAD}")
     root.set("width", str(size))
     root.set("height", str(size))
     png = subprocess.run(["rsvg-convert", "-f", "png"], input=ET.tostring(root), capture_output=True,
@@ -109,14 +110,18 @@ def overflow(rec, mask):
 def _one(args):
     name, files, shapes = args
     try:
-        m = ink_mask(files["input"])
+        canvas = canvas_size(ET.parse(files["input"]).getroot())
+        if canvas != 48:                             # icon-72: keyshape FREE, the whole canvas
+            c = int(canvas) if canvas == int(canvas) else canvas
+            shapes = {"FREE": {"bounds": [0, 0, c, c], "size": f"{c}×{c}", "w": c, "h": c}}
+        m = ink_mask(files["input"], canvas)
         ks, info = detect(m, shapes)
         if ks is None:
             return name, {"keyshape": None, "source": "no ink"}
         rec = {"keyshape": ks, **shapes[ks], **info, "source": "ink", "over": {}, "sides": {}}
         for part in PARTS:
             if part in files:
-                rec["over"][part], rec["sides"][part] = overflow(rec, m if part == "input" else ink_mask(files[part]))
+                rec["over"][part], rec["sides"][part] = overflow(rec, m if part == "input" else ink_mask(files[part], canvas))
         return name, rec
     except Exception as e:                           # noqa: BLE001 — report, keep going
         return name, {"keyshape": None, "source": "error", "error": f"{type(e).__name__}: {e}"[:200]}

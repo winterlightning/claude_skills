@@ -48,32 +48,35 @@ pub async fn read(ctx: &Ctx) -> Result<Response> {
             WHERE stage = 'after' ORDER BY icon, svg_sha256", vec![]).await?;
         return http::json(200, &json!({"fixes": fixes}));
     }
-    let catalog = data::catalog(&ctx.db, true).await?;
-    let (rows, _, decisions) = data::decisions(&ctx.db, &catalog).await?;
     let path = ctx.path.as_str();
-    let row_map = data::row_map(&rows);
     if matches!(path, "/api/work/queue" | "/api/work/disapproved" | "/api/work/review") {
-        let feedback = data::latest_feedback(&ctx.db).await?;
-        let types = data::icon_types(&ctx.db).await?;
-        let (events, notes, fixes) = count_inputs(ctx).await?;
-        let empty = Default::default();
-        let base = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types,
-                              disapprovals: &empty, now };
-        let counts = rules::disapproval_counts(&base, &rules::CountInputs { events: &events, feedback: &notes, fixes: &fixes });
-        let work = WorkData { disapprovals: &counts, ..base };
-        let result = if path == "/api/work/review" {
-            let summaries = rules::result_summaries(&result_rows(ctx, None).await?);
-            rules::review_listing(&work, &ctx.query, &summaries)
+        let review = path == "/api/work/review";
+        let set = data::work_set(&ctx.db, if review { data::WorkScope::Review } else { data::WorkScope::Fix }).await?;
+        let row_map = data::row_map(&set.rows);
+        // Filters read the stored reason; the notes themselves only when the review page searches their text. The icon
+        // type only when filtered by it. Otherwise both are loaded for the returned page alone.
+        let searched = review && ctx.param("q").is_some_and(|q| !q.trim().is_empty());
+        let feedback = if searched { data::latest_feedback_for(&ctx.db, &set.keys()).await? } else { set.feedback.clone() };
+        let types = if ctx.param("type").is_some() { data::icon_types_for(&ctx.db, &set.keys()).await? } else { Default::default() };
+        let work = WorkData { catalog: &set.catalog, decisions: &set.decisions, rows: &row_map, feedback: &feedback, types: &types,
+                              disapprovals: &set.disapprovals, now };
+        let result = if review {
+            rules::review_listing(&work, &ctx.query, &Default::default())
         } else {
             rules::queue(&work, &ctx.query, path.ends_with("/queue"))
         };
-        return match result { Ok(value) => http::json(200, &value), Err(error) => refuse(error) };
+        let mut value = match result { Ok(value) => value, Err(error) => return refuse(error) };
+        let mut items = value["items"].as_array_mut().map(std::mem::take).unwrap_or_default();
+        page_details(ctx, &mut items, review).await?;
+        value["items"] = Value::Array(items);
+        return http::json(200, &value);
     }
     let key = ctx.param("icon").unwrap_or("").to_string();
     if path == "/api/work/history" || path == "/api/work/result" {
-        let Some(icon) = catalog.get(&key) else { return http::error(404, "Unknown icon") };
+        let Some(icon) = data::icon(&ctx.db, &key, true).await? else { return http::error(404, "Unknown icon") };
         if path == "/api/work/history" {
-            return history(ctx, icon, &decisions, &rows, now).await;
+            let (rows, decisions) = data::icon_decisions(&ctx.db, &icon).await?;
+            return history(ctx, &icon, &decisions, &rows, now).await;
         }
         let stage = ctx.param("stage").unwrap_or("");
         let part = ctx.param("part").unwrap_or("svg");
@@ -92,37 +95,43 @@ pub async fn read(ctx: &Ctx) -> Result<Response> {
         return http::error(404, "Unknown work route.");
     }
     if !key.is_empty() {
-        let Some(icon) = catalog.get(&key) else { return http::error(404, "Unknown icon") };
+        let Some(icon) = data::icon(&ctx.db, &key, true).await? else { return http::error(404, "Unknown icon") };
         let detail = data::detail(&ctx.db, &key, &icon.svg_sha256).await?;
-        let row = row_map.get(&(key.clone(), icon.svg_sha256.clone()));
-        let state = rules::work_state(row, now);
+        let row = data::review_row(&ctx.db, &key, &icon.svg_sha256).await?;
+        let state = rules::work_state(row.as_ref(), now);
         return http::json(200, &json!({"icon": key, "svg_sha256": icon.svg_sha256, "status": public_status(&detail.status),
-                                       "work": rules::work_field(row, state)}));
+                                       "work": rules::work_field(row.as_ref(), state)}));
     }
+    let set = data::work_set(&ctx.db, data::WorkScope::Worked).await?;
+    let row_map = data::row_map(&set.rows);
     let feedback = Default::default();
     let types = Default::default();
     let disapprovals = Default::default();
-    let work = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types,
+    let work = WorkData { catalog: &set.catalog, decisions: &set.decisions, rows: &row_map, feedback: &feedback, types: &types,
                           disapprovals: &disapprovals, now };
     http::json(200, &rules::listing(&work))
 }
 
-/// The rows `rules::disapproval_counts` reads: activity in id order, feedback shas, uploaded fixes.
-async fn count_inputs(ctx: &Ctx) -> Result<(Vec<rules::CountEvent>, Vec<(String, String)>, Vec<(String, String)>)> {
-    #[derive(Deserialize)]
-    struct Event { icon: String, action: String, status: Option<String>, svg_sha256: Option<String>, created_at: String }
-    #[derive(Deserialize)]
-    struct Pair { icon: String, svg_sha256: String }
-    let events: Vec<Event> = db::all(&ctx.db, "SELECT icon, action, \
-        CASE WHEN json_valid(details) THEN json_extract(details, '$.status') END AS status, \
-        CASE WHEN json_valid(details) THEN json_extract(details, '$.svg_sha256') END AS svg_sha256, created_at FROM activity_log \
-        WHERE icon IS NOT NULL AND action IN ('work_done', 'upload', 'review', 'feedback') ORDER BY id", vec![]).await?;
-    let notes: Vec<Pair> = db::all(&ctx.db, "SELECT DISTINCT icon, svg_sha256 FROM feedback", vec![]).await?;
-    let fixes: Vec<Pair> = db::all(&ctx.db, "SELECT DISTINCT icon, svg_sha256 FROM work_results WHERE stage = 'after'", vec![]).await?;
-    Ok((events.into_iter().map(|e| rules::CountEvent { icon: e.icon, action: e.action, status: e.status,
-                                                       svg_sha256: e.svg_sha256, at: e.created_at }).collect(),
-        notes.into_iter().map(|p| (p.icon, p.svg_sha256)).collect(),
-        fixes.into_iter().map(|p| (p.icon, p.svg_sha256)).collect()))
+/// What a page's items show beyond the stored state: the latest note, the icon type, the Python source and the
+/// original references, and on the review page the stages of uploaded fix results (`work.results`).
+async fn page_details(ctx: &Ctx, items: &mut [Value], review: bool) -> Result<()> {
+    let keys = json!(items.iter().filter_map(|item| item["key"].as_str()).collect::<Vec<_>>()).to_string();
+    let feedback = data::latest_feedback_for(&ctx.db, &keys).await?;
+    let types = data::icon_types_for(&ctx.db, &keys).await?;
+    let summaries = if review { rules::result_summaries(&result_rows(ctx, &keys).await?) } else { Default::default() };
+    for item in items.iter_mut() {
+        let pair = (item["key"].as_str().unwrap_or("").to_string(), item["svg_sha256"].as_str().unwrap_or("").to_string());
+        let latest = feedback.get(&pair);
+        item["reason"] = json!(latest.and_then(|f| f.reason.clone()));
+        item["feedback"] = json!(latest.and_then(|f| f.feedback.clone()));
+        item["feedback_by"] = json!(latest.and_then(|f| f.feedback_by.clone()));
+        item["icon_type"] = json!(types.get(&pair.0));
+        if review {
+            let stages: Vec<String> = summaries.get(&pair).map(|s| s.keys().cloned().collect()).unwrap_or_default();
+            item["work"]["results"] = json!(stages);
+        }
+    }
+    data::with_sources(&ctx.db, items).await
 }
 
 #[derive(Deserialize)]
@@ -138,13 +147,11 @@ struct ResultRow {
     has_validation: f64,
 }
 
-async fn result_rows(ctx: &Ctx, key: Option<&str>) -> Result<Vec<rules::ResultRow>> {
-    let base = "SELECT icon, svg_sha256, stage, worker, python_path, note, saved_at, python_source IS NOT NULL AS has_python, \
-                validation IS NOT NULL AS has_validation FROM work_results";
-    let rows: Vec<ResultRow> = match key {
-        Some(key) => db::all(&ctx.db, &format!("{base} WHERE icon = ?"), args![key]).await?,
-        None => db::all(&ctx.db, base, vec![]).await?,
-    };
+/// Fix results of the listed icons (a JSON array of keys).
+async fn result_rows(ctx: &Ctx, keys: &str) -> Result<Vec<rules::ResultRow>> {
+    let rows: Vec<ResultRow> = db::all(&ctx.db, "SELECT icon, svg_sha256, stage, worker, python_path, note, saved_at, \
+        python_source IS NOT NULL AS has_python, validation IS NOT NULL AS has_validation FROM work_results \
+        WHERE icon IN (SELECT value FROM json_each(?))", args![keys]).await?;
     Ok(rows.into_iter().map(|r| rules::ResultRow {
         icon: r.icon, svg_sha256: r.svg_sha256, stage: r.stage, worker: r.worker, python_path: r.python_path,
         note: r.note.unwrap_or_default(), saved_at: r.saved_at, has_python: r.has_python != 0.0, has_validation: r.has_validation != 0.0,
@@ -162,7 +169,7 @@ async fn history(ctx: &Ctx, icon: &Icon, decisions: &[(String, Decision)], rows:
         FROM feedback WHERE icon = ? ORDER BY id", args![icon.key.clone()]).await?;
     let events: Vec<Event> = db::all(&ctx.db, "SELECT username, action, details, created_at FROM activity_log WHERE icon = ? ORDER BY id",
                                      args![icon.key.clone()]).await?;
-    let summaries = rules::result_summaries(&result_rows(ctx, Some(&icon.key)).await?);
+    let summaries = rules::result_summaries(&result_rows(ctx, &json!([icon.key]).to_string()).await?);
     let decision = decisions.iter().find(|(k, _)| *k == icon.key).map(|(_, d)| d);
     let feedback: Vec<rules::HistoryFeedback> = feedback.into_iter().map(|f| rules::HistoryFeedback {
         id: f.id as i64, svg_sha256: f.svg_sha256, reason: f.reason, feedback: f.feedback, author: f.author,
@@ -394,6 +401,8 @@ async fn save_result(ctx: &Ctx, icon: &Icon, row: Option<&ReviewRow>, data: &Val
         db::activity(&ctx.db, user, "work_result", Some(key), details(vec![("svg_sha256", json!(sha)), ("stage", json!(stage)),
             ("worker", json!(worker)), ("python_path", json!(python_path)), ("has_python", json!(python_source.is_some())),
             ("has_validation", json!(validation.is_some())), ("note", json!(note))]))?,
+        // An `after` result is a reported fix: a later disapproval counts at least twice.
+        db::stmt(&ctx.db, pictographic_core::icon_query::DISAPPROVALS_KEY, args![key])?,
     ]).await?;
     let fresh = data::review_row(&ctx.db, key, sha).await?;
     let state = rules::work_state(fresh.as_ref(), now);

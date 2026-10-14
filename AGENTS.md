@@ -25,6 +25,10 @@ points remain supported. Read `docs/development-workflow.md` for the workflow.
   the JSON catalogs for Git and writes `release.json`. Commit source changes and
   `published/` together; production pulls this branch and serves `published/`
   without building.
+- Do not auto-deploy. Keep fixes local and in pull requests until the user explicitly
+  approves a production deployment. Updating or merging a PR is not deployment
+  permission; do not upload production assets or change production reviews as
+  part of a PR update.
 - Production keeps its own database, uploads, edits and reviews outside the
   checkout. Never import local progression snapshots into production.
 - `icon_set/.local/`, `icon_set/dist/` and `icon_set/assets/previews-png/` are

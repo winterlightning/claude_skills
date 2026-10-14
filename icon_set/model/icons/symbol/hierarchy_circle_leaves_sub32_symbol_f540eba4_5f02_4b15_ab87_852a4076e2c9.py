@@ -19,7 +19,7 @@ class DrawingContainerSymbol(Sub32):
     usage_category = 'symbol'
     related_group = 'sub-origin/hierarchy-circle-leaves-sub32'
     counterpart_icon_id = 'hierarchy-circle-leaves-sub32'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'programing'
@@ -27,33 +27,15 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (13, 2), (16, 2))
-        self.add_line('p1-r1-2', (16, 2), (19, 2))
-        self.add_line('p1-r1-3', (19, 2), (19, 8))
-        self.add_line('p1-r1-4', (19, 8), (16, 8))
-        self.add_line('p1-r1-5', (16, 8), (13, 8))
-        self.add_line('p1-r1-6', (13, 8), (13, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
-        self.add_line('p2-r1-1', (16, 8), (16, 17))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (16, 17), (8, 17))
-        self.add_line('p3-r1-2', (8, 17), (8, 23))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_arc('p4-r1-1', (8, 23), (8, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p4-r1-2', (8, 30), (8, 23), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
-        self.add_line('p5-r1-1', (16, 17), (24, 17))
-        self.add_line('p5-r1-2', (24, 17), (24, 23))
-        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
-        self.add_arc('p6-r1-1', (24, 23), (24, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('p6-r1-2', (24, 30), (24, 23), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('path-6-1', 'p6-r1-1', 'p6-r1-2', closed=False)
-        self.relate('connect', 'p1-r1-4', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p2-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p2-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p3-r1-1', 'p5-r1-1')
-        self.relate('connect', 'p3-r1-2', 'p4-r1-1')
-        self.relate('connect', 'p3-r1-2', 'p4-r1-2')
-        self.relate('connect', 'p5-r1-2', 'p6-r1-1')
-        self.relate('connect', 'p5-r1-2', 'p6-r1-2')
+        # Hierarchy: a box on top branching down to two circles.
+        self.add_polyline('top', (12, 2), (20, 2), (20, 10), (12, 10), closed=True)
+        self.add_polyline('branch', (6, 22), (16, 10), (26, 22))
+        self.add_arc('leaf-l-1', (2, 26), (10, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('leaf-l-2', (10, 26), (2, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('leaf-l', 'leaf-l-1', 'leaf-l-2', closed=True)
+        self.add_arc('leaf-r-1', (22, 26), (30, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('leaf-r-2', (30, 26), (22, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('leaf-r', 'leaf-r-1', 'leaf-r-2', closed=True)
+        self.relate('connect', 'top', 'branch')
+        self.relate('connect', 'branch', 'leaf-l')
+        self.relate('connect', 'branch', 'leaf-r')

@@ -23,7 +23,7 @@ class Drawing(Symbol32):
 
     def build(self):
 
-        axis_y, dash_length, step = 16, 2, 9
+        axis_y, dash_length, step = 16, 2, 10
         for index in range(2):
             x = 2 + index * step
             self.add_line(f'dash-{index}', (x, axis_y), (x + dash_length, axis_y))

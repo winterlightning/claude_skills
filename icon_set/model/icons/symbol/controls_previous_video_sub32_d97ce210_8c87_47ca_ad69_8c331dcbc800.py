@@ -22,10 +22,6 @@ class Drawing(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (5, 2), (5, 30))
-        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (27, 3), (27, 29))
-        self.add_line('p2-r1-2', (27, 29), (11, 17))
-        self.add_line('p2-r1-3', (11, 17), (10, 16))
-        self.add_line('p2-r1-4', (10, 16), (27, 3))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        # Previous: a bar and a triangle pointing left, 4 units apart.
+        self.add_line('bar', (4, 2), (4, 30))
+        self.add_polyline('triangle', (28, 2), (28, 30), (12, 16), closed=True)
