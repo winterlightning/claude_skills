@@ -85,9 +85,9 @@ export async function login() {
 export const query = extra => '/api/combinations?' + new URLSearchParams({kind: 'side', size: String(SIZE), forms: '1', ...extra});
 const part = (item, role) => item.parts.find(p => p.role === role) || {role};
 // Only approved icons are combined, and only pairs built from them are reviewed: the parts whose current drawing is
-// not approved in Icon review, as "sub sub/x (pending)". A native-text sub has no icon and no review of its own.
-export const unapprovedParts = item => item.parts.filter(p => p.icon && p.review !== 'approve')
-  .map(p => `${p.role} ${p.icon} (${p.review || 'not reviewed'})`);
+// not approved in Icon review, as "sub sub/x (pending)". Native text must be registered and reviewed too.
+export const unapprovedParts = item => item.parts.filter(p => !p.icon || p.review !== 'approve')
+  .map(p => `${p.role} ${p.icon || '(none picked)'} (${p.review || 'not reviewed'})`);
 const writeJSON = (file, data) => writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
 
 export async function itemOf(id) {

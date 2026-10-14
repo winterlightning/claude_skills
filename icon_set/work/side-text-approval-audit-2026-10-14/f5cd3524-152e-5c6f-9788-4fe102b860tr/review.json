@@ -1,0 +1,93 @@
+{
+  "reference_id": "f5cd3524-152e-5c6f-9788-4fe102b860tr",
+  "concept": "Automatic Steering Wheel",
+  "verdict": "fix",
+  "note": "Rank 1: A interrupts a plain section of the wheel rim; hub and three spokes still read as a steering wheel.",
+  "reviewed_at": "2026-10-14T03:48:38.246Z",
+  "model": "gpt-6",
+  "before": {
+    "position": "tr",
+    "main": [
+      4,
+      20,
+      40,
+      40
+    ],
+    "sub": [
+      52,
+      4,
+      8,
+      14.999904999999998
+    ],
+    "flags": [
+      "detached"
+    ],
+    "penalty": 23,
+    "reach": 11.01,
+    "erased_pct": 0,
+    "main_to_sub": 5.02,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [],
+    "contact": "fail",
+    "contact_problems": [
+      "detached: reach 11.01 floats apart (want 4 to 4.5)"
+    ],
+    "keyshape": {
+      "main": "CIRCLE at 48 (moved)",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "tr",
+    "main": [
+      10,
+      16,
+      44,
+      44
+    ],
+    "sub": [
+      46,
+      4,
+      8,
+      15
+    ],
+    "flags": [],
+    "penalty": 0,
+    "reach": -2.39,
+    "erased_pct": 5.5,
+    "main_to_sub": 5.25,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "rim",
+        "erased_pct": 9.3
+      },
+      {
+        "index": 1,
+        "name": "hub",
+        "erased_pct": 0.1
+      }
+    ],
+    "contact": "knockout",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "CIRCLE at 52",
+      "sub": "native text at 32",
+      "canvas": "VRECT"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

@@ -39,6 +39,17 @@ fn side_keyshape(size: i64, name: &str) -> Option<[f64; 4]> {
     };
     Some([(c - w) / 2.0, (c - h) / 2.0, (c + w) / 2.0, (c + h) / 2.0])
 }
+// Check the declared painted part envelopes as well as the name; a label alone is not validation.
+fn side_layout_in_keyshape(parts: &Map<String, Value>, size: i64, name: &str) -> bool {
+    let Some([x0, y0, x1, y1]) = side_keyshape(size, name) else { return false };
+    !parts.is_empty() && parts.values().all(|part| part["layout"].as_array().is_some_and(|groups|
+        !groups.is_empty() && groups.iter().all(|g| {
+            let values: Option<Vec<f64>> = ["x", "y", "w", "h"].iter().map(|k| g[*k].as_f64()).collect();
+            values.is_some_and(|v| v.iter().all(|n| n.is_finite()) && v[2] >= 0.0 && v[3] >= 0.0
+                && v[0] - 2.0 >= x0 - 0.05 && v[1] - 2.0 >= y0 - 0.05
+                && v[0] + v[2] + 2.0 <= x1 + 0.05 && v[1] + v[3] + 2.0 <= y1 + 0.05)
+        })))
+}
 const MAX_LIMIT: i64 = 500;
 
 /// One row per combination: its kind, build state and whether a part has no icon picked, from its parts. At size
@@ -57,7 +68,7 @@ combos AS (
     SELECT r.reference_id, r.concept,
         CASE WHEN max(pt.role IN ('container', 'symbol')) THEN 'container' ELSE 'side' END AS kind,
         CASE WHEN count(pt.built_sha) = 0 THEN 'unbuilt'
-             WHEN max(pt.built_sha IS NOT NULL AND pt.current_sha IS NOT NULL AND pt.built_sha != pt.current_sha) THEN 'stale'
+             WHEN max(pt.icon IS NOT NULL AND pt.current_sha IS NOT NULL AND (pt.built_sha IS NULL OR pt.built_sha != pt.current_sha)) THEN 'stale'
              ELSE 'built' END AS state,
         max(pt.icon IS NULL) AS missing
     FROM \"references\" r JOIN parts pt ON pt.reference_id = r.reference_id
@@ -405,13 +416,18 @@ pub async fn register_text(ctx: &Ctx, data: &Value, user: &str) -> Result<Respon
     if form["native_text"] != true { return http::error(400, "This part has no native text drawing."); }
     let Some(svg) = form["document"].as_str() else { return http::error(400, "Native text has no SVG."); };
     if let Err(error) = pictographic_core::svg::safe_svg_any_canvas(svg) { return http::error(400, &error); }
-    let Some(key) = form["model_key"].as_str().filter(|key| key.starts_with("text/")) else {
+    let Some(base_key) = form["model_key"].as_str().filter(|key| key.starts_with("text/")) else {
         return http::error(400, "Native text needs a text family model key.");
     };
     let sha = hex::encode(Sha256::digest(svg.as_bytes()));
-    let existing = drawings_of(ctx, &[key.to_string()]).await?;
+    let base_existing = drawings_of(ctx, &[base_key.to_string()]).await?;
+    let key_owned = if base_existing.get(base_key).is_some_and(|d| d.svg_sha256 != sha) {
+        format!("{base_key}-{}", &sha[..12])
+    } else { base_key.to_string() };
+    let key = key_owned.as_str();
+    let existing = drawings_of(ctx, &[key_owned.clone()]).await?;
     if existing.get(key).is_some_and(|d| d.svg_sha256 != sha) {
-        return http::error(409, "That text key already has a different drawing. Review it before linking.");
+        return http::error(409, "The versioned text key has a different drawing. Reload before registering.");
     }
     let now = iso_utc(chrono::Utc::now());
     if !existing.contains_key(key) {
@@ -428,15 +444,23 @@ pub async fn register_text(ctx: &Ctx, data: &Value, user: &str) -> Result<Respon
                 "svg_sha256": sha, "svg": svg, "origin": "native-text-registration", "record": record,
                 "original_sources": source, "preview_url": preview_url(key, &sha)}]}), user).await?;
     }
+    // Preserve separate native revisions with the same historical model key.
+    let mut linked_form = form.clone();
+    linked_form["model_key"] = json!(key);
+    linked_form["icon"] = json!(key.trim_start_matches("text/"));
     // The compare condition preserves another reviewer's pick made while registration was running.
-    db::batch(&ctx.db, vec![
-        db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, updated_at = ?, updated_by = ? \
+    let linked = db::batch(&ctx.db, vec![
+        db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, form = ?, updated_at = ?, updated_by = ? \
             WHERE reference_id = ? AND role = 'sub' AND icon IS NULL AND form = ?",
-            args![key, now, user, id, part.form])?,
+            args![key, linked_form.to_string(), now, user, id, part.form])?,
         db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
             args![key, part.part_reference_id])?,
         db::activity(&ctx.db, user, "native_text_registered", Some(key), db::details(vec![("reference_id", json!(id)), ("svg_sha256", json!(sha))]))?,
     ]).await?;
+    if linked.first().map(db::changes).unwrap_or(0) == 0 {
+        return http::error(409, "The text part changed during registration. Reload before continuing.");
+    }
+    super::icon_list::recheck_combined(&ctx.db, key).await?;
     http::json(200, &json!({"key": key, "svg_sha256": sha, "approval_required": true}))
 }
 
@@ -520,6 +544,10 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                                 else { "The combined drawing needs a square viewBox from 0 0 (64 × 64, or larger for native text).".into() }));
             continue;
         };
+        if kind == "side" && (canvas != size || !b["keyshape"].as_str().is_some_and(|name| side_layout_in_keyshape(parts, size, name))) {
+            results.push(failed("The side layout must fit a valid canvas keyshape. Adjust the layout before building.".into()));
+            continue;
+        }
         if let Err(error) = pictographic_core::svg::safe_svg(&svg, canvas) {
             results.push(failed(error));
             continue;
@@ -638,11 +666,13 @@ pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str, size:
         "SELECT p.role, s.icon FROM reference_parts p
         LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
         LEFT JOIN icons i ON i.key = s.icon
-        WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
+        WHERE p.reference_id = ? AND (COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
+          OR s.built_sha IS NULL OR s.built_sha != i.svg_sha256)
         ORDER BY p.role"
     } else {
         "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
-        WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
+        WHERE p.reference_id = ? AND (COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
+          OR p.built_sha IS NULL OR p.built_sha != i.svg_sha256)
         ORDER BY p.role"
     };
     let rows: Vec<Waiting> = db::all(db, sql, args![reference_id]).await?;
@@ -778,7 +808,18 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
 
 #[cfg(test)]
 mod text_part_tests {
-    use super::fits_role;
+    use super::{fits_role, side_layout_in_keyshape};
+    use serde_json::json;
+
+    #[test]
+    fn a_keyshape_name_does_not_accept_outside_ink() {
+        let mut parts = json!({"main":{"layout":[{"x":6,"y":6,"w":36,"h":36}]},
+            "sub":{"layout":[{"x":34,"y":43,"w":24,"h":15}]}});
+        assert!(side_layout_in_keyshape(parts.as_object().unwrap(), 64, "SQUARE"));
+        parts["sub"]["layout"][0]["x"] = json!(36);
+        assert!(!side_layout_in_keyshape(parts.as_object().unwrap(), 64, "SQUARE"));
+        assert!(!side_layout_in_keyshape(parts.as_object().unwrap(), 64, "FREE"));
+    }
 
     #[test]
     fn text_drawings_are_reviewable_content_parts_at_64() {

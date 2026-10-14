@@ -1487,6 +1487,9 @@
       if (!item) fail('The ' + role + ' does not belong to this pair.');
       const svg = documents[role];
       const published = new Set([item.sha256, item.source_sha256].filter(Boolean));
+      if (svg && svg !== item.document && !published.has(sha256(svg)) && item.native_text) {
+        fail('The native text drawing changed. Refresh its form before combining.');
+      }
       if (svg && svg !== item.document && !published.has(sha256(svg)) && !item.native_text) {
         if (role === 'sub' && item.ink32 && item.family !== 'text' && size === 64) {
           normalizedSub(item, squareViewBox(inlineClassStyles(svg)));

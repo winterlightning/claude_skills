@@ -1,0 +1,91 @@
+{
+  "reference_id": "fb57e99a-4e93-4488-b396-16942d8b27bo",
+  "concept": "InDesign Document File",
+  "verdict": "fix",
+  "note": "Rank 2: INDD sits below the whole document; top fold and all four outer edges remain intact.",
+  "reviewed_at": "2026-10-14T03:48:45.932Z",
+  "model": "gpt-6",
+  "gap_ok": "Five units of clear space keeps the whole main intact; the four-unit placement visibly shaved its bottom edge.",
+  "before": {
+    "position": "bo",
+    "main": [
+      16,
+      4,
+      32,
+      40
+    ],
+    "sub": [
+      8,
+      45,
+      48,
+      15
+    ],
+    "flags": [
+      "lost_feature"
+    ],
+    "penalty": 12,
+    "reach": -3,
+    "erased_pct": 29.4,
+    "main_to_sub": 0.65,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [
+      {
+        "index": 0,
+        "name": "page-outline",
+        "erased_pct": 29.4
+      }
+    ],
+    "contact": "knockout",
+    "contact_problems": [],
+    "keyshape": {
+      "main": "VRECT_XL at 48",
+      "sub": "off: undefined",
+      "canvas": "off"
+    }
+  },
+  "after": {
+    "position": "bo",
+    "main": [
+      22,
+      6,
+      20,
+      28
+    ],
+    "sub": [
+      8,
+      43,
+      48,
+      15
+    ],
+    "flags": [
+      "detached"
+    ],
+    "penalty": 11,
+    "reach": 5,
+    "erased_pct": 0,
+    "main_to_sub": 0.62,
+    "new_pieces": 0,
+    "stubs": 0,
+    "parts_lost": 0,
+    "lost_parts": [],
+    "parts_cut": [],
+    "contact": "fail",
+    "contact_problems": [
+      "detached: reach 5 floats apart (want 4 to 4.5)"
+    ],
+    "keyshape": {
+      "main": "VRECT_XL at 36",
+      "sub": "native text at 32",
+      "canvas": "SQUARE"
+    }
+  },
+  "images": {
+    "compare": "compare.png",
+    "proposed": "proposed@4x.png",
+    "proposed_64": "proposed.png"
+  },
+  "result": "not pushed"
+}

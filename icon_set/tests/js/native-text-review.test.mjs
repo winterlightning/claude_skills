@@ -4,6 +4,7 @@ import {createRequire} from 'node:module';
 import {mkdtempSync, writeFileSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
+import {unapprovedParts} from '../../scripts/side_layout.mjs';
 import {keyshapeCheck, presetBoxes} from '../../scripts/side_keyshape_check.mjs';
 const Side = createRequire(import.meta.url)('../../scripts/templates/combine-side.js');
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 19" fill="none" stroke="currentColor" stroke-width="4"><path d="M2 2H26V17H2Z"/></svg>';
@@ -34,4 +35,11 @@ test('native text requires canvas containment and unchanged anchored glyph size'
     assert.equal(keyshapeCheck(dir,{...layout,sub:[{...layout.sub[0],w:20}]}).ok,false);
     assert.ok(presetBoxes(dir,'sub','br').every(p=>p.box.split(',').slice(2).join(',')==='24,15'));
   } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+test('unlinked native text is not silently treated as an approved component',()=>{
+  const item=pair(null);item.parts[0].review='approve';
+  assert.equal(unapprovedParts(item).length,1);
+  item.parts[1].icon='text/label';item.parts[1].review='approve';
+  assert.deepEqual(unapprovedParts(item),[]);
 });

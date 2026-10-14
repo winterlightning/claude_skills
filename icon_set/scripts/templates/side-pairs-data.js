@@ -33,7 +33,7 @@
   }
   const query = extra => '/api/combinations?' + new URLSearchParams({kind: 'side', size: String(SIZE), forms: '1', ...extra});
   const part = (item, role) => item.parts.find(p => p.role === role) || {role};
-  const formKey = f => f && !f.native_text ? (f.model_key || `${f.family}/${f.icon}`) : null;
+  const formKey = f => f ? (f.model_key || `${f.family}/${f.icon}`) : null;
   const iconURL = (key, sha) => '/api/icon-artwork/svg?' + new URLSearchParams({icon: key, ...(sha ? {v: sha.slice(0, 12)} : {})});
 
   // A part as the old pair rows listed it (experiment-combination.json's items): the stored form when it describes the

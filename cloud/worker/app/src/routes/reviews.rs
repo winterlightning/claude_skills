@@ -175,7 +175,7 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
     if let (true, Some(size)) = (status == "approve", side_size) {
         let reference = key.split_once('/').map_or("", |(_, id)| id);
         if let Some(waiting) = super::combinations::unapproved_parts(&ctx.db, reference, size).await? {
-            return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
+            return http::error(409, &format!("Approve {waiting} first, then rebuild: the combined icon must use the current approved drawings."));
         }
     }
     let sha = icon.svg_sha256.clone();

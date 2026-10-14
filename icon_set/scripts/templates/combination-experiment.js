@@ -75,7 +75,7 @@
   const isText=r=>!!r.native_text;
   let drawings=new Map(),pairsTotal=0;
   async function api(path){const response=await fetch(path,{cache:'no-store'});const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not load the side pairs.');return data;}
-  const formKey=f=>f&&!f.native_text?(f.model_key||f.family+'/'+f.icon):null;
+  const formKey=f=>f?(f.model_key||f.family+'/'+f.icon):null;
   // A part as the review buttons and search read it: the picked icon, its current drawing's sha and its stored form.
   function partItem(p){
     if(!p.icon)return p.form?.native_text?{...p.form,native_text:true}:null;

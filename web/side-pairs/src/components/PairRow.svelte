@@ -21,6 +21,17 @@
             mainDrawing: editableDrawing(store, row, 'main', main), subDrawing: editableDrawing(store, row, 'sub', sub)};
   });
   const sizes = $derived((store.version, store.sizes()));
+  let registering = $state(false);
+  const unlinkedText = $derived((store.version, store.item(row.id)?.parts.some(p => p.role === 'sub' && !p.icon && p.form?.native_text)));
+  async function registerText() {
+    registering = true;editMessage.sub = '';
+    try {
+      await window.SideData.api('/api/combinations/text', {reference_id: row.id});
+      await store.load();
+      editMessage.sub = 'Text is ready to review. Approve the sub, then recombine.';
+    } catch (error) { editMessage.sub = error.message; }
+    finally { registering = false; }
+  }
   let message = $state(''), recombining = $state(false), editMessage = $state({main: '', sub: ''});
 
   async function recombine() {
@@ -84,7 +95,13 @@
         {#if item?.icon}<p class="side-step-name">{item.icon}</p>{/if}
         <!-- A part with no icon yet can name the one still to draw (Change main / sub › None of these). -->
         {#if view.pair && !view.pair[role + 's'].length && view.pair[role + '_name']}<p class="side-step-name">To draw: {view.pair[role + '_name']}</p>{/if}
-        {#if drawing && drawing.profile !== 'TEXT_NATIVE_V2' && window.SideComponentEditor}
+        {#if role === 'sub' && unlinkedText}
+          <div class="requires-login">
+            <button type="button" class="side-edit-component" disabled={registering} onclick={registerText}>{registering ? 'Registering text…' : 'Register text for review'}</button>
+            <p class="side-editor-message" role="status">{editMessage.sub}</p>
+          </div>
+        {/if}
+        {#if drawing && !item?.native_text && drawing.profile !== 'TEXT_NATIVE_V2' && window.SideComponentEditor}
           <div class="requires-login">
             <button type="button" class="side-edit-component" onclick={() => editIcon(role, drawing)}>Edit {role} icon</button>
             <p class="side-editor-message" role="status">{editMessage[role]}</p>
@@ -119,9 +136,9 @@
       {#if download?.url || download?.result?.svg}
         <span hidden use:mountBefore={() => { const a = document.createElement('a');a.href = download.url || dataURL(download.result.svg);a.download = view.pair.id + '.svg';return window.SideRepairFlags?.download(a) || a; }}></span>
       {/if}
-      {#if window.SideRepairFlags && !view.pair.native_text}
+      {#if window.SideRepairFlags}
         <span hidden use:mountBefore={() => window.SideRepairFlags.button('main', reviewItem('main', view.main), view.pair)}></span>
-        <span hidden use:mountBefore={() => window.SideRepairFlags.button('sub', reviewItem('sub', view.sub), view.pair)}></span>
+        {#if !unlinkedText}<span hidden use:mountBefore={() => window.SideRepairFlags.button('sub', reviewItem('sub', view.sub), view.pair)}></span>{/if}
       {/if}
       <CombinedReview {store} pair={view.pair} main={view.main} sub={view.sub} />
     </div>

@@ -6,7 +6,8 @@
   const icon = $derived((store.version, store.item(pair.id)?.icon));
   // Reviews are plain data: read them again with the store's version.
   const status = $derived((store.version, icon ? store.reviews[icon.key] || icon.review || 'ready' : 'ready'));
-  const waiting = $derived((store.version, [['main', main], ['sub', sub]].filter(([, item]) => item && store.reviews[item.model_key] !== 'approve').map(([role]) => role)));
+  const waiting = $derived((store.version, (store.item(pair.id)?.parts || []).filter(p => !p.icon || (window.SideRepairFlags?.status({model_key:p.icon}) ?? store.reviews[p.icon] ?? p.review) !== 'approve').map(p => p.role)));
+  const stale = $derived((store.version, (store.item(pair.id)?.parts || []).some(p => !p.built_sha || p.built_sha !== p.current_sha)));
   let message = $state(''), busy = $state(false);
   async function send(body) {
     busy = true;message = 'Saving…';
@@ -23,8 +24,8 @@
 {#if icon}
   <span class="side-review side-combined-review" data-status={status}>
     <span class="side-review-chip"><b>Combined</b> {REVIEW_LABELS[status] || status}</span>
-    <button type="button" class="requires-login" data-action="approve" disabled={busy || status === 'approve' || waiting.length > 0}
-            title={waiting.length ? 'Approve the ' + waiting.join(' and ') + ' first' : ''} onclick={() => send({status: 'approve'})}>Approve</button>
+    <button type="button" class="requires-login" data-action="approve" disabled={busy || status === 'approve' || waiting.length > 0 || stale}
+            title={waiting.length ? 'Approve the ' + waiting.join(' and ') + ' first' : stale ? 'Recombine using the current approved drawings first' : ''} onclick={() => send({status: 'approve'})}>Approve</button>
     <button type="button" class="requires-login" data-action="disapprove" disabled={busy || status === 'pending'} onclick={disapprove}>Disapprove</button>
     <span class="side-editor-message" role="status">{message}</span>
   </span>

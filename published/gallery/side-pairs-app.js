@@ -5873,7 +5873,8 @@ createHTML: (html) => {
 		let store = prop($$props, "store", 7);
 		const icon = /* @__PURE__ */ user_derived(() => (store().version, store().item($$props.pair.id)?.icon));
 		const status = /* @__PURE__ */ user_derived(() => (store().version, get(icon) ? store().reviews[get(icon).key] || get(icon).review || "ready" : "ready"));
-		const waiting = /* @__PURE__ */ user_derived(() => (store().version, [["main", $$props.main], ["sub", $$props.sub]].filter(([, item]) => item && store().reviews[item.model_key] !== "approve").map(([role]) => role)));
+		const waiting = /* @__PURE__ */ user_derived(() => (store().version, (store().item($$props.pair.id)?.parts || []).filter((p) => !p.icon || (window.SideRepairFlags?.status({ model_key: p.icon }) ?? store().reviews[p.icon] ?? p.review) !== "approve").map((p) => p.role)));
+		const stale = /* @__PURE__ */ user_derived(() => (store().version, (store().item($$props.pair.id)?.parts || []).some((p) => !p.built_sha || p.built_sha !== p.current_sha)));
 		let message = /* @__PURE__ */ state$1("");
 		let busy = /* @__PURE__ */ state$1(false);
 		async function send(body) {
@@ -5922,11 +5923,11 @@ createHTML: (html) => {
 			template_effect(($0) => {
 				set_attribute(span, "data-status", get(status));
 				set_text(text, ` ${(REVIEW_LABELS[get(status)] || get(status)) ?? ""}`);
-				button.disabled = get(busy) || get(status) === "approve" || get(waiting).length > 0;
+				button.disabled = get(busy) || get(status) === "approve" || get(waiting).length > 0 || get(stale);
 				set_attribute(button, "title", $0);
 				button_1.disabled = get(busy) || get(status) === "pending";
 				set_text(text_1, get(message));
-			}, [() => get(waiting).length ? "Approve the " + get(waiting).join(" and ") + " first" : ""]);
+			}, [() => get(waiting).length ? "Approve the " + get(waiting).join(" and ") + " first" : get(stale) ? "Recombine using the current approved drawings first" : ""]);
 			delegated("click", button, () => send({ status: "approve" }));
 			delegated("click", button_1, disapprove);
 			append($$anchor, span);
@@ -6216,7 +6217,7 @@ createHTML: (html) => {
 			preview_url: iconURL(p.icon, p.current_sha)
 		}] : [];
 		const status = !m.icon && !s.icon ? "needs_both" : !m.icon ? "needs_main" : !s.icon ? "needs_sub" : item.state === "built" ? "generated" : "waiting";
-		const formKey = (f) => f && !f.native_text ? f.model_key || f.family + "/" + f.icon : null;
+		const formKey = (f) => f ? f.model_key || f.family + "/" + f.icon : null;
 		return {
 			row: {
 				id: item.reference_id,
@@ -6717,13 +6718,13 @@ createHTML: (html) => {
 	var root_7$3 = /* @__PURE__ */ from_html(`<span class="side-combined-empty">Reference missing</span>`);
 	var root_8$1 = /* @__PURE__ */ from_html(`<p class="side-step-name"> </p>`);
 	var root_9$1 = /* @__PURE__ */ from_html(`<div class="requires-login"><button type="button" class="side-edit-component"> </button> <p class="side-editor-message" role="status"> </p></div>`);
-	var root_10$1 = /* @__PURE__ */ from_html(`<div class="side-step"><p class="side-step-label"> </p> <!> <!> <!> <!></div>`);
+	var root_10$1 = /* @__PURE__ */ from_html(`<div class="side-step"><p class="side-step-label"> </p> <!> <!> <!> <!> <!></div>`);
 	var root_11$1 = /* @__PURE__ */ from_html(`<div class="side-combined"><span class="side-combined-empty">Not combined yet</span></div>`);
 	var root_12$1 = /* @__PURE__ */ from_html(`<div class="requires-login"><button type="button" class="side-edit-component" title="Use the latest saved main and sub with automatic placement"> </button> <p class="side-editor-message" role="status"> </p></div> <p class="login-prompt"><a href="login.html">Log in</a> to recombine this icon or adjust its layout.</p> <button type="button" class="side-layout-open" title="Move and resize the main, the sub or chosen elements, snapped to the grid">Edit layout</button>`, 1);
 	var root_13$1 = /* @__PURE__ */ from_html(`<button type="button" class="login-only">Change main / sub</button>`);
 	var root_14$1 = /* @__PURE__ */ from_html(`<div class="component-brief side-pair side-pair-editor"><!></div>`);
 	var root_15$1 = /* @__PURE__ */ from_html(`<span hidden=""></span>`);
-	var root_16$1 = /* @__PURE__ */ from_html(`<span hidden=""></span> <span hidden=""></span>`, 1);
+	var root_16$1 = /* @__PURE__ */ from_html(`<span hidden=""></span> <!>`, 1);
 	var root_17$1 = /* @__PURE__ */ from_html(`<div class="pair-card-actions"><!> <!> <!></div>`);
 	var root_18$1 = /* @__PURE__ */ from_html(`<article class="side-row"><div class="side-row-head"><h3> </h3> <span class="side-meta"> </span> <span> </span> <!> <!> <!> <!> <!></div> <div class="side-steps"><div class="side-step"><p class="side-step-label">Original</p> <div class="side-original"><!></div></div> <!> <div class="side-step"><p class="side-step-label"> </p> <!> <!></div></div> <!> <!></article>`);
 	function PairRow($$anchor, $$props) {
@@ -6751,6 +6752,21 @@ createHTML: (html) => {
 			};
 		});
 		const sizes = /* @__PURE__ */ user_derived(() => ($$props.store.version, $$props.store.sizes()));
+		let registering = /* @__PURE__ */ state$1(false);
+		const unlinkedText = /* @__PURE__ */ user_derived(() => ($$props.store.version, $$props.store.item($$props.row.id)?.parts.some((p) => p.role === "sub" && !p.icon && p.form?.native_text)));
+		async function registerText() {
+			set(registering, true);
+			editMessage.sub = "";
+			try {
+				await window.SideData.api("/api/combinations/text", { reference_id: $$props.row.id });
+				await $$props.store.load();
+				editMessage.sub = "Text is ready to review. Approve the sub, then recombine.";
+			} catch (error) {
+				editMessage.sub = error.message;
+			} finally {
+				set(registering, false);
+			}
+		}
 		let message = /* @__PURE__ */ state$1("");
 		let recombining = /* @__PURE__ */ state$1(false);
 		let editMessage = proxy({
@@ -6963,28 +6979,46 @@ createHTML: (html) => {
 			var consequent_9 = ($$anchor) => {
 				var div_5 = root_9$1();
 				var button = child(div_5);
-				var text_7 = only_child(button);
+				var text_7 = only_child(button, true);
 				var text_8 = only_child(sibling(button, 2), true);
 				reset(div_5);
 				template_effect(() => {
-					set_text(text_7, `Edit ${role() ?? ""} icon`);
-					set_text(text_8, editMessage[role()]);
+					button.disabled = get(registering);
+					set_text(text_7, get(registering) ? "Registering text…" : "Register text for review");
+					set_text(text_8, editMessage.sub);
 				});
-				delegated("click", button, () => editIcon(role(), drawing()));
+				delegated("click", button, registerText);
 				append($$anchor, div_5);
 			};
 			if_block(node_10, ($$render) => {
-				if (drawing() && drawing().profile !== "TEXT_NATIVE_V2" && window.SideComponentEditor) $$render(consequent_9);
+				if (role() === "sub" && get(unlinkedText)) $$render(consequent_9);
+			});
+			var node_11 = sibling(node_10, 2);
+			var consequent_10 = ($$anchor) => {
+				var div_6 = root_9$1();
+				var button_1 = child(div_6);
+				var text_9 = only_child(button_1);
+				var text_10 = only_child(sibling(button_1, 2), true);
+				reset(div_6);
+				template_effect(() => {
+					set_text(text_9, `Edit ${role() ?? ""} icon`);
+					set_text(text_10, editMessage[role()]);
+				});
+				delegated("click", button_1, () => editIcon(role(), drawing()));
+				append($$anchor, div_6);
+			};
+			if_block(node_11, ($$render) => {
+				if (drawing() && !item()?.native_text && drawing().profile !== "TEXT_NATIVE_V2" && window.SideComponentEditor) $$render(consequent_10);
 			});
 			reset(div_4);
 			template_effect(() => set_text(text_4, role() === "sub" && get(view).sub?.native_text ? "Sub · native" : (role() === "main" ? "Main · " : "Sub · ") + size()));
 			append($$anchor, div_4);
 		});
-		var div_6 = sibling(node_6, 2);
-		var p_5 = child(div_6);
-		var text_9 = only_child(p_5, true);
-		var node_11 = sibling(p_5, 2);
-		var consequent_10 = ($$anchor) => {
+		var div_7 = sibling(node_6, 2);
+		var p_6 = child(div_7);
+		var text_11 = only_child(p_6, true);
+		var node_12 = sibling(p_6, 2);
+		var consequent_11 = ($$anchor) => {
 			CombinedFigure($$anchor, {
 				get store() {
 					return $$props.store;
@@ -7000,38 +7034,38 @@ createHTML: (html) => {
 		var alternate_1 = ($$anchor) => {
 			append($$anchor, root_11$1());
 		};
-		if_block(node_11, ($$render) => {
-			if (get(view).p.ready) $$render(consequent_10);
+		if_block(node_12, ($$render) => {
+			if (get(view).p.ready) $$render(consequent_11);
 			else $$render(alternate_1, -1);
 		});
-		var node_12 = sibling(node_11, 2);
-		var consequent_11 = ($$anchor) => {
+		var node_13 = sibling(node_12, 2);
+		var consequent_12 = ($$anchor) => {
 			var fragment_1 = root_12$1();
-			var div_8 = first_child(fragment_1);
-			var button_1 = child(div_8);
-			var text_10 = only_child(button_1, true);
-			var text_11 = only_child(sibling(button_1, 2), true);
-			reset(div_8);
-			var button_2 = sibling(div_8, 4);
+			var div_9 = first_child(fragment_1);
+			var button_2 = child(div_9);
+			var text_12 = only_child(button_2, true);
+			var text_13 = only_child(sibling(button_2, 2), true);
+			reset(div_9);
+			var button_3 = sibling(div_9, 4);
 			template_effect(() => {
-				button_1.disabled = get(recombining);
-				set_text(text_10, get(recombining) ? "Recombining…" : get(view).changed.length ? "Recombine (outdated)" : "Recombine this icon");
-				set_text(text_11, get(message));
+				button_2.disabled = get(recombining);
+				set_text(text_12, get(recombining) ? "Recombining…" : get(view).changed.length ? "Recombine (outdated)" : "Recombine this icon");
+				set_text(text_13, get(message));
 			});
-			delegated("click", button_1, recombine);
-			delegated("click", button_2, () => $$props.editor.show(get(view).pair, get(view).main, get(view).sub, () => $$props.store.refresh(get(view).pair.id), $$props.store.handLayout(get(view).pair.id)));
+			delegated("click", button_2, recombine);
+			delegated("click", button_3, () => $$props.editor.show(get(view).pair, get(view).main, get(view).sub, () => $$props.store.refresh(get(view).pair.id), $$props.store.handLayout(get(view).pair.id)));
 			append($$anchor, fragment_1);
 		};
-		if_block(node_12, ($$render) => {
-			if (get(view).p.ready && !get(view).pair.mapped_native) $$render(consequent_11);
+		if_block(node_13, ($$render) => {
+			if (get(view).p.ready && !get(view).pair.mapped_native) $$render(consequent_12);
 		});
-		reset(div_6);
+		reset(div_7);
 		reset(div_1);
-		var node_13 = sibling(div_1, 2);
-		var consequent_13 = ($$anchor) => {
-			var div_9 = root_14$1();
-			var node_14 = child(div_9);
-			var consequent_12 = ($$anchor) => {
+		var node_14 = sibling(div_1, 2);
+		var consequent_14 = ($$anchor) => {
+			var div_10 = root_14$1();
+			var node_15 = child(div_10);
+			var consequent_13 = ($$anchor) => {
 				PairPicker($$anchor, {
 					get row() {
 						return get(pickerRow);
@@ -7041,25 +7075,25 @@ createHTML: (html) => {
 			};
 			var d_1 = /* @__PURE__ */ user_derived(() => forms.get($$props.row.id));
 			var alternate_2 = ($$anchor) => {
-				var button_3 = root_13$1();
-				delegated("click", button_3, () => openForm(get(pickerRow)));
-				append($$anchor, button_3);
+				var button_4 = root_13$1();
+				delegated("click", button_4, () => openForm(get(pickerRow)));
+				append($$anchor, button_4);
 			};
-			if_block(node_14, ($$render) => {
-				if (get(d_1)) $$render(consequent_12);
+			if_block(node_15, ($$render) => {
+				if (get(d_1)) $$render(consequent_13);
 				else $$render(alternate_2, -1);
 			});
-			reset(div_9);
-			append($$anchor, div_9);
+			reset(div_10);
+			append($$anchor, div_10);
 		};
-		if_block(node_13, ($$render) => {
-			if (get(pickerRow)) $$render(consequent_13);
+		if_block(node_14, ($$render) => {
+			if (get(pickerRow)) $$render(consequent_14);
 		});
-		var node_15 = sibling(node_13, 2);
-		var consequent_16 = ($$anchor) => {
-			var div_10 = root_17$1();
-			var node_16 = child(div_10);
-			var consequent_14 = ($$anchor) => {
+		var node_16 = sibling(node_14, 2);
+		var consequent_18 = ($$anchor) => {
+			var div_11 = root_17$1();
+			var node_17 = child(div_11);
+			var consequent_15 = ($$anchor) => {
 				var span_9 = root_15$1();
 				action(span_9, ($$node, $$action_arg) => mountBefore?.($$node, $$action_arg), () => () => {
 					const a = document.createElement("a");
@@ -7069,21 +7103,29 @@ createHTML: (html) => {
 				});
 				append($$anchor, span_9);
 			};
-			if_block(node_16, ($$render) => {
-				if (get(download)?.url || get(download)?.result?.svg) $$render(consequent_14);
+			if_block(node_17, ($$render) => {
+				if (get(download)?.url || get(download)?.result?.svg) $$render(consequent_15);
 			});
-			var node_17 = sibling(node_16, 2);
-			var consequent_15 = ($$anchor) => {
+			var node_18 = sibling(node_17, 2);
+			var consequent_17 = ($$anchor) => {
 				var fragment_3 = root_16$1();
 				var span_10 = first_child(fragment_3);
 				action(span_10, ($$node, $$action_arg) => mountBefore?.($$node, $$action_arg), () => () => window.SideRepairFlags.button("main", reviewItem("main", get(view).main), get(view).pair));
-				action(sibling(span_10, 2), ($$node, $$action_arg) => mountBefore?.($$node, $$action_arg), () => () => window.SideRepairFlags.button("sub", reviewItem("sub", get(view).sub), get(view).pair));
+				var node_19 = sibling(span_10, 2);
+				var consequent_16 = ($$anchor) => {
+					var span_11 = root_15$1();
+					action(span_11, ($$node, $$action_arg) => mountBefore?.($$node, $$action_arg), () => () => window.SideRepairFlags.button("sub", reviewItem("sub", get(view).sub), get(view).pair));
+					append($$anchor, span_11);
+				};
+				if_block(node_19, ($$render) => {
+					if (!get(unlinkedText)) $$render(consequent_16);
+				});
 				append($$anchor, fragment_3);
 			};
-			if_block(node_17, ($$render) => {
-				if (window.SideRepairFlags && !get(view).pair.native_text) $$render(consequent_15);
+			if_block(node_18, ($$render) => {
+				if (window.SideRepairFlags) $$render(consequent_17);
 			});
-			CombinedReview(sibling(node_17, 2), {
+			CombinedReview(sibling(node_18, 2), {
 				get store() {
 					return $$props.store;
 				},
@@ -7097,11 +7139,11 @@ createHTML: (html) => {
 					return get(view).sub;
 				}
 			});
-			reset(div_10);
-			append($$anchor, div_10);
+			reset(div_11);
+			append($$anchor, div_11);
 		};
-		if_block(node_15, ($$render) => {
-			if (get(view).p.ready) $$render(consequent_16);
+		if_block(node_16, ($$render) => {
+			if (get(view).p.ready) $$render(consequent_18);
 		});
 		reset(article);
 		template_effect(($0) => {
@@ -7111,7 +7153,7 @@ createHTML: (html) => {
 			set_class(span_1, 1, "side-state " + get(view).tone);
 			set_attribute(span_1, "title", get(view).hint);
 			set_text(text_2, get(view).label);
-			set_text(text_9, get(view).pair?.native_text ? "Combined · native" : "Combined · " + get(sizes).canvas);
+			set_text(text_11, get(view).pair?.native_text ? "Combined · native" : "Combined · " + get(sizes).canvas);
 		}, [() => get(view).pair?.native_text ? `${round(get(view).pair.canvas_width)}×${round(get(view).pair.canvas_height)}` : `${get(sizes).canvas}×${get(sizes).canvas}`]);
 		append($$anchor, article);
 		pop();
