@@ -1598,7 +1598,7 @@
   // ======== one combination from /api/combinations (with forms), built the way side-pairs.html builds it ========
 
   const partOf = (item, role) => item.parts.find(p => p.role === role) || {role};
-  const formKey = f => f && !f.native_text ? (f.model_key || `${f.family}/${f.icon}`) : null;
+  const formKey = f => f ? (f.model_key || `${f.family}/${f.icon}`) : null;
 
   // A hand-adjusted layout: groups that list their elements (`paths`); boxes without them only record where the
   // automatic placement put a part.

@@ -13,12 +13,15 @@ window.loadApprovedPreviewIcons = async function() {
   if(responses.some(r=>!r.ok))throw Error('Could not verify approved icons. Reload to try again.');
   const [catalog,reviews]=await Promise.all(responses.map(r=>r.json()));
   const approved=window.approvedPreviewIcons(catalog,reviews);
-  // Side-combination icons come from the combination experiment, not the review
-  // pipeline, so they are appended without an approval gate.
-  try{
-    const combo=await fetch('preview-combination-icons.json',{cache:'no-store'});
-    if(combo.ok){const data=await combo.json();if(Array.isArray(data?.icons))return approved.concat(data.icons);}
-    console.warn('preview-combination-icons.json is missing ('+combo.status+'); examples fall back to solo icons.');
-  }catch(error){console.warn('preview-combination-icons.json could not be loaded; examples fall back to solo icons.',error);}
-  return approved;
+  // Side- and container-combination icons come from the combination experiments,
+  // not the review pipeline, so they are appended without an approval gate.
+  let extra=[];
+  for(const file of ['preview-combination-icons.json','preview-container-combination-icons.json']){
+    try{
+      const combo=await fetch(file,{cache:'no-store'});
+      if(combo.ok){const data=await combo.json();if(Array.isArray(data?.icons))extra=extra.concat(data.icons);}
+      else console.warn(file+' is missing ('+combo.status+'); its combined icons are not offered.');
+    }catch(error){console.warn(file+' could not be loaded; its combined icons are not offered.',error);}
+  }
+  return approved.concat(extra);
 };

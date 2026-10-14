@@ -228,7 +228,8 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
 const MAX_KEYS: usize = 100;
 const MAX_BUILDS: usize = 50;
 
-/// The families an icon for each part may come from: at 72 a main-54 main and a sub-36 sub.
+/// The families an icon for each part may come from: text is reviewable content at 64,
+/// and a container can become the main when its text is placed alongside it. At 72: main-54 / sub-36.
 fn fits_role(role: &str, key: &str, size: i64) -> bool {
     let family = key.split_once('/').map_or("", |(family, _)| family);
     if size == 72 {
@@ -236,9 +237,9 @@ fn fits_role(role: &str, key: &str, size: i64) -> bool {
     }
     match role {
         "container" => family == "container",
-        "symbol" => family == "symbol",
-        "main" => matches!(family, "solo" | "combination_main"),
-        "sub" => family == "sub",
+        "symbol" => matches!(family, "symbol" | "text"),
+        "main" => matches!(family, "solo" | "combination_main" | "container"),
+        "sub" => matches!(family, "sub" | "text"),
         _ => false,
     }
 }
@@ -389,6 +390,56 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     http::json(200, &json!({"reference_id": id, "role": role, "size": size, "updated_at": now}))
 }
 
+/// Register a legacy native text form as an independently reviewable part, preserving its exact SVG.
+/// This never approves it or replaces an already picked component.
+pub async fn register_text(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    if user == "system" { return http::error(401, "Log in to register text components."); }
+    let Some(id) = data["reference_id"].as_str() else { return http::error(400, "reference_id is required.") };
+    #[derive(Deserialize)]
+    struct TextPart { icon: Option<String>, form: Option<String>, part_reference_id: String }
+    let Some(part) = db::first::<TextPart>(&ctx.db,
+        "SELECT icon, form, part_reference_id FROM reference_parts WHERE reference_id = ? AND role = 'sub'",
+        args![id]).await? else { return http::error(404, "No sub component for that pair.") };
+    if let Some(key) = part.icon { return http::json(200, &json!({"key": key, "already_linked": true})); }
+    let form: Value = part.form.as_deref().and_then(|f| serde_json::from_str(f).ok()).unwrap_or(Value::Null);
+    if form["native_text"] != true { return http::error(400, "This part has no native text drawing."); }
+    let Some(svg) = form["document"].as_str() else { return http::error(400, "Native text has no SVG."); };
+    if let Err(error) = pictographic_core::svg::safe_svg_any_canvas(svg) { return http::error(400, &error); }
+    let Some(key) = form["model_key"].as_str().filter(|key| key.starts_with("text/")) else {
+        return http::error(400, "Native text needs a text family model key.");
+    };
+    let sha = hex::encode(Sha256::digest(svg.as_bytes()));
+    let existing = drawings_of(ctx, &[key.to_string()]).await?;
+    if existing.get(key).is_some_and(|d| d.svg_sha256 != sha) {
+        return http::error(409, "That text key already has a different drawing. Review it before linking.");
+    }
+    let now = iso_utc(chrono::Utc::now());
+    if !existing.contains_key(key) {
+        let name = svg.split("<title>").nth(1).and_then(|s| s.split("</title>").next()).unwrap_or(key);
+        let source = super::icons::original_reference(ctx, &part.part_reference_id).await?.unwrap_or(json!([]));
+        let record = json!({"key": key, "icon_id": key.trim_start_matches("text/"), "family": "text",
+            "name": name, "category": "text", "profile": "TEXT_NATIVE", "canvas_size": form["canvas"],
+            "canvas_width": form["canvas_width"], "canvas_height": form["canvas_height"],
+            "native_text": true, "side_role": "sub", "svg_sha256": sha, "original_sources": source,
+            "preview_url": preview_url(key, &sha), "validation": {"status": "valid", "automatic_status": "pass"}});
+        super::internal::catalog_push(ctx, &json!({"push_id": "native-text-registration", "final": false,
+            "icons": [{"key": key, "icon_id": record["icon_id"], "family": "text", "name": name,
+                "category": "text", "profile": "TEXT_NATIVE", "canvas_size": form["canvas"],
+                "svg_sha256": sha, "svg": svg, "origin": "native-text-registration", "record": record,
+                "original_sources": source, "preview_url": preview_url(key, &sha)}]}), user).await?;
+    }
+    // The compare condition preserves another reviewer's pick made while registration was running.
+    db::batch(&ctx.db, vec![
+        db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, updated_at = ?, updated_by = ? \
+            WHERE reference_id = ? AND role = 'sub' AND icon IS NULL AND form = ?",
+            args![key, now, user, id, part.form])?,
+        db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
+            args![key, part.part_reference_id])?,
+        db::activity(&ctx.db, user, "native_text_registered", Some(key), json!({"reference_id": id, "svg_sha256": sha}).to_string())?,
+    ]).await?;
+    http::json(200, &json!({"key": key, "svg_sha256": sha, "approval_required": true}))
+}
+
 /// POST /api/combinations/build {size?, builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
 /// store combinations the browser built. Each is checked (its parts are that combination's, each part's
 /// drawing is still the icon's current one, the SVG is a clean 64x64 drawing) and stored as the combined
@@ -424,9 +475,10 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let mut problem = None;
         let mut errors = Vec::new();
         for (role, part) in parts {
-            // A native text sub is drawn from the typeface: no icon, nothing to have been redrawn (64 only).
+            // Legacy native text remains renderable, but needs its own linked, reviewed drawing before approval.
             let textual = size == 64 && part["icon"].is_null() && own.iter().any(|(r, icon)| r == role && icon.is_none());
             if textual {
+                errors.push(format!("{} (none picked) is not approved in Icon review", capitalize(role)));
                 continue;
             }
             let icon = part["icon"].as_str().unwrap_or("");
@@ -557,7 +609,7 @@ pub async fn candidates(ctx: &Ctx) -> Result<Response> {
     let families: &[&str] = match (role, size) {
         ("main", 72) => &["main-54"], ("sub", 72) => &["sub-36"],
         (_, 72) => return http::error(400, "At 72, role must be main or sub."),
-        ("container", _) => &["container"], ("symbol", _) => &["symbol"], ("main", _) => &["solo", "combination_main"], ("sub", _) => &["sub"],
+        ("container", _) => &["container"], ("symbol", _) => &["symbol", "text"], ("main", _) => &["solo", "combination_main", "container"], ("sub", _) => &["sub", "text"],
         _ => return http::error(400, "role must be container, symbol, main or sub."),
     };
     let words: Vec<String> = ctx.param("q").unwrap_or("").to_lowercase().split(|c: char| !c.is_ascii_alphanumeric())
@@ -722,4 +774,22 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     statements.push(db::activity(&ctx.db, user, "side_pair_created", Some(id), db::details(vec![("position", json!(position))]))?);
     db::batch(&ctx.db, statements).await?;
     http::json(200, &json!({"reference_id": id, "created": true}))
+}
+
+#[cfg(test)]
+mod text_part_tests {
+    use super::fits_role;
+
+    #[test]
+    fn text_drawings_are_reviewable_content_parts_at_64() {
+        assert!(fits_role("symbol", "text/session-text-label", 64));
+        assert!(fits_role("sub", "text/session-text-label", 64));
+        assert!(fits_role("main", "container/paper-document", 64));
+        assert!(!fits_role("main", "container/paper-document", 72));
+        assert!(!fits_role("container", "text/session-text-label", 64));
+        assert!(!fits_role("main", "text/session-text-label", 64));
+        assert!(!fits_role("sub", "text/session-text-label", 72));
+        assert!(fits_role("symbol", "symbol/check", 64));
+        assert!(fits_role("sub", "sub/check", 64));
+    }
 }

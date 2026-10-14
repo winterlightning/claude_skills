@@ -126,6 +126,12 @@ def fetch(args) -> None:
     keys |= {f'container/{i}' for i in module_files('container')}
     if (work / 'symbol-assignments.json').exists():
         keys |= {v['symbol'] for v in json.loads((work / 'symbol-assignments.json').read_text())['pairs'].values()}
+    if (work / 'pair-assignments.json').exists():  # local stand-ins for pairs production cannot combine yet
+        keys |= {v[k] for v in json.loads((work / 'pair-assignments.json').read_text())['pairs'].values()
+                 for k in ('symbol', 'container') if v.get(k)}
+    if (work / 'combos.json').exists():  # every symbol combos.json takes from production
+        keys |= {f'symbol/{k}' for k, v in json.loads((work / 'combos.json').read_text()).get('symbols', {}).items()
+                 if v.get('source') == 'production'}
     drawings, ordered = {}, sorted(keys)
     for n in range(0, len(ordered), 100):
         drawings.update(get_json(api, '/api/combinations/drawings?keys=' + urllib.parse.quote(','.join(ordered[n:n + 100]))))

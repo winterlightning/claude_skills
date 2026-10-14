@@ -198,8 +198,9 @@ export function savePair(dir, item, drawings, stored) {
   writeJSON(path.join(dir, 'drawings.json'), drawings);
   for (const role of ['main', 'sub']) {
     const key = part(item, role).icon;
-    if (key && drawings[key]) {
-      writeFileSync(path.join(dir, role + '.svg'), drawings[key].svg);
+    const svg = key && drawings[key]?.svg || part(item, role).form?.document;
+    if (svg) {
+      writeFileSync(path.join(dir, role + '.svg'), svg);
       // The part on its own, for the agent to look at before judging the pair.
       png(path.join(dir, role + '.svg'), path.join(dir, role + '@4x.png'), 256);
     }
@@ -259,7 +260,7 @@ async function preview(dir, opts) {
     for (const role of ['main', 'sub']) layout[role] = groupsOf(composed, role, null).groups;
     // The engine places parts at the canvas padding; the canvas keyshape rule (2026-10-12) needs main + sub inside one
     // canvas keyshape, so move them in by whole units (sizes unchanged), as the snap did for stored layouts.
-    if (!item.parts.some(p => p.role === 'sub' && !p.icon)) layout = intoCanvasKeyshape(layout);
+    layout = intoCanvasKeyshape(layout);
   }
   // Move and scale a whole part: every group of it mapped from the part's box onto the new one. The groups come from
   // the stored layout (base-layout.json) when they are the same groups, so repeated previews never stack rounding

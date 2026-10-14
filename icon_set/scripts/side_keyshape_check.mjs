@@ -120,15 +120,15 @@ export function keyshapeCheck(dir, layout, roles = ['main', 'sub']) {
   const elements = existsSync(path.join(dir, 'elements.json')) ? JSON.parse(readFileSync(path.join(dir, 'elements.json'), 'utf8')) : {};
   let item = {};
   try { item = JSON.parse(readFileSync(path.join(dir, 'item.json'), 'utf8')); } catch {}
-  const nativeText = (item.parts || []).some(p => p.role === 'sub' && !p.icon) || item.native_text;
+  const nativeText = (item.parts || []).some(p => p.role === 'sub' && p.form?.native_text) || item.native_text;
   const res = {position: layout.position, roles: {}, ok: true};
   const boxes = {};
   for (const role of ['main', 'sub']) {
     const groups = layout[role] || [];
     if (groups.length) boxes[role] = union(groups.map(g => [g.x, g.y, g.x + g.w, g.y + g.h]));
   }
-  // Rule 2: main + sub together in one canvas keyshape (a native-text sub's groups are not its ink: not checked here).
-  const frame = !nativeText && boxes.main && boxes.sub ? canvasFrame([boxes.main, boxes.sub]) : null;
+  // Native text has explicit element groups too: its painted bounds must fit the same canvas frame.
+  const frame = boxes.main && boxes.sub ? canvasFrame([boxes.main, boxes.sub]) : null;
   if (frame) {
     const [x0, y0, x1, y1] = frame.union;
     res.canvas = frame.name ? {ok: true, keyshape: frame.name}
@@ -137,7 +137,17 @@ export function keyshapeCheck(dir, layout, roles = ['main', 'sub']) {
   }
   for (const role of roles) {
     if (!boxes[role]) continue;
-    if (role === 'sub' && nativeText) { res.roles.sub = {ok: true, note: 'native text: no keyshape presets'}; continue; }
+    if (role === 'sub' && nativeText) {
+      const presets = presetBoxes(dir, role, layout.position);
+      const hit = presets.find(p => {
+        const [x, y, w, h] = p.box.split(',').map(Number);
+        return dist(boxes.sub, [x, y, x + w, y + h]) < EPS;
+      });
+      res.roles.sub = hit ? {ok: true, box: fmt(boxes.sub), preset: 'native text at 32', frame: hit.frame}
+        : {ok: false, problem: 'native text must retain its glyph size and anchor in the canvas keyshape', nearest: presets.map(p => p.box)};
+      if (!hit) res.ok = false;
+      continue;
+    }
     const box = boxes[role];
     const sources = (elements[role] || []).map(e => e.source).filter(Array.isArray);
     const own = sources.length ? union(sources) : null;
@@ -214,6 +224,17 @@ export function presetBoxes(dir, role, position, frameName = null) {
   const elements = existsSync(path.join(dir, 'elements.json')) ? JSON.parse(readFileSync(path.join(dir, 'elements.json'), 'utf8')) : {};
   const sources = (elements[role] || []).map(e => e.source).filter(Array.isArray);
   const own = sources.length ? union(sources) : null, seen = new Set();
+  const item = JSON.parse(readFileSync(path.join(dir, 'item.json'), 'utf8'));
+  if (role === 'sub' && item.parts?.some(p => p.role === 'sub' && p.form?.native_text) && own) {
+    const [ax, ay] = ANCHORS[position] || [1, 1];
+    const w = own[2] - own[0], h = own[3] - own[1];
+    return FRAMES.filter(f => !frameName || f.name === frameName).filter(f => w + 4 <= f.box[2] - f.box[0] + EPS && h + 4 <= f.box[3] - f.box[1] + EPS)
+      .map(f => ({name: 'native text', size: 32, frame: f.name, box: [
+        Math.round(f.box[0] + (f.box[2] - f.box[0] - w - 4) * ax) + 2,
+        Math.round(f.box[1] + (f.box[3] - f.box[1] - h - 4) * ay) + 2,
+        Math.round(w), Math.round(h)].join(',')}));
+  }
+
   const ownName = own && SHAPES[role].find(([, ...b]) => b.every((v, i) => Math.abs(v - own[i]) < .05))?.[0];
   // One entry per box and canvas keyshape, named after the own keyshape when several presets give it.
   return allowed(role, position, own, frameName).sort((a, b) => (b.name === ownName) - (a.name === ownName))

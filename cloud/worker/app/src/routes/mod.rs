@@ -109,7 +109,7 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
     }
 }
 
-const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/reference-images", "/api/auth/login",
+const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/combinations/text", "/api/reference-images", "/api/auth/login",
     "/api/auth/logout", "/api/icon-type", "/api/icon-flag", "/api/feedback/delete", "/api/feedback/edit", "/api/feedback",
     "/api/reviews", "/api/reject-combination", "/api/pending-briefs/complete", "/api/reject-combination/restore",
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
@@ -147,6 +147,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/auth/logout" => auth::auth_action(ctx, false, &data).await,
         "/api/icon-families" => icons::post_family(ctx, &data, user).await,
         "/api/icons/upload" => icons::post_upload(ctx, &data, user).await,
+        "/api/combinations/text" => combinations::register_text(ctx, &data, user).await,
         "/api/reference-images" => files::post_reference_image(ctx, &data, user).await,
         "/api/icon-type" => icons::post_icon_type(ctx, &data, user).await,
         "/api/icon-flag" => icons::post_icon_flag(ctx, &data, user).await,

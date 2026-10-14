@@ -81,7 +81,7 @@ for (const position of positions) {
     try { r = measure(layout); } catch { continue; }
     if (r.contact === 'fail') continue;
     const same = position === base.position && m.size === storedMain && s.size === storedSub;
-    if (same) continue; // that is the stored layout
+    if (same && JSON.stringify(layout.main) === JSON.stringify(base.main) && JSON.stringify(layout.sub) === JSON.stringify(base.sub)) continue;
     const moved = position !== base.position, mainResized = m.size !== storedMain;
     const tier = s.size < storedSub ? 4 : !moved ? 1 : !mainResized ? 2 : 3;
     found.push({tier, position, frame: frame.name, main: m.size, sub: s.size, mainBox: m.box, subBox: s.box, layout, ...r});
