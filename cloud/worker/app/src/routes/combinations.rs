@@ -435,7 +435,7 @@ pub async fn register_text(ctx: &Ctx, data: &Value, user: &str) -> Result<Respon
             args![key, now, user, id, part.form])?,
         db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
             args![key, part.part_reference_id])?,
-        db::activity(&ctx.db, user, "native_text_registered", Some(key), json!({"reference_id": id, "svg_sha256": sha}).to_string())?,
+        db::activity(&ctx.db, user, "native_text_registered", Some(key), db::details(vec![("reference_id", json!(id)), ("svg_sha256", json!(sha))]))?,
     ]).await?;
     http::json(200, &json!({"key": key, "svg_sha256": sha, "approval_required": true}))
 }
