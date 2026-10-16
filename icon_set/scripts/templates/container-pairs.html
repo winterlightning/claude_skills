@@ -56,6 +56,13 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
 .stage .unit{fill:transparent;stroke:#2f7d4a;stroke-width:.2;stroke-dasharray:.6 .5;cursor:move}.stage .unit:hover{fill:rgba(47,125,74,.05)}
 .stage .unit.picked{fill:rgba(47,125,74,.1);stroke-width:.35;stroke-dasharray:none}
 .stage .ehandle{fill:#fff;stroke:#2f7d4a;stroke-width:.25;cursor:nwse-resize}.stage .ehandle.ne,.stage .ehandle.sw{cursor:nesw-resize}
+.related{border-top:1px solid var(--line);padding-top:12px;font-size:12px}.related summary{cursor:pointer;font-weight:600;line-height:1.5}
+.related p{color:var(--muted);line-height:1.5}.related-list{max-height:280px;overflow:auto;margin:10px 0;display:grid;gap:6px}
+.related-target{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.related-target:has(input:disabled){cursor:default;background:#f5f5f5}.related-target .art{width:48px;min-width:48px}
+.related-target .target-copy{min-width:0;overflow-wrap:anywhere}.related-target small{display:block;color:var(--muted);margin-top:3px}
+.related-target .ok{color:#23602a}.related-target .fail{color:#923b30}.related-target .warn{color:#7a5200}
+.related .actions{margin-top:8px}.related-status{min-height:1.5em}
 </style>
 </head>
 <body class="guest">
@@ -104,6 +111,14 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
     </div>
     <div class="side">
       <div><h2 id="edTitle"></h2><div class="id" id="edId"></div></div>
+      <details class="related" id="related" open>
+        <summary>Also apply to combinations using this container (<span id="relatedCount">0</span>)</summary>
+        <p>Selected combinations keep their own symbols and receive this symbol’s exact position, width and height. Applying replaces their existing placement. Individual element edits stay with this combination.</p>
+        <div class="related-status" id="relatedStatus" role="status"></div>
+        <div class="related-list" id="relatedList"></div>
+        <div class="actions"><button class="btn" id="relatedAll" type="button">Select all</button><button class="btn" id="relatedNone" type="button">Select none</button></div>
+        <div class="actions"><button class="btn primary requires-login" id="relatedApply" type="button" disabled>Save + apply to 0 combinations</button></div>
+      </details>
       <div class="pick" id="pickContainer"></div>
       <div class="pick" id="pickSymbol"></div>
     </div>
@@ -145,7 +160,8 @@ async function api(path, body) {
   return data;
 }
 
-async function loadDrawings(keys) {
+async function loadDrawings(keys, fresh = false) {
+  if (fresh) keys.forEach(key => drawings.delete(key));
   const wanted = [...new Set(keys.filter(k => k && !drawings.has(k)))];
   for (let i = 0; i < wanted.length; i += 100) {
     const got = await api('/api/combinations/drawings?keys=' + encodeURIComponent(wanted.slice(i, i + 100).join(',')));
@@ -384,7 +400,77 @@ $('buildPage').onclick = async () => {
 
 // ---- editor: pick the parts, place the symbol on the grid, build
 
-const editor = {item: null, icons: {}, box: null, last: null, textInk: null, symbolSvg: null, base: null};
+const editor = {item: null, icons: {}, box: null, last: null, textInk: null, symbolSvg: null, base: null, busy: false};
+const related = {container: null, token: 0, rows: [], selected: new Set(), results: new Map(), loading: false};
+
+function relatedControls() {
+  const n = related.selected.size;
+  $('relatedApply').textContent = `Save + apply to ${n} combination${n === 1 ? '' : 's'}`;
+  $('relatedApply').disabled = editor.busy || related.loading || !n || !editor.last;
+  $('relatedAll').disabled = editor.busy || related.loading || !related.rows.some(row => !row.error);
+  $('relatedNone').disabled = editor.busy || !n;
+}
+
+function renderRelated() {
+  $('relatedCount').textContent = related.rows.length;
+  $('relatedList').innerHTML = related.rows.map(({item, error, preview}) => {
+    const id = item.reference_id, symbol = part(item, 'symbol'), result = related.results.get(id);
+    const adjusted = pairBox(symbol) || pairCenter(symbol);
+    const outcome = result ? result.ok ? result.build_failed ? 'Saved · validation findings: ' + (result.errors || []).join('; ') : '✓ Applied' : '✕ ' + result.error : error;
+    return `<label class="related-target"><input type="checkbox" data-pair="${esc(id)}" ${related.selected.has(id) ? 'checked' : ''} ${error ? 'disabled' : ''}>
+      <span class="art">${preview || '<span class="none">No preview</span>'}</span>
+      <span class="target-copy"><b>${esc(item.concept || id)}</b><small>${esc(symbol.icon || 'No symbol picked')}</small>
+      ${adjusted ? '<span class="badge stale" title="Applying replaces this pair’s saved placement.">Adjusted</span>' : ''}
+      ${outcome ? `<small class="${result?.ok ? result.build_failed ? 'warn' : 'ok' : 'fail'}">${esc(outcome)}</small>` : ''}</span></label>`;
+  }).join('');
+  relatedControls();
+}
+
+async function loadRelated() {
+  const token = ++related.token, container = editor.icons.container, sourceId = editor.item.reference_id;
+  related.container = container; related.rows = []; related.selected.clear(); related.results.clear(); related.loading = true;
+  $('relatedStatus').textContent = 'Loading related combinations…'; renderRelated();
+  try {
+    const pairs = ContainerPlacement.relatedPairs(await allPairs(), container, sourceId);
+    await loadDrawings(pairs.flatMap(item => item.parts.map(p => p.icon)));
+    if (token !== related.token) return;
+    related.rows = pairs.map(item => {
+      let preview = '', error = '';
+      try {
+        // Availability is independent of an old saved box that may itself need fixing.
+        const symbol = part(item, 'symbol').icon;
+        const natural = compose(container, symbol, {center: [32, 32], ink: null});
+        try { preview = inlineSvg(compose(container, symbol, placementOf(item)).svg); }
+        catch { preview = inlineSvg(natural.svg); }
+      } catch (e) { error = e.message; }
+      return {item, error, preview};
+    });
+    $('relatedStatus').textContent = pairs.length ? 'Choose the combinations to change.' : 'No other combinations use this container.';
+  } catch (error) {
+    if (token !== related.token) return;
+    $('relatedStatus').textContent = 'Could not load related combinations: ' + error.message;
+  } finally {
+    if (token === related.token) { related.loading = false; renderRelated(); }
+  }
+}
+
+$('relatedList').onchange = event => {
+  const id = event.target.dataset.pair;
+  if (!id || editor.busy) return;
+  if (event.target.checked) related.selected.add(id); else related.selected.delete(id);
+  relatedControls();
+};
+$('relatedAll').onclick = () => { related.rows.filter(row => !row.error).forEach(row => related.selected.add(row.item.reference_id)); renderRelated(); };
+$('relatedNone').onclick = () => { related.selected.clear(); renderRelated(); };
+
+function editorBusy(busy) {
+  editor.busy = busy;
+  $('editor').querySelector('.ed').inert = busy;
+  $('edCancel').disabled = busy;
+  $('edSave').disabled = busy || !editor.last;
+  relatedControls();
+}
+$('editor').addEventListener('cancel', event => { if (editor.busy) event.preventDefault(); });
 
 function edSay(text, error) { $('edMsg').textContent = text; $('edMsg').classList.toggle('error', !!error); }
 
@@ -511,7 +597,9 @@ function drawStage() {
   $('modeWhole').setAttribute('aria-pressed', String(elements.mode === 'whole'));
   $('modeElement').setAttribute('aria-pressed', String(elements.mode === 'element'));
   elementInfo();
-  $('edSave').disabled = !editor.last;
+  $('edSave').disabled = editor.busy || !editor.last;
+  if (related.container !== editor.icons.container) loadRelated();
+  relatedControls();
 }
 
 // A different symbol drawing starts over: no element edits, its natural size.
@@ -647,6 +735,9 @@ function textPanel(panel) {
 }
 
 function openEditor(item) {
+  if (editor.busy) return;
+  related.container = undefined;
+  ++related.token;
   editor.item = item;
   editor.icons = {container: part(item, 'container').icon, symbol: part(item, 'symbol').icon};
   editor.box = null;
@@ -847,9 +938,60 @@ async function afterSave(result) {
   edSay(result.build_failed ? 'Saved. Its check fails until: ' + result.errors.join('; ') + ' (it can still be approved).' : 'Saved.');
 }
 
+$('relatedApply').onclick = async () => {
+  if (editor.busy || related.loading || !editor.last || !related.selected.size) return;
+  const sourceId = editor.item.reference_id, containerKey = editor.icons.container;
+  const box = {...editor.box}, targetIds = [...related.selected], requests = new Map();
+  related.results.clear(); renderRelated(); editorBusy(true);
+  edSay('Saving this combination and applying to the selected combinations…');
+  try {
+    const outcome = await ContainerPlacement.applySelected({sourceId, containerKey, box, targetIds,
+      saveSource: async () => {
+        // Element changes are uploaded only for the source; targets retain their own symbols.
+        if (editor.symbolSvg) await uploadEditedSymbol();
+        const [result] = await build([buildRequest(editor.item, {...editor.icons, box, pinned: true})]);
+        return result;
+      },
+      loadPairs: () => allPairs(true),
+      loadArtwork: keys => loadDrawings(keys, true),
+      makeRequest: (item, placement) => {
+        const request = buildRequest(item, placement); requests.set(item.reference_id, request); return request;
+      },
+      build,
+      onResult: result => {
+        related.results.set(result.reference_id, result);
+        const row = related.rows.find(row => row.item.reference_id === result.reference_id), request = requests.get(result.reference_id);
+        if (result.ok) {
+          related.selected.delete(result.reference_id);
+          if (row && request) {
+            row.preview = inlineSvg(request.svg);
+            row.item = {...row.item, parts: row.item.parts.map(p => ({...p, ...request.parts[p.role]}))};
+          }
+        }
+        $('relatedStatus').textContent = `Processed ${related.results.size} of ${targetIds.length} selected combinations.`;
+        renderRelated();
+      }
+    });
+    const saved = outcome.results.filter(result => result.ok).length;
+    const findings = outcome.results.filter(result => result.ok && result.build_failed).length;
+    const summary = `Current combination saved${outcome.source.build_failed ? ' with validation findings' : ''}. Applied to ${saved} of ${targetIds.length} selected combinations.`
+      + (findings ? ` ${findings} saved with validation findings.` : '')
+      + (saved < targetIds.length ? ' See the list for combinations that were not confirmed saved.' : '');
+    $('relatedStatus').textContent = summary;
+    try {
+      // A changed source can leave the current page's filter; reopen from its fresh saved parts anyway.
+      editor.item = (await allPairs(true)).find(item => item.reference_id === sourceId) || editor.item;
+      await afterSave(outcome.source);
+      edSay(summary, saved < targetIds.length || !!findings || outcome.source.build_failed);
+    } catch (error) { edSay(summary + ' Could not refresh the editor: ' + error.message, true); }
+  } catch (error) { edSay(error.message, true); }
+  finally { editorBusy(false); }
+};
+
 $('edCancel').onclick = () => $('editor').close();
 $('edSave').onclick = async () => {
-  $('edSave').disabled = true;
+  if (editor.busy) return;
+  editorBusy(true);
   try {
     const container = $('scope').value === 'container';
     if (container && editor.symbolSvg) throw Error('Moved elements belong to this pair: choose “This pair only” to save them.');
@@ -874,14 +1016,15 @@ $('edSave').onclick = async () => {
     if (!result.ok) throw Error(result.error);
     await afterSave(result);
   } catch (error) { edSay(error.message, true); }
-  $('edSave').disabled = !editor.last;
+  finally { editorBusy(false); }
 };
 // Reset to default: the saved placement for the chosen scope goes (this pair's own box and placement, or the
 // container's), and the pair is built where the default puts it.
 $('edReset').onclick = async () => {
+  if (editor.busy) return;
   const {item, icons} = editor, c = idOf(icons.container), y = idOf(icons.symbol), container = $('scope').value === 'container';
   if (container && !confirm('Remove the saved placement for every symbol in this container?')) return;
-  $('edReset').disabled = true;
+  editorBusy(true);
   try {
     edSay('Resetting…');
     let target = item;
@@ -896,7 +1039,7 @@ $('edReset').onclick = async () => {
     if (!result.ok) throw Error(result.error);
     await afterSave(result);
   } catch (error) { edSay(error.message, true); }
-  $('edReset').disabled = false;
+  finally { editorBusy(false); }
 };
 
 let typing;

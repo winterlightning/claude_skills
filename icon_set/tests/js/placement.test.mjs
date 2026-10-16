@@ -6,6 +6,7 @@ import {createRequire} from 'node:module';
 
 const require = createRequire(import.meta.url);
 const P = require('../../scripts/templates/container-placement.js');
+const Combine = require('../../scripts/templates/combine.js');
 
 const pair = (layout, {container = 'container/box', symbol = 'symbol/plus'} = {}) => ({reference_id: 'r', parts: [
   {role: 'container', icon: container}, {role: 'symbol', icon: symbol, layout, updated_by: 'ray'}]});
@@ -72,4 +73,98 @@ test('a container-wide save keeps each pair\'s own placement and moves the rest'
   assert.equal(P.placementOf({...pair(null), parts: [{role: 'container', icon: 'container/box'}, {role: 'symbol', icon: 'symbol/plus', layout: [removed]}]},
                              {}, true, DEFAULTS).label, 'Default · container anchor');
   assert.equal(P.containerLayout(pair(null), target), null, 'nothing to store without a box');
+});
+
+const targetPair = (id, options = {}) => ({...pair([{...BOX, scope: 'pair', container: {center: [30, 30], size: null}}], options), reference_id: id});
+
+function transferSetup(items, overrides = {}) {
+  const calls = [], reports = [];
+  return {calls, reports, options: {
+    sourceId: 'source', containerKey: 'container/box', box: BOX, targetIds: items.map(item => item.reference_id),
+    saveSource: async () => { calls.push('source'); return {ok: true}; },
+    loadPairs: async () => { calls.push('refresh'); return items; },
+    loadArtwork: async () => {},
+    makeRequest: (item, {box, pinned}) => ({reference_id: item.reference_id, parts: {symbol: {
+      icon: P.part(item, 'symbol').icon,
+      layout: P.builtLayout([{paths: [0], ...box}], {pinned}, P.layoutOf(P.part(item, 'symbol')).container)
+    }}}),
+    build: async requests => { calls.push(requests); return requests.map(() => ({ok: true})); },
+    onResult: result => reports.push(result), ...overrides
+  }};
+}
+
+test('related pairs match exact drawing identity and exclude the source', () => {
+  const items = [targetPair('source'), targetPair('same'), targetPair('variant', {container: 'container/box-v2'}), targetPair('missing', {container: null})];
+  assert.deepEqual(P.relatedPairs(items, 'container/box', 'source').map(item => item.reference_id), ['same']);
+  assert.deepEqual(P.relatedPairs(items, null, 'source'), []);
+});
+
+test('selected targets get pair boxes and keep their symbols and container defaults', async () => {
+  const items = [targetPair('a'), targetPair('b', {symbol: 'symbol/star'}), targetPair('unselected')];
+  const before = structuredClone(items), f = transferSetup(items, {targetIds: ['a', 'b', 'a', 'source']});
+  await P.applySelected(f.options);
+  assert.deepEqual(f.calls.slice(0, 2), ['source', 'refresh']);
+  const requests = f.calls[2];
+  assert.deepEqual(requests.map(r => r.reference_id), ['a', 'b']);
+  assert.equal(requests[1].parts.symbol.icon, 'symbol/star');
+  for (const request of requests) {
+    const layout = request.parts.symbol.layout;
+    assert.equal(layout[0].scope, 'pair');
+    assert.deepEqual(P.savedBox({layout}), BOX);
+    assert.deepEqual(layout[0].container, {center: [30, 30], size: null});
+    assert.deepEqual(P.placementOf(pair(layout, {symbol: request.parts.symbol.icon}), {}, true).box, BOX);
+  }
+  assert.deepEqual(items, before, 'original target data, including unselected pairs, is untouched');
+});
+
+test('different symbol proportions are baked into the exact target box', () => {
+  const svg = (size, body) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" fill="none" stroke="black" stroke-width="4">${body}</svg>`;
+  const main = svg(64, '<rect x="4" y="4" width="56" height="56" rx="4"/>');
+  for (const symbol of [svg(32, '<rect x="6" y="12" width="20" height="8"/>'), svg(32, '<path d="M 16 4 L 28 26 L 4 26 Z"/>')]) {
+    const result = Combine.container(main, symbol, {box: BOX});
+    assert.deepEqual(P.savedBox({layout: result.layout.symbol}), BOX);
+    assert.match(result.svg, /stroke-width="4"/);
+  }
+});
+
+test('source save failure prevents all target reads and writes', async () => {
+  const f = transferSetup([targetPair('a')], {saveSource: async () => ({ok: false, error: 'Source rejected'})});
+  await assert.rejects(P.applySelected(f.options), /Source rejected/);
+  assert.deepEqual(f.calls, []);
+});
+
+test('changed containers, missing drawings and invalid fits are isolated per target', async () => {
+  const f = transferSetup([targetPair('changed', {container: 'container/other'}), targetPair('missing', {symbol: null}), targetPair('invalid'), targetPair('ok')]);
+  const make = f.options.makeRequest;
+  f.options.makeRequest = (item, placement) => { if (item.reference_id === 'invalid') throw Error('Flat element cannot take this box'); return make(item, placement); };
+  const result = await P.applySelected(f.options);
+  assert.deepEqual(result.results.map(r => [r.reference_id, r.ok]), [['changed', false], ['missing', false], ['invalid', false], ['ok', true]]);
+  assert.equal(f.calls[2].length, 1);
+});
+
+test('batches retain earlier successes on a network failure and mark remaining targets unattempted', async () => {
+  const f = transferSetup(Array.from({length: 110}, (_, i) => targetPair(String(i))));
+  let batches = 0;
+  f.options.build = async requests => {
+    assert.ok(requests.length <= 50);
+    if (++batches === 2) throw Error('Network error');
+    return requests.map((_, i) => i === 1 ? {ok: false, error: 'Conflict'} : {ok: true, build_failed: i === 0, errors: i === 0 ? ['Review needed'] : []});
+  };
+  const result = await P.applySelected(f.options);
+  assert.equal(batches, 2);
+  assert.equal(result.results.length, 110);
+  assert.equal(result.results.filter(r => r.ok).length, 49);
+  assert.equal(result.results[0].build_failed, true);
+  assert.match(result.results[50].error, /not confirmed/);
+  assert.match(result.results[100].error, /Not attempted/);
+  assert.equal(f.reports.length, 110);
+});
+
+test('a refresh failure after saving the source reports every selected target', async () => {
+  const f = transferSetup([targetPair('a'), targetPair('b')], {loadPairs: async () => { throw Error('Unavailable'); }});
+  const result = await P.applySelected(f.options);
+  assert.equal(result.source.ok, true);
+  assert.equal(result.results.length, 2);
+  assert.ok(result.results.every(r => !r.ok && /refresh/.test(r.error)));
+  assert.deepEqual(f.calls, ['source']);
 });

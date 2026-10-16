@@ -68,6 +68,60 @@
              ...(target ? {container: {center: target.center, size: target.size}} : {})}];
   }
 
+  // Exact drawing identity, not the container's reference or variant family.
+  function relatedPairs(items, containerKey, sourceId) {
+    return items.filter(item => containerKey && item.reference_id !== sourceId && part(item, 'container').icon === containerKey);
+  }
+
+  // Save the source first. Each target keeps its own artwork and gets only the whole-symbol box.
+  // Build responses are reported per batch so a later network failure cannot hide earlier successes.
+  async function applySelected({sourceId, containerKey, box, targetIds, saveSource, loadPairs, loadArtwork,
+                                makeRequest, build, onResult = () => {}}) {
+    const source = await saveSource();
+    if (!source?.ok) throw Error(source?.error || 'Could not save the current combination.');
+    const results = [];
+    const report = result => { results.push(result); onResult(result); };
+    const ids = [...new Set(targetIds)].filter(id => id !== sourceId);
+    let pairs;
+    try { pairs = new Map((await loadPairs()).map(item => [item.reference_id, item])); }
+    catch (error) {
+      ids.forEach(id => report({reference_id: id, ok: false, error: 'Could not refresh combinations: ' + error.message}));
+      return {source, results};
+    }
+    for (let offset = 0; offset < ids.length; offset += 50) {
+      const batch = ids.slice(offset, offset + 50), eligible = [], requests = [];
+      for (const id of batch) {
+        const item = pairs.get(id);
+        if (!item || part(item, 'container').icon !== containerKey) {
+          report({reference_id: id, ok: false, error: 'This combination no longer uses this container.'});
+        } else if (!part(item, 'symbol').icon) {
+          report({reference_id: id, ok: false, error: 'This combination needs a symbol drawing.'});
+        } else eligible.push(item);
+      }
+      try { await loadArtwork(eligible.flatMap(item => item.parts.map(p => p.icon))); }
+      catch (error) {
+        eligible.forEach(item => report({reference_id: item.reference_id, ok: false, error: 'Could not refresh drawings: ' + error.message}));
+        continue;
+      }
+      for (const item of eligible) {
+        try { requests.push(makeRequest(item, {box: {...box}, pinned: true})); }
+        catch (error) { report({reference_id: item.reference_id, ok: false, error: error.message}); }
+      }
+      if (!requests.length) continue;
+      try {
+        const saved = await build(requests);
+        requests.forEach((request, i) => report({...saved[i], reference_id: request.reference_id,
+          ...(!saved[i] ? {ok: false, error: 'No save result received; refresh before retrying.'} : {})}));
+      } catch (error) {
+        requests.forEach(request => report({reference_id: request.reference_id, ok: false,
+          error: 'Save not confirmed; refresh before retrying. ' + error.message}));
+        ids.slice(offset + 50).forEach(id => report({reference_id: id, ok: false, error: 'Not attempted after a save request failed.'}));
+        break;
+      }
+    }
+    return {source, results};
+  }
+
   return {SOURCES, part, layoutOf, idOf, sizeOf, sameBox, savedBox, pairBox, pairCenter, containerTarget, placementOf,
-          builtLayout, containerLayout};
+          builtLayout, containerLayout, relatedPairs, applySelected};
 });
