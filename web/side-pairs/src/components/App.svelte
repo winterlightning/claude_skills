@@ -94,6 +94,7 @@
 
 <div bind:this={host}>
   <h2>Side combination</h2>
+  <p class="muted"><a href={`container-pairs.html?size=${store.size}`}>Container layouts</a> · <a href={`combinations.html?kind=side&size=${store.size}`}>All side combinations</a></p>
   <p class="muted">Work on each pair as Original → Main → Sub → Combined: one {sizes.main}-unit main and one {sizes.sub}×{sizes.sub} sub. Group by main or sub to see where an icon is reused. Finished outputs live on Experiment › Side combination.</p>
   {#if !store.ready}
     <p class="muted">{store.error || 'Loading side pairs…'}</p>

@@ -191,3 +191,15 @@ test('recovered native text is read-only until save and is registered without a 
  assert.equal(rows[0].parts[1].layout[0].native_text,true);
  assert.equal(w.page.editor.icons.symbol,'symbol-36/registered');
 });
+
+for (const size of [64, 72]) test(`container navigation keeps the ${size}px canvas`, async t => {
+  const {$} = await page(t, size);
+  const list = new URL($('allCombinations').href);
+  assert.equal(list.searchParams.get('size'), String(size));
+  assert.equal(list.searchParams.get('kind'), 'container');
+  const side = new URL($('sideLayouts').href);
+  assert.equal(side.searchParams.get('view'), 'side');
+  assert.equal(side.searchParams.get('grid'), String(size));
+  assert.equal(side.searchParams.has('size'), false, 'Progression size means page length, not canvas');
+  assert.equal($('edCanvas').textContent, `${size}×${size} container layout`);
+});
