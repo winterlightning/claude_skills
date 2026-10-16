@@ -108,7 +108,7 @@
 </script>
 
 <dialog class="side-layout" bind:this={dialog} onclose={() => editor.close()}>
-  <header><h2>Adjust layout · {ctx?.pair.concept || ''}</h2><button type="button" onclick={() => editor.close()}>Close</button></header>
+  <header><h2>Adjust layout · {c}×{c} · {ctx?.pair.concept || ''}</h2><button type="button" onclick={() => editor.close()}>Close</button></header>
   <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main and sub size">
     {#each presetRows as row (row.role)}
       <div class={'side-layout-sizes ' + row.role}><span>{row.label} size</span>
