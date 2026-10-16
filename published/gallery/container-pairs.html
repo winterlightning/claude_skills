@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Container pairs · Pictographic</title>
-<link rel="stylesheet" href="site.css"><script src="site.js" defer></script><script src="combine.js"></script><script src="container-placement.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script><script src="combine.js"></script><script src="combine-side.js"></script><script src="container-placement.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script>
 <style>
 .cp-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
 .cp-intro{padding:32px 0 6px}.cp-intro h1{font-size:34px;font-weight:600;letter-spacing:-1.5px;margin:0 0 8px}.cp-intro p{color:var(--muted);margin:0;max-width:820px;line-height:1.6}
@@ -40,7 +40,7 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
 .pick input[type=search]{border:1px solid var(--line);border-radius:6px;padding:4px 7px;font-size:12px}
 .cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));grid-auto-rows:58px;gap:4px;max-height:124px;overflow:auto}
 .cands button{border:1px solid var(--line);border-radius:6px;background:#f7f9f4;padding:3px;cursor:pointer;display:flex;flex-direction:column;gap:1px;align-items:center;font-size:8px;overflow:hidden}
-.cands button img{width:34px;height:34px;flex:none}.cands button.approved{border-color:#9cc9a0}
+.cands>.muted{grid-column:1/-1}.cands button img{width:34px;height:34px;flex:none}.cands button.approved{border-color:#9cc9a0}
 .textsym{border:1px solid #d9c9a3;border-radius:8px;background:#fffaf0;padding:6px 8px;font-size:12px}
 .textsym summary{cursor:pointer;font-weight:600;color:#7a5200}
 .textsym .tform{display:grid;gap:6px;margin-top:6px}.textsym textarea{font:600 16px/1.3 system-ui;text-transform:uppercase;padding:4px 6px;border:1px solid #c9b98f;border-radius:6px}
@@ -70,11 +70,12 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
 <main class="cp-main">
   <section class="cp-intro">
     <h1>Container pairs</h1>
-    <p>Each container combination: the container and the symbol drawn for it, and their combined 64×64 icon.
+    <p>Each container combination: the container and the symbol drawn for it, and their combined <span id="canvasLabel">64×64</span> icon.
        The combined icon is made in your browser from both parts' current drawings and stored once; a pair turns
        stale when a part is redrawn. <a href="combinations.html?kind=container">All combinations</a></p>
   </section>
   <div class="toolbar">
+    <label>Canvas <select id="canvasSize"><option value="64">64 × 64</option><option value="72">72 × 72</option></select></label>
     <input type="search" id="q" placeholder="Search concept or reference id">
     <select id="state"><option value="">Any state</option><option value="unbuilt">Not built</option><option value="stale">Stale</option><option value="built">Built</option><option value="text">Text symbols</option></select>
     <button class="btn requires-login" id="buildPage" type="button">Build this page</button>
@@ -95,7 +96,7 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
       <div class="fields" style="margin-top:8px">
         <span id="nudge"><button class="btn" type="button" data-move="-1,0" title="Move 1 unit">←</button><button class="btn" type="button" data-move="0,-1" title="Move 1 unit">↑</button><button class="btn" type="button" data-move="0,1" title="Move 1 unit">↓</button><button class="btn" type="button" data-move="1,0" title="Move 1 unit">→</button></span>
         <button class="btn" id="smaller" type="button" title="Both sides smaller by 2">−</button><button class="btn" id="larger" type="button" title="Both sides larger by 2">+</button>
-        <button class="btn" id="natural" type="button" title="The symbol's own size in the 32 box, centred on the current box">Natural size</button>
+        <button class="btn" id="natural" type="button" title="The symbol's own native size, centred on the current box">Natural size</button>
       </div>
       <div class="fields" style="margin-top:8px">
         <select id="scope" aria-label="Apply to"><option value="pair">This pair only</option><option value="container">This container · all symbols</option></select>
@@ -103,6 +104,8 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
         <button class="btn requires-login" id="edReset" type="button" title="Remove the saved placement (for the scope chosen) and build with the default">Reset to default</button>
       </div>
       <div class="place-info" id="placeInfo" role="status"></div>
+      <div id="roomInfo" class="place-info"></div>
+      <button id="useProposal" class="btn" type="button" hidden>Preview recorded proposal</button>
       <div class="fields mode" style="margin-top:8px">Click selects
         <button class="btn" id="modeWhole" type="button" aria-pressed="true">Whole symbol</button>
         <button class="btn" id="modeElement" type="button" aria-pressed="false" title="Move or resize one letter or part of the symbol; the others stay where they are">Element</button>
@@ -134,7 +137,13 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const STATES = {built: 'Built', stale: 'Stale', unbuilt: 'Not built'};
 const params = new URLSearchParams(location.search);
-const view = {q: params.get('q') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+const CANVAS = params.get('size') === '72' ? 72 : 64;
+const familyOf = role => CANVAS === 72 ? ({container: 'container-72', symbol: 'symbol-36'}[role]) : role;
+$('canvasSize').value = String(CANVAS);
+$('canvasLabel').textContent = `${CANVAS}×${CANVAS}`;
+$('stage').setAttribute('viewBox', `0 0 ${CANVAS} ${CANVAS}`);
+$('canvasSize').onchange = () => { const next = new URLSearchParams(location.search); next.set('size', $('canvasSize').value); next.delete('offset'); next.delete('edit'); location.assign('?' + next); };
+const view = {size: CANVAS, q: params.get('q') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
 $('q').value = view.q; $('state').value = view.state;
 let items = [], drawings = new Map();
 // Symbol references drawn as text (typeface v2), with their default text: container-text-v2.json.
@@ -145,8 +154,8 @@ const textReady = fetch('container-text-v2.json', {cache: 'no-cache'}).then(r =>
 // Where a container puts its symbol by default: the published defaults (container-centers.json). Saved placements
 // live in each pair's symbol layout (placementOf).
 let placementDefaults = {containers: {}, pairs: {}};
-const placementsReady = fetch('container-centers.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
-  .then(defaults => { if (defaults) placementDefaults = defaults; });
+const placementsReady = fetch(CANVAS === 72 ? 'container-layouts72.json' : 'container-centers.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
+  .then(defaults => { if (defaults) placementDefaults = defaults; else if (CANVAS === 72) placementDefaults = {canvas: 72}; });
 // Each combined icon's check ({build_failed, errors}): Icon review's records of browser builds, then each build's result.
 const checks = new Map();
 const checksReady = fetch('/api/icon-artwork/overrides', {cache: 'no-store'}).then(r => r.ok ? r.json() : {records: []}).catch(() => ({records: []}))
@@ -160,19 +169,31 @@ async function api(path, body) {
   return data;
 }
 
+function restoreText(items) {
+  if (CANVAS !== 72) return items;
+  for (const item of items) {
+    const record = placementDefaults.pairs?.[item.reference_id], symbol = item.parts.find(p => p.role === 'symbol');
+    if (record?.text_svg && symbol && !symbol.icon) Object.assign(symbol, {icon: record.symbol, current_sha: record.symbol_sha256});
+  }
+  return items;
+}
 async function loadDrawings(keys, fresh = false) {
+  await placementsReady;
   if (fresh) keys.forEach(key => drawings.delete(key));
   const wanted = [...new Set(keys.filter(k => k && !drawings.has(k)))];
   for (let i = 0; i < wanted.length; i += 100) {
     const got = await api('/api/combinations/drawings?keys=' + encodeURIComponent(wanted.slice(i, i + 100).join(',')));
     for (const [key, d] of Object.entries(got)) drawings.set(key, d);
+    if (CANVAS === 72) for (const record of Object.values(placementDefaults.pairs || {})) {
+      if (wanted.includes(record.symbol) && !drawings.has(record.symbol) && record.text_svg) drawings.set(record.symbol, {svg: record.text_svg, svg_sha256: record.symbol_sha256, review: null, recoveredText: true});
+    }
   }
 }
 
 // Placement rules (container-placement.js): which box or centre a pair's symbol takes, and the layout a build or a
 // container-wide save stores.
 const {part, layoutOf, idOf, sameBox, savedBox, pairBox, pairCenter} = ContainerPlacement;
-const placementOf = (item, icons = {}, own = true) => ContainerPlacement.placementOf(item, icons, own, placementDefaults);
+const placementOf = (item, icons = {}, own = true) => ContainerPlacement.placementOf(item, {...icons, containerSha: drawings.get(icons.container ?? part(item, 'container').icon)?.svg_sha256, symbolSha: drawings.get(icons.symbol ?? part(item, 'symbol').icon)?.svg_sha256}, own, placementDefaults);
 
 // The combined drawing for a pair, the symbol placed by `placement` ({box} or {center, ink}, see placementOf).
 // `symbolSvg`: the symbol's drawing with elements edited in the editor, not yet uploaded.
@@ -180,7 +201,7 @@ function compose(mainKey, symbolKey, placement, symbolSvg = null) {
   const main = drawings.get(mainKey), symbol = drawings.get(symbolKey);
   if (!main?.svg || !(symbolSvg || symbol?.svg)) throw Error('Both parts need a drawing.');
   const result = Combine.container(main.svg, symbolSvg || symbol.svg,
-                                   placement.box ? {box: placement.box} : {center: placement.center, ink: placement.ink ?? null});
+                                   {...placement, canvas: CANVAS});
   return {...result, main, symbol};
 }
 
@@ -230,7 +251,7 @@ function combinedState(item) {
 function card(item) {
   const c = part(item, 'container'), s = part(item, 'symbol');
   let combined;
-  if (item.state === 'built') {
+  if (item.icon) {
     combined = `<img loading="lazy" src="${esc(item.icon.preview_url)}" alt="">`;
   } else {
     try { combined = inlineSvg(compose(c.icon, s.icon, placementOf(item)).svg) + `<span class="tag">preview</span>`; }
@@ -264,18 +285,30 @@ function card(item) {
 // The symbol layout keeps the container's placement and says which one the box follows.
 function buildRequest(item, overrides = {}) {
   const icons = {container: overrides.container ?? part(item, 'container').icon, symbol: overrides.symbol ?? part(item, 'symbol').icon};
-  const placement = overrides.box ? {box: overrides.box, pinned: !!overrides.pinned} : placementOf(item, icons, overrides.box !== null);
+  const initial = placementOf(item, icons, overrides.box !== null);
+  if (!overrides.box && initial.needsReview) throw Error('This container room needs review. Open Edit and place the symbol before saving.');
+  const placement = overrides.box ? {...initial, ...(overrides.overlay !== undefined ? {overlay: overrides.overlay} : {}), box: overrides.box, pinned: !!overrides.pinned} : initial;
   const result = compose(icons.container, icons.symbol, placement);
   const kept = icons.container === part(item, 'container').icon ? layoutOf(part(item, 'symbol'))?.container : null;
   result.layout.symbol = ContainerPlacement.builtLayout(result.layout.symbol, placement, kept);
-  return {reference_id: item.reference_id, svg: result.svg, parts: {
+  return {reference_id: item.reference_id, expected_sha256: item.icon?.svg_sha256, svg: result.svg, parts: {
     container: {icon: icons.container, svg_sha256: result.main.svg_sha256, layout: result.layout.container},
     symbol: {icon: icons.symbol, svg_sha256: result.symbol.svg_sha256, layout: result.layout.symbol}}};
 }
 
 async function build(requests) {
+  // A recovered text drawing is a read-only preview until the user explicitly saves a build.
+  // Register it for normal production review; local approval state is never imported.
+  for (const request of requests) {
+    const symbol = request.parts.symbol, drawing = drawings.get(symbol.icon);
+    if (!drawing?.recoveredText) continue;
+    const data = await api('/api/icons/upload', {name: 'Text for ' + request.reference_id, family: 'symbol-36', category: 'text',
+      svg: drawing.svg, bypass_validation: true, approve: false, reference: {id: request.reference_id, role: 'symbol'}});
+    symbol.icon = data.record.key; symbol.svg_sha256 = data.record.svg_sha256;
+    await loadDrawings([symbol.icon], true);
+  }
   const results = [];
-  for (let i = 0; i < requests.length; i += 50) results.push(...(await api('/api/combinations/build', {builds: requests.slice(i, i + 50)})).results);
+  for (let i = 0; i < requests.length; i += 50) results.push(...(await api('/api/combinations/build', {size: CANVAS, builds: requests.slice(i, i + 50)})).results);
   for (const r of results) if (r.ok) checks.set(r.key, {build_failed: r.build_failed, errors: r.errors || []});
   pairsCache = null;
   return results;
@@ -288,8 +321,8 @@ function allPairs(fresh = false) {
   if (fresh || !pairsCache) pairsCache = (async () => {
     const all = [];
     for (let offset = 0; offset != null;) {
-      const page = await api('/api/combinations?' + new URLSearchParams({kind: 'container', limit: 500, offset}));
-      all.push(...page.items); offset = page.next_offset;
+      const page = await api('/api/combinations?' + new URLSearchParams({size: CANVAS, kind: 'container', limit: 500, offset}));
+      await placementsReady; all.push(...restoreText(page.items)); offset = page.next_offset;
     }
     return all;
   })().catch(error => { pairsCache = null; throw error; });
@@ -307,7 +340,7 @@ async function textPairs() {
 let seq = 0;
 async function load() {
   const mine = ++seq;
-  const query = new URLSearchParams({kind: 'container', limit: LIMIT, offset: view.offset});
+  const query = new URLSearchParams({size: CANVAS, kind: 'container', limit: LIMIT, offset: view.offset});
   if (view.q) query.set('q', view.q);
   if (view.state && view.state !== 'text') query.set('state', view.state);
   history.replaceState(null, '', '?' + new URLSearchParams(Object.entries(view).filter(([, v]) => v)).toString());
@@ -321,6 +354,7 @@ async function load() {
       data = {items: text.slice(view.offset, view.offset + LIMIT), total: text.length, counts: {container: counts}, next_offset: next};
     } else data = await api('/api/combinations?' + query);
     await Promise.all([textReady, placementsReady, checksReady]);
+    restoreText(data.items);
     await loadDrawings(data.items.flatMap(i => i.parts.map(p => p.icon)));
     if (mine !== seq) return;
     items = data.items;
@@ -336,8 +370,8 @@ async function load() {
 
 async function refresh(id) {
   // One pair again after a change, without reloading the page.
-  const data = await api('/api/combinations?' + new URLSearchParams({q: id, limit: 1}));
-  const item = data.items[0];
+  const data = await api('/api/combinations?' + new URLSearchParams({size: CANVAS, kind: 'container', q: id, limit: 1}));
+  const item = restoreText(data.items)[0];
   if (!item) return;
   for (const p of item.parts) drawings.delete(p.icon);
   await loadDrawings(item.parts.map(p => p.icon));
@@ -400,7 +434,7 @@ $('buildPage').onclick = async () => {
 
 // ---- editor: pick the parts, place the symbol on the grid, build
 
-const editor = {item: null, icons: {}, box: null, last: null, textInk: null, symbolSvg: null, base: null, busy: false};
+const editor = {item: null, icons: {}, box: null, last: null, textInk: null, symbolSvg: null, base: null, busy: false, overlay: undefined};
 const related = {container: null, token: 0, rows: [], selected: new Set(), results: new Map(), loading: false};
 
 function relatedControls() {
@@ -439,7 +473,7 @@ async function loadRelated() {
       try {
         // Availability is independent of an old saved box that may itself need fixing.
         const symbol = part(item, 'symbol').icon;
-        const natural = compose(container, symbol, {center: [32, 32], ink: null});
+        const natural = compose(container, symbol, {center: [CANVAS / 2, CANVAS / 2], ink: null});
         try { preview = inlineSvg(compose(container, symbol, placementOf(item)).svg); }
         catch { preview = inlineSvg(natural.svg); }
       } catch (e) { error = e.message; }
@@ -556,22 +590,23 @@ function drawStage() {
   const stage = $('stage'), {icons, box} = editor;
   let lines = '';
   // The 64 grid: a line every unit, stronger every 8 and every 16.
-  for (let v = 0; v <= 64; v++) {
+  for (let v = 0; v <= CANVAS; v++) {
     const cls = v % 16 === 0 ? 'grid-line major' : v % 8 === 0 ? 'grid-line mid' : 'grid-line';
-    lines += `<line class="${cls}" x1="${v}" y1="0" x2="${v}" y2="64"/><line class="${cls}" x1="0" y1="${v}" x2="64" y2="${v}"/>`;
+    lines += `<line class="${cls}" x1="${v}" y1="0" x2="${v}" y2="${CANVAS}"/><line class="${cls}" x1="0" y1="${v}" x2="${CANVAS}" y2="${v}"/>`;
   }
   let art = '';
   try {
     // Without a box yet: where the pair's placement puts this symbol (a wide text at its exact ink size).
-    const start = box ? {box} : (() => { const p = placementOf(editor.item, icons); return p.box ? p : {center: p.center, ink: editor.textInk ?? p.ink}; })();
+    const currentPlacement = {...placementOf(editor.item, icons), ...(editor.overlay !== undefined ? {overlay: editor.overlay} : {})};
+    const start = box ? {...currentPlacement, box} : (() => { const p = placementOf(editor.item, icons); return p.box ? p : {...p, ink: editor.textInk ?? p.ink}; })();
     editor.last = compose(icons.container, icons.symbol, start, editor.symbolSvg);
     if (!box) { const {x, y, w, h} = editor.last.layout.symbol[0]; editor.box = {x, y, w, h}; }
-    art = inlineSvg(editor.last.svg).replace('<svg', '<svg x="0" y="0" width="64" height="64"');
+    art = inlineSvg(editor.last.svg).replace('<svg', `<svg x="0" y="0" width="${CANVAS}" height="${CANVAS}"`);
     edSay('');
   } catch (error) {
     editor.last = null;
     const main = drawings.get(icons.container);
-    if (main?.svg) art = inlineSvg(main.svg).replace('<svg', '<svg x="0" y="0" width="64" height="64"');
+    if (main?.svg) art = inlineSvg(main.svg).replace('<svg', `<svg x="0" y="0" width="${CANVAS}" height="${CANVAS}"`);
     edSay(error.message, true);
   }
   const b = editor.box;
@@ -591,7 +626,15 @@ function drawStage() {
     frame = `<rect class="box" id="dragBox" x="${b.x}" y="${b.y}" width="${Math.max(b.w, .2)}" height="${Math.max(b.h, .2)}"/>`
       + corners('handle', 'data-handle', b.x, b.y, b.w, b.h);
   }
-  stage.innerHTML = lines + art + frame;
+  const recorded = placementOf(editor.item, icons), room = recorded.room || placementDefaults.containers?.[icons.container]?.room;
+  let guide = '';
+  if (CANVAS === 72 && room?.center && room.clear_square_side) {
+    const [cx, cy] = room.center, side = room.clear_square_side;
+    guide = `<g pointer-events="none" fill="none" stroke="#b57a27" stroke-width=".2" stroke-dasharray="1 1"><rect x="${cx-side/2}" y="${cy-side/2}" width="${side}" height="${side}"/><path d="M${cx-2} ${cy}h4 M${cx} ${cy-2}v4"/></g>`;
+  }
+  $('roomInfo').textContent = CANVAS === 72 ? [room ? `Recorded room: center ${room.center.join(', ')} · clear square ${room.clear_square_side} · ${room.status}.` : '', recorded.note || ''].filter(Boolean).join(' ') : '';
+  $('useProposal').hidden = !recorded.proposal;
+  stage.innerHTML = lines + art + guide + frame;
   for (const [id, k] of [['bx', 'x'], ['by', 'y'], ['bw', 'w'], ['bh', 'h']]) $(id).value = b ? b[k] : '';
   placeInfo();
   $('modeWhole').setAttribute('aria-pressed', String(elements.mode === 'whole'));
@@ -641,7 +684,7 @@ function pickPanel(role) {
   let typing;
   const find = async () => {
     try {
-      const found = await api('/api/combinations/candidates?' + new URLSearchParams({role, q: search.value}));
+      const found = await api('/api/combinations/candidates?' + new URLSearchParams({size: CANVAS, role, q: search.value}));
       list.innerHTML = found.map(c => `<button type="button" data-key="${esc(c.key)}" class="${c.review === 'approve' ? 'approved' : ''}" title="${esc(c.key)}">
         <img loading="lazy" src="${esc(c.preview_url)}" alt="">${esc((c.name || c.key).slice(0, 24))}</button>`).join('') || '<span class="muted">No icons found.</span>';
     } catch (error) { list.textContent = error.message; }
@@ -652,7 +695,7 @@ function pickPanel(role) {
     if (!button) return;
     await loadDrawings([button.dataset.key]);
     if (role === 'symbol') useSymbol(button.dataset.key);  // a new symbol starts at its natural size
-    else editor.icons[role] = button.dataset.key;
+    else { editor.icons[role] = button.dataset.key; editor.box = null; }
     pickPanel(role); drawStage();
   };
   const [file, upload] = [panel.querySelector('input[type=file]'), panel.querySelector('.upload button')];
@@ -661,11 +704,11 @@ function pickPanel(role) {
     if (!chosen) return edSay('Choose an SVG file first.', true);
     upload.disabled = true; edSay('Uploading…');
     try {
-      const data = await api('/api/icons/upload', {name: editor.item.concept || role, family: role, svg: await chosen.text(), approve: true,
+      const data = await api('/api/icons/upload', {name: editor.item.concept || role, family: familyOf(role), svg: await chosen.text(), approve: true,
                                                    reference: {id: part(editor.item, role).part_reference_id, role}});
       await loadDrawings([data.record.key]);
       if (role === 'symbol') useSymbol(data.record.key);
-      else editor.icons[role] = data.record.key;
+      else { editor.icons[role] = data.record.key; editor.box = null; }
       pickPanel(role); drawStage(); edSay('Uploaded and approved.');
     } catch (error) { edSay(error.message, true); upload.disabled = false; }
   };
@@ -707,7 +750,7 @@ function textPanel(panel) {
     const settings = read();
     if (!settings.text.trim()) { msg.textContent = 'Type the text.'; return; }
     if ([settings.tracking, settings.wordSpace, settings.lineGap].some(v => !Number.isFinite(v) || v < 0 || v % 2)) { msg.textContent = 'Spacing must be even whole units.'; return; }
-    try { doc = ContainerTextSymbol.symbolDocument(settings); }
+    try { doc = ContainerTextSymbol.symbolDocument(settings, CANVAS); }
     catch (error) { msg.textContent = error.message; return; }
     preview.innerHTML = inlineSvg(doc.svg);
     msg.textContent = `size ${doc.size} · ink ${doc.W} × ${doc.H}` + (doc.fits ? '' : ' · combined at its exact size');
@@ -723,7 +766,7 @@ function textPanel(panel) {
     if (!doc) return;
     use.disabled = true; edSay('Uploading the text symbol…');
     try {
-      const data = await api('/api/icons/upload', {name: 'Text ' + (read().text.replace(/\n/g, ' ') || 'text').slice(0, 100), family: 'symbol',
+      const data = await api('/api/icons/upload', {name: 'Text ' + (read().text.replace(/\n/g, ' ') || 'text').slice(0, 100), family: familyOf('symbol'),
                                                    category: 'text', svg: doc.svg, approve: true,
                                                    reference: {id: editor.item.reference_id, role: 'symbol'}});
       await loadDrawings([data.record.key]);
@@ -738,7 +781,7 @@ function openEditor(item) {
   if (editor.busy) return;
   related.container = undefined;
   ++related.token;
-  editor.item = item;
+  editor.item = item; editor.overlay = undefined;
   editor.icons = {container: part(item, 'container').icon, symbol: part(item, 'symbol').icon};
   editor.box = null;
   editor.textInk = null;
@@ -755,7 +798,7 @@ function openEditor(item) {
 
 function stagePoint(event) {
   const r = $('stage').getBoundingClientRect();
-  return [(event.clientX - r.left) / r.width * 64, (event.clientY - r.top) / r.height * 64];
+  return [(event.clientX - r.left) / r.width * CANVAS, (event.clientY - r.top) / r.height * CANVAS];
 }
 
 $('modeWhole').onclick = () => { elements.mode = 'whole'; elements.picked = -1; drawStage(); };
@@ -834,7 +877,7 @@ $('smaller').onclick = () => moveBox(0, 0, -2, -2);
 $('larger').onclick = () => moveBox(0, 0, 2, 2);
 $('scope').onchange = placeInfo;
 $('edRevert').onclick = () => {
-  resetElements();
+  resetElements(); editor.overlay = undefined;
   editor.box = editor.base && {...editor.base};
   drawStage();
 };
@@ -859,12 +902,14 @@ $('stage').addEventListener('keydown', event => {
   else if (['-', '_'].includes(event.key)) { event.preventDefault(); moveBox(0, 0, -2, -2); }
 });
 
+$('useProposal').onclick = () => { const p = placementOf(editor.item, editor.icons).proposal; if (!p) return; try { const r = compose(editor.icons.container, editor.icons.symbol, {canvas: CANVAS, center: p.center.map((v,i) => v + (p.offset?.[i] || 0)), size: p.size, overlay: !!p.overlay, nativeText: !!(p.native_text ?? placementDefaults.pairs?.[editor.item.reference_id]?.native_text)}); editor.box = {...r.layout.symbol[0]}; editor.overlay = !!p.overlay; drawStage(); edSay('Proposal previewed. Build and save to keep this placement.'); } catch (error) { edSay(error.message, true); } };
+
 $('natural').onclick = () => {
   const b = editor.box, main = drawings.get(editor.icons.container), symbol = symbolSvg();
   if (!main?.svg || !symbol) return;
-  const center = b ? [Math.min(64, Math.max(0, b.x + b.w / 2)), Math.min(64, Math.max(0, b.y + b.h / 2))] : [32, 32];
+  const center = b ? [Math.min(CANVAS, Math.max(0, b.x + b.w / 2)), Math.min(CANVAS, Math.max(0, b.y + b.h / 2))] : [CANVAS / 2, CANVAS / 2];
   try {
-    const box = Combine.container(main.svg, symbol, {center, ink: null}).layout.symbol[0];
+    const box = Combine.container(main.svg, symbol, {center, ink: null, canvas: CANVAS}).layout.symbol[0];
     editor.box = {x: box.x, y: box.y, w: box.w, h: box.h}; elements.mode = 'whole'; elements.picked = -1; drawStage();
   } catch (error) { edSay(error.message, true); }
 };
@@ -877,7 +922,7 @@ async function uploadEditedSymbol() {
   const body = desc?.children.find(c => c.text !== undefined);
   if (body) try { const m = JSON.parse(body.text); if (m.typeface) { m.manual_elements = true; body.text = JSON.stringify(m); text = m.text; } } catch {}
   const name = text ? 'Text ' + text.replace(/\n/g, ' ') : (editor.item.concept || 'Pair') + ' symbol';
-  const data = await api('/api/icons/upload', {name: name.slice(0, 120), family: 'symbol', ...(text ? {category: 'text'} : {}),
+  const data = await api('/api/icons/upload', {name: name.slice(0, 120), family: familyOf('symbol'), ...(text ? {category: 'text'} : {}),
                                                svg: Combine.serialize(root), approve: true, reference: {id: editor.item.reference_id, role: 'symbol'}});
   await loadDrawings([data.record.key]);
   const box = editor.box;
@@ -891,7 +936,7 @@ async function uploadEditedSymbol() {
 // (then every other symbol keeps its own natural size too).
 function containerPlacement() {
   const b = editor.box, center = [b.x + b.w / 2, b.y + b.h / 2];
-  const natural = Combine.container(drawings.get(editor.icons.container).svg, symbolSvg(), {center, ink: null}).layout.symbol[0];
+  const natural = Combine.container(drawings.get(editor.icons.container).svg, symbolSvg(), {center, ink: null, canvas: CANVAS}).layout.symbol[0];
   return {center, size: natural.w === b.w && natural.h === b.h ? null : [b.w + 4, b.h + 4]};
 }
 
@@ -919,7 +964,7 @@ async function saveContainerPlacement(containerKey, target, skip) {
   // Six at a time; a failure says how far it got (the pairs already saved keep the new placement).
   let saved = 0;
   for (let i = 0; i < updates.length; i += 6) {
-    const done = await Promise.allSettled(updates.slice(i, i + 6).map(u => api('/api/combinations/parts', u)));
+    const done = await Promise.allSettled(updates.slice(i, i + 6).map(u => api('/api/combinations/parts', {...u, size: CANVAS})));
     saved += done.filter(d => d.status === 'fulfilled').length;
     const failed = done.find(d => d.status === 'rejected');
     if (failed) throw Error(`Saved on ${saved} of ${updates.length} pairs, then: ${failed.reason.message}. Save again to finish.`);
@@ -932,8 +977,11 @@ async function saveContainerPlacement(containerKey, target, skip) {
 // on the stored state.
 async function afterSave(result) {
   await load();
-  editor.item = items.find(i => i.reference_id === editor.item.reference_id) || editor.item;
-  editor.box = null; resetElements(); drawStage();
+  const refreshed = await api('/api/combinations?' + new URLSearchParams({size: CANVAS, kind: 'container', q: editor.item.reference_id, limit: 1}));
+  editor.item = restoreText(refreshed.items).find(i => i.reference_id === editor.item.reference_id) || editor.item;
+  await loadDrawings(editor.item.parts.map(p => p.icon));
+  editor.icons = {container: part(editor.item, 'container').icon, symbol: part(editor.item, 'symbol').icon};
+  editor.overlay = undefined; editor.box = null; resetElements(); drawStage();
   editor.base = editor.box && {...editor.box}; placeInfo();
   edSay(result.build_failed ? 'Saved. Its check fails until: ' + result.errors.join('; ') + ' (it can still be approved).' : 'Saved.');
 }
@@ -949,7 +997,7 @@ $('relatedApply').onclick = async () => {
       saveSource: async () => {
         // Element changes are uploaded only for the source; targets retain their own symbols.
         if (editor.symbolSvg) await uploadEditedSymbol();
-        const [result] = await build([buildRequest(editor.item, {...editor.icons, box, pinned: true})]);
+        const [result] = await build([buildRequest(editor.item, {...editor.icons, box, pinned: true, overlay: editor.overlay})]);
         return result;
       },
       loadPairs: () => allPairs(true),
@@ -1010,7 +1058,7 @@ $('edSave').onclick = async () => {
                                                     : p.role === 'container' ? {...p, icon: icons.container} : p)};
       request = buildRequest(followed, {...icons, box: null});
       edSay(`Saved on ${n} other pair${n === 1 ? '' : 's'} of this container. Building…`);
-    } else request = buildRequest(item, {...icons, box, pinned: true});
+    } else request = buildRequest(item, {...icons, box, pinned: true, overlay: editor.overlay});
     edSay('Building…');
     const [result] = await build([request]);
     if (!result.ok) throw Error(result.error);
@@ -1048,7 +1096,7 @@ $('state').onchange = () => { view.state = $('state').value; view.offset = 0; lo
 $('prev').onclick = () => { view.offset = Math.max(0, view.offset - LIMIT); load(); scrollTo(0, 0); };
 $('next').onclick = () => { view.offset += LIMIT; load(); scrollTo(0, 0); };
 // ?edit=<reference id> (the Edit link on Combinations): that pair's editor opens once the page has it.
-load().then(() => { const id = params.get('edit'), item = id && items.find(i => i.reference_id === id); if (item) openEditor(item); });
+load().then(async () => { const id = params.get('edit'); if (!id) return; const item = items.find(i => i.reference_id === id) || (await api('/api/combinations?' + new URLSearchParams({size: CANVAS, kind: 'container', q: id, limit: 1}))).items.find(i => i.reference_id === id); if (item) { restoreText([item]); } if (item) { await loadDrawings(item.parts.map(p => p.icon)); openEditor(item); } }).catch(error => { $('status').textContent = error.message; });
 </script>
 </body>
 </html>

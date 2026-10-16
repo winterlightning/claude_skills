@@ -24,7 +24,7 @@
   // The box a build stored ({x, y, w, h}, whole units); a 0 × 0 placeholder (a placement with no box yet) is none.
   const savedBox = p => {
     const b = Array.isArray(p.layout) && p.layout.length === 1 ? p.layout[0] : null;
-    return b && ['x', 'y', 'w', 'h'].every(k => Number.isInteger(b[k])) && (b.w || b.h) ? {x: b.x, y: b.y, w: b.w, h: b.h} : null;
+    return b && ['x', 'y', 'w', 'h'].every(k => Number.isFinite(b[k])) && (b.w || b.h) ? {x: b.x, y: b.y, w: b.w, h: b.h} : null;
   };
   const scopeOf = p => layoutOf(p)?.scope;
   const pairBox = p => scopeOf(p) === 'pair' || (!scopeOf(p) && !layoutOf(p)?.container) ? savedBox(p) : null;
@@ -35,6 +35,7 @@
   // symbol is picked, else {center, ink} from (in order) the container's saved placement, the published pair override,
   // the container's published default, the canvas centre. `label` says which, `scope` where a save would go.
   function placementOf(item, icons = {}, own = true, defaults = {}) {
+    if (defaults.canvas === 72) return placement72(item, icons, own, defaults);
     const s = part(item, 'symbol'), containerKey = icons.container ?? part(item, 'container').icon, symbolKey = icons.symbol ?? s.icon;
     if (own && symbolKey === s.icon) {
       const box = pairBox(s), center = box ? null : pairCenter(s);
@@ -51,11 +52,41 @@
     return {center: [32, 32], ink: null, label: 'Default · canvas center', scope: 'container'};
   }
 
+  // Native 72 review data is keyed by exact artwork identity; never scale a 64px room.
+  function placement72(item, icons, own, defaults) {
+    const c = part(item, 'container'), s = part(item, 'symbol');
+    const ck = icons.container ?? c.icon, sk = icons.symbol ?? s.icon;
+    const record = defaults.pairs?.[item.reference_id];
+    const matches = p => p && p.container === ck && p.symbol === sk
+      && p.container_sha256 === (icons.containerSha ?? c.current_sha)
+      && p.symbol_sha256 === (icons.symbolSha ?? s.current_sha);
+    const active = record && record.container === ck && record.symbol === sk ? record : null;
+    const extra = {canvas: 72, overlay: !!(layoutOf(s)?.overlay ?? active?.overlay), nativeText: !!(layoutOf(s)?.native_text ?? active?.native_text)};
+    if (own && ck === c.icon && sk === s.icon) {
+      const box = pairBox(s), center = box ? null : pairCenter(s);
+      if (box || center) return {...extra, ...(box ? {box} : center), pinned: true, label: 'Saved · this pair', scope: 'pair', by: s.updated_by};
+    }
+    const whole = ck === c.icon ? containerTarget(s) : null;
+    if (whole) return {...extra, ...whole, saved: 'container', label: 'Saved · this container', scope: 'container'};
+    const recorded = p => ({...extra, center: p.center.map((v, i) => v + (p.offset?.[i] || 0)), size: p.size, nativeText: !!(p.native_text ?? active?.native_text), overlay: !!p.overlay, scope: 'pair'});
+    if (own && matches(active) && active.baseline_sha256 && item.icon?.svg_sha256 === active.baseline_sha256)
+      return {...recorded(active), label: 'Recorded · current uploaded layout'};
+    if (own && matches(active?.proposal) && active.proposal.status === 'accepted')
+      return {...recorded(active.proposal), label: 'Reviewed · accepted pair layout'};
+    const d = defaults.containers?.[ck], room = d?.room;
+    const stale = d && d.sha256 !== (icons.containerSha ?? c.current_sha);
+    const proposal = active?.proposal;
+    const note = [stale ? 'Container artwork changed; room needs review.' : '', proposal && !matches(proposal) ? 'Recorded pair layout belongs to older artwork; review it again.' : proposal?.status === 'propose' ? 'A pair proposal is available; it has not been accepted.' : '', room?.note || ''].filter(Boolean).join(' ');
+    return {...extra, center: room?.center || [36, 36], size: room?.symbol_guide_size || 36, room,
+      needsReview: !room || stale, note, proposal: matches(proposal) ? proposal : null,
+      label: room ? 'Recorded room · ' + room.status + (stale ? ' · outdated' : '') : 'No recorded room · place manually', scope: 'container'};
+  }
+
   // The symbol layout a build stores: the engine's boxes marked with the placement they came from, and the
   // container's placement (`kept`) carried along.
   function builtLayout(boxes, placement, kept) {
     const scope = placement.pinned ? 'pair' : placement.saved === 'container' ? 'container' : 'default';
-    return boxes.map(b => ({...b, scope, ...(kept ? {container: kept} : {})}));
+    return boxes.map(b => ({...b, scope, ...(placement.canvas === 72 ? {overlay: !!placement.overlay, native_text: !!placement.nativeText} : {}), ...(kept ? {container: kept} : {})}));
   }
 
   // A pair's symbol layout once its container's placement is `target` ({center, size}, or null to remove it): its

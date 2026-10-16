@@ -205,6 +205,9 @@ def write_container_centers(target: Path, root: Path = ROOT) -> dict:
     stored on the cloud (/api/container-centers) and take precedence over these defaults.
     """
     data = root / 'icon_set/data'
+    native72 = data / 'container-layouts72.json'
+    if native72.is_file():
+        (target / native72.name).write_bytes(native72.read_bytes())
     areas = json.loads((data / 'container-content-areas.json').read_text())['areas']
     prefs = json.loads((data / 'container-placement-preferences.json').read_text())
     manifest = target.parent / 'container64/manifest.json'

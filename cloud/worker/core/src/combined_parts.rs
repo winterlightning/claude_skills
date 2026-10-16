@@ -20,8 +20,8 @@ macro_rules! part_errors {
               AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve' \
            UNION ALL \
-           SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_sizes p ON p.reference_id = i.icon_id AND p.size = 72 \
-            WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family = 'combination-72' \
+           SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_sizes p ON p.reference_id = COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) AND p.size = 72 \
+            WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family IN ('combination-72', 'container-combination-72') \
               AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve'), \
          errs AS (SELECT key, json_group_array(upper(substr(role, 1, 1)) || substr(role, 2) || ' ' || \
@@ -32,14 +32,14 @@ macro_rules! part_errors {
 
 /// The combined icons (keys) built from a part (`?1`, its icon key) in any size: the ones to check again after
 /// that part's review changed.
-pub const USING_PART: &str = "SELECT i.key FROM icons i WHERE i.uploaded = 0 AND (\
+pub const USING_PART: &str = "SELECT i.key FROM icons i WHERE (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) AND (\
     (i.family IN ('side_combination64', 'container_combination64') AND i.icon_id IN (SELECT reference_id FROM reference_parts WHERE icon = ?1)) \
-    OR (i.family = 'combination-72' AND i.icon_id IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)))";
+    OR (i.family IN ('combination-72', 'container-combination-72') AND COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)))";
 
 /// The icons in `?1` whose failed flag or errors are no longer what their parts' reviews say.
 pub const CHANGED: &str = concat!(part_errors!(),
     "SELECT i.key FROM icons i LEFT JOIN errs e ON e.key = i.key \
-     WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.uploaded = 0 \
+     WHERE i.key IN (SELECT value FROM json_each(?1)) AND (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) \
        AND (i.build_failed != (e.key IS NOT NULL) OR COALESCE(json_extract(i.record, '$.errors'), '[]') != COALESCE(e.errors, '[]'))");
 
 /// Store them: the failed flag, the record's errors (and, where the record carries them, its build_failed and
@@ -48,7 +48,7 @@ pub const UPDATE: [&str; 2] = [
     concat!(part_errors!(),
         "UPDATE icons SET build_failed = EXISTS (SELECT 1 FROM errs e WHERE e.key = icons.key), \
            record = json_set(COALESCE(record, '{}'), '$.errors', json(COALESCE((SELECT e.errors FROM errs e WHERE e.key = icons.key), '[]'))) \
-         WHERE key IN (SELECT value FROM json_each(?1)) AND uploaded = 0"),
+         WHERE key IN (SELECT value FROM json_each(?1)) AND (uploaded = 0 OR (family = 'container-combination-72' AND json_extract(record, '$.built_at') IS NOT NULL))"),
     "UPDATE icons SET \
        record = CASE WHEN json_type(record, '$.validation') = 'object' THEN json_set(record, \
            '$.validation.status', CASE WHEN build_failed THEN 'invalid' ELSE 'valid' END, \
@@ -62,7 +62,7 @@ pub const UPDATE: [&str; 2] = [
              ELSE json_object('status', CASE WHEN build_failed THEN 'invalid' ELSE 'valid' END, \
                               'automatic_status', CASE WHEN build_failed THEN 'fail' ELSE 'pass' END) END), \
            '$.errors', json(json_extract(record, '$.errors'))) END \
-     WHERE key IN (SELECT value FROM json_each(?1)) AND uploaded = 0",
+     WHERE key IN (SELECT value FROM json_each(?1)) AND (uploaded = 0 OR (family = 'container-combination-72' AND json_extract(record, '$.built_at') IS NOT NULL))",
 ];
 
 #[cfg(test)]

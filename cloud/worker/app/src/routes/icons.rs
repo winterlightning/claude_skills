@@ -398,7 +398,7 @@ async fn original_reference(ctx: &Ctx, id: &str) -> Result<Option<Value>> {
 pub async fn get_uploaded(ctx: &Ctx) -> Result<Response> {
     #[derive(Deserialize)]
     struct Row { record: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT CASE WHEN i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL THEN COALESCE(i.card, u.record) ELSE u.record END AS record FROM uploaded_icons u LEFT JOIN icons i ON i.key = u.icon ORDER BY u.rowid", vec![]).await?;
     let records: Vec<Value> = rows.into_iter().filter_map(|r| serde_json::from_str(&r.record).ok()).collect();
     http::json(200, &json!({"icons": records}))
 }
@@ -426,7 +426,8 @@ pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
     // The revision the record names, as the gallery shows it (/solo48/<id>.svg). A worker's uploaded fix is not
     // served here: it is unreviewed until a rebuilt model makes it a revision, and /api/work/result serves it.
     let row: Option<Row> = if icon.uploaded != 0.0 {
-        db::first(&ctx.db, "SELECT svg FROM uploaded_icons WHERE icon = ?", args![key]).await?
+        db::first(&ctx.db, pictographic_core::combination_identity::CURRENT_UPLOADED_SVG,
+            args![icon.svg_sha256.clone(), key]).await?
     } else {
         db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256]).await?
     };

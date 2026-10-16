@@ -25,13 +25,24 @@ async function settle(predicate) {
   assert.fail('Page did not settle');
 }
 
-async function page(t) {
-  const dom = new JSDOM(html, {url: 'http://localhost/gallery/container-pairs.html', runScripts: 'outside-only'});
+async function page(t, size = 64, recovered = false) {
+  const dom = new JSDOM(html, {url: `http://localhost/gallery/container-pairs.html?size=${size}`, runScripts: 'outside-only'});
   t.after(() => dom.window.close());
   const w = dom.window, rows = [pair('source'), pair('adjusted', undefined, 'symbol/wide'), pair('later'), pair('missing', undefined, 'symbol/missing'), pair('other', 'container/other')];
   const defaultPlacement = {center: [30, 34], size: null};
   rows[1].parts[1].layout = [{x: 10, y: 12, w: 16, h: 18, scope: 'pair', container: defaultPlacement}];
   const art = {'container/box': main, 'container/other': main, 'symbol/plus': symbol, 'symbol/wide': wide};
+  const nativeKey = key => key?.replace('container/', 'container-72/').replace('symbol/', 'symbol-36/');
+  if (size === 72) {
+    for (const row of rows) for (const p of row.parts) { p.icon = nativeKey(p.icon); p.current_sha = 'hash-' + p.icon; }
+    for (const [key, svg] of Object.entries({...art})) { art[nativeKey(key)] = svg.replaceAll('0 0 64 64', '0 0 72 72').replaceAll('0 0 32 32', '0 0 36 36'); delete art[key]; }
+  }
+  const nativeDefaults = {canvas: 72, containers: {'container-72/box': {sha256: 'hash-container-72/box', room: {center: [36, 31.5], clear_square_side: 32, symbol_guide_size: 32, status: 'provisional'}}}, pairs: {}};
+  if (recovered) {
+    const p = rows[0].parts[1]; p.icon = null;
+    nativeDefaults.pairs.source = {container:'container-72/box', symbol:'text/local-source', container_sha256:'hash-container-72/box', symbol_sha256:'local-hash', native_text:true, center:[36,31.5], size:24, text_svg:art['symbol-36/plus']};
+  }
+  const uploads = [];
   const calls = [], posts = [], fixture = {sourceFailure: false, targetFailure: null, warnings: null};
   w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   w.HTMLDialogElement.prototype.close = function () { this.open = false; };
@@ -48,9 +59,12 @@ async function page(t) {
       data = {items, total: rows.length, counts: {container: {unbuilt: rows.length}}, next_offset: offset + limit < rows.length ? offset + limit : null};
     } else if (url.pathname === '/api/combinations/drawings') {
       data = Object.fromEntries(url.searchParams.get('keys').split(',').filter(key => art[key]).map(key => [key, {svg: art[key], svg_sha256: 'hash-' + key, review: 'approve'}]));
+    } else if (url.pathname === '/api/icons/upload') {
+      uploads.push(body); art['symbol-36/registered'] = body.svg; data = {record: {key:'symbol-36/registered', svg_sha256:'hash-symbol-36/registered'}};
     } else if (url.pathname === '/api/combinations/candidates') data = [];
     else if (url.pathname === '/api/icon-artwork/overrides') data = {records: []};
     else if (url.pathname.endsWith('container-text-v2.json')) data = {icons: []};
+    else if (url.pathname.endsWith('container-layouts72.json')) data = nativeDefaults;
     else if (url.pathname.endsWith('container-centers.json')) data = {containers: {}, pairs: {}};
     else if (url.pathname === '/api/combinations/build') {
       posts.push(body);
@@ -63,7 +77,7 @@ async function page(t) {
     } else throw Error('Unexpected request: ' + path);
     return {ok: true, json: async () => json(data)};
   };
-  for (const file of ['combine.js', 'container-placement.js', 'text-combine.js', 'container-text-symbol.js']) w.eval(readFileSync(new URL(file, templates), 'utf8'));
+  for (const file of ['combine.js', 'combine-side.js', 'container-placement.js', 'text-combine.js', 'container-text-symbol.js']) w.eval(readFileSync(new URL(file, templates), 'utf8'));
   w.eval(html.match(/<script>\s*([\s\S]*?)<\/script>/)[1] + '\nwindow.page = {editor, related, openEditor, drawStage, loadRelated, getItems: () => items};');
   await settle(() => w.page.getItems().length);
   w.page.openEditor(w.page.getItems()[0]);
@@ -73,7 +87,7 @@ async function page(t) {
     const checkbox = w.document.querySelector(`[data-pair="${id}"]`);
     checkbox.checked = true; checkbox.dispatchEvent(new w.Event('change', {bubbles: true}));
   };
-  return {w, $, select, rows, calls, posts, fixture, art};
+  return {w, $, select, rows, calls, posts, fixture, art, nativeDefaults, uploads};
 }
 
 test('editor lists all exact-container pairs across pages and resets selection with the container', async t => {
@@ -145,4 +159,35 @@ test('refresh before applying skips changed containers and drawings removed sinc
   assert.match($('relatedList').textContent, /no longer uses this container/);
   assert.match($('relatedList').textContent, /Both parts need a drawing/);
   assert.equal(w.page.editor.busy, false);
+});
+
+
+test('native72 editor restores room, draws a 72px grid and saves selected layouts only at size72', async t => {
+  const {w, $, select, rows, posts, calls} = await page(t, 72);
+  assert.equal($('stage').getAttribute('viewBox'), '0 0 72 72');
+  assert.match($('roomInfo').textContent, /36, 31.5.*32.*provisional/);
+  assert.equal(w.page.editor.last.svg.includes('viewBox="0 0 72 72"'), true);
+  const original = json(rows[2]);
+  select('adjusted');
+  const fractional = {x: 22.25, y: 18.5, w: 24.5, h: 27};
+  w.page.editor.box = fractional; w.page.drawStage();
+  await $('relatedApply').onclick();
+  assert.ok(posts.length === 2 && posts.every(p => p.size === 72));
+  assert.ok(calls.filter(c => c.startsWith('/api/combinations?') || c.startsWith('/api/combinations/candidates?')).every(c => c.includes('size=72')));
+  assert.equal(rows[1].parts[1].icon, 'symbol-36/wide');
+  assert.deepEqual(json(w.ContainerPlacement.savedBox(rows[1].parts[1])), fractional);
+  assert.deepEqual(rows[2], original);
+  w.page.openEditor(rows[1]); await settle(() => !w.page.related.loading);
+  assert.deepEqual(json(w.page.editor.box), fractional);
+});
+
+test('recovered native text is read-only until save and is registered without a local approval', async t => {
+ const {w,$,uploads,posts,rows}=await page(t,72,true);
+ assert.equal(uploads.length,0); assert.ok(w.page.editor.last);
+ await $('edSave').onclick();
+ assert.equal(uploads.length,1); assert.equal(uploads[0].approve,false); assert.equal(uploads[0].bypass_validation,true);
+ assert.equal(uploads[0].family,'symbol-36');
+ assert.equal(posts[0].builds[0].parts.symbol.icon,'symbol-36/registered');
+ assert.equal(rows[0].parts[1].layout[0].native_text,true);
+ assert.equal(w.page.editor.icons.symbol,'symbol-36/registered');
 });
