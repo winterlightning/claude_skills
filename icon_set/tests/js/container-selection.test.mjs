@@ -42,7 +42,7 @@ async function page(t, size = 64, recovered = false) {
     const p = rows[0].parts[1]; p.icon = null;
     nativeDefaults.pairs.source = {container:'container-72/box', symbol:'text/local-source', container_sha256:'hash-container-72/box', symbol_sha256:'local-hash', native_text:true, center:[36,31.5], size:24, text_svg:art['symbol-36/plus']};
   }
-  const uploads = [];
+  const uploads = [], hashes = {};
   const calls = [], posts = [], fixture = {sourceFailure: false, targetFailure: null, warnings: null};
   w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   w.HTMLDialogElement.prototype.close = function () { this.open = false; };
@@ -58,9 +58,12 @@ async function page(t, size = 64, recovered = false) {
       const limit = all ? 2 : 1, items = rows.slice(offset, offset + limit);
       data = {items, total: rows.length, counts: {container: {unbuilt: rows.length}}, next_offset: offset + limit < rows.length ? offset + limit : null};
     } else if (url.pathname === '/api/combinations/drawings') {
-      data = Object.fromEntries(url.searchParams.get('keys').split(',').filter(key => art[key]).map(key => [key, {svg: art[key], svg_sha256: 'hash-' + key, review: 'approve'}]));
+      data = Object.fromEntries(url.searchParams.get('keys').split(',').filter(key => art[key]).map(key => [key, {svg: art[key], svg_sha256: hashes[key] || 'hash-' + key, review: 'approve'}]));
     } else if (url.pathname === '/api/icons/upload') {
-      uploads.push(body); art['symbol-36/registered'] = body.svg; data = {record: {key:'symbol-36/registered', svg_sha256:'hash-symbol-36/registered'}};
+      uploads.push(body);
+      const key = fixture.existingUploadKey || 'symbol-36/registered';
+      art[key] = body.svg; hashes[key] = 'uploaded-revision-' + uploads.length;
+      data = {record: {key, svg_sha256: hashes[key]}};
     } else if (url.pathname === '/api/combinations/candidates') data = [];
     else if (url.pathname === '/api/icon-artwork/overrides') data = {records: []};
     else if (url.pathname.endsWith('container-text-v2.json')) data = {icons: []};
@@ -70,6 +73,7 @@ async function page(t, size = 64, recovered = false) {
       posts.push(body);
       data = {results: body.builds.map(request => {
         if (fixture.sourceFailure && request.reference_id === 'source' || fixture.targetFailure === request.reference_id) return {ok: false, error: 'Rejected'};
+        if (Object.values(request.parts).some(p => p.svg_sha256 !== (hashes[p.icon] || 'hash-' + p.icon))) return {ok: false, error: 'The part was redrawn since it was loaded.'};
         const row = rows.find(row => row.reference_id === request.reference_id);
         row.parts = row.parts.map(part => ({...part, ...request.parts[part.role]}));
         return {ok: true, key: 'container_combination64/' + row.reference_id, build_failed: fixture.warnings === row.reference_id, errors: fixture.warnings === row.reference_id ? ['Needs review'] : []};
@@ -190,4 +194,22 @@ test('recovered native text is read-only until save and is registered without a 
  assert.equal(posts[0].builds[0].parts.symbol.icon,'symbol-36/registered');
  assert.equal(rows[0].parts[1].layout[0].native_text,true);
  assert.equal(w.page.editor.icons.symbol,'symbol-36/registered');
+});
+
+for (const size of [64, 72]) test(`edited ${size}px symbol reloads a new revision uploaded to the same icon key`, async t => {
+  const {w, $, fixture, posts, uploads, rows} = await page(t, size);
+  const key = w.page.editor.icons.symbol;
+  fixture.existingUploadKey = key;
+  const edited = svg(size === 72 ? 36 : 32, '<path d="M 8 16 H 24 M 16 8 V 24"/>');
+  w.page.editor.symbolSvg = edited;
+  w.page.editor.box = {...box};
+  w.page.drawStage();
+  await $('edSave').onclick();
+  assert.equal(uploads.length, 1);
+  assert.equal(posts[0].builds[0].parts.symbol.svg_sha256, 'uploaded-revision-1');
+  assert.equal(rows[0].parts[1].icon, key);
+  assert.equal(w.page.editor.last.symbol.svg, uploads[0].svg);
+  assert.match(w.page.editor.last.symbol.svg, /M 8 16 H 24 M 16 8 V 24/);
+  assert.match($('edMsg').textContent, /^Saved/);
+  assert.equal(w.page.editor.symbolSvg, null);
 });
