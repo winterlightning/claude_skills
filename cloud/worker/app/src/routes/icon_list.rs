@@ -31,7 +31,7 @@ fn statement(db: &D1Database, (sql, args): (String, Vec<Value>)) -> Result<D1Pre
 }
 
 /// Combined icons whose drawing was built in the browser keep their columns from that build, not a push.
-pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_combination64', 'combination-72') \
+pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_combination64', 'combination-72', 'container-combination-72') \
     AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build')";
 
 /// Store what the list reads of a record (`guard`: an extra condition on the row, e.g. NOT BUILT_IN_BROWSER).

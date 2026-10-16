@@ -44,6 +44,7 @@ figcaption .muted{color:var(--muted)}
        and whether its combined drawing is built, stale (a part was redrawn since) or not built yet.</p>
   </section>
   <div class="toolbar">
+    <label>Canvas <select id="size"><option value="64">64 × 64</option><option value="72">72 × 72</option></select></label>
     <input type="search" id="q" placeholder="Search concept or reference id">
     <select id="kind"><option value="">Side and container</option><option value="side">Side</option><option value="container">Container</option></select>
     <select id="state"><option value="">Any state</option><option value="built">Built</option><option value="stale">Stale</option><option value="unbuilt">Not built</option></select>
@@ -57,7 +58,9 @@ figcaption .muted{color:var(--muted)}
 const LIMIT = 60;
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
-const state = {q: params.get('q') || '', kind: params.get('kind') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+const state = {size: params.get('size') === '72' ? 72 : 64, icon: params.get('icon') || '', q: params.get('q') || '', kind: params.get('kind') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+$('size').value = String(state.size);
+$('size').onchange = () => { state.size = +$('size').value; state.offset = 0; state.icon = ''; load(); };
 $('q').value = state.q; $('kind').value = state.kind; $('state').value = state.state;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const art = (key, sha) => key ? `/api/icon-artwork/svg?icon=${encodeURIComponent(key)}${sha ? '&v=' + sha.slice(0, 12) : ''}` : null;
@@ -85,7 +88,7 @@ function tile(c) {
   const built = c.icon ? `<img loading="lazy" src="${art(c.icon.key, c.icon.svg_sha256)}" alt="">` : '<div class="none">no combined drawing</div>';
   return `<article class="tile">
     <header><div><h3>${esc(c.concept || c.reference_id)}</h3><div class="id">${esc(c.reference_id)}</div></div>
-      <span class="head-actions"><a class="edit requires-login" href="${c.kind}-pairs.html?q=${encodeURIComponent(c.reference_id)}&edit=${encodeURIComponent(c.reference_id)}">Edit</a>
+      <span class="head-actions"><a class="edit requires-login" href="${c.kind}-pairs.html?size=${state.size}&q=${encodeURIComponent(c.reference_id)}&edit=${encodeURIComponent(c.reference_id)}">Edit</a>
       <span class="badge ${c.state}">${STATES[c.state]}</span></span></header>
     <div class="row">
       <figure><div class="art">${built}</div><figcaption><b>combined</b>${c.icon?.review ? `<br><span class="muted">review: ${esc(c.icon.review)}</span>` : ''}</figcaption></figure>
@@ -108,8 +111,8 @@ function counts(data) {
 let seq = 0;
 async function load() {
   const mine = ++seq;
-  const query = new URLSearchParams({limit: LIMIT, offset: state.offset});
-  for (const k of ['q', 'kind', 'state']) if (state[k]) query.set(k, state[k]);
+  const query = new URLSearchParams({size: state.size, limit: LIMIT, offset: state.offset});
+  for (const k of ['q', 'kind', 'state', 'icon']) if (state[k]) query.set(k, state[k]);
   history.replaceState(null, '', '?' + [...query].filter(([k]) => k !== 'limit').map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&'));
   $('status').textContent = 'Loading…';
   try {
@@ -117,6 +120,11 @@ async function load() {
     const data = await response.json();
     if (mine !== seq) return;
     if (!response.ok) throw Error(data.error || response.statusText);
+    if (params.get('edit') === '1' && state.icon && data.items.length === 1) {
+      const c = data.items[0];
+      location.replace(`${c.kind}-pairs.html?` + new URLSearchParams({size: state.size, q: c.reference_id, edit: c.reference_id}));
+      return;
+    }
     counts(data);
     $('grid').innerHTML = data.items.length ? data.items.map(tile).join('') : '<div class="empty">No combinations match.</div>';
     $('status').textContent = `${data.total.toLocaleString()} combinations`;

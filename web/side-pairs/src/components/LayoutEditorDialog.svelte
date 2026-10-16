@@ -203,8 +203,8 @@
         {#if ctx?.result}<div use:result={{svg: ctx.result.svg, centerline: editor.centerline}}></div>{:else}<span>{ctx ? 'Loading…' : ''}</span>{/if}
       </div>
       <figcaption>Combined result (the sub erases the main where they meet).</figcaption></figure>
-      <div class="side-layout-output" aria-label="Output SVG at 32, 48 and 64 pixels">
-        {#if output}{#each [32, 48, 64] as size (size)}<figure><img src={output} width={size} height={size} alt={`Output at ${size} pixels`}><figcaption>{size} px</figcaption></figure>{/each}{/if}
+      <div class="side-layout-output" aria-label={`Output SVG at 32, 48 and ${c} pixels`}>
+        {#if output}{#each [32, 48, c] as size (size)}<figure><img src={output} width={size} height={size} alt={`Output at ${size} pixels`}><figcaption>{size} px</figcaption></figure>{/each}{/if}
       </div>
     </div>
     <div class="side-layout-list" aria-label="Elements">
