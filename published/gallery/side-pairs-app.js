@@ -5407,10 +5407,10 @@ createHTML: (html) => {
 		"side-one-axis32"
 	];
 	function subProblems(s, item, flagged = () => false) {
-		const problems = [], [w, h] = ink(item, true);
+		const problems = [], [w, h] = ink(item, true), limit = s.size === 72 ? 36 : 32;
 		if (item.model_validation && item.model_validation !== "pass") problems.push("Model validation: " + item.model_validation);
 		if (!item.stale_form && ["needs_redraw", "needs_review"].includes(item.sub32_status)) problems.push(item.sub32_reason || "Needs a SUB32 redraw");
-		if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
+		if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > limit + .01 || h > limit + .01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds ${limit}×${limit}`);
 		if (flagged(item)) problems.push("Disapproved — needs fix");
 		return problems;
 	}
@@ -5514,7 +5514,7 @@ createHTML: (html) => {
 				waiting: "waiting",
 				textsub: "info"
 			}[k] || "needed",
-			STATE_HINTS[k]
+			s.size === 72 ? STATE_HINTS[k]?.replaceAll("48×48", "54×54").replaceAll("32×32", "36×36") : STATE_HINTS[k]
 		];
 	}
 	function display(s, row, role, item) {
@@ -8267,7 +8267,7 @@ createHTML: (html) => {
 	var root_29 = /* @__PURE__ */ from_html(`<label class="target"><input type="checkbox"/> <!> <span> <small> </small> <!><!> <!></span></label>`);
 	var root_30 = /* @__PURE__ */ from_html(`<h4> </h4> <div class="targets"></div>`, 1);
 	var root_31 = /* @__PURE__ */ from_html(`<details class="side-layout-apply"><summary> </summary> <p>Main and sub carry over. Other sides are re-anchored: main and sub keep their size and edits, each in its own corner. A different sub keeps its own shape, fitted to the edited sub's box.</p> <!> <div class="actions"><button type="button">Select all</button> <button type="button">Select none</button> <button type="button" class="side-layout-save apply-go"> </button> <small class="apply-note"> </small></div></details>`);
-	var root_32 = /* @__PURE__ */ from_html(`<dialog class="side-layout"><header><h2> </h2><button type="button">Close</button></header> <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main and sub size"></div> <div class="side-layout-bar"><span>Click selects</span> <!> <label><input type="checkbox"/> Centerline</label><span class="spacer"></span> <button type="button">Reset to automatic</button> <button type="button">Discard changes</button> <button type="button" title="Combine the main and sub with this layout to see the result"> </button> <button type="button" class="side-layout-save">Save layout</button></div> <div class="side-layout-stages"><figure><svg class="side-layout-canvas" tabindex="0" role="application"><!></svg> <figcaption>Editing view: main and sub drawn whole, centerline in red.</figcaption></figure> <div class="side-layout-result-column"><figure><div class="side-layout-preview"><!> <!></div> <figcaption>Combined result (the sub erases the main where they meet).</figcaption></figure> <div class="side-layout-output" aria-label="Output SVG at 32, 48 and 64 pixels"><!></div></div> <div class="side-layout-list" aria-label="Elements"><!> <!></div></div> <!> <p role="status"> </p> <p class="side-layout-hint">The main and sub sizes (every 4) and a keyshape snap the main / sub onto that keyshape at that size (purple / teal dashes) — the middle size on the own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4. Edits do not combine by themselves: click Apply layout to see the combined result, then Save layout to keep it.</p> <p class="side-layout-error" role="alert"> </p></dialog>`);
+	var root_32 = /* @__PURE__ */ from_html(`<dialog class="side-layout"><header><h2> </h2><button type="button">Close</button></header> <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main and sub size"></div> <div class="side-layout-bar"><span>Click selects</span> <!> <label><input type="checkbox"/> Centerline</label><span class="spacer"></span> <button type="button">Reset to automatic</button> <button type="button">Discard changes</button> <button type="button" title="Combine the main and sub with this layout to see the result"> </button> <button type="button" class="side-layout-save">Save layout</button></div> <div class="side-layout-stages"><figure><svg class="side-layout-canvas" tabindex="0" role="application"><!></svg> <figcaption>Editing view: main and sub drawn whole, centerline in red.</figcaption></figure> <div class="side-layout-result-column"><figure><div class="side-layout-preview"><!> <!></div> <figcaption>Combined result (the sub erases the main where they meet).</figcaption></figure> <div class="side-layout-output"><!></div></div> <div class="side-layout-list" aria-label="Elements"><!> <!></div></div> <!> <p role="status"> </p> <p class="side-layout-hint">The main and sub sizes (every 4) and a keyshape snap the main / sub onto that keyshape at that size (purple / teal dashes) — the middle size on the own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4. Edits do not combine by themselves: click Apply layout to see the combined result, then Save layout to keep it.</p> <p class="side-layout-error" role="alert"> </p></dialog>`);
 	function LayoutEditorDialog($$anchor, $$props) {
 		push($$props, true);
 		let editor = prop($$props, "editor", 7);
@@ -8902,7 +8902,7 @@ createHTML: (html) => {
 			each(first_child(fragment_7), 16, () => [
 				32,
 				48,
-				64
+				get(c)
 			], (size) => size, ($$anchor, size) => {
 				var figure_2 = root_19();
 				var img = child(figure_2);
@@ -9139,6 +9139,7 @@ createHTML: (html) => {
 			set_attribute(svg_2, "aria-label", `Layout editor, ${get(c)} by ${get(c)} grid`);
 			set_attribute(svg_2, "viewBox", `-1 -1 ${get(c) + 2} ${get(c) + 2}`);
 			set_attribute(svg_2, "data-centerline", editor().centerline ? "" : null);
+			set_attribute(div_8, "aria-label", `Output SVG at 32, 48 and ${get(c)} pixels`);
 			classes_1 = set_class(p_2, 1, "side-layout-readout", null, classes_1, { bad: editor().readout.bad });
 			set_text(text_25, editor().readout.text);
 			set_text(text_26, editor().error);

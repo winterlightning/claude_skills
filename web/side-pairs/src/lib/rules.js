@@ -40,12 +40,12 @@ export function ink(item, sub) {
 }
 const EXCEPTION_SIZES = ['side-source-fit', 'side-32x48', 'side-one-axis32'];
 export function subProblems(s, item, flagged = () => false) {
-  const problems = [], [w, h] = ink(item, true);
+  const problems = [], [w, h] = ink(item, true), limit = s.size === 72 ? 36 : 32;
   if (item.model_validation && item.model_validation !== 'pass') problems.push('Model validation: ' + item.model_validation);
   // A stale form measured an older drawing; the current one is checked at 32 by its own build (model_validation).
   if (!item.stale_form && ['needs_redraw', 'needs_review'].includes(item.sub32_status)) problems.push(item.sub32_reason || 'Needs a SUB32 redraw');
   // An exception size (combine-side.js EXCEPTION_SIZES) is placed 1:1 at its drawn size on purpose.
-  if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
+  if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > limit + .01 || h > limit + .01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds ${limit}×${limit}`);
   if (flagged(item)) problems.push('Disapproved — needs fix');
   return problems;
 }
@@ -106,7 +106,7 @@ export function parts(s, row, flagged) {
 export function state(s, row, p) {
   const k = p.key.startsWith('both') ? 'main' : p.key, subMissing = k === 'fixmain' && s.componentStatus.sub.get(row.sub_id) === 'missing';
   const label = p.key === 'both' ? 'Needs main + sub' : p.key === 'both-text' ? 'Needs main + text sub' : subMissing ? 'Fix main + needs sub' : STATES[k];
-  return [label, {ready: 'ready', fix: 'fix', fixmain: 'fix', waiting: 'waiting', textsub: 'info'}[k] || 'needed', STATE_HINTS[k]];
+  return [label, {ready: 'ready', fix: 'fix', fixmain: 'fix', waiting: 'waiting', textsub: 'info'}[k] || 'needed', (s.size === 72 ? STATE_HINTS[k]?.replaceAll('48×48', '54×54').replaceAll('32×32', '36×36') : STATE_HINTS[k])];
 }
 // What a part's tile shows: the pair's item, or the catalog drawing when the item is not the drawing it shows now.
 export function display(s, row, role, item) {

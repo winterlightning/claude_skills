@@ -32,8 +32,7 @@ fn feedback_row(row: Map<String, Value>) -> Value {
 }
 
 pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
-    let catalog = data::review_catalog(&ctx.db).await?;
-    let decisions = data::review_decisions(&ctx.db, &catalog).await?;
+    let decisions = data::stored_decisions(&ctx.db).await?;
     let reviews = current_reviews(&decisions);
     if ctx.query.get("include_approvers").map(|v| v == &vec!["1".to_string()]).unwrap_or(false) {
         #[derive(Deserialize)]
@@ -41,7 +40,7 @@ pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
         let authors: Vec<Row> = db::all(&ctx.db, "SELECT DISTINCT icon, author FROM feedback WHERE author IS NOT NULL ORDER BY icon, author", vec![]).await?;
         let mut feedback_by: Map<String, Value> = Map::new();
         for row in authors {
-            if catalog.contains(&row.icon) && !row.author.is_empty() {
+            if reviews.statuses.contains_key(&row.icon) && !row.author.is_empty() {
                 feedback_by.entry(row.icon).or_insert_with(|| json!([])).as_array_mut().unwrap().push(json!(row.author));
             }
         }

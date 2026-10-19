@@ -2,6 +2,7 @@
 
 use pictographic_core::query::{parse_qs, Query};
 use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
 use worker::{Env, Headers, Method, Request, Response, Result};
 
 pub struct Ctx {
@@ -80,10 +81,12 @@ pub fn error(status: u16, message: &str) -> Result<Response> {
     json(status, &json!({"error": message}))
 }
 
-/// Untrusted SVG, displayed sandboxed exactly like deploy.py.
+/// Untrusted SVG, displayed sandboxed exactly like deploy.py, with its sha256 in X-SVG-SHA256 so a caller can tell
+/// which drawing it got.
 pub fn svg(document: &str) -> Result<Response> {
     let headers = base_headers("image/svg+xml", "no-store")?;
     headers.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")?;
+    headers.set("X-SVG-SHA256", &hex::encode(Sha256::digest(document.as_bytes())))?;
     Ok(Response::from_bytes(document.as_bytes().to_vec())?.with_headers(headers))
 }
 

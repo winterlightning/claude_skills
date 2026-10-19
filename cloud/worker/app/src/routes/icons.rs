@@ -4,7 +4,7 @@ use crate::args;
 use crate::data;
 use crate::db::{self, details};
 use crate::http::{self, Ctx};
-use pictographic_core::reviews::public_status;
+use pictographic_core::reviews::{public_status, ReviewRow};
 use pictographic_core::time::iso_utc;
 use pictographic_core::work as rules;
 use serde::Deserialize;
@@ -62,10 +62,11 @@ pub async fn post_family(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     http::json(201, &json!({"family": {"id": key, "name": name, "canvas_size": canvas, "builtin": false}}))
 }
 
+/// The categories of built icons as the stored filter counts hold them (`icon_facet_counts`), and `manual_upload`.
 pub async fn get_categories(ctx: &Ctx) -> Result<Response> {
     #[derive(Deserialize)]
     struct Row { category: Option<String> }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT DISTINCT category FROM icons", vec![]).await?;
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT value AS category FROM icon_facet_counts WHERE kind = 'category' AND n > 0", vec![]).await?;
     let mut categories: BTreeSet<String> = rows.into_iter().filter_map(|r| r.category)
         .map(|c| c.trim().to_string()).filter(|c| !c.is_empty()).collect();
     categories.insert("manual_upload".into());
@@ -74,38 +75,40 @@ pub async fn get_categories(ctx: &Ctx) -> Result<Response> {
     http::json(200, &json!({"categories": sorted}))
 }
 
+/// GET /api/icon-types?type=&status=: tagged icons with their stored decision, current review row and latest note.
 pub async fn get_icon_types(ctx: &Ctx) -> Result<Response> {
     let wanted = ctx.param("type");
     let wanted_status = ctx.param("status");
-    let catalog = data::catalog(&ctx.db, true).await?;
     #[derive(Deserialize)]
-    struct Row { icon: String, icon_type: String, updated_at: String, updated_by: String }
-    let types: Vec<Row> = db::all(&ctx.db, "SELECT icon, icon_type, updated_at, updated_by FROM icon_types WHERE icon_type != ''", vec![]).await?;
-    let rows = data::review_rows(&ctx.db).await?;
-    let splits = data::active_splits(&ctx.db).await?;
-    let index = data::DetailIndex::new(&rows, &splits);
-    let row_map = data::row_map(&rows);
-    let feedback = data::latest_feedback(&ctx.db).await?;
+    struct Row {
+        icon: String, icon_type: String, updated_at: String, updated_by: String, svg_sha256: String,
+        python_source: Option<String>, decision: Option<String>, row_status: Option<String>, row_at: Option<String>,
+        row_by: Option<String>, worker: Option<String>, claimed_at: Option<String>, note: Option<String>,
+        reason: Option<String>, feedback: Option<String>,
+    }
+    let rows: Vec<Row> = db::all(&ctx.db, &format!("SELECT t.icon, t.icon_type, t.updated_at, t.updated_by, i.svg_sha256, i.python_source, \
+        i.decision, r.status AS row_status, r.updated_at AS row_at, r.updated_by AS row_by, r.worker, r.claimed_at, r.note, \
+        f.reason, f.feedback FROM icon_types t JOIN icons i ON i.key = t.icon \
+        LEFT JOIN reviews r ON r.icon = i.key AND r.svg_sha256 = i.svg_sha256 \
+        LEFT JOIN feedback f ON f.id = (SELECT MAX(x.id) FROM feedback x WHERE x.icon = i.key AND x.svg_sha256 = i.svg_sha256) \
+        WHERE t.icon_type != ''{} ORDER BY t.rowid", if wanted.is_some() { " AND t.icon_type = ?" } else { "" }),
+        wanted.map(|t| args![t]).unwrap_or_default()).await?;
     let now = chrono::Utc::now();
     let mut result = Vec::new();
-    for row in types {
-        let Some(icon) = catalog.get(&row.icon) else { continue };
-        if wanted.is_some_and(|t| t != row.icon_type) {
-            continue;
-        }
-        let detail = index.detail(&row.icon, &icon.svg_sha256);
-        let status = public_status(&detail.status);
+    for row in rows {
+        let status = public_status(row.decision.as_deref().unwrap_or("ready"));
         if wanted_status.is_some_and(|s| s != status) {
             continue;
         }
-        let pair = (row.icon.clone(), icon.svg_sha256.clone());
-        let latest = feedback.get(&pair);
-        let review_row = row_map.get(&pair);
+        let review_row = row.row_status.map(|status| ReviewRow {
+            icon: row.icon.clone(), svg_sha256: row.svg_sha256.clone(), status, updated_at: row.row_at, updated_by: row.row_by,
+            worker: row.worker, claimed_at: row.claimed_at, note: row.note });
+        let python_source = row.python_source.and_then(|t| serde_json::from_str::<Value>(&t).ok()).unwrap_or(Value::Null);
         result.push(json!({"icon": row.icon, "icon_type": row.icon_type, "status": status,
-            "python_source": icon.python_source, "svg_sha256": icon.svg_sha256,
-            "reason": latest.and_then(|f| f.reason.clone()), "feedback": latest.and_then(|f| f.feedback.clone()),
+            "python_source": python_source, "svg_sha256": row.svg_sha256,
+            "reason": row.reason, "feedback": row.feedback,
             "updated_at": row.updated_at, "updated_by": row.updated_by,
-            "work": rules::work_field(review_row, rules::work_state(review_row, now))}));
+            "work": rules::work_field(review_row.as_ref(), rules::work_state(review_row.as_ref(), now))}));
     }
     http::json(200, &json!({"icons": result}))
 }
@@ -229,7 +232,9 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
             let id = r["id"].as_str().filter(|id| (1..=64).contains(&id.len())
                 && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-'));
             match (id, r["role"].as_str()) {
-                (Some(id), Some(role)) if matches!(role, "container" | "symbol") && role == family_id => Some((id.to_lowercase(), role)),
+                // The editor uses the same roles for both canvas sizes; native 72px parts have distinct families.
+                (Some(id), Some(role)) if matches!((role, family_id),
+                    ("container", "container" | "container-72") | ("symbol", "symbol" | "symbol-36")) => Some((id.to_lowercase(), role)),
                 _ => return http::error(400, "reference must be {id, role} with role container or symbol matching the family."),
             }
         }
@@ -395,7 +400,7 @@ pub(super) async fn original_reference(ctx: &Ctx, id: &str) -> Result<Option<Val
 pub async fn get_uploaded(ctx: &Ctx) -> Result<Response> {
     #[derive(Deserialize)]
     struct Row { record: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT CASE WHEN i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL THEN COALESCE(i.card, u.record) ELSE u.record END AS record FROM uploaded_icons u LEFT JOIN icons i ON i.key = u.icon ORDER BY u.rowid", vec![]).await?;
     let records: Vec<Value> = rows.into_iter().filter_map(|r| serde_json::from_str(&r.record).ok()).collect();
     http::json(200, &json!({"icons": records}))
 }
@@ -407,24 +412,26 @@ pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
         let variant = variant.to_string();
         return super::edits::get_artwork_variant(ctx, &variant).await;
     }
-    let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Icon not found.") };
-    // A picked version (browser edit or manual SVG) is what the gallery shows, before a worker's fix.
-    if let Some(response) = super::edits::picked_drawing(ctx, &icon).await? {
-        return Ok(response);
+    #[derive(Deserialize)]
+    struct Icon { svg_sha256: String, uploaded: f64, picked: Option<String> }
+    let icon: Option<Icon> = db::first(&ctx.db, "SELECT svg_sha256, uploaded, picked FROM icons WHERE key = ?", args![key]).await?;
+    let Some(icon) = icon else { return http::error(404, "Icon not found.") };
+    // A picked version (browser edit or manual SVG) is what the gallery shows; picking it approved it. Whether a pick
+    // applies is the stored `picked`, the column the gallery card reads.
+    if matches!(icon.picked.as_deref(), Some("use_edited" | "use_upload")) {
+        if let Some(response) = super::edits::picked_drawing(ctx, key).await? {
+            return Ok(response);
+        }
     }
     #[derive(Deserialize)]
     struct Row { svg: String }
-    let row: Option<Row> = if icon.uploaded {
-        db::first(&ctx.db, "SELECT svg FROM uploaded_icons WHERE icon = ?", args![key]).await?
+    // The revision the record names, as the gallery shows it (/solo48/<id>.svg). A worker's uploaded fix is not
+    // served here: it is unreviewed until a rebuilt model makes it a revision, and /api/work/result serves it.
+    let row: Option<Row> = if icon.uploaded != 0.0 {
+        db::first(&ctx.db, pictographic_core::combination_identity::CURRENT_UPLOADED_SVG,
+            args![icon.svg_sha256.clone(), key]).await?
     } else {
-        // A worker's uploaded fix of the current revision is what the gallery shows (deploy.py `serve_work_fix`);
-        // an artwork choice gives the icon a different svg_sha256, so it never matches a fix.
-        let fix: Option<Row> = db::first(&ctx.db, "SELECT svg FROM work_results WHERE icon = ? AND svg_sha256 = ? AND stage = 'after'",
-                                         args![key, icon.svg_sha256.clone()]).await?;
-        match fix {
-            Some(fix) => Some(fix),
-            None => db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?,
-        }
+        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256]).await?
     };
     match row {
         Some(row) => http::svg(&row.svg),

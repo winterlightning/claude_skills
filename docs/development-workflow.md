@@ -332,3 +332,36 @@ Its `count` is the number shown on the Experiment tab, in the Experiment grid, a
 (`side_combination64/<pair id>`). Reviews key on the combined SVG's sha, so a pair whose drawing changes
 comes back for review. Disapproved combinations stay out of the default fix queue: they are fixed through
 their main and sub.
+
+
+## Native 72px combination layout editors
+
+Use `container-pairs.html?size=72` for containers and
+`side-pairs.html?size=72` for side combinations. Both editors also support 64px.
+The side link redirects to `primitives.html?view=side&grid=72`; its `size`
+parameter is the number of rows, so use `grid` for canvas size there.
+Icon review's **Edit layout** link resolves the combination's reference before
+opening the editor, including uploaded combinations with non-reference keys.
+
+Container72 uses `container-72` and `symbol-36` drawings and keeps 4px strokes.
+The tracked `icon_set/data/container-layouts72.json` recovers native rooms,
+center notes, accepted pair adjustments, and separate proposals from the
+October 14 review work. An explicit recovery tool, `export_container72_layouts.py
+--source PATH`, can rebuild that supporting dataset; gallery builds only copy it.
+Saved cloud layouts take precedence. Recovered pair geometry is checked against
+both part hashes; outdated rooms and unaccepted proposals stay visible as such.
+Recovered native text is a preview until **Build and save** registers it for
+normal review; no local approval state is imported.
+
+**Save + apply** changes only selected pairs using the exact same container in
+the current size. Each target retains its own symbol. Whole-container scope
+changes the default for pairs without their own placement. The room guide shows
+the recorded center and clear square; position and size controls edit the layout.
+
+Migration `0022_container_pairs_72.sql` expands the size-specific part table and
+fills only absent picks from the recovered identities when both the pair and icon
+exist. It preserves side layouts, 64px layouts, drawings, and reviews. It must be
+applied with the Worker change during an explicitly authorized future deployment.
+The PR does not apply it to production. Existing uploaded combinations retain
+their keys and original uploads; explicit saves create revisions, and stale
+combined-artwork hashes reject a save until the editor is refreshed.

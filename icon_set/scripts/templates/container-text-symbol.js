@@ -50,10 +50,11 @@ const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
 // The symbol document: a 32 × 32 canvas when the ink fits (kept at natural size in the standard box),
 // otherwise a canvas exactly the ink box, combined with ink = [W, H] so it is never scaled.
-function symbolDocument(s){
+function symbolDocument(s,canvas=64){
+  const BOX=canvas===72?36:32;
   // Hinted glyph bounds carry float noise (23.000000000000007); the ink box itself is whole units.
   const {size,result}=textResult(s), W=+result.width.toFixed(3), H=+result.height.toFixed(3), fits=W<=BOX&&H<=BOX;
-  if(W>BOX*2-4||H>BOX*2-4)throw Error(`Ink ${W} × ${H} does not fit the 64 × 64 container canvas. Use a smaller size, fewer letters per line, or tighter spacing.`);
+  if(W>canvas-4||H>canvas-4)throw Error(`Ink ${W} × ${H} does not fit the ${canvas} × ${canvas} container canvas. Use a smaller size, fewer letters per line, or tighter spacing.`);
   if(!fits&&(W%2||H%2))throw Error(`Ink ${W} × ${H} is not even, so it cannot be combined at its exact size. Change the spacing or size.`);
   const cw=fits?BOX:W, ch=fits?BOX:H, x=fits?(BOX-W)/2:0, y=fits?(BOX-H)/2:0;
   const meta={typeface:'v2',text:s.text,size:s.size,resolved_size:size,tracking:s.tracking,word_space:s.wordSpace,line_gap:s.lineGap,underline:s.underline,offsets:s.offsets||[],ink:[W,H]};

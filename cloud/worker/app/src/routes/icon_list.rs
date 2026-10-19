@@ -31,7 +31,7 @@ fn statement(db: &D1Database, (sql, args): (String, Vec<Value>)) -> Result<D1Pre
 }
 
 /// Combined icons whose drawing was built in the browser keep their columns from that build, not a push.
-pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_combination64', 'combination-72') \
+pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_combination64', 'combination-72', 'container-combination-72') \
     AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build')";
 
 /// Store what the list reads of a record (`guard`: an extra condition on the row, e.g. NOT BUILT_IN_BROWSER).
@@ -284,11 +284,12 @@ pub fn uncount(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
     icon_query::UNCOUNT_ICON.iter().map(|sql| db::stmt(db, sql, args![key])).collect()
 }
 
-/// After such a write: the icon's stored review state again from the view and the icon counted in the rows of its
-/// new state (core `REFRESH_KEY`, `RECOUNT_ICON`). With `search`, its search row again too (an inserted or renamed
-/// icon). An icon the write deleted has no row left, so this adds nothing for it.
+/// After such a write: the icon's stored review state again from the view, its disapproval count, and the icon counted
+/// in the rows of its new state (core `REFRESH_KEY`, `DISAPPROVALS_KEY`, `RECOUNT_ICON`). With `search`, its search
+/// row again too (an inserted or renamed icon). An icon the write deleted has no row left, so this adds nothing for it.
 pub fn recount(db: &D1Database, key: &str, search: bool) -> Result<Vec<D1PreparedStatement>> {
-    let mut statements = vec![db::stmt(db, icon_query::REFRESH_KEY, args![key])?];
+    let mut statements = vec![db::stmt(db, icon_query::REFRESH_KEY, args![key])?,
+                              db::stmt(db, icon_query::DISAPPROVALS_KEY, args![key])?];
     for sql in icon_query::RECOUNT_ICON.iter().chain(if search { icon_query::SEARCH_KEY.iter() } else { [].iter() }) {
         statements.push(db::stmt(db, sql, args![key])?);
     }
@@ -359,6 +360,7 @@ async fn refresh_range(ctx: &Ctx, from: i64, to: i64) -> Result<()> {
     struct Key { key: String }
     let keys: Vec<Key> = db::all(&ctx.db, "SELECT key FROM icons WHERE rowid >= ? AND rowid < ?", args![from, to]).await?;
     db::run(&ctx.db, icon_query::REFRESH_RANGE, args![from, to]).await?;
+    db::run(&ctx.db, icon_query::DISAPPROVALS_RANGE, args![from, to]).await?;
     refresh_search(ctx, &keys.into_iter().map(|k| k.key).collect::<Vec<_>>()).await
 }
 
@@ -422,7 +424,8 @@ pub async fn refresh(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let keys: Vec<String> = changed.into_iter().map(|c| c.icon).collect();
     for chunk in keys.chunks(100) {
         let list = Value::Array(chunk.iter().map(|k| json!(k)).collect()).to_string();
-        db::run(&ctx.db, icon_query::REFRESH_KEYS, args![list]).await?;
+        db::run(&ctx.db, icon_query::REFRESH_KEYS, args![list.clone()]).await?;
+        db::run(&ctx.db, icon_query::DISAPPROVALS_KEYS, args![list]).await?;
     }
     refresh_search(ctx, &keys).await?;
     let counts = rebuild_counts(ctx, Some((user, keys.len() as i64))).await?;

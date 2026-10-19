@@ -355,22 +355,22 @@
     return [k, (size - vw * k) / 2 - vx * k, (size - vh * k) / 2 - vy * k];
   }
 
-  function checkPlacement(placement) {
+  function checkPlacement(placement, canvas = CANVAS) {
     const {center, ink, box: target} = placement || {};
     if (target) {
-      const ok = ['x', 'y', 'w', 'h'].every(k => Number.isFinite(target[k]) && Number.isInteger(target[k]))
+      const ok = ['x', 'y', 'w', 'h'].every(k => Number.isFinite(target[k]) && (canvas === 72 || Number.isInteger(target[k])))
         && target.w >= 0 && target.h >= 0;
       if (!ok) fail('The symbol box must be whole numbers {x, y, w, h}.');
       return;
     }
-    if (!(Array.isArray(center) && center.length === 2 && center.every(v => Number.isFinite(v) && v >= 0 && v <= CANVAS))) {
-      fail('The symbol center must be [x, y] inside the 64x64 canvas.');
+    if (!(Array.isArray(center) && center.length === 2 && center.every(v => Number.isFinite(v) && v >= 0 && v <= canvas))) {
+      fail(`The symbol center must be [x, y] inside the ${canvas}x${canvas} canvas.`);
     }
     if (ink != null && !(Array.isArray(ink) && ink.length === 2
-                         && ink.every(v => Number.isInteger(v) && v >= 4 && v <= CANVAS))) {
+                         && ink.every(v => Number.isInteger(v) && v >= 4 && v <= canvas))) {
       // Whole units (odd too): a symbol whose elements were placed one by one keeps its exact size; with an
       // odd size the center sits on a half unit, so both edges are still on grid lines.
-      fail('The symbol size must be [width, height], each a whole number from 4 to 64.');
+      fail(`The symbol size must be [width, height], each a whole number from 4 to ${canvas}.`);
     }
   }
 
@@ -388,7 +388,7 @@
     return {x, y, w, h};
   }
 
-  function bake(svg, found, sources, target) {
+  function bake(svg, found, sources, target, native = false) {
     // Every drawable element scaled on each axis and moved so the group's centreline box is `target`.
     const [x0, y0, x1, y1] = union(sources);
     const scales = [[x1 - x0, target.w], [y1 - y0, target.h]].map(([extent, size]) => {
@@ -396,7 +396,7 @@
         if (size !== 0) fail('A flat element keeps zero size along its flat axis.');
         return 1;
       }
-      if (size < 1) fail('An element must stay at least one unit on each axis.');
+      if (!native && size < 1) fail('An element must stay at least one unit on each axis.');
       return size / extent;
     });
     let [sx, sy] = scales;
@@ -422,8 +422,27 @@
   }
 
   function container(mainSvg, symbolSvg, placement) {
-    checkPlacement(placement);
-    const main = flatten(parse(mainSvg)), symbol = flatten(parse(symbolSvg));
+    const canvas = placement?.canvas === 72 ? 72 : CANVAS;
+    checkPlacement(placement, canvas);
+    const side = () => typeof module === 'object' && module.exports ? require('./combine-side.js') : globalThis.CombineSide;
+    const main = canvas === 72 ? parse(mainSvg) : flatten(parse(mainSvg)), rawSymbol = parse(symbolSvg);
+    if (canvas === 72) {
+      // Native review drawings include unrounded rotated rectangles. Bake them exactly as combine72.mjs did.
+      const visit = n => {
+        if (n.tag && local(n.tag) === 'rect') {
+          const a = n.attrs, match = /^rotate\(\s*([-+.\d]+)\s*\)$/.exec(a.transform || '');
+          if (match && !Number(a.rx || a.ry || 0)) {
+            const angle = Number(match[1]) * Math.PI / 180, x = Number(a.x || 0), y = Number(a.y || 0), w = Number(a.width), h = Number(a.height);
+            a.points = [[x,y],[x+w,y],[x+w,y+h],[x,y+h]].map(([px,py]) => [px*Math.cos(angle)-py*Math.sin(angle),px*Math.sin(angle)+py*Math.cos(angle)].map(fmt).join(',')).join(' ');
+            for (const k of ['x','y','width','height','transform','rx','ry']) delete a[k];
+            n.tag = 'polygon';
+          }
+        }
+        for (const child of n.children || []) visit(child);
+      };
+      visit(rawSymbol);
+    }
+    const symbol = flatten(rawSymbol);
     const found = drawables(symbol);
     if (!found.length) fail('The artwork has no drawable elements.');
     const sources = found.map(f => box(f.el));
@@ -435,22 +454,42 @@
       const [x0, y0, x1, y1] = union(sources);
       target = symbolBox(sources, [x0 * k + tx, y0 * k + ty, x1 * k + tx, y1 * k + ty], placement.center, placement.ink ?? null);
     }
-    const baked = bake(symbol, found, sources, target);
-    const b = baked.bounds;
-    if (b[0] - STROKE / 2 < -1e-6 || b[1] - STROKE / 2 < -1e-6 || b[2] + STROKE / 2 > CANVAS + 1e-6 || b[3] + STROKE / 2 > CANVAS + 1e-6) {
-      fail('The symbol extends beyond the 64x64 canvas.');
+    if (!placement.box && canvas === 72) {
+      // Native 36px source geometry: reviewed sizes name the ink envelope of a full 32px centreline.
+      const vb = (symbol.attrs.viewBox || '0 0 36 36').split(/[ ,]+/).map(Number);
+      const k = placement.nativeText ? 1 : ((placement.size ?? 36) - STROKE) / 32;
+      const [x0, y0, x1, y1] = union(sources);
+      const [cx, cy] = placement.center;
+      target = {x: cx + (x0 - vb[0] - vb[2] / 2) * k, y: cy + (y0 - vb[1] - vb[3] / 2) * k,
+                w: (x1 - x0) * k, h: (y1 - y0) * k};
+      if (placement.ink) target = symbolBox(sources, [target.x, target.y, target.x + target.w, target.y + target.h], placement.center, placement.ink);
     }
-    const mainFound = drawables(main);
-    const mainBox = union(mainFound.map(f => box(f.el)));
+    const baked = bake(symbol, found, sources, target, canvas === 72);
+    const b = baked.bounds;
+    if (b[0] - STROKE / 2 < -1e-6 || b[1] - STROKE / 2 < -1e-6 || b[2] + STROKE / 2 > canvas + 1e-6 || b[3] + STROKE / 2 > canvas + 1e-6) {
+      fail(`The symbol extends beyond the ${canvas}x${canvas} canvas.`);
+    }
+    const mainFound = canvas === 72 ? [] : drawables(main);
+    const mainBox = canvas === 72 ? union(side().engineSegments(mainSvg).flat().map(([x,y]) => [x,y,x,y])) : union(mainFound.map(f => box(f.el)));
     if (!mainBox) fail('The container has no drawable elements.');
     const presentation = attrs => Object.fromEntries(PRESENTATION.filter(a => attrs[a]).map(a => [a, attrs[a]]));
-    const out = {tag: 'svg', attrs: {xmlns: NS, width: String(CANVAS), height: String(CANVAS), viewBox: `0 0 ${CANVAS} ${CANVAS}`,
+    const out = {tag: 'svg', attrs: {xmlns: NS, width: String(canvas), height: String(canvas), viewBox: `0 0 ${canvas} ${canvas}`,
       fill: 'none', stroke: 'currentColor', 'stroke-width': String(STROKE), 'stroke-linecap': 'round', 'stroke-linejoin': 'round'},
       children: [
         {tag: 'g', attrs: {id: 'container', ...presentation(main.attrs)},
          children: main.children.filter(c => !(c.tag && ['title', 'desc', 'metadata'].includes(local(c.tag))))},
         {tag: 'g', attrs: {id: 'symbol', ...presentation(baked.attrs)}, children: baked.children},
       ]};
+    if (placement.overlay) {
+      const overlayEngine = side();
+      if (!overlayEngine) fail('Overlay renderer is unavailable.');
+      const placed = overlayEngine.engineSegments(serialize({...out, children: [out.children[1]]}));
+      const rings = placed.map(([a, b]) => overlayEngine.capsule(a, b, 8));
+      const hull = overlayEngine.internals.hull(placed.flat());
+      if (hull) rings.push(hull);
+      const {kept} = overlayEngine.internals.clip(overlayEngine.engineSegments(mainSvg), new overlayEngine.internals.Area(rings), canvas / 1024);
+      out.children[0].children = [{tag: 'path', attrs: {d: kept.map(([a, b]) => `M${a.map(overlayEngine.pyFixed2).join(',')}L${b.map(overlayEngine.pyFixed2).join(',')}`).join(' ')}, children: []}];
+    }
     const centreline = v => ({x: v[0], y: v[1], w: v[2] - v[0], h: v[3] - v[1]});
     const painted = v => ({x: v[0] - STROKE / 2, y: v[1] - STROKE / 2, w: v[2] - v[0] + STROKE, h: v[3] - v[1] + STROKE});
     const drawn = sources.map((s, i) => s ? i : null).filter(i => i !== null);

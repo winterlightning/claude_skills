@@ -16,3 +16,5 @@ pub mod stats;
 pub mod svg;
 pub mod time;
 pub mod work;
+
+pub mod combination_identity;

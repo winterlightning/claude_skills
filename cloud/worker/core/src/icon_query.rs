@@ -443,6 +443,48 @@ pub const REFRESH_KEY: &str = concat!(
     "UPDATE icons SET (decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, ",
     "cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, ",
     "v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE key = ?1");
+/// An icon the fix queue can show, found by index: disapproved or claimed (stored state `pending`), or with a worker
+/// on one of its review rows (claims, including a claimed combination whose failed build is stored as `failed`).
+macro_rules! work_icon {
+    () => {
+        "(state = 'pending' OR key IN (SELECT icon FROM reviews WHERE worker IS NOT NULL))"
+    };
+}
+/// How many times the icon was disapproved (`icons.disapprovals`), stored so the fix queue filters and counts by it
+/// without reading the activity log: core work `disapproval_counts` for the icon of the updated row, the largest of
+/// - episodes: the icon's fix and disapproval events in time order; a disapproval counts when nothing or a fix
+///   (work_done, upload, a review to ready / re-generated / approve) came before it;
+/// - the distinct drawings disapproved (review rows, feedback notes, disapproval events, the current drawing while
+///   disapproved or claimed);
+/// - 2 while disapproved or claimed after a fix was reported (an `after` result or a work_done event).
+///   Runs after `REFRESH_KEY`, so it reads the icon's new decision. Ends in `WHERE`: callers add the rows.
+macro_rules! disapprovals_update {
+    () => {
+        "UPDATE icons SET disapprovals = (WITH e AS (SELECT id, created_at, \
+           CASE WHEN json_valid(details) THEN json_extract(details, '$.status') END AS status, action FROM activity_log \
+           WHERE icon = icons.key AND action IN ('work_done', 'upload', 'review', 'feedback')), \
+         k AS (SELECT CASE WHEN action IN ('work_done', 'upload') OR (action = 'review' AND status IN ('ready', 're-generated', 'approve')) THEN 'fix' \
+                           WHEN action IN ('review', 'feedback') AND status IN ('pending', 'disapprove') THEN 'bad' END AS kind, created_at, id FROM e), \
+         w AS (SELECT kind, LAG(kind) OVER (ORDER BY created_at, id) AS prev FROM k WHERE kind IS NOT NULL) \
+         SELECT MAX((SELECT COUNT(*) FROM w WHERE kind = 'bad' AND (prev IS NULL OR prev = 'fix')), \
+           (SELECT COUNT(*) FROM (SELECT svg_sha256 FROM reviews WHERE icon = icons.key AND status IN ('pending', 'claimed') \
+              UNION SELECT svg_sha256 FROM feedback WHERE icon = icons.key \
+              UNION SELECT json_extract(details, '$.svg_sha256') FROM activity_log WHERE icon = icons.key AND action IN ('review', 'feedback') \
+                AND json_valid(details) AND json_extract(details, '$.status') IN ('pending', 'disapprove') \
+                AND COALESCE(json_extract(details, '$.svg_sha256'), '') != '' \
+              UNION SELECT icons.svg_sha256 WHERE icons.decision IN ('pending', 'claimed'))), \
+           CASE WHEN icons.decision IN ('pending', 'claimed') AND (EXISTS (SELECT 1 FROM work_results WHERE icon = icons.key AND stage = 'after') \
+             OR EXISTS (SELECT 1 FROM activity_log WHERE icon = icons.key AND action = 'work_done')) THEN 2 ELSE 0 END)) WHERE "
+    };
+}
+/// `icons.disapprovals` of one icon (`?1`), in every write's batch after `REFRESH_KEY`.
+pub const DISAPPROVALS_KEY: &str = concat!(disapprovals_update!(), "key = ?1");
+/// The same for the icons named in a JSON array of keys (one bound value), and for rowid in [from, to): the repair
+/// passes of POST /api/icons/refresh. Only icons the fix queue can show need it, so those passes skip the rest.
+pub const DISAPPROVALS_KEYS: &str = concat!(disapprovals_update!(), "key IN (SELECT value FROM json_each(?)) AND ", work_icon!());
+pub const DISAPPROVALS_RANGE: &str = concat!(disapprovals_update!(), "rowid >= ? AND rowid < ? AND ", work_icon!());
+/// Migration 0020's backfill: the stored disapproval count of every icon the fix queue can show.
+pub const DISAPPROVALS_BACKFILL: &str = concat!(disapprovals_update!(), work_icon!());
 /// The icon_counts row an icon is counted in and the icon_facet_counts rows (`count_rows`: text columns as '' when
 /// NULL; author and family always, keyshape, category and the built total when the build did not fail).
 pub const UNCOUNT_ICON: [&str; 2] = [
