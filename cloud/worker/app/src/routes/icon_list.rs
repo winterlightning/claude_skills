@@ -44,13 +44,31 @@ pub fn index_statement(db: &D1Database, key: &str, record: &Value, guard: Option
                              i.created_ms, i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, key])
 }
 
+/// An icon's measured keyshape, only while it was measured on the drawing the row shows now (icons.svg_sha256): a
+/// measurement of a replaced drawing never applies, however late it arrives.
+const CURRENT_MEASURED: &str = "FROM icon_keyshapes m WHERE m.key = icons.key AND m.svg_sha256 = icons.svg_sha256";
+
 /// The measured keyshape of an icon's displayed drawing (icon_keyshapes) copied onto its list row: the card's keyshape and
 /// keyshape_bounds and the keyshape column (the filter). Run after anything that rebuilds the row from the record.
 pub fn measured_statement(db: &D1Database, key: &str) -> Result<D1PreparedStatement> {
-    db::stmt(db, "UPDATE icons SET keyshape = (SELECT m.keyshape FROM icon_keyshapes m WHERE m.key = icons.key), \
-        card = json_set(COALESCE(card, '{}'), '$.keyshape', (SELECT m.keyshape FROM icon_keyshapes m WHERE m.key = icons.key), \
-        '$.keyshape_bounds', json((SELECT m.keyshape_bounds FROM icon_keyshapes m WHERE m.key = icons.key))) \
-        WHERE key = ? AND EXISTS (SELECT 1 FROM icon_keyshapes m WHERE m.key = icons.key)", args![key])
+    db::stmt(db, &format!("UPDATE icons SET keyshape = (SELECT m.keyshape {CURRENT_MEASURED}), \
+        card = json_set(COALESCE(card, '{{}}'), '$.keyshape', (SELECT m.keyshape {CURRENT_MEASURED}), \
+        '$.keyshape_bounds', json((SELECT m.keyshape_bounds {CURRENT_MEASURED}))) \
+        WHERE key = ? AND EXISTS (SELECT 1 {CURRENT_MEASURED})"), args![key])
+}
+
+/// After an icon's drawing was replaced (an upload over it, a republished style, a pick): measurements of any other
+/// drawing dropped, and, unless the new drawing is measured, the row's keyshape back to its record's, so an overlay
+/// copied from the replaced drawing does not stay on the card or the filter.
+pub fn replaced_measured_statements(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
+    Ok(vec![
+        db::stmt(db, "DELETE FROM icon_keyshapes WHERE key = ? AND svg_sha256 != COALESCE((SELECT i.svg_sha256 FROM icons i \
+            WHERE i.key = icon_keyshapes.key), '')", args![key])?,
+        db::stmt(db, &format!("UPDATE icons SET keyshape = json_extract(record, '$.keyshape'), \
+            card = CASE WHEN card IS NULL THEN NULL ELSE json_set(card, '$.keyshape', json_extract(record, '$.keyshape'), \
+            '$.keyshape_bounds', json(json_extract(record, '$.keyshape_bounds'))) END \
+            WHERE key = ? AND NOT EXISTS (SELECT 1 {CURRENT_MEASURED})"), args![key])?,
+    ])
 }
 
 /// Drop an icon's measured keyshape when it was measured on another drawing than the one now shown: `shown` (a pushed
@@ -63,7 +81,8 @@ pub fn stale_measured_statement(db: &D1Database, key: &str, shown: &str) -> Resu
 
 /// POST /api/icons/keyshape {measurements: [{key, svg_sha256, keyshape, keyshape_bounds}]} (signed in, at most 500): the
 /// keyshape measured on each icon's displayed drawing (icon-guides.js: the contract keyshape whose centerline box is the
-/// drawing's, else FREE with the measured visible box). Stored per icon and copied onto its list row → `{stored}`.
+/// drawing's, else FREE with the measured visible box). Stored per icon and copied onto its list row, only when
+/// `svg_sha256` is the drawing the icon shows now → `{stored, stale}` (`stale`: valid measurements of another drawing).
 pub async fn post_keyshape(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" {
         return http::error(401, "Log in to store measured keyshapes.");
@@ -72,8 +91,7 @@ pub async fn post_keyshape(ctx: &Ctx, data: &Value, user: &str) -> Result<Respon
         return http::error(400, "Send up to 500 measurements.");
     };
     let now = iso_utc(chrono::Utc::now());
-    let mut statements = Vec::new();
-    let mut stored = 0;
+    let (mut statements, mut inserts) = (Vec::new(), Vec::new());
     for m in list {
         let (Some(key), Some(sha), Some(name)) = (m["key"].as_str(), m["svg_sha256"].as_str(), m["keyshape"].as_str()) else { continue };
         let name_ok = (3..=20).contains(&name.len()) && name.chars().all(|c| c.is_ascii_uppercase() || c == '_');
@@ -83,18 +101,23 @@ pub async fn post_keyshape(ctx: &Ctx, data: &Value, user: &str) -> Result<Respon
         if !(name_ok && sha_ok && bounds_ok) || key.is_empty() || key.len() > 300 {
             continue;
         }
+        // Stored only while `svg_sha256` is the icon's current drawing: a measurement of a drawing replaced since it
+        // was fetched (or one never shown) changes nothing, checked in the same statement as the write.
+        inserts.push(statements.len());
         statements.push(db::stmt(&ctx.db, "INSERT INTO icon_keyshapes(key, svg_sha256, keyshape, keyshape_bounds, measured_at, measured_by) \
-            SELECT ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM icons WHERE key = ?) ON CONFLICT(key) DO UPDATE SET \
+            SELECT ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM icons WHERE key = ? AND svg_sha256 = ?) ON CONFLICT(key) DO UPDATE SET \
             svg_sha256 = excluded.svg_sha256, keyshape = excluded.keyshape, keyshape_bounds = excluded.keyshape_bounds, \
             measured_at = excluded.measured_at, measured_by = excluded.measured_by",
-            args![key, sha, name, json!(bounds).to_string(), now.clone(), user, key])?);
+            args![key, sha.to_lowercase(), name, json!(bounds).to_string(), now.clone(), user, key, sha.to_lowercase()])?);
         statements.push(measured_statement(&ctx.db, key)?);
-        stored += 1;
     }
-    for chunk in statements.chunks(100) {
-        db::batch(&ctx.db, chunk.to_vec()).await?;
+    let mut stored = 0;
+    for (start, chunk) in (0..statements.len()).step_by(100).zip(statements.chunks(100)) {
+        let results = db::batch(&ctx.db, chunk.to_vec()).await?;
+        stored += inserts.iter().filter(|&&i| (start..start + chunk.len()).contains(&i))
+            .map(|&i| results.get(i - start).map(db::changes).unwrap_or(0)).sum::<usize>();
     }
-    http::json(200, &json!({"stored": stored}))
+    http::json(200, &json!({"stored": stored, "stale": inserts.len() - stored}))
 }
 
 /// The measured mirror axes of an icon (a review-facets.json entry `{axes, svg_sha256}`, or null to clear).

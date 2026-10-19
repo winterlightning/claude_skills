@@ -10,16 +10,36 @@
 // Dry run unless --go (prints the counts and writes <scratch>/measured-keyshapes.json). --go needs PICTOGRAPHIC_SESSION or
 // PICTOGRAPHIC_ADMIN_USER + PICTOGRAPHIC_ADMIN_PASSWORD. PICTOGRAPHIC_API picks the Worker (default production).
 import {readFileSync, writeFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import path from 'node:path';
-import {api, login} from './side_layout.mjs';
 
 const HERE = path.dirname(new URL(import.meta.url).pathname);
 const Side = createRequire(import.meta.url)('./templates/combine-side.js');
 const lab = JSON.parse(readFileSync(path.resolve(HERE, '../../published/gallery/laboratory.json'), 'utf8'));
 const BASE = (process.env.PICTOGRAPHIC_API || 'https://pictographic-review-next.pictographic.workers.dev').replace(/\/$/, '');
 const UA = {'User-Agent': 'pictographic-work-queue/1.0'};
+
+// The Worker API (signed in with a session cookie once login() ran): GET, or POST with a JSON body -> {data, response}.
+let cookie = process.env.PICTOGRAPHIC_SESSION ? `pictographic_session=${process.env.PICTOGRAPHIC_SESSION}` : null;
+async function api(route, body) {
+  const headers = {...UA, Accept: 'application/json', ...(cookie ? {Cookie: cookie} : {})};
+  const init = body === undefined ? {headers} : {method: 'POST', headers: {...headers, 'Content-Type': 'application/json'}, body: JSON.stringify(body)};
+  const response = await fetch(BASE + route, {...init, signal: AbortSignal.timeout(60000)});
+  const text = await response.text();
+  let data;
+  try { data = JSON.parse(text); } catch { data = {error: text.slice(0, 200)}; }
+  if (!response.ok) throw Error(`${route.split('?')[0]}: HTTP ${response.status} ${data.error || ''}`.trim());
+  return {data, response};
+}
+async function login() {
+  if (cookie) return;
+  const username = process.env.PICTOGRAPHIC_ADMIN_USER, password = process.env.PICTOGRAPHIC_ADMIN_PASSWORD;
+  if (!username || !password) { console.error('--go needs PICTOGRAPHIC_SESSION, or PICTOGRAPHIC_ADMIN_USER and PICTOGRAPHIC_ADMIN_PASSWORD.'); process.exit(1); }
+  const {response} = await api('/api/auth/login', {username, password});
+  const set = response.headers.getSetCookie?.() || [response.headers.get('set-cookie') || ''];
+  cookie = set.map(c => c.split(';')[0]).find(c => c.startsWith('pictographic_session='));
+  if (!cookie) { console.error('login answered without a session cookie.'); process.exit(1); }
+}
 
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf('--' + n); return i < 0 ? d : (args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true); };
@@ -91,7 +111,9 @@ await pool(list, jobs, async icon => {
     counts.measured++;
     const same = icon.keyshape === m.name && Array.isArray(icon.keyshape_bounds) && icon.keyshape_bounds.every((v, i) => Math.abs(v - m.bounds[i]) < 0.01);
     if (same) counts.same++;
-    else { counts.differ++; differ.push({key: icon.key, svg_sha256: createHash('sha256').update(svg).digest('hex'), keyshape: m.name, keyshape_bounds: m.bounds, listed: icon.keyshape}); }
+    // Labelled with the drawing the list named: the server stores it only while that is still the icon's drawing, so a
+    // drawing replaced since it was listed is refused rather than measured onto the new one.
+    else { counts.differ++; differ.push({key: icon.key, svg_sha256: icon.svg_sha256, keyshape: m.name, keyshape_bounds: m.bounds, listed: icon.keyshape}); }
   } catch (e) { counts.failed++; failures.push(`${icon.key}: ${e.message}`); }
   if (++done % 100 === 0) process.stderr.write(`\rmeasured ${done} of ${list.length}`);
 });
@@ -103,11 +125,12 @@ for (const d of differ) { const k = `${d.listed} -> ${d.keyshape}`; changes[k] =
 console.log(JSON.stringify({counts, top_changes: Object.entries(changes).sort((a, b) => b[1] - a[1]).slice(0, 15), out}, null, 1));
 if (!go) { console.error('dry run: add --go to store the differing measurements'); process.exit(0); }
 await login();
-let stored = 0;
+let stored = 0, stale = 0;
 for (let i = 0; i < differ.length; i += 200) {
   const {data} = await api('/api/icons/keyshape', {measurements: differ.slice(i, i + 200).map(({listed, ...m}) => m)});
-  stored += data.stored;
+  stored += data.stored; stale += data.stale || 0;
   process.stderr.write(`\rstored ${stored} of ${differ.length}`);
 }
 process.stderr.write('\n');
-console.log(JSON.stringify({stored}));
+// stale: icons redrawn since they were listed; run again to measure their new drawing.
+console.log(JSON.stringify({stored, stale}));
