@@ -25,13 +25,21 @@ async function settle(predicate) {
   assert.fail('Page did not settle');
 }
 
-async function page(t, size = 64, recovered = false) {
+async function page(t, size = 64, recovered = false, cutout = null) {
   const dom = new JSDOM(html, {url: `http://localhost/gallery/container-pairs.html?size=${size}`, runScripts: 'outside-only'});
   t.after(() => dom.window.close());
   const w = dom.window, rows = [pair('source'), pair('adjusted', undefined, 'symbol/wide'), pair('later'), pair('missing', undefined, 'symbol/missing'), pair('other', 'container/other')];
   const defaultPlacement = {center: [30, 34], size: null};
   rows[1].parts[1].layout = [{x: 10, y: 12, w: 16, h: 18, scope: 'pair', container: defaultPlacement}];
   const art = {'container/box': main, 'container/other': main, 'symbol/plus': symbol, 'symbol/wide': wide};
+  if (cutout) {
+    const data = JSON.parse(readFileSync(new URL('./container-cutout-fixture.json', import.meta.url)));
+    rows[0].parts[0].icon = 'container/universal-prohibited-symbol';
+    rows[0].parts[1].icon = cutout;
+    rows[0].parts[1].layout = [{x:18,y:18,w:28,h:28,scope:'pair'}];
+    art[rows[0].parts[0].icon] = data.main;
+    art[cutout] = data.symbols[cutout];
+  }
   const nativeKey = key => key?.replace('container/', 'container-72/').replace('symbol/', 'symbol-36/');
   if (size === 72) {
     for (const row of rows) for (const p of row.parts) { p.icon = nativeKey(p.icon); p.current_sha = 'hash-' + p.icon; }
@@ -213,3 +221,30 @@ for (const size of [64, 72]) test(`edited ${size}px symbol reloads a new revisio
   assert.match($('edMsg').textContent, /^Saved/);
   assert.equal(w.page.editor.symbolSvg, null);
 });
+
+for (const symbolKey of ['symbol/boot-sub32', 'symbol/geometric-three-toed-paw-sub32-symbol']) {
+  test('64px editor saves and reopens the slash cutout: ' + symbolKey, async t => {
+    const {w, $, rows, posts, uploads} = await page(t, 64, false, symbolKey);
+    const container = result => w.Combine.serialize(w.Combine.parse(result.svg).children.find(n => n.attrs?.id === 'container'));
+    const initialMain = container(w.page.editor.last);
+    $('bx').value = '20'; $('bx').onchange();
+    $('bw').value = '24'; $('bw').onchange();
+    const preview = w.page.editor.last.svg;
+    assert.notEqual(container(w.page.editor.last), initialMain, 'gap follows the edited symbol');
+    assert.equal(w.ContainerPlacement.placementOf(rows[0]).overlay, true);
+    await $('edSave').onclick();
+    assert.equal(posts.length, 1);
+    const request = posts[0].builds[0];
+    assert.equal(request.svg, preview, 'save sends exactly the previewed cutout');
+    assert.equal(request.parts.symbol.layout[0].overlay, true);
+    assert.equal(request.parts.container.icon, 'container/universal-prohibited-symbol');
+    assert.equal(request.parts.symbol.icon, symbolKey);
+    assert.deepEqual(Object.keys(request.parts).sort(), ['container', 'symbol']);
+    assert.equal(uploads.length, 0, 'whole-layout changes reuse both component identities');
+    assert.equal(w.page.editor.last.svg, preview, 'after-save renderer retains the gap');
+    $('edCancel').click();
+    w.page.openEditor(json(rows[0]));
+    await settle(() => !w.page.related.loading);
+    assert.equal(w.page.editor.last.svg, preview, 'close/reopen retains the gap');
+  });
+}
