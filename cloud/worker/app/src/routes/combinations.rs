@@ -222,7 +222,8 @@ fn fits_role(role: &str, key: &str, size: i64) -> bool {
     }
     match role {
         "container" => family == "container",
-        "symbol" => family == "symbol",
+        // Legacy native typeface labels are real text/ icons, with their own revision and review.
+        "symbol" => matches!(family, "symbol" | "text"),
         "main" => matches!(family, "solo" | "combination_main"),
         "sub" => family == "sub",
         _ => false,

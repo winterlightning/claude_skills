@@ -232,7 +232,9 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
             let id = r["id"].as_str().filter(|id| (1..=64).contains(&id.len())
                 && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-'));
             match (id, r["role"].as_str()) {
-                (Some(id), Some(role)) if matches!(role, "container" | "symbol") && role == family_id => Some((id.to_lowercase(), role)),
+                // The editor uses the same roles for both canvas sizes; native 72px parts have distinct families.
+                (Some(id), Some(role)) if matches!((role, family_id),
+                    ("container", "container" | "container-72") | ("symbol", "symbol" | "symbol-36")) => Some((id.to_lowercase(), role)),
                 _ => return http::error(400, "reference must be {id, role} with role container or symbol matching the family."),
             }
         }

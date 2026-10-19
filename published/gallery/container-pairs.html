@@ -709,7 +709,7 @@ function pickPanel(role) {
     try {
       const data = await api('/api/icons/upload', {name: editor.item.concept || role, family: familyOf(role), svg: await chosen.text(), approve: true,
                                                    reference: {id: part(editor.item, role).part_reference_id, role}});
-      await loadDrawings([data.record.key]);
+      await loadDrawings([data.record.key], true); // Uploads can replace the revision of an already cached icon.
       if (role === 'symbol') useSymbol(data.record.key);
       else { editor.icons[role] = data.record.key; editor.box = null; }
       pickPanel(role); drawStage(); edSay('Uploaded and approved.');
@@ -772,7 +772,7 @@ function textPanel(panel) {
       const data = await api('/api/icons/upload', {name: 'Text ' + (read().text.replace(/\n/g, ' ') || 'text').slice(0, 100), family: familyOf('symbol'),
                                                    category: 'text', svg: doc.svg, approve: true,
                                                    reference: {id: editor.item.reference_id, role: 'symbol'}});
-      await loadDrawings([data.record.key]);
+      await loadDrawings([data.record.key], true); // Uploads can replace the revision of an already cached icon.
       useSymbol(data.record.key, doc.ink);  // placed at its exact ink size when it is wider than the 32 box
       $('scope').value = 'pair';  // the text is this pair's own symbol
       pickPanel('symbol'); drawStage(); edSay('Text symbol uploaded and approved for this pair. Build and save to use it here.');
@@ -927,7 +927,7 @@ async function uploadEditedSymbol() {
   const name = text ? 'Text ' + text.replace(/\n/g, ' ') : (editor.item.concept || 'Pair') + ' symbol';
   const data = await api('/api/icons/upload', {name: name.slice(0, 120), family: familyOf('symbol'), ...(text ? {category: 'text'} : {}),
                                                svg: Combine.serialize(root), approve: true, reference: {id: editor.item.reference_id, role: 'symbol'}});
-  await loadDrawings([data.record.key]);
+  await loadDrawings([data.record.key], true); // Uploads can replace the revision of an already cached icon.
   const box = editor.box;
   useSymbol(data.record.key);
   editor.box = box;
