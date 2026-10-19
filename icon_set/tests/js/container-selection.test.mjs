@@ -213,3 +213,15 @@ for (const size of [64, 72]) test(`edited ${size}px symbol reloads a new revisio
   assert.match($('edMsg').textContent, /^Saved/);
   assert.equal(w.page.editor.symbolSvg, null);
 });
+
+for (const size of [64, 72]) test(`container navigation keeps the ${size}px canvas`, async t => {
+  const {$} = await page(t, size);
+  const list = new URL($('allCombinations').href);
+  assert.equal(list.searchParams.get('size'), String(size));
+  assert.equal(list.searchParams.get('kind'), 'container');
+  const side = new URL($('sideLayouts').href);
+  assert.equal(side.searchParams.get('view'), 'side');
+  assert.equal(side.searchParams.get('grid'), String(size));
+  assert.equal(side.searchParams.has('size'), false, 'Progression size means page length, not canvas');
+  assert.equal($('edCanvas').textContent, `${size}×${size} container layout`);
+});
