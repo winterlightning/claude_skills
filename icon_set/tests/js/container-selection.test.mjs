@@ -246,5 +246,47 @@ for (const symbolKey of ['symbol/boot-sub32', 'symbol/geometric-three-toed-paw-s
     w.page.openEditor(json(rows[0]));
     await settle(() => !w.page.related.loading);
     assert.equal(w.page.editor.last.svg, preview, 'close/reopen retains the gap');
+    $('scope').value = 'container';
+    await $('edSave').onclick();
+    assert.equal(posts[1].builds[0].svg, preview, 'same-container wide save retains the cutout');
+    assert.equal(posts[1].builds[0].parts.symbol.layout[0].overlay, true);
   });
 }
+
+for (const size of [64, 72]) test(`container navigation keeps the ${size}px canvas`, async t => {
+  const {$} = await page(t, size);
+  const list = new URL($('allCombinations').href);
+  assert.equal(list.searchParams.get('size'), String(size));
+  assert.equal(list.searchParams.get('kind'), 'container');
+  const side = new URL($('sideLayouts').href);
+  assert.equal(side.searchParams.get('view'), 'side');
+  assert.equal(side.searchParams.get('grid'), String(size));
+  assert.equal(side.searchParams.has('size'), false, 'Progression size means page length, not canvas');
+  assert.equal($('edCanvas').textContent, `${size}×${size} container layout`);
+});
+
+test('container-wide save after replacing an overlay container matches preview', async t => {
+  const {w, $, rows, posts, art} = await page(t, 64, false, 'symbol/boot-sub32');
+  await $('edSave').onclick();
+  assert.equal(rows[0].parts[1].layout[0].overlay, true, 'start with persisted overlay metadata');
+  const replacement = 'container/review-replacement';
+  art[replacement] = svg(64, '<path d="M4 32H60"/>');
+  await w.eval("loadDrawings(['container/review-replacement'])");
+  w.page.editor.icons.container = replacement;
+  w.page.drawStage();
+  await settle(() => !w.page.related.loading);
+  const preview = w.page.editor.last.svg;
+  assert.equal(w.ContainerPlacement.placementOf(rows[0], {container:replacement}).overlay, undefined);
+  $('scope').value = 'container';
+  await $('edSave').onclick();
+  assert.equal(posts.length, 2, $('edMsg').textContent);
+  const saved = posts[1].builds[0];
+  assert.equal(saved.svg, preview, 'replacement container must not acquire old overlay mode on save');
+  assert.equal(saved.parts.container.icon, replacement);
+  assert.notEqual(saved.parts.symbol.layout[0].overlay, true);
+  assert.equal(w.page.editor.last.svg, preview, 'after-save rendering matches the intact preview');
+  $('edCancel').click();
+  w.page.openEditor(json(rows[0]));
+  await settle(() => !w.page.related.loading);
+  assert.equal(w.page.editor.last.svg, preview, 'reopen keeps the replacement intact');
+});

@@ -9121,7 +9121,7 @@ createHTML: (html) => {
 		reset(dialog_1);
 		bind_this(dialog_1, ($$value) => set(dialog, $$value), () => get(dialog));
 		template_effect(() => {
-			set_text(text, `Adjust layout · ${(get(ctx)?.pair.concept || "") ?? ""}`);
+			set_text(text, `Adjust layout · ${get(c) ?? ""}×${get(c) ?? ""} · ${(get(ctx)?.pair.concept || "") ?? ""}`);
 			set_checked(input, editor().centerline);
 			button_5.disabled = !get(loaded) || get(ctx).busy || !get(ctx).saved;
 			button_6.disabled = !get(ctx);
@@ -9167,7 +9167,7 @@ createHTML: (html) => {
 	var root_4$1 = /* @__PURE__ */ from_html(`<option> </option>`);
 	var root_5$1 = /* @__PURE__ */ from_html(`<p class="muted">No side pairs match these filters.</p>`);
 	var root_6$1 = /* @__PURE__ */ from_html(`<!> <p class="muted">Pair badges: Waiting = main and sub are drawn but not combined yet. Lists: <a href="side-mains.html">Main icons →</a> · <a href="side-subs.html">Sub icons →</a></p> <div class="toolbar side-combine"><button type="button" class="requires-login"> </button> <button type="button" class="requires-login" title="Pairs built before a main or sub was redrawn"> </button> <span class="muted" role="status"> </span></div> <section id="pairGallery"><!> <div class="toolbar"><select aria-label="Pair size"><option>64 · 48 main + 32 sub</option><option>72 · 54 main + 36 sub</option></select> <input type="search" placeholder="Search concept, component ID or icon name" aria-label="Search side pairs"/> <select aria-label="Side pair filter"></select> <select aria-label="Group side pairs"></select> <select aria-label="Items per page"></select></div> <!> <div class="side-list"><!> <!></div> <!></section>`, 1);
-	var root_7$1 = /* @__PURE__ */ from_html(`<div><h2>Side combination</h2> <p class="muted"> </p> <!></div> <!> <!>`, 1);
+	var root_7$1 = /* @__PURE__ */ from_html(`<div><h2>Side combination</h2> <p class="muted"><a>Container layouts</a> · <a>All side combinations</a></p> <p class="muted"> </p> <!></div> <!> <!>`, 1);
 	function App($$anchor, $$props) {
 		push($$props, true);
 		let store = prop($$props, "store", 7), editor = prop($$props, "editor", 7);
@@ -9316,13 +9316,17 @@ createHTML: (html) => {
 		var fragment = root_7$1();
 		var div = first_child(fragment);
 		var p_1 = sibling(child(div), 2);
-		var text = only_child(p_1);
-		var node = sibling(p_1, 2);
+		var a = child(p_1);
+		var a_1 = sibling(a, 2);
+		reset(p_1);
+		var p_2 = sibling(p_1, 2);
+		var text = only_child(p_2);
+		var node = sibling(p_2, 2);
 		var consequent_1 = ($$anchor) => {
 			var fragment_1 = root_1$1();
-			var p_2 = first_child(fragment_1);
-			var text_1 = only_child(p_2, true);
-			var node_1 = sibling(p_2, 2);
+			var p_3 = first_child(fragment_1);
+			var text_1 = only_child(p_3, true);
+			var node_1 = sibling(p_3, 2);
 			var consequent = ($$anchor) => {
 				var button = root$1();
 				delegated("click", button, () => {
@@ -9379,10 +9383,10 @@ createHTML: (html) => {
 				};
 				var node_3 = child(section);
 				var consequent_2 = ($$anchor) => {
-					var p_3 = root_3$1();
-					var text_6 = only_child(p_3, true);
+					var p_4 = root_3$1();
+					var text_6 = only_child(p_4, true);
 					template_effect(() => set_text(text_6, store().status));
-					append($$anchor, p_3);
+					append($$anchor, p_4);
 				};
 				if_block(node_3, ($$render) => {
 					if (store().status) $$render(consequent_2);
@@ -9548,7 +9552,11 @@ createHTML: (html) => {
 		LayoutEditorDialog(sibling(node_10, 2), { get editor() {
 			return editor();
 		} });
-		template_effect(() => set_text(text, `Work on each pair as Original → Main → Sub → Combined: one ${get(sizes).main ?? ""}-unit main and one ${get(sizes).sub ?? ""}×${get(sizes).sub ?? ""} sub. Group by main or sub to see where an icon is reused. Finished outputs live on Experiment › Side combination.`));
+		template_effect(() => {
+			set_attribute(a, "href", `container-pairs.html?size=${store().size}`);
+			set_attribute(a_1, "href", `combinations.html?kind=side&size=${store().size}`);
+			set_text(text, `Work on each pair as Original → Main → Sub → Combined: one ${get(sizes).main ?? ""}-unit main and one ${get(sizes).sub ?? ""}×${get(sizes).sub ?? ""} sub. Group by main or sub to see where an icon is reused. Finished outputs live on Experiment › Side combination.`);
+		});
 		append($$anchor, fragment);
 		pop();
 	}

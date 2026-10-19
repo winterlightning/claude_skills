@@ -365,3 +365,23 @@ applied with the Worker change during an explicitly authorized future deployment
 The PR does not apply it to production. Existing uploaded combinations retain
 their keys and original uploads; explicit saves create revisions, and stale
 combined-artwork hashes reject a save until the editor is refreshed.
+
+
+### Combination layout navigation and staged release
+
+Container and side layout pages keep the chosen 64px or 72px canvas when opening
+one another or the combinations list. Progression uses `grid=72` for the canvas;
+its `size` parameter is the number of rows per page. Both layout dialogs show the
+canvas size. Icon review resolves a combined icon's key to its reference before
+opening an editor, including uploaded 72px keys that differ from the reference ID.
+
+The 2026-10-16 production update released only the 64px selected-container layout
+controls (`container-pairs.html`, `container-placement.js`) and a direct 64px
+**Edit layout** link in Icon review. The live review page's other changes were
+preserved. No Worker or D1 migration was deployed in that release.
+
+The 72px implementation from PR #12 and its navigation follow-up require a separate
+production release: migration `0022_container_pairs_72.sql`, the matching Worker,
+and the matching gallery assets and `container-layouts72.json`. Merging either PR
+is not deployment permission. Local testing uses a separate D1 copy; never publish
+its database, saved layouts, artwork, or review decisions to production.

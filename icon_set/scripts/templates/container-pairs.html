@@ -72,7 +72,7 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
     <h1>Container pairs</h1>
     <p>Each container combination: the container and the symbol drawn for it, and their combined <span id="canvasLabel">64×64</span> icon.
        The combined icon is made in your browser from both parts' current drawings and stored once; a pair turns
-       stale when a part is redrawn. <a href="combinations.html?kind=container">All combinations</a></p>
+       stale when a part is redrawn. <a id="allCombinations" href="combinations.html?kind=container">All combinations</a> · <a id="sideLayouts" href="primitives.html?view=side">Side layouts</a></p>
   </section>
   <div class="toolbar">
     <label>Canvas <select id="canvasSize"><option value="64">64 × 64</option><option value="72">72 × 72</option></select></label>
@@ -113,7 +113,7 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
       <div class="fields muted" id="elInfo" style="max-width:min(760px,calc(96vh - 330px),62vw);font-size:12px;min-height:3em"></div>
     </div>
     <div class="side">
-      <div><h2 id="edTitle"></h2><div class="id" id="edId"></div></div>
+      <div><h2 id="edTitle"></h2><p id="edCanvas" class="muted"></p><div class="id" id="edId"></div></div>
       <details class="related" id="related" open>
         <summary>Also apply to combinations using this container (<span id="relatedCount">0</span>)</summary>
         <p>Selected combinations keep their own symbols and receive this symbol’s exact position, width and height. Applying replaces their existing placement. Individual element edits stay with this combination.</p>
@@ -140,7 +140,10 @@ const params = new URLSearchParams(location.search);
 const CANVAS = params.get('size') === '72' ? 72 : 64;
 const familyOf = role => CANVAS === 72 ? ({container: 'container-72', symbol: 'symbol-36'}[role]) : role;
 $('canvasSize').value = String(CANVAS);
+$('allCombinations').href = 'combinations.html?' + new URLSearchParams({kind: 'container', size: CANVAS});
+$('sideLayouts').href = 'primitives.html?' + new URLSearchParams({view: 'side', grid: CANVAS});
 $('canvasLabel').textContent = `${CANVAS}×${CANVAS}`;
+$('edCanvas').textContent = `${CANVAS}×${CANVAS} container layout`;
 $('stage').setAttribute('viewBox', `0 0 ${CANVAS} ${CANVAS}`);
 $('canvasSize').onchange = () => { const next = new URLSearchParams(location.search); next.set('size', $('canvasSize').value); next.delete('offset'); next.delete('edit'); location.assign('?' + next); };
 const view = {size: CANVAS, q: params.get('q') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
@@ -1053,6 +1056,8 @@ $('edSave').onclick = async () => {
       const target = containerPlacement();
       const n = await saveContainerPlacement(icons.container, target, item.reference_id);
       const s = part(item, 'symbol'), {scope: _, ...rest} = layoutOf(s) || {};
+      // Composition belongs to the old container, not the replacement used in `followed` below.
+      if (icons.container !== part(item, 'container').icon) delete rest.overlay;
       // On the container picked in the editor, so the placement just saved applies to it.
       const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]}
                                                     : p.role === 'container' ? {...p, icon: icons.container} : p)};
