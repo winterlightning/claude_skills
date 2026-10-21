@@ -502,7 +502,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             listed = Value::Object(merged);
         }
         listed["uploaded_icon"] = json!(uploaded);
-        statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("uploaded = 0 OR family = 'container-combination-72'"))?);
+        statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("(uploaded = 0 OR family = 'container-combination-72')"))?);
         // Its name is the reference's concept, known here only in SQL (search text as core icon_index joins it).
         statements.push(db::stmt(&ctx.db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
             search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND (uploaded = 0 OR family = 'container-combination-72')",
