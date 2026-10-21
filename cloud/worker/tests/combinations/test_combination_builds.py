@@ -99,6 +99,18 @@ def one(client, reference_id):
     return data['items'][0]
 
 
+def assert_original_on_list(client, key, reference_id):
+    status, detail = client.get('/api/icon', key=key)
+    assert status == 200 and detail['original_sources'], detail
+    family = key.split('/')[0]
+    status, listing = client.get('/api/icons', family=family, q=reference_id, page_size=48)
+    assert status == 200, listing
+    card = next(row for row in listing['items'] if row['key'] == key)
+    assert card['original_sources'][0]['url'] == detail['original_sources'][0]['url']
+    status, listing = client.get('/api/icons', family=family, q=reference_id, reference='with')
+    assert status == 200 and any(row['key'] == key for row in listing['items'])
+
+
 def test_drawings_match_the_listing(client, pair):
     item, icons, drawings = pair
     for p in item['parts']:
@@ -146,6 +158,7 @@ def test_build_then_stale_then_rebuild(client, pair):
     assert status == 200, data
     built = data['results'][0]
     assert built['ok'], built
+    assert_original_on_list(client, built['key'], item['reference_id'])
     after = one(client, item['reference_id'])
     assert after['state'] == 'built' and after['icon']['svg_sha256'] == built['svg_sha256']
     symbol = next(p for p in after['parts'] if p['role'] == 'symbol')
@@ -163,7 +176,9 @@ def test_build_then_stale_then_rebuild(client, pair):
     status, _ = client.call('POST', '/api/combinations/parts', {'reference_id': item['reference_id'], 'role': 'symbol', 'icon': icons['symbol']})
     assert status == 200
     build, _ = request(item, icons, drawings)
-    assert client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]['ok']
+    rebuilt = client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]
+    assert rebuilt['ok']
+    assert_original_on_list(client, rebuilt['key'], item['reference_id'])
     assert one(client, item['reference_id'])['state'] == 'built'
 
 
@@ -240,6 +255,16 @@ def test_side_rebuild_of_a_stale_pair(client):
     assert result['svg_sha256'] == built['sha'], 'the stored drawing is the one the browser made'
     after = one(client, item['reference_id'])
     assert after['state'] == 'built' and after['icon']['svg_sha256'] == built['sha']
+
+
+def test_side_build_and_rebuild_keep_original_on_list(client):
+    item, drawings = side_item(client)
+    built = side_request(item, drawings)
+    for _ in range(2):
+        status, data = client.call('POST', '/api/combinations/build', {'builds': [built['request']]})
+        assert status == 200 and data['results'][0]['ok'], data
+        key = data['results'][0]['key']
+        assert_original_on_list(client, key, item['reference_id'])
 
 
 def test_side_rebuild_of_a_built_pair_keeps_its_drawing(client):

@@ -21,6 +21,24 @@ use worker::{Response, Result};
 
 const DEFAULT_LIMIT: i64 = 100;
 const SIDE_POSITIONS: [&str; 8] = ["tl", "tr", "bl", "br", "ri", "le", "bo", "to"];
+
+/// The keyshapes of a side pair's canvas (painted boxes [x0, y0, x1, y1], centered), as combine-side.js
+/// CANVAS_KEYSHAPES has them: 64 is CONTAINER64; 72 keeps the rule (square padding 4, long side padding 2, HRECT short
+/// side 0.75 x canvas, M = HRECT - 4). A build names the one its pair sits in; only these names are stored.
+fn side_keyshape(size: i64, name: &str) -> Option<[f64; 4]> {
+    let c = size as f64;
+    let rect = if size == 64 { 48.0 } else if size == 72 { 54.0 } else { return None };
+    let (long, m) = (c - 4.0, rect - 4.0);
+    let (w, h) = match name {
+        "SQUARE" => (c - 8.0, c - 8.0),
+        "HRECT" => (long, rect),
+        "HRECT_M" => (long, m),
+        "VRECT" => (rect, long),
+        "VRECT_M" => (m, long),
+        _ => return None,
+    };
+    Some([(c - w) / 2.0, (c - h) / 2.0, (c + w) / 2.0, (c + h) / 2.0])
+}
 const MAX_LIMIT: i64 = 500;
 
 /// One row per combination: its kind, build state and whether a part has no icon picked, from its parts. At size
@@ -470,14 +488,29 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                 continue;
             }
         }
+        // The reference's original drawing, unless the icon already links one (an upload keeps its own).
+        let original_sources = match existing.first().and_then(|e| serde_json::from_str::<Value>(&e.original_sources).ok())
+                                              .filter(|o| o.as_array().is_some_and(|a| !a.is_empty())) {
+            Some(kept) => kept,
+            None => super::icons::original_reference(ctx, id).await?.unwrap_or_else(|| json!([])),
+        };
         let key = existing.first().map_or(canonical, |e| e.key.clone());
         let icon_id = existing.first().map_or(id, |e| e.icon_id.as_str());
         let uploaded = existing.first().is_some_and(|e| e.uploaded != 0.0);
         let (profile, category) = if size == 72 && kind == "container" { ("CONTAINER_COMBINATION72", "Container 72") }
                                   else if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
                                   else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
-        let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
-                            "errors": errors, "reference_id": id, "built_by": user, "built_at": now});
+        let mut record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
+                                "errors": errors, "reference_id": id, "built_by": user, "built_at": now});
+        // The canvas keyshape the browser found the pair in (side pairs only; an unknown name is not stored).
+        if kind == "side" {
+            if let Some(name) = b["keyshape"].as_str() {
+                if let Some(bounds) = side_keyshape(size, name) {
+                    record["keyshape"] = json!(name);
+                    record["keyshape_bounds"] = json!(bounds);
+                }
+            }
+        }
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
@@ -486,16 +519,17 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             statements.push(db::stmt(&ctx.db, "DELETE FROM store_documents WHERE store = 'icon-artwork' AND key = ?", args![key.clone()])?);
         }
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
-            preview_url, build_failed, uploaded, record, pushed_at) \
-            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
+            preview_url, build_failed, uploaded, record, pushed_at, original_sources) \
+            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
-            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = CASE WHEN icons.uploaded THEN json_patch(icons.record, excluded.record) ELSE excluded.record END WHERE icons.uploaded = 0 OR icons.family = 'container-combination-72'",
+            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = CASE WHEN icons.uploaded THEN json_patch(icons.record, excluded.record) ELSE excluded.record END, \
+            original_sources = excluded.original_sources WHERE icons.uploaded = 0 OR icons.family = 'container-combination-72'",
             args![key.clone(), icon_id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
-                  !errors.is_empty(), record.to_string(), now.clone()])?);
+                  !errors.is_empty(), record.to_string(), now.clone(), original_sources.to_string()])?);
         // What Icon review lists of it: the record /api/icon-artwork/overrides gives a browser build.
         let mut listed = built_record(BuiltRow { key: key.clone(), icon_id: icon_id.to_string(), name: existing.first().and_then(|e| e.name.clone()), family: combined_family(kind, size).to_string(),
             category: Some(category.to_string()), canvas_size: Some(canvas as f64), svg_sha256: sha.clone(), build_failed: (!errors.is_empty()) as i32 as f64,
-            original_sources: existing.first().map_or_else(|| "[]".into(), |e| e.original_sources.clone()), record: record.to_string() });
+            original_sources: original_sources.to_string(), record: record.to_string() });
         if let Some(old) = existing.first().and_then(|e| serde_json::from_str::<Value>(&e.record).ok()) {
             let mut merged = old.as_object().cloned().unwrap_or_default();
             merged.extend(listed.as_object().unwrap().clone());
