@@ -34,13 +34,18 @@ fn statement(db: &D1Database, (sql, args): (String, Vec<Value>)) -> Result<D1Pre
 pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_combination64', 'combination-72', 'container-combination-72') \
     AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build')";
 
+/// The UPDATE behind `index_statement`. The guard is parenthesised: an `OR` guard (the 72 container build's
+/// `uploaded = 0 OR family = ...`) must narrow the keyed row, never widen the update to every row the guard matches.
+fn index_sql(guard: Option<&str>) -> String {
+    format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, style = ?, style_of = ?, stroke_count = ?, \
+        segment_count = ?, created_ms = ?, modified_ms = ?, version_group = ?, version = ?, variant = ?, has_original = ?, \
+        artwork_source = ? WHERE key = ?{}", guard.map(|g| format!(" AND ({g})")).unwrap_or_default())
+}
+
 /// Store what the list reads of a record (`guard`: an extra condition on the row, e.g. NOT BUILT_IN_BROWSER).
 pub fn index_statement(db: &D1Database, key: &str, record: &Value, guard: Option<&str>) -> Result<D1PreparedStatement> {
     let i: IconIndex = index(record, None);
-    let sql = format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, style = ?, style_of = ?, stroke_count = ?, \
-        segment_count = ?, created_ms = ?, modified_ms = ?, version_group = ?, version = ?, variant = ?, has_original = ?, \
-        artwork_source = ? WHERE key = ?{}", guard.map(|g| format!(" AND {g}")).unwrap_or_default());
-    db::stmt(db, &sql, args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.style, i.style_of, i.stroke_count, i.segment_count,
+    db::stmt(db, &index_sql(guard), args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.style, i.style_of, i.stroke_count, i.segment_count,
                              i.created_ms, i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, key])
 }
 
@@ -438,4 +443,20 @@ pub async fn records(ctx: &Ctx, data: &Value) -> Result<Response> {
     let results = db::batch(&ctx.db, statements).await?;
     let stored: usize = record_rows.iter().map(|&i| results.get(i).map(db::changes).unwrap_or(0)).sum();
     http::json(200, &json!({"stored": stored}))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn index_guard_narrows_the_keyed_row() {
+        // Unparenthesised, `key = ? AND uploaded = 0 OR family = 'container-combination-72'` updated every 72 container
+        // on each combination build (their cards all became the built pair's).
+        let sql = index_sql(Some("uploaded = 0 OR family = 'container-combination-72'"));
+        assert!(sql.ends_with("WHERE key = ? AND (uploaded = 0 OR family = 'container-combination-72')"), "{sql}");
+        assert!(index_sql(None).ends_with("WHERE key = ?"));
+        let guarded = index_sql(Some(&format!("uploaded = 0 AND NOT ({BUILT_IN_BROWSER})")));
+        assert!(guarded.contains("WHERE key = ? AND (uploaded = 0 AND NOT (family IN"), "{guarded}");
+    }
 }

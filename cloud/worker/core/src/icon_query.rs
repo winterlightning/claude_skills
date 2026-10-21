@@ -613,8 +613,15 @@ pub const FACETS: &str = "SELECT kind, value, n FROM icon_facet_counts WHERE n >
 pub fn item(row: &HashMap<String, Value>, work: Value) -> Value {
     let mut card = row.get("card").and_then(Value::as_str).and_then(|c| serde_json::from_str::<Value>(c).ok())
         .filter(Value::is_object).unwrap_or_else(|| json!({}));
+    // The row's columns say which icon this is and which drawing it shows; a card written for another icon (a bad
+    // list update) must not redirect the inspector or Edit layout to it, nor show the other icon's thumbnail.
+    for field in ["key", "icon_id", "family", "preview_url"] {
+        if let Some(value) = row.get(field).filter(|v| !v.is_null()) {
+            card[field] = value.clone();
+        }
+    }
     // A row stored without a card (built in the browser) still shows: its columns are the card.
-    for field in ["key", "icon_id", "name", "family", "category", "profile", "canvas_size", "preview_url"] {
+    for field in ["name", "category", "profile", "canvas_size"] {
         if card.get(field).is_none_or(Value::is_null) {
             if let Some(value) = row.get(field).filter(|v| !v.is_null()) {
                 card[field] = value.clone();
@@ -661,6 +668,25 @@ mod tests {
         assert_eq!(params(&[("pending_feedback", "with")]).pending_feedback, "");
         assert!(params(&[("view", "versions")]).grouped());
         assert!(!params(&[("view", "versions"), ("author", "x")]).grouped());
+    }
+
+    #[test]
+    fn item_identity_comes_from_the_columns() {
+        // The 72 containers' cards all held one side pair's card after a combination build; the row still names the icon.
+        let card = json!({"key": "side_combination64/pair", "icon_id": "pair", "family": "side_combination64", "name": "Pair",
+                          "category": "Side", "profile": "SIDE_COMBINATION64", "preview_url": "../api/icon-artwork/svg?icon=pair"}).to_string();
+        let row: HashMap<String, Value> = [("key", json!("container-combination-72/anchor-upload-1")), ("icon_id", json!("anchor-upload-1")),
+            ("family", json!("container-combination-72")), ("name", json!("Anchor")), ("card", json!(card)), ("svg_sha256", json!("abc")),
+            ("uploaded", json!(1.0)), ("preview_url", json!("../api/icon-artwork/svg?icon=x"))].into_iter().map(|(k, v)| (k.to_string(), v)).collect();
+        let item = item(&row, Value::Null);
+        assert_eq!(item["key"], "container-combination-72/anchor-upload-1");
+        assert_eq!(item["icon_id"], "anchor-upload-1");
+        assert_eq!(item["family"], "container-combination-72");
+        assert_eq!(item["preview_url"], "../api/icon-artwork/svg?icon=x");
+        // The rest of the card still shows as stored.
+        assert_eq!(item["name"], "Pair");
+        assert_eq!(item["profile"], "SIDE_COMBINATION64");
+        assert_eq!(item["uploaded_icon"], true);
     }
 
     #[test]
