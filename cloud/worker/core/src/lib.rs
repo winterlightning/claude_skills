@@ -18,3 +18,4 @@ pub mod time;
 pub mod work;
 
 pub mod combination_identity;
+pub mod combination_query;

@@ -12,6 +12,7 @@
 use crate::args;
 use crate::db::{self, Arg};
 use crate::http::{self, Ctx};
+use pictographic_core::combination_query;
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
@@ -22,29 +23,6 @@ use worker::{Response, Result};
 const DEFAULT_LIMIT: i64 = 100;
 const SIDE_POSITIONS: [&str; 8] = ["tl", "tr", "bl", "br", "ri", "le", "bo", "to"];
 const MAX_LIMIT: i64 = 500;
-
-/// One row per combination: its kind, build state and whether a part has no icon picked, from its parts. At size
-/// 72 reads the size-specific picks for both side and container pairs.
-fn combinations(size: i64) -> String {
-    let (parts, existing) = if size == 72 {
-        ("SELECT p.reference_id, p.role, s.icon, s.built_sha, i.svg_sha256 AS current_sha
-          FROM reference_parts p LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
-          LEFT JOIN icons i ON i.key = s.icon", "CASE WHEN max(pt.role IN ('container', 'symbol')) AND EXISTS (SELECT 1 FROM icons i JOIN icon_references ir ON ir.icon = i.key WHERE ir.reference_id = r.reference_id AND i.family = 'container-combination-72') THEN 'built' ELSE 'unbuilt' END")
-    } else {
-        ("SELECT p.reference_id, p.role, p.icon, p.built_sha, i.svg_sha256 AS current_sha
-          FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon", "'unbuilt'")
-    };
-    format!("WITH parts AS ({parts}),
-combos AS (
-    SELECT r.reference_id, r.concept,
-        CASE WHEN max(pt.role IN ('container', 'symbol')) THEN 'container' ELSE 'side' END AS kind,
-        CASE WHEN count(pt.built_sha) = 0 THEN {existing}
-             WHEN max(pt.built_sha IS NOT NULL AND pt.current_sha IS NOT NULL AND pt.built_sha != pt.current_sha) THEN 'stale'
-             ELSE 'built' END AS state,
-        max(pt.icon IS NULL) AS missing
-    FROM \"references\" r JOIN parts pt ON pt.reference_id = r.reference_id
-    WHERE r.kind = 'combination' GROUP BY r.reference_id)")
-}
 
 /// The pair size a request asks for: 64 (the default) or 72.
 fn size_param(value: Option<&str>) -> Option<i64> {
@@ -91,7 +69,7 @@ fn preview_url(key: &str, sha: &str) -> String {
 /// `missing=1`: only combinations with a part that has no icon picked (at 72: no 72 drawing yet).
 pub async fn list(ctx: &Ctx) -> Result<Response> {
     let Some(size) = size_param(ctx.param("size")) else { return http::error(400, "size must be 64 or 72.") };
-    let cte = combinations(size);
+    let cte = combination_query::cte(size);
     let kind = ctx.param("kind").filter(|k| !k.is_empty());
     let state = ctx.param("state").filter(|s| !s.is_empty());
     let needle = ctx.param("q").map(str::trim).filter(|q| !q.is_empty());
@@ -138,12 +116,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     let mut page_values = values.clone();
     page_values.push((limit + 1).into());
     page_values.push(offset.into());
-    let icon_key = if size == 72 { pictographic_core::combination_identity::ICON_KEY72 } else { "c.kind || '_combination64/' || c.reference_id" };
-    let mut combos: Vec<Combo> = db::all(&ctx.db, &format!("{cte}
-        SELECT c.reference_id, c.concept, c.kind, c.state, i.key AS icon_key, i.svg_sha256 AS icon_sha,
-            (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
-        FROM combos c LEFT JOIN icons i ON i.key = {icon_key}
-        {filter} ORDER BY c.reference_id LIMIT ? OFFSET ?"), page_values).await?;
+    let mut combos: Vec<Combo> = db::all(&ctx.db, &combination_query::page(size, &filter), page_values).await?;
     let next = (combos.len() as i64 > limit).then(|| offset + limit);
     combos.truncate(limit as usize);
 
