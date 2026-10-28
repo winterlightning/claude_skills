@@ -459,10 +459,11 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let preview = format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(&key), &sha[..12]);
     let parts = json!({"main": main.icon, "sub": sub.icon});
     let style_of = format!("{COMBINED_FAMILY}/{id}");
+    let (keyshape, keyshape_bounds) = keyshape_of(&[main.layout.as_deref(), sub.layout.as_deref()]);
     let record = json!({"parts": parts, "errors": errors, "reference_id": id, "rank": rank, "built_by": user, "built_at": now,
-                        "icon_style": COMBINED_STYLE, "style_of": style_of});
+                        "icon_style": COMBINED_STYLE, "style_of": style_of, "keyshape": keyshape, "keyshape_bounds": keyshape_bounds});
     let listed = json!({"add": true, "key": key, "icon_id": icon_id, "name": row.concept, "family": COMBINED_FAMILY,
-        "icon_style": COMBINED_STYLE, "style_of": style_of,
+        "icon_style": COMBINED_STYLE, "style_of": style_of, "keyshape": keyshape, "keyshape_bounds": keyshape_bounds,
         "profile": "SIDE_COMBINATION64", "category": "Side", "canvas_size": 64, "svg_sha256": sha, "preview_url": preview,
         "build_failed": !errors.is_empty(), "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
             "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
@@ -539,4 +540,22 @@ pub async fn unapproved_parts(db: &worker::D1Database, key: &str) -> Result<Opti
         args![key]).await?;
     Ok((!rows.is_empty()).then(|| rows.iter().map(|w| format!("the {} {}", w.role,
         w.icon.as_deref().map_or("(none picked)", |k| k.split_once('/').map_or(k, |(_, n)| n)))).collect::<Vec<_>>().join(" and ")))
+}
+
+/// The keyshape a pick fills, as the fill side pair pages measure it (side-fill-overlay.js keyshape): the parts' boxes
+/// (placed centerlines) plus the 4px stroke, the nearest of a 56 square, 60×44 or 44×60 when within 1px, else the
+/// measured box as FREE. No profile defines Side combination 64 keyshapes, so Icon review reads them from the record.
+fn keyshape_of(layouts: &[Option<&str>]) -> (String, Vec<f64>) {
+    const KEYSHAPES: [(&str, [f64; 4]); 3] = [("SQUARE", [4.0, 4.0, 60.0, 60.0]), ("HRECT", [2.0, 10.0, 62.0, 54.0]), ("VRECT", [10.0, 2.0, 54.0, 62.0])];
+    let mut b = [f64::INFINITY, f64::INFINITY, f64::NEG_INFINITY, f64::NEG_INFINITY];
+    for layout in layouts.iter().flatten() {
+        for g in serde_json::from_str::<Vec<Value>>(layout).unwrap_or_default() {
+            let (x, y, w, h) = (g["x"].as_f64().unwrap_or(0.0), g["y"].as_f64().unwrap_or(0.0), g["w"].as_f64().unwrap_or(0.0), g["h"].as_f64().unwrap_or(0.0));
+            b = [b[0].min(x - 2.0), b[1].min(y - 2.0), b[2].max(x + w + 2.0), b[3].max(y + h + 2.0)];
+        }
+    }
+    if !b.iter().all(|v| v.is_finite()) { return ("FREE".into(), vec![0.0, 0.0, 64.0, 64.0]); }
+    let (name, target, off) = KEYSHAPES.iter().map(|(n, k)| (*n, *k, k.iter().zip(b).map(|(a, v)| (a - v).abs()).fold(0.0, f64::max)))
+        .min_by(|a, c| a.2.total_cmp(&c.2)).unwrap();
+    if off <= 1.0 { (name.into(), target.to_vec()) } else { ("FREE".into(), b.to_vec()) }
 }
