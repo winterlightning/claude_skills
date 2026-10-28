@@ -30,7 +30,10 @@ use sha2::{Digest, Sha256};
 use worker::{Response, Result};
 
 const MAIN_FAMILY: &str = "main-fill-48";
-const COMBINED_FAMILY: &str = "side-combination-fill-64";
+// A pick's combined icon is a Side combination 64 icon of style fill (as round / sharp icons are styles of a
+// normal icon, migration 0019): key side_combination64/<reference_id>--fill[-n], style_of the pair's normal key.
+const COMBINED_FAMILY: &str = "side_combination64";
+const COMBINED_STYLE: &str = "fill";
 const SUB_FAMILY: &str = "sub-fill-32";
 const MAX_LIMIT: i64 = 120;
 const MAX_RANK: i64 = 9;
@@ -157,12 +160,19 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool) -> Re
     }).collect())
 }
 
-/// A key for a pick's combined icon: the pair's own key when no other pick of the pair holds it, else `--2`, `--3`…
-/// (kept on the pick, so a key never changes hands when ranks move up).
+/// A key for a pick's combined icon: the pair's `--fill` key when no other pick of the pair holds it, else `--fill-2`,
+/// `--fill-3`… (kept on the pick, so a key never changes hands when ranks move up).
 fn free_combined_key(reference_id: &str, taken: &[String]) -> String {
-    let base = format!("{COMBINED_FAMILY}/{reference_id}");
+    let base = format!("{COMBINED_FAMILY}/{reference_id}--{COMBINED_STYLE}");
     if !taken.contains(&base) { return base; }
-    (2..).map(|n| format!("{base}--{n}")).find(|k| !taken.contains(k)).unwrap()
+    (2..).map(|n| format!("{base}-{n}")).find(|k| !taken.contains(k)).unwrap()
+}
+
+/// Whether an icon key is a fill side pair's combined icon (side_combination64/<id>--fill[-n]).
+pub fn is_fill_combined(key: &str) -> bool {
+    key.strip_prefix("side_combination64/").and_then(|rest| rest.split_once("--fill")).is_some_and(|(id, n)| {
+        !id.is_empty() && (n.is_empty() || n.strip_prefix('-').is_some_and(|d| !d.is_empty() && d.bytes().all(|b| b.is_ascii_digit())))
+    })
 }
 
 /// GET /api/side-fill/pairs?state=&after=&limit=&q= → {pairs, next, counts}
@@ -357,7 +367,7 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if let Some(o) = &orphan {
         statements.extend(super::icon_list::remove(&ctx.db, &o.combined)?);
         statements.push(db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![o.combined.clone()])?);
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND family = ?", args![o.combined.clone(), COMBINED_FAMILY])?);
+        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND family = ? AND style = ?", args![o.combined.clone(), COMBINED_FAMILY, COMBINED_STYLE])?);
     }
     statements.push(db::activity(&ctx.db, user, "fill_unpick", Some(id), db::details(vec![("rank", json!(rank)),
         ("removed_icon", json!(orphan.as_ref().map(|o| o.combined.clone())))]))?);
@@ -399,8 +409,8 @@ fn options_of(options: &Value) -> Option<Option<Value>> {
 }
 
 /// POST /api/side-fill/build {reference_id, rank, svg, main: {icon, svg_sha256}, sub: {icon, svg_sha256}}: a pick's
-/// combined drawing, made in the browser from the pick's icons, saved as the pick's icon (family
-/// side-combination-fill-64), as combinations::build saves a side pair: the parts must still be the pick's and their
+/// combined drawing, made in the browser from the pick's icons, saved as the pick's icon (a
+/// side_combination64 icon of style fill), as combinations::build saves a side pair: the parts must still be the pick's and their
 /// current drawings, the SVG passes the sanitizer, and a part not approved in Icon review marks it build_failed.
 /// A new drawing has no review yet: Ready in Icon review. Reads the pair, its pick rows and the two parts (~10 rows).
 /// The push token builds as `side-fill import` (cloud/migrate/build_fill_pairs.mjs builds every imported pick once).
@@ -448,29 +458,35 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let now = iso_utc(chrono::Utc::now());
     let preview = format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(&key), &sha[..12]);
     let parts = json!({"main": main.icon, "sub": sub.icon});
-    let record = json!({"parts": parts, "errors": errors, "reference_id": id, "rank": rank, "built_by": user, "built_at": now});
+    let style_of = format!("{COMBINED_FAMILY}/{id}");
+    let record = json!({"parts": parts, "errors": errors, "reference_id": id, "rank": rank, "built_by": user, "built_at": now,
+                        "icon_style": COMBINED_STYLE, "style_of": style_of});
     let listed = json!({"add": true, "key": key, "icon_id": icon_id, "name": row.concept, "family": COMBINED_FAMILY,
-        "profile": "SIDE_COMBINATION_FILL64", "category": "Side fill", "canvas_size": 64, "svg_sha256": sha, "preview_url": preview,
+        "icon_style": COMBINED_STYLE, "style_of": style_of,
+        "profile": "SIDE_COMBINATION64", "category": "Side", "canvas_size": 64, "svg_sha256": sha, "preview_url": preview,
         "build_failed": !errors.is_empty(), "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
             "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
         "original_sources": [], "combination_reference_id": id, "main_key": main.icon, "sub_key": sub.icon, "created_at": now,
         "created_at_source": "side-fill-pair", "uploaded_icon": false});
     let db = &ctx.db;
     let mut statements = vec![
-        db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'fill-build', ?)",
+        // origin combination-build, as a side pair build: a catalog push leaves the icon and its list columns alone.
+        db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'combination-build', ?)",
                  args![sha.clone(), key.clone(), svg, now.clone()])?,
     ];
     statements.extend(super::icon_list::uncount(db, &key)?);
+    // Only ever a fill icon's row: the guard keeps a write off the pair's normal side combination icon.
     statements.push(db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
-        build_failed, uploaded, record, pushed_at) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, 'Side fill', \
-        'SIDE_COMBINATION_FILL64', 64, ?, ?, ?, 0, ?, ?) ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, \
-        preview_url = excluded.preview_url, build_failed = excluded.build_failed, record = excluded.record WHERE icons.family = ?",
+        build_failed, uploaded, record, pushed_at, style, style_of) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, 'Side', \
+        'SIDE_COMBINATION64', 64, ?, ?, ?, 0, ?, ?, ?, ?) ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, \
+        preview_url = excluded.preview_url, build_failed = excluded.build_failed, record = excluded.record \
+        WHERE icons.family = excluded.family AND icons.style = excluded.style",
         args![key.clone(), icon_id.clone(), id, COMBINED_FAMILY, sha.clone(), preview.clone(), !errors.is_empty(), record.to_string(), now.clone(),
-              COMBINED_FAMILY])?);
-    statements.push(super::icon_list::index_statement(db, &key, &listed, Some("family = 'side-combination-fill-64'"))?);
+              COMBINED_STYLE, style_of.clone()])?);
+    statements.push(super::icon_list::index_statement(db, &key, &listed, Some("style = 'fill'"))?);
     statements.push(db::stmt(db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
-        search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND family = ?",
-        args![key.clone(), COMBINED_FAMILY])?);
+        search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND style = ?",
+        args![key.clone(), COMBINED_STYLE])?);
     statements.extend(super::icon_list::recount(db, &key, true)?);
     statements.push(db::stmt(db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)", args![key.clone(), id])?);
     for (role, part) in [("main", main), ("sub", sub)] {

@@ -225,3 +225,15 @@ def test_a_combined_icon_is_approved_only_after_its_parts():
             review(key, 'ready')
     reset, _ = get('/api/side-fill/pair', id=pair['id'])
     assert reset['picks'][0]['combined']['build_failed'] is True
+
+
+def test_an_output_is_a_side_combination_64_icon_of_style_fill():
+    pair, pick = built_pick_with_fill_variants()
+    key = pick['combined']['key']
+    assert key.startswith('side_combination64/' + pair['id'] + '--fill'), key
+    request = urllib.request.Request(f'{BASE}/api/icon?key={urllib.parse.quote(key)}', headers={'User-Agent': 'pictographic-verify/1.0'})
+    with urllib.request.urlopen(request, timeout=60) as response:
+        record = json.loads(response.read())
+    assert record['family'] == 'side_combination64'
+    assert record.get('icon_style', record.get('style')) == 'fill'
+    assert record['style_of'] == 'side_combination64/' + pair['id']

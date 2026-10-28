@@ -12,7 +12,7 @@ the parts and the outputs are icons, and a pair's choices are per-part rows in D
 | A sub's fill (closed fills included) | icons `sub-fill-32/…`, `variant_of = sub/<name>` |
 | The outline of a part | the solo / sub icon itself (nothing is uploaded for it) |
 | A pair's picks | `reference_part_fills(reference_id, role, rank, icon, layout, built_sha, options, combined)` |
-| A pick's combined drawing | icon `side-combination-fill-64/<reference_id>[--n]`, its key kept on the pick (`combined`) |
+| A pick's combined drawing | a Side combination 64 icon of style **fill**: `side_combination64/<reference_id>--fill` (alternatives `--fill-2`, …), `style_of` the pair's normal key, its key kept on the pick (`combined`). Icon review shows it under Style › Fill. |
 | The page listings and totals | `fill_pairs`, `fill_parts`, `fill_counts` (written by the import, kept by every write) |
 
 Every SVG is a `revisions` row; reviews are Icon review's. A variant or combined icon starts **Ready**. Rank 1 is a
@@ -75,7 +75,7 @@ python3 -m icon_set side-fill goldens      # fixtures for side-fill.test.mjs
 
 ## Putting it on a site (in this order)
 
-1. `wrangler d1 migrations apply <db> --remote` (0023: the tables, the indexes, the three upload families), then deploy
+1. `wrangler d1 migrations apply <db> --remote` (0023: the tables, the indexes, the two fill upload families), then deploy
    the Worker. The combined-part checks read `reference_part_fills`, so the migration goes first.
 2. `wrangler d1 execute <db> --remote --file icon_set/state/side-fill/side-fill-import.sql`
 3. `python3 cloud/migrate/upload_fill_parts.py --base-url <site>` (dry run), then `--send`. A rerun sends only what

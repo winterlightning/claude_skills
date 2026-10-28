@@ -6,9 +6,10 @@
 --                                           icons.variant_of = 'solo/<name>', variant_label = the variant
 --   sub-fill-32/…                           a sub's fill (closed fills included): variant_of = 'sub/<name>'
 --   The outline variant is the solo / sub icon itself: a pick uses its key directly, nothing is uploaded for it.
---   side-combination-fill-64/<reference_id>[--<n>]   a pair's combined pick, built in the browser; its key is kept on
---                                           the pick (reference_part_fills.combined), so it follows the pick when
---                                           ranks move up
+--   side_combination64/<reference_id>--fill[-<n>]   a pair's combined pick, built in the browser: a Side
+--                                           combination 64 icon of style fill (style_of the pair's normal key, as round /
+--                                           sharp are styles, 0019). Its key is kept on the pick (reference_part_fills.
+--                                           combined), so it follows the pick when ranks move up
 -- Their SVGs are revisions rows and their reviews start Ready, as for every upload and build.
 --
 -- Reads stay bounded (no COUNT(*), no OFFSET, no scan of "references" or icons): the pages list fill_pairs and
@@ -16,8 +17,7 @@
 -- icons_variant_of (family, variant_of), and totals from fill_counts, which every write keeps in step.
 INSERT OR IGNORE INTO upload_families(id, name, canvas_size, created_at, created_by) VALUES
     ('main-fill-48', 'Fill main 48 (fill side pairs)', 48, '2026-10-28T00:00:00.000Z', 'migration'),
-    ('sub-fill-32', 'Fill sub 32 (fill side pairs)', 32, '2026-10-28T00:00:00.000Z', 'migration'),
-    ('side-combination-fill-64', 'Fill side combination 64', 64, '2026-10-28T00:00:00.000Z', 'migration');
+    ('sub-fill-32', 'Fill sub 32 (fill side pairs)', 32, '2026-10-28T00:00:00.000Z', 'migration');
 
 -- A pair's pick: for each rank, the fill variant icon used for its main and its sub, and their boxes on the 64
 -- grid ({paths, x, y, w, h} as reference_parts.layout). built_sha: the part drawing the combined icon of that rank
