@@ -1,0 +1,85 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "fitness-band-on-wrist",
+  "sources": {
+    "normal": {
+      "file": "normal/fitness-band-on-wrist.svg",
+      "sha256": "fd344872dd4dc4dcc07edc92e9e7723f51c0732aa9407bd9194e8d2b5e311d7b"
+    },
+    "round": {
+      "file": "round/fitness-band-on-wrist.svg",
+      "sha256": "a6c9ae790162797488759e9cc290be7fb0b04f56556b9657250dcd9fc8c69ea8"
+    },
+    "sharp": {
+      "file": "sharp/fitness-band-on-wrist.svg",
+      "sha256": "4cd8ac0b330f5299d0d610c0bc931f934e313eda09ba45a78d89543ac4c1d6c7"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "clip_to_parts_painted_bounds": true,
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2",
+          "reverse": true
+        }
+      ]
+    },
+    {
+      "operation": "material_boundary",
+      "clip_to_parts_painted_bounds": true,
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3"
+          },
+          {
+            "normal": "leaf:4",
+            "round": "leaf:4",
+            "sharp": "leaf:4",
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3"
+          },
+          {
+            "normal": "leaf:4",
+            "round": "leaf:4",
+            "sharp": "leaf:4",
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3"
+          }
+        ]
+      }
+    }
+  ],
+  "reason": "Close the cropped forearm between the original left endpoints of its two horizontal boundaries, and fill the hand bounded by original hand/thumb contours. Preserve the wristband outer strokes, both band openings and diagonal band seam."
+}

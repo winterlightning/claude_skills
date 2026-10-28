@@ -1,0 +1,113 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "book-person",
+  "sources": {
+    "normal": {
+      "file": "normal/book-person.svg",
+      "sha256": "2a260bb730a27c378ed90a023aa6eac4888d1efeeb65c96911fb4bab77be118f"
+    },
+    "round": {
+      "file": "round/book-person.svg",
+      "sha256": "0c8f7446d2ab879d7e25e3345319b1b6a9a001970d0c5deadf71a8ad86ca9b71"
+    },
+    "sharp": {
+      "file": "sharp/book-person.svg",
+      "sha256": "4e3ccbbcd2845897ddbdf679f1194467f53979904161a546d2228ef6772db3e6"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:1",
+            "round": "leaf:1",
+            "sharp": "leaf:1",
+            "segments": {
+              "sharp": [
+                3,
+                7
+              ]
+            }
+          },
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0",
+            "segments": {
+              "sharp": [
+                0,
+                2
+              ]
+            }
+          }
+        ]
+      },
+      "id": "cover"
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4",
+        "reverse": true
+      },
+      "adjustment": {
+        "kind": "move_start",
+        "stroke_offset": [
+          0,
+          -1
+        ]
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "repair-object",
+      "decision": "Recover solid cover, negative head/arms and short original stem; inset lower stem end by one source stroke width to preserve page border."
+    }
+  ],
+  "repair_owner": "repair-3",
+  "repair_phase": "live-repair-v1",
+  "repair_reason": "Recover solid cover, negative head/arms and short original stem; inset lower stem end by one source stroke width to preserve page border."
+}

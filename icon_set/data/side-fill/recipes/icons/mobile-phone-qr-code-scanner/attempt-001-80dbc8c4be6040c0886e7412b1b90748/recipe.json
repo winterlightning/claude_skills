@@ -1,0 +1,100 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "mobile-phone-qr-code-scanner",
+  "sources": {
+    "normal": {
+      "file": "normal/mobile-phone-qr-code-scanner.svg",
+      "sha256": "944e53b35a7258a213ea34c5b872a37e6f1131613c3c4a02e833b2fcff5aa4af"
+    },
+    "round": {
+      "file": "round/mobile-phone-qr-code-scanner.svg",
+      "sha256": "5c5fae1326643022cd7fd8ea5855c9e98dd02a456456c51a68b59e850ffff03b"
+    },
+    "sharp": {
+      "file": "sharp/mobile-phone-qr-code-scanner.svg",
+      "sha256": "9783c656b6a2466683108456c88b9effafd6b88026542892f9a71f7e17efc937"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:5",
+        "sharp": "leaf:5"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:6",
+        "sharp": "leaf:6"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:7",
+        "round": "leaf:7",
+        "sharp": "leaf:7"
+      }
+    }
+  ],
+  "reason": "Recover the prior solid phone with a complete lower-band separation. Subtract both original QR dots including their center paint, and both native QR corner strokes, preserving exactly four QR marks."
+}

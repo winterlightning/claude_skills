@@ -1,0 +1,80 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "gift-box-rounded-lid",
+  "sources": {
+    "normal": {
+      "file": "normal/gift-box-rounded-lid.svg",
+      "sha256": "c4c2309054014af6f42e36520e15473555ddca299ad21f0de49ce269a7733730"
+    },
+    "round": {
+      "file": "round/gift-box-rounded-lid.svg",
+      "sha256": "6c811a16a3c3034c5cf683d6219f470ec98b62726a6b6dcfe338df1cd9fc47a5"
+    },
+    "sharp": {
+      "file": "sharp/gift-box-rounded-lid.svg",
+      "sha256": "4eed9c572024aee750795389b0b714b645a1e26578066d28659e279eabeec083"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2",
+        "segments": {
+          "normal": [
+            7,
+            8
+          ],
+          "round": [
+            2,
+            3
+          ],
+          "sharp": [
+            1,
+            2
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid lid and body separated by a complete native bottom-lid stroke-width seam. Retain both matching bow-loop openings; preserve each style original outer contours.",
+  "objects": [
+    {
+      "id": "source-assembly",
+      "treatment": "Recover solid lid and body separated by a complete native bottom-lid stroke-width seam. Retain both matching bow-loop openings; preserve each style original outer contours."
+    }
+  ]
+}

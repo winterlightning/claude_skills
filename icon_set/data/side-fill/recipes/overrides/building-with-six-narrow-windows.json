@@ -1,0 +1,112 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "building-with-six-narrow-windows",
+  "sources": {
+    "normal": {
+      "file": "normal/building-with-six-narrow-windows.svg",
+      "sha256": "d6801ba7396bb69b3894d52ee27c17b650bac7e10a38bf2f9fe0c1c0addb6802"
+    },
+    "round": {
+      "file": "round/building-with-six-narrow-windows.svg",
+      "sha256": "520427c8c064aac6167fe12e7ef59ad2a093d39334465c796cb9cc0e2f323bb7"
+    },
+    "sharp": {
+      "file": "sharp/building-with-six-narrow-windows.svg",
+      "sha256": "1392beb4d3bdb1562f28c1a9ed9ea1a218ebffc5c7ee84f177a4cbfd1729b99a"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1",
+          "segments": {
+            "sharp": [
+              0,
+              3
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:5"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:6",
+        "sharp": "leaf:6"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:7",
+        "round": "leaf:7",
+        "sharp": "leaf:7"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:8",
+        "round": "leaf:8",
+        "sharp": "leaf:8"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Keep the roof counter open and fill only the original facade. Preserve all six negative windows and restore the door with its lower end extended through the base.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "b8b4771402764382b5e10af8ffda9ea4",
+    "previous_failure": "Hold: all six windows and roof counter survive, but source door leaf 8 (M24 40L24 44) disappears. Reverse the door and extend only its lower endpoint through the exterior, retaining the upper cap, all six windows, roof and facade proportions in each style."
+  }
+}

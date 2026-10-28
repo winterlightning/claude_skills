@@ -1,0 +1,69 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "house-ventilator",
+  "sources": {
+    "normal": {
+      "file": "normal/house-ventilator.svg",
+      "sha256": "0e3700cf11a655b151444770506f30e1483ac5b8c3e2445e2aacc36af02ed683"
+    },
+    "round": {
+      "file": "round/house-ventilator.svg",
+      "sha256": "63bdef841d5a6f296c65631947bf9770f1422dc91d3426d860faae6d6ce09fff"
+    },
+    "sharp": {
+      "file": "sharp/house-ventilator.svg",
+      "sha256": "480105e68c47d9cac3dc16fb1eaf8342ced38b52fcb43ad2e82360d5e52c60ca"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Replace fragile region correspondence with explicit original house leaf 0 solidification and negative blade leaves 1-4 in every style; preserve accepted Normal semantics.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    }
+  ]
+}

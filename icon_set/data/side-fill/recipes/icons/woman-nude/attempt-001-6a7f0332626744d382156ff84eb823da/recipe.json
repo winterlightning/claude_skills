@@ -1,0 +1,176 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "woman-nude",
+  "sources": {
+    "normal": {
+      "file": "normal/woman-nude.svg",
+      "sha256": "0973984b342b94ad73da23d536c1cca69c98a54d1e9eb7c9f13312cb179d4572"
+    },
+    "round": {
+      "file": "round/woman-nude.svg",
+      "sha256": "e9c447e6c1d08165ee1b2a4bcc6765ebd39c62df392478837a45b0d8cb956814"
+    },
+    "sharp": {
+      "file": "sharp/woman-nude.svg",
+      "sha256": "42a24af398dd8688308b910ea4f81daf8eb8b24891b3c9b874be75e26500a1c7"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "objects": [
+    {
+      "id": "cropped-torso",
+      "treatment": "The open drawing is a cropped torso with meaningful top and bottom crop closures. Build one material silhouette from the outer chest segments and waist/hip curves, closing only matching crop endpoints. Preserve the central breast division as a transparent source curve and all three anatomical dots as negative details. Do not close each side curve into a wedge.",
+      "closures": "Upper and lower horizontal crop boundaries between the corresponding native perimeter endpoints."
+    }
+  ],
+  "reason": "The open drawing is a cropped torso with meaningful top and bottom crop closures. Build one material silhouette from the outer chest segments and waist/hip curves, closing only matching crop endpoints. Preserve the central breast division as a transparent source curve and all three anatomical dots as negative details. Do not close each side curve into a wedge.",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "torso",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "segments": {
+              "normal": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "normal": "leaf:1"
+          },
+          {
+            "normal": "leaf:2",
+            "reverse": true
+          },
+          {
+            "normal": "leaf:0",
+            "segments": {
+              "normal": [
+                6,
+                8
+              ]
+            }
+          }
+        ],
+        "round": [
+          {
+            "round": "leaf:3",
+            "segments": {
+              "round": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "round": "leaf:4"
+          },
+          {
+            "round": "leaf:5",
+            "reverse": true
+          },
+          {
+            "round": "leaf:3",
+            "segments": {
+              "round": [
+                6,
+                8
+              ]
+            }
+          }
+        ],
+        "sharp": [
+          {
+            "sharp": "leaf:3",
+            "segments": {
+              "sharp": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "sharp": "leaf:4"
+          },
+          {
+            "sharp": "leaf:5",
+            "reverse": true
+          },
+          {
+            "sharp": "leaf:3",
+            "segments": {
+              "sharp": [
+                6,
+                8
+              ]
+            }
+          }
+        ]
+      },
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "id": "breast-division",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:3",
+        "sharp": "leaf:3",
+        "segments": {
+          "normal": [
+            2,
+            6
+          ],
+          "round": [
+            2,
+            6
+          ],
+          "sharp": [
+            2,
+            6
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "anatomical-detail-0",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "anatomical-detail-1",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "anatomical-detail-2",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "deciduous-tree-with-branches",
+  "sources": {
+    "normal": {
+      "file": "normal/deciduous-tree-with-branches.svg",
+      "sha256": "1f8f57a3071dee771ba17356440b259ecb8560ee8b65de9eace3c0875f360a0b"
+    },
+    "round": {
+      "file": "round/deciduous-tree-with-branches.svg",
+      "sha256": "951909fcdd8031e57d8b85b87e87ca235d247962339c75d02ed849dd5d943227"
+    },
+    "sharp": {
+      "file": "sharp/deciduous-tree-with-branches.svg",
+      "sha256": "b817aef895b3d568d4f71c7d9b39c07ac71b93b7d5b3247d40e69eb7ff100d70"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "canopy",
+      "treatment": "fill_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0"
+        ],
+        "round": [
+          "leaf:0"
+        ],
+        "sharp": [
+          "leaf:0"
+        ]
+      },
+      "regions": [
+        {
+          "id": "canopy-interior",
+          "anchor": [
+            24,
+            20
+          ]
+        }
+      ],
+      "reason": "Fill original circular canopy."
+    },
+    {
+      "id": "branches",
+      "treatment": "subtract_strokes",
+      "target": "canopy",
+      "source_elements": {
+        "normal": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:4"
+        ],
+        "round": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:4"
+        ],
+        "sharp": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:4"
+        ]
+      },
+      "reason": "Subtract full native upper/middle trunk and two branches without shortening the y36 junction."
+    },
+    {
+      "id": "lower-trunk",
+      "treatment": "keep_strokes",
+      "source_elements": {
+        "normal": [
+          "leaf:3"
+        ],
+        "round": [
+          "leaf:3"
+        ],
+        "sharp": [
+          "leaf:3"
+        ]
+      },
+      "reason": "Retain original positive trunk below canopy at its native location."
+    }
+  ],
+  "repair_owner": "repair-2",
+  "repair_token": "378a9456de134df3a46c7f9a773a11fa",
+  "repair_phase": "regions-reverse-490-v1"
+}

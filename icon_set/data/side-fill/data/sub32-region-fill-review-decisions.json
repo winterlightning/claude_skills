@@ -1,0 +1,1115 @@
+{
+  "decisions": {
+    "ab-text-v2": {
+      "action": "retain_original",
+      "reason": "AB lettering: preserve the original A and B counters and strokes.",
+      "source_sha256": "0a861ae826af3c977e431fa6783a402fcfdd746b59b04b08f3005ed57bbbbfe3"
+    },
+    "access-key-card-sub32": {
+      "action": "source_region_decision",
+      "reason": "The black center speck in the white key is removed by keeping its exact source nested region transparent; this matches the exact-source historical fill and the review mark.",
+      "region_overrides": {
+        "3": "cutout"
+      },
+      "source_sha256": "812aaad1908370c6a642603fb360bb2e673d014d3769c38ccdcef58a77a30e40"
+    },
+    "at-sign-v2": {
+      "action": "retain_original",
+      "reason": "User marked Retain: preserve the original at-sign stroke and center opening.",
+      "source_sha256": "da82fe3eeb72e186f016e2226aae1d25247cdb3d6ce3e487d7312118ba597e70"
+    },
+    "atom-sub32": {
+      "action": "cut_source_filled_shape",
+      "reason": "Keep the algorithm-selected orbital fill; subtract the original nucleus circle as a transparent white dot.",
+      "source_ids": [
+        "circle-3"
+      ],
+      "source_sha256": "ccf1243a44c7576052e1066d7255249fd2a2adb87444b8d7d996b9c526bbb00a"
+    },
+    "balaclava-mask-batch-025-12-sub32-v2": {
+      "action": "source_region_decision",
+      "reason": "User marked Fix small dot: remove both black center specks from the white eye mark. Exact source nested regions remain transparent.",
+      "region_overrides": {
+        "3": "cutout",
+        "4": "cutout"
+      },
+      "source_sha256": "b1e8bfc49a4cca368af0cc087a441a9edae4faf2b915196c31c0c5ea5002df8f"
+    },
+    "banknote-simple-sub32-v2": {
+      "action": "retain_original",
+      "reason": "The source black medallion and its white bore are intentional; the fill algorithm cannot invert them without losing the bore.",
+      "source_sha256": "835933c407c3f5ca76c99a11b3583f65963294b5d1fd01bcdc8e315e8e9d0db5"
+    },
+    "briefcase-with-central-clasp-sub32-v2": {
+      "action": "source_region_decision",
+      "reason": "User feedback (corrected target): dont fill the top, fill the 2 regions bottom, makign line in the \u202f\u202fcase become white, but make that whie line under the black outline",
+      "source_sha256": "3d99c037ac5a23df92bedcdf902ecc022b0feb49a29f4410e33c7147742a71eb",
+      "region_overrides": {
+        "1": "keep",
+        "2": "fill",
+        "3": "fill"
+      },
+      "cut_source_strokes": [
+        "flap",
+        "clasp"
+      ],
+      "restore_source_strokes": [
+        "body"
+      ]
+    },
+    "camera-sub32-v2": {
+      "action": "source_region_decision",
+      "reason": "The black center speck in the white lens is removed by keeping its exact source nested region transparent; this matches the exact-source historical fill and the review mark.",
+      "region_overrides": {
+        "3": "cutout"
+      },
+      "source_sha256": "58c34a6ba6f94944484c51b1eab85bac483f6f6a00d9a5796db2e858e06d77ac"
+    },
+    "chat-bubble-smile-sub32-v2": {
+      "source_sha256": "2d16c09d55763a494477839fe367b242e5acd26216a37a95560c8c63c7389f40",
+      "action": "source_region_decision",
+      "reason": "User feedback: fix the case nose, make them white strokes, but white stroke z-index under the black outline",
+      "cut_source_strokes": [
+        "smile"
+      ],
+      "restore_source_strokes": [
+        "round"
+      ]
+    },
+    "chinese-character-wen-sub32": {
+      "action": "retain_original",
+      "reason": "The Chinese character loses its brush-stroke construction when the upper counter fills.",
+      "source_sha256": "4bd25deab2d9de16f32c3951bf4bd00f8149e7ac3b092c687ad977abd2e9014a"
+    },
+    "circinus-sub32-v2": {
+      "source_sha256": "5a706af38ac2a1025d8a196c97bb08cfa28b60b1ecb7acde24fa8d0ebbb738f5",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the hair instead (2 regiosn on top)",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      }
+    },
+    "circles-three-trefoil-sub32-v2": {
+      "source_sha256": "889624962b9ac1b336c8aaec90066fccb6d253bba9febdd7004832bb39caf524",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all three",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "5": "fill"
+      }
+    },
+    "clover-sub32": {
+      "source_sha256": "3684397c4d65207fc5c32c676cfd38de79803408983d46982cf1429abd68c47d",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the hand",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      }
+    },
+    "coffee-cup-steam-sub32": {
+      "source_sha256": "a5b5b0361e7040030f97aa2bbd81e55881e89abe735f7d72619391e8b8dc0f4f",
+      "action": "source_region_decision",
+      "reason": "Latest user correction: please dont fill the smaller regions for cup. Fill the cup body and keep the smaller handle opening clear.",
+      "region_overrides": {
+        "3": "keep",
+        "4": "fill"
+      }
+    },
+    "column-selected-single-interface-essential-sub32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "874f820608c185e6e144e98b77b9370d9d13db83f785308d67ca69f30751aa31",
+      "reason": "Latest user feedback: fill 3 area, make 2 black line inside become white; under the black outline. Fill all three row faces, subtract the two native divider strokes, and restore the original outer edges.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      },
+      "cut_source_strokes": [
+        "path-1-1",
+        "path-5-1"
+      ],
+      "restore_source_strokes": [
+        "path-2-1",
+        "path-3-1",
+        "path-4-1",
+        "path-6-1"
+      ]
+    },
+    "contactless-digital-wallet-solo-profile32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "0c4b3997bc4fc3627b2a9b7e38eb3edf4fcf50c28ef51e16047aa132c19067d2",
+      "reason": "Latest user feedback: wrong white stroke. just fill the area without changing anything. Fill the enclosed wallet area only; preserve all original linework without white stroke cuts.",
+      "region_overrides": {
+        "3": "fill"
+      }
+    },
+    "counterclockwise-circular-refresh-arrows-batch-020-03-sub32": {
+      "source_sha256": "ad84a913bc48803cdf85eb0e461b35ef0477d5f66f05a4724b2109965e8e7104",
+      "action": "hold_original_for_repair",
+      "reason": "User feedback: fill all, but make 2 black line inside become white and make it under the black outline stroke No enclosed fill region is available in this source; needs source-bound closure/reversal review."
+    },
+    "cow-head-front-sub32-v3": {
+      "action": "source_region_decision",
+      "source_sha256": "37d3dab3d32a7d09f781d19153e25cb55e2015c342f23dcc3b7ff2dd01055ee7",
+      "reason": "Latest user feedback: fill the face. Fill the long central face region and retain the side openings and original horns.",
+      "region_overrides": {
+        "1": "keep",
+        "2": "keep",
+        "3": "fill"
+      }
+    },
+    "cow-head-with-horns-sub32": {
+      "action": "source_region_decision",
+      "source_sha256": "bf474ac98d91564a731194ae4926a7a224b8d6bff0e3f1c24aad61d994c91597",
+      "reason": "Latest user feedback: fill the face. Fill the upper face region while keeping the lower muzzle opening clear.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "keep"
+      }
+    },
+    "cracked-shield-sub32-v2": {
+      "action": "source_region_decision",
+      "cut_source_strokes": [
+        "path-2-1"
+      ],
+      "reason": "Fill the shield while cutting its original crack stroke white beneath the black outline.",
+      "restore_source_strokes": [
+        "path-1-1"
+      ],
+      "source_sha256": "0d21b44d678a504c201a5846c2742900c64aa6d64f3e0b9262546465e97e5f75"
+    },
+    "credit-card-sub32-v2": {
+      "source_sha256": "875cb8e4002d31a2a9a9bcc8a1f8a5d1ed897e7c90bdf4cbf4f01effa98a108a",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the largest area",
+      "region_overrides": {
+        "1": "fill",
+        "3": "keep"
+      }
+    },
+    "crescent-moon-card-v2": {
+      "source_sha256": "9a410a08ba8a0ee4a71a73a5950c9d88fa3991d5739b5e6704bf5887a0af9bd1",
+      "action": "source_region_decision",
+      "reason": "Latest user correction: please full fill the moon. The card remains filled and the moon is one solid transparent cutout; native card bottom closure is retained.",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      },
+      "source_bound_closure": {
+        "kind": "connect_endpoints",
+        "from_source": "left",
+        "to_source": "card"
+      }
+    },
+    "crosshair-sub": {
+      "action": "retain_original",
+      "reason": "The four arms extend beyond the ring; a filled disc with white cross loses these original arms.",
+      "source_sha256": "a43ff5acd66fc02c260f8a30cb4cd66177de02c35cca81e789410c672213dae1"
+    },
+    "cupped-hand-facing-right-sub32-v2": {
+      "source_sha256": "feaec29bdb83ddd446f51681ced471cb1a1d62653a98df84175419343a014319",
+      "action": "source_region_decision",
+      "reason": "User feedback: this case i think we make white on top of the outline, but we extend the white outside",
+      "region_overrides": {
+        "1": "fill"
+      },
+      "cut_source_strokes": [
+        "thumb"
+      ]
+    },
+    "database-servers-sub32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "7177b98433dda02ad6a474e3e3be3746528b32859ae5346e2abc872ee058eb8f",
+      "reason": "Latest user feedback: not correct, please fill all, there are 2 black stroke in side pelase make its white, stroke-width of white need to be 4. Fill all three cylinder regions and subtract both original tier strokes at their full native width of 4 beneath the restored body outline.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      },
+      "cut_source_strokes": [
+        "tier-11",
+        "tier-19"
+      ],
+      "restore_source_strokes": [
+        "body"
+      ]
+    },
+    "deepfake-rotate-sub32-v2": {
+      "source_sha256": "8961f316219bdd03c1efe91b791ec86c078855df9d560fe7b695826ca36c342f",
+      "action": "source_region_decision",
+      "reason": "User feedback: just fill the largest",
+      "region_overrides": {
+        "1": "fill"
+      }
+    },
+    "diamond-money-sub32-v2": {
+      "source_sha256": "1467a21fb317f80470b907068159aa1f7fd2a217b1bd9653271675126c842b55",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill"
+      },
+      "cut_source_strokes": [
+        "crossbar",
+        "center"
+      ],
+      "restore_source_strokes": [
+        "diamond"
+      ]
+    },
+    "double-upward-chevron-arrow-sub32": {
+      "source_sha256": "eb36c47fa9ac628ec6e32f0bc0f81c1f28730ac95b763091385229fdba396c73",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "divider"
+      ],
+      "restore_source_strokes": [
+        "outline"
+      ]
+    },
+    "e-mail-symbol-sub32-v2": {
+      "source_sha256": "1e35c6204471014fe3e2f738ce05db82c39e6170751e8041b8ddb1aa4d7f1fab",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "path-2"
+      ],
+      "restore_source_strokes": [
+        "path-1"
+      ]
+    },
+    "email-action-unread-emails-sub32-v2": {
+      "source_sha256": "1c12ed360eeddbea0940b79372f2f46e52424b826d088c959e396e2f0a258c21",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "flap"
+      ],
+      "restore_source_strokes": [
+        "upper",
+        "envelope"
+      ]
+    },
+    "gemstone-ring-state-242-v2": {
+      "source_sha256": "4e5358a2d5c21d861b325c730311a23b39c7507fab19820d200a484b412b4368",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the top only",
+      "region_overrides": {
+        "2": "fill",
+        "1": "keep"
+      }
+    },
+    "geometric-three-toed-paw-sub32-v2": {
+      "action": "retain_original",
+      "reason": "All three toe rings and the pad opening are intentional in this version.",
+      "source_sha256": "5dc7e991f0d9a2a10278497507078edf4cfba1087001203b2232da80fe4124e8"
+    },
+    "globe-symbol-sub32": {
+      "source_sha256": "966766cafb93da6cfec725d8ef35d501ff6748ed1731674f56713eb5efab4265",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill",
+        "5": "fill",
+        "6": "fill"
+      },
+      "cut_source_strokes": [
+        "path-1-1",
+        "path-3-1"
+      ],
+      "cut_source_fragments": [
+        {
+          "source_id": "path-2-1",
+          "start": [
+            16,
+            30
+          ],
+          "end": [
+            16,
+            2
+          ]
+        }
+      ],
+      "restore_source_fragments": [
+        {
+          "source_id": "path-2-1",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            16,
+            2
+          ],
+          "end_occurrence": -1
+        }
+      ]
+    },
+    "grid-globe-sub32-v2": {
+      "source_sha256": "db5cfbee8f380e4d12c97464301700fc289c96b0cf4b6f47f2fa3a06e470f3ae",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill",
+        "5": "fill",
+        "6": "fill"
+      },
+      "cut_source_strokes": [
+        "equator",
+        "meridian-10",
+        "meridian-22"
+      ],
+      "restore_source_strokes": [
+        "globe"
+      ]
+    },
+    "handbag-sub32": {
+      "source_sha256": "cc9f8c61512eaa0fa9e4efad4b1bcc61e09bad5a89977221f8c866f4b602f4e3",
+      "action": "source_region_decision",
+      "reason": "User feedback: dont fill the top, fill 2 regions bottom, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "2": "fill",
+        "3": "fill",
+        "1": "keep"
+      },
+      "cut_source_strokes": [
+        "path-3-1"
+      ],
+      "restore_source_strokes": [
+        "path-1-1",
+        "path-2-1"
+      ]
+    },
+    "happy-person-in-a-circle-v2": {
+      "action": "cut_source_filled_shape",
+      "reason": "Keep the face eye as a transparent white source circle in the filled face.",
+      "source_ids": [
+        "circle-2"
+      ],
+      "source_sha256": "f48a745354937337b4985b5671ff55f8a6bd3a262f439f8c3fa21e1b7fed7783"
+    },
+    "heart-pulse-sub32-v2": {
+      "source_sha256": "1ed1f1ac6fae34b1331978e65d214462983d8cb485cb66cef7a9e68fe15b9a99",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, make black line inside become white, under the black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "path-3"
+      ],
+      "restore_source_strokes": [
+        "path-1",
+        "path-2"
+      ]
+    },
+    "heart-speech-bubble-sub32-v2": {
+      "source_sha256": "0759121a969d049cc87f261d4576b021719ad4190c56fc6331420da378aaf12c",
+      "action": "source_region_decision",
+      "reason": "User feedback: make heart inside become all white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      },
+      "cut_source_strokes": [
+        "heart"
+      ],
+      "restore_source_strokes": [
+        "frame"
+      ]
+    },
+    "heart-state-63-v2": {
+      "source_sha256": "a41f14389071c3c5f3db3a57d24f63a2dd926f8fe4fe7df411862d7e931ab787",
+      "action": "source_region_decision",
+      "reason": "User feedback: make heart inside become all white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      },
+      "cut_source_strokes": [
+        "heart-0"
+      ],
+      "restore_source_strokes": [
+        "frame-0"
+      ]
+    },
+    "hex-nut-pointed-sub32-v2": {
+      "source_sha256": "cdf47b54c8534893d82218671539b7c21b1134dc96e8c74c742a76373b145476",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the hexagon, make circle white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      },
+      "cut_source_strokes": [
+        "path-2-1"
+      ],
+      "restore_source_strokes": [
+        "path-1-1"
+      ]
+    },
+    "house-with-door-division-sub32": {
+      "source_sha256": "dbdc9f51a8a1f27480c3bb39255c20a7d58c6201c20e0deea27065c5791ca7d8",
+      "action": "source_region_decision",
+      "reason": "User feedback: make the door become white, under black outline",
+      "region_overrides": {
+        "1": "fill"
+      },
+      "cut_source_strokes": [
+        "door-division"
+      ],
+      "restore_source_strokes": [
+        "walls",
+        "roof"
+      ]
+    },
+    "icon-0-text-in-circle-sub32-v3": {
+      "source_sha256": "bde414bb6070a38f2ada416267706b4d791afd4b43ca8b88af6e3fbf22068837",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the circle (2 regions) and make 0 become white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill"
+      },
+      "cut_source_strokes": [
+        "path-2"
+      ],
+      "restore_source_strokes": [
+        "circle-1"
+      ]
+    },
+    "key-round-bow-sub32-v2": {
+      "source_sha256": "d68073cf009413d385a1ee4b6ee50c5ec46911cae63bbb9471b6ccac24fc74d8",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the larget area and make circle white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      }
+    },
+    "key-state-143-v2": {
+      "source_sha256": "f70c3e8470c2ecc2607e82cb68bb82a8c68629bdf5850d29d077516472d9899a",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the larget area and make key white",
+      "region_overrides": {
+        "1": "fill"
+      },
+      "cut_source_strokes": [
+        "path-2",
+        "path-3",
+        "path-4"
+      ],
+      "restore_source_strokes": [
+        "path-1"
+      ]
+    },
+    "letter-a-sub-v2": {
+      "action": "retain_original",
+      "reason": "The letter A must keep its original counter and crossbar.",
+      "source_sha256": "b2890de1ec4c50898480479f2910f2263f48e6e10b4ad8d076084579ed58fa46"
+    },
+    "letter-b-sub-v2": {
+      "action": "retain_original",
+      "reason": "The letter B must keep both original counters.",
+      "source_sha256": "46dd0c734bbcd617ff231484c7b07747476d0107d2d4b7f9fc803b2fabe89a69"
+    },
+    "mail-sub32-v2": {
+      "source_sha256": "496cd9773f0dcc05763cb7fd86135caa41604e6a0568b094c35487a00725320f",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, but make line inside become white, under the stroke black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "flap"
+      ],
+      "restore_source_strokes": [
+        "envelope"
+      ]
+    },
+    "male-gender-slash-sub32-clean": {
+      "source_sha256": "8c732391fd992f2775c4d290ebc8a73b896147815f4d82b0dd9ce076ca186a27",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all, but make line inside become white, under the stroke black outline",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "slash"
+      ],
+      "restore_source_strokes": [
+        "circle",
+        "shaft",
+        "arrowhead"
+      ]
+    },
+    "managed-service-search-sub32-v2": {
+      "action": "source_region_decision",
+      "cut_source_strokes": [
+        "pulse"
+      ],
+      "reason": "Fill the lens while preserving the original service pulse as a white source detail.",
+      "restore_source_strokes": [
+        "lens",
+        "handle"
+      ],
+      "source_sha256": "283002eefe55498a0e002cfdbaff8e4a1d01d008ceef421c6ffa19a13710c29b"
+    },
+    "megaphone-reference-265b5a65-5aa8-4bdf-bbf6-682e357fd957-sub32": {
+      "source_sha256": "b7368280453f6864a0b332ad29a8a9c70404cecea609c234883fd7a72154c9f1",
+      "action": "source_region_decision",
+      "reason": "User feedback: fil largest area Minimal native endpoint closure enables the requested enclosed material.",
+      "source_bound_closure": {
+        "kind": "close_at_existing_endpoint",
+        "source_id": "path-1-1"
+      },
+      "region_overrides": {
+        "1": "keep",
+        "2": "fill"
+      }
+    },
+    "minimalist-pig-face-sub32-v2": {
+      "source_sha256": "f583cd7768dc731d4cfab8e567d9823dd35caefe166900f75f9d67ebca525f4e",
+      "action": "source_region_decision",
+      "reason": "User feedback: make the mouth white",
+      "region_overrides": {
+        "1": "fill",
+        "5": "cutout"
+      }
+    },
+    "mobile-phone-control-pause-sub32-v2": {
+      "source_sha256": "3eed9cdb64a6d59da72fee095e26c724b1c3c802bea01251efd5e6dd49deee68",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the bottom",
+      "region_overrides": {
+        "4": "fill",
+        "1": "keep"
+      },
+      "restore_source_strokes": [
+        "pause-0",
+        "pause-1"
+      ]
+    },
+    "mobile-phone-control-play-sub32-v2": {
+      "source_sha256": "2bb62ec08954c6b698a9a4dd87cc61c7226777665530d755b80ef2f4bb8d1d14",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the bottom",
+      "region_overrides": {
+        "3": "fill",
+        "1": "keep"
+      },
+      "restore_source_strokes": [
+        "path-3"
+      ]
+    },
+    "mobile-phone-phones-sub32-v2": {
+      "source_sha256": "0c79aeb12c12f571f56525c992635f236428e7122bb952aa467dc08e2ca1d857",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the bottom",
+      "region_overrides": {
+        "2": "fill",
+        "1": "keep"
+      }
+    },
+    "padlock-state-167-v2": {
+      "source_sha256": "ec7182c93101ae642bd25d9302ce67d1df1e99a2b7ce9d0c3f0b143526939294",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the largest area and make the lock white",
+      "region_overrides": {
+        "1": "fill",
+        "3": "keep",
+        "4": "keep"
+      },
+      "cut_source_strokes": [
+        "path-2",
+        "path-3"
+      ],
+      "restore_source_strokes": [
+        "path-1"
+      ]
+    },
+    "person-with-center-parted-hair-sub32-v2": {
+      "source_sha256": "bb1ff8a91ad17ad234806e442d9431e4286ef3922a19bcce04b7b50756770bc0",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the hair instead",
+      "region_overrides": {
+        "2": "fill",
+        "1": "keep"
+      }
+    },
+    "person-with-face-construction-guides-sub32": {
+      "source_sha256": "2a3158d0124e74f738181ddebef820c4a04a9b539d750bc93556deace27e4fc7",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the hat ( 2 regiosn on top)",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "2": "keep"
+      }
+    },
+    "peso-money-sub32": {
+      "action": "retain_original",
+      "reason": "The peso glyph loses its open bowl if filled.",
+      "source_sha256": "5aefea8c86840760fd26fbf8d78213036cc2bcdc32a7f4c6078e85eabd30ea35"
+    },
+    "pie-chart-sub32-v2": {
+      "action": "source_region_decision",
+      "cut_source_strokes": [
+        "top",
+        "left",
+        "right"
+      ],
+      "reason": "Fill the pie while preserving all three source sector dividers as white cuts.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      },
+      "restore_source_strokes": [
+        "pie"
+      ],
+      "source_sha256": "0213e5d0ac8a1d9d823ee978a27db80b162978b559c9cd1fde0d7dae4766b7b0"
+    },
+    "security-protection-shield-sub32": {
+      "source_sha256": "c1d706481a2a3a0927681e02354560131697082d32a1e6d3e85da56230ddf468",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all and make line inside become white, under the outline black",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "divider"
+      ],
+      "restore_source_strokes": [
+        "outline"
+      ]
+    },
+    "shipment-delivery-sub32-v2": {
+      "source_sha256": "a7a001d8b5dd4d216b43f300d2b7459547d4851de8f6b014249a2028fae0831e",
+      "action": "source_region_decision",
+      "reason": "User feedback: just fill 1 largest area, keep 2 wheel original",
+      "region_overrides": {
+        "1": "fill",
+        "2": "keep",
+        "3": "keep",
+        "4": "keep"
+      }
+    },
+    "shop-sub32-v2": {
+      "source_sha256": "2793c19f25d6321e028fc7f361ed78ce4c8d2171b309ad84d82fb962abd9a433",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the top only",
+      "region_overrides": {
+        "1": "fill",
+        "2": "keep"
+      }
+    },
+    "simple-circular-world-globe-sub32": {
+      "action": "source_region_decision",
+      "cut_source_strokes": [
+        "path-2-1",
+        "path-3-1"
+      ],
+      "reason": "Fill the globe while retaining both source grid strokes as white cuts.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill"
+      },
+      "restore_source_strokes": [
+        "path-1-1"
+      ],
+      "source_sha256": "0ea607ea06b0bf6a15d6f266b5b0e4aacf4ec01a8d5f1bc36e17b4cc61005feb"
+    },
+    "simple-monthly-calendar-sub32": {
+      "source_sha256": "229e2a1a549155a41952597c7ecc2813812a4371b2927d18b0d57896d4e0509e",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the top only",
+      "region_overrides": {
+        "1": "fill",
+        "2": "keep"
+      }
+    },
+    "simple-pointed-leaf-sub32": {
+      "source_sha256": "f84a22b5382b5dccb8c403bf6e4d746ad6f3a37ed36c25271bbc29224de441c1",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all and make line inside become white, under the outline black",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill"
+      },
+      "cut_source_strokes": [
+        "path-2-1"
+      ],
+      "restore_source_strokes": [
+        "path-1-1"
+      ]
+    },
+    "soccer-ball-sub32": {
+      "action": "source_region_decision",
+      "cut_source_strokes": [
+        "path-2-1",
+        "path-3-1",
+        "path-4-1",
+        "path-5-1",
+        "path-6-1",
+        "path-7-1"
+      ],
+      "reason": "Fill the ball while preserving its source panel dividers as white cuts.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill",
+        "5": "fill",
+        "6": "fill"
+      },
+      "restore_source_strokes": [
+        "path-1-1"
+      ],
+      "source_sha256": "cf05b227e7e93a0f510e3ab5e0457c6ddc4dd4cf83b2cfe3f703f28db05f9c12"
+    },
+    "south-korean-won-sub32-clean": {
+      "action": "retain_original",
+      "reason": "The won glyph must preserve its open letterform and crossings.",
+      "source_sha256": "1b44cc7a6b344eb3751769030ec46c4a7b25cf385e16fd700c5f788aa691a376"
+    },
+    "sperm-cell-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "f472227fd9b2f482ebffb372c8a4ecaad2ee4d5fdd1d4a39f4adaada2dd94246",
+      "reason": "Latest user feedback: extend 2 white line furthur. The exact user correction authorizes extending both original white-line cuts. Each cut continues 4 units outward in its own original straight-line direction; all other source paths remain unchanged.",
+      "region_overrides": {
+        "1": "fill"
+      },
+      "cut_source_strokes": [
+        "path-2",
+        "path-3"
+      ],
+      "extend_source_stroke_cuts": [
+        {
+          "source_id": "path-2",
+          "length": 4.0
+        },
+        {
+          "source_id": "path-3",
+          "length": 4.0
+        }
+      ]
+    },
+    "square-play-32-sub32": {
+      "source_sha256": "9212d6c1d1776d8e7f000ae9e515f7bcc292039ca04e3031231f0a69efde7533",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the triangle inside too (white)",
+      "region_overrides": {
+        "1": "fill",
+        "3": "cutout"
+      }
+    },
+    "state32-229ee448-4dc8-470b-ac1f-fbbfcd586284-v2": {
+      "source_sha256": "3bcfa57161f4e6b122199cdd9168560e6b218c8659451c0355021643f4e1cc9b",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill 2 circle",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill"
+      }
+    },
+    "stethoscope-sub32-v2": {
+      "source_sha256": "859a44ee5b9fab0860aa0cffe9a3c694f59db96dba281ba56c7729dccdf8e7ac",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill circle",
+      "region_overrides": {
+        "1": "fill"
+      }
+    },
+    "storefront-with-centre-seam-sub32": {
+      "source_sha256": "169eb7528872c5d8dec713f80d6971fd127bf2332eebe829fc855274e4c6199c",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the top only",
+      "region_overrides": {
+        "2": "fill",
+        "1": "keep"
+      }
+    },
+    "thai-baht-currency-symbol-sub32": {
+      "action": "retain_original",
+      "reason": "The baht glyph loses its two open counters when filled.",
+      "source_sha256": "14abe158cd785b3828b5ad5fc32fca255827ef0fe1d2ca80241250324fa343c3"
+    },
+    "three-acupuncture-needles-solo-profile32-v2": {
+      "source_sha256": "d2d56277cd4427524ac1f88a7acd4e9d4bc2b22d77f2ce6d132e995c790bd868",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill 3 circle",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "5": "fill"
+      }
+    },
+    "three-node-share-network-sub32": {
+      "source_sha256": "f1536bae0aa9f63d114b8e330ba2625d23e8c7ded696024151249d8642324113",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill 3 circle",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      }
+    },
+    "three-node-share-symbol-sub32": {
+      "source_sha256": "52bdddccebfeb0881123b2be328455762163271d99cbb4df89010c6cc8cdfcd7",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill 3 circle",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      }
+    },
+    "three-stacked-modules-sub32-v2": {
+      "source_sha256": "8421be4a201a83a871c99805110f3c1e7acb962055c31120bc761ee00edd531e",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill square",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "5": "fill"
+      }
+    },
+    "three-toed-animal-paw-sub32-v2": {
+      "source_sha256": "ad606a98292500bfa4c0d194083eec9e345871a2797e927bbb67f6c0667549be",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "5": "fill",
+        "7": "fill"
+      }
+    },
+    "two-falling-bombs-solo-profile32-v2": {
+      "source_sha256": "5d7453c86cc9c7cc01434072553128f61d4654915da0c4f488c39600be5c8069",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the bottom of each bomb",
+      "region_overrides": {
+        "2": "fill",
+        "5": "fill",
+        "1": "keep",
+        "4": "keep"
+      }
+    },
+    "ui-browser-slider-sub32-v2": {
+      "source_sha256": "d9ee9a479e274277500712de138d9e0741318a1a9e8fb2cfeaafbda1fc6183e5",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill top only",
+      "region_overrides": {
+        "3": "fill",
+        "1": "keep"
+      },
+      "restore_source_strokes": [
+        "content"
+      ]
+    },
+    "users-two-rounded-sub32-v2": {
+      "action": "source_region_decision",
+      "reason": "Fill both torso interiors consistently while preserving two separate people.",
+      "region_overrides": {
+        "6": "fill"
+      },
+      "source_sha256": "a7eedebb237527955073ed81a3c1ab7933fa031a08c835f619c0e3b5ebf3e08a"
+    },
+    "vaccine-bottle-sub32-v2": {
+      "source_sha256": "f9176dd6cb8114f5358495163a2ea5f35193ceedb0a562d43f6712191f98776c",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill the bottom",
+      "region_overrides": {
+        "2": "fill",
+        "1": "keep"
+      }
+    },
+    "vintage-movie-camera-sub32-v2": {
+      "action": "source_region_decision",
+      "reason": "Fill the camera body but keep the small reel white center.",
+      "region_overrides": {
+        "1": "keep"
+      },
+      "source_sha256": "aac6dee0026c58db88b4c291d9aedcf26b99d6f3e13f9d00941a30ab6b3479a9"
+    },
+    "workflow-data-table-1-business-sub32-v2": {
+      "source_sha256": "b09291bb1214e5ae19cc8fa6c2f8c7da5b03175abd67ba9fd8828403fdd9b459",
+      "action": "source_region_decision",
+      "reason": "User feedback: fill all and make black stroke inside become black, but white stroke need to be under the black stroke outline.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill",
+        "4": "fill",
+        "5": "fill",
+        "6": "fill",
+        "7": "fill"
+      },
+      "cut_source_strokes": [
+        "row-10",
+        "row-20",
+        "column-11",
+        "column-21"
+      ],
+      "restore_source_strokes": [
+        "table"
+      ]
+    },
+    "cart-d135db2c-sub32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "5e8f8c4734364a8659ad2c4d6aed4c8d170e4007d547bff1d593fc28fe314630",
+      "reason": "Latest user feedback: fill the \u202fcart. Close only the already coincident native basket endpoints, fill its interior, and retain the original wheels and handle.",
+      "source_bound_closure": {
+        "kind": "close_at_existing_endpoint",
+        "source_id": "path-1-1"
+      },
+      "region_overrides": {
+        "1": "fill"
+      }
+    },
+    "cart-e3de8236-sub32-v3": {
+      "action": "source_region_decision",
+      "source_sha256": "0e554d9658e947eebd7dcdf4e8623a3ed171f3e39475242769ca10fedc4109d8",
+      "reason": "Latest user feedback: fill the \u202fcart. Close only the already coincident native basket endpoints, fill the basket, and keep the handle opening clear.",
+      "source_bound_closure": {
+        "kind": "close_at_existing_endpoint",
+        "source_id": "path-1-1"
+      },
+      "region_overrides": {
+        "1": "keep",
+        "2": "fill"
+      }
+    },
+    "child-face-sub32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "847b6189915b44679b63a0d8adf0e08d1c16d438bae67377b1a15811f4af28c0",
+      "reason": "Latest user feedback: fill the hair. Fill both top hair regions, keep the face opening clear, and restore the two original eye marks.",
+      "region_overrides": {
+        "1": "keep",
+        "4": "fill",
+        "5": "fill"
+      },
+      "restore_source_strokes": [
+        "path-3-1",
+        "path-4-1"
+      ]
+    },
+    "column-selected-single-1-state-sub32-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "36283bef9bdcf9688abb9ef139b41213279b6c95853b5c2baa1b78f9d8968e8f",
+      "reason": "Latest user feedback: fill 3 area, make 2 black line inside become white; under the black outline. Fill all three column faces, subtract the two native divider strokes, and restore the outer frame.",
+      "region_overrides": {
+        "1": "fill",
+        "2": "fill",
+        "3": "fill"
+      },
+      "cut_source_strokes": [
+        "path-1-1",
+        "path-2-1"
+      ],
+      "restore_source_strokes": [
+        "path-3-1"
+      ]
+    },
+    "divided-capsule-v2": {
+      "action": "source_region_decision",
+      "source_sha256": "52b928b7e8c85a24143ce17b8b6bbf9cf3698ac8eb820be325075f16009b78a3",
+      "reason": "Latest user feedback: white stroke width = 4. Keep the filled frame and chip with a transparent divider cut at the original 4-unit stroke width; retain the original outer frame.",
+      "region_overrides": {
+        "1": "fill",
+        "3": "fill",
+        "4": "fill"
+      },
+      "cut_source_strokes": [
+        "division"
+      ],
+      "restore_source_strokes": [
+        "frame"
+      ]
+    },
+    "upward-hand-pointer-batch-024-07-sub32-v2": {
+      "source_sha256": "96117e43ba97f6c2ee758bb4a42e19a517f807702866e6c6fcb5a72f706ac418",
+      "action": "source_region_decision",
+      "reason": "User approved closed fill (2026-10-28): one native endpoint edge closes the open body, then region fill.",
+      "source_bound_closure": {
+        "kind": "connect_endpoints",
+        "from_source": "right",
+        "from_end": "last",
+        "to_source": "left",
+        "to_end": "last"
+      }
+    },
+    "hand-down-1-sub32-v2": {
+      "source_sha256": "5143acd32b331b233dbaa5fa24ec18db391b1a46ba69c0a260c078f760180b31",
+      "action": "source_region_decision",
+      "reason": "User approved closed fill (2026-10-28): one native endpoint edge closes the open body, then region fill.",
+      "source_bound_closure": {
+        "kind": "connect_endpoints",
+        "from_source": "path-1",
+        "from_end": "first",
+        "to_source": "path-2",
+        "to_end": "last"
+      }
+    },
+    "dog-head-profile-sub32": {
+      "source_sha256": "7afcb5558e471ec0f6c129b64a4de3084a255e383e87d37f53f0e9ac3ea0d1a1",
+      "action": "source_region_decision",
+      "reason": "User approved closed fill (2026-10-28): one native endpoint edge closes the open body, then region fill.",
+      "source_bound_closure": {
+        "kind": "connect_endpoints",
+        "from_source": "path-1-1",
+        "from_end": "first",
+        "to_source": "path-1-1",
+        "to_end": "last"
+      }
+    },
+    "dog-sub32": {
+      "source_sha256": "8f5465dcc7780d34249f8033ea53a4c8f54d6c008ec5fc2f7b6a471076f74c06",
+      "action": "source_region_decision",
+      "reason": "User approved closed fill (2026-10-28): one native endpoint edge closes the open body, then region fill.",
+      "source_bound_closure": {
+        "kind": "connect_endpoints",
+        "from_source": "path-1-1",
+        "from_end": "first",
+        "to_source": "path-1-1",
+        "to_end": "last"
+      }
+    }
+  },
+  "policy": "Source hashes invalidate visual decisions only; source SVGs remain editable and unfrozen. Retained text is final for this draft; held icons show their original while awaiting a supported fill recipe.",
+  "schema": "sub32-region-fill-review-decisions/v1"
+}

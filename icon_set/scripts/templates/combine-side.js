@@ -1615,5 +1615,6 @@
   }
 
   return {SIZES, render, withDocuments, drawableIndices, elementParts, connected, splitGroups, mapGroups, groupsBox, groupTransform, transfer, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
-          internals: {Area, hull, clip, fitInto, intersect, orientation}};
+          // segmentsOf … drawables: the engine's reading of a drawing, shared with side-fill-combine.js.
+          internals: {Area, hull, clip, fitInto, intersect, orientation, segmentsOf, bbox, unionBoxes: union, bake, drawables, local, deepcopy}};
 });

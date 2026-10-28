@@ -1,0 +1,91 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-book-with-two-lines",
+  "sources": {
+    "normal": {
+      "file": "normal/open-book-with-two-lines.svg",
+      "sha256": "207dde26dbf73219224a7a1ea24e1a41889bb0d878459406d208a8e617838fb5"
+    },
+    "round": {
+      "file": "round/open-book-with-two-lines.svg",
+      "sha256": "af3753701bf545a08daf799f8d8bad02bba86dac42de16397af3e5f348c593f6"
+    },
+    "sharp": {
+      "file": "sharp/open-book-with-two-lines.svg",
+      "sha256": "b4b0d1e8a5dd61247e39eed3f810607e2d77f9190eebbcd0b10383b595be55f0"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [],
+  "reason": "Recover two filled pages separated by the original center fold and both negative right-page text strokes.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            4,
+            5
+          ],
+          "round": [
+            6,
+            7
+          ],
+          "sharp": [
+            0,
+            1
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    }
+  ]
+}

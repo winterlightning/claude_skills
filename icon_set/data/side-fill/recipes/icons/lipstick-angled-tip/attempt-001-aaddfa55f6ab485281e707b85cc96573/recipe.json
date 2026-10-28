@@ -1,0 +1,74 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "lipstick-angled-tip",
+  "sources": {
+    "normal": {
+      "file": "normal/lipstick-angled-tip.svg",
+      "sha256": "96946ccc5ba54bb2b8f78ee9d61938e38f26b73da77834eeeddcf58c66cbb6e8"
+    },
+    "round": {
+      "file": "round/lipstick-angled-tip.svg",
+      "sha256": "95a49286e03cfd81b8ddf746d093ad78516c0b1f8cd2cd9181c197fd0fcb09c1"
+    },
+    "sharp": {
+      "file": "sharp/lipstick-angled-tip.svg",
+      "sha256": "f824b30944e2dcf9fc93067f141d20cc7e7aef0b5fe5877d6ef5d27bf0612f9c"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "reason": "Fill case and exposed lipstick tip; subtract the native case-rim horizontal line with full-width exits, preserving all native tip and case contours.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            3
+          ],
+          "round": [
+            0,
+            1
+          ],
+          "sharp": [
+            0,
+            1
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ]
+}

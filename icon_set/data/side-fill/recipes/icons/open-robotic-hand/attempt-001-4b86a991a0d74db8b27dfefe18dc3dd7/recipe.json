@@ -1,0 +1,94 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-robotic-hand",
+  "sources": {
+    "normal": {
+      "file": "normal/open-robotic-hand.svg",
+      "sha256": "1dd6c79df050628a049461dc851e3bafe9e62b64708e8c488ad000822c61a9c2"
+    },
+    "round": {
+      "file": "round/open-robotic-hand.svg",
+      "sha256": "f972248f3ef0024217817277aaa3d771adc9bf0ca80c877cfcf46ffb6fbe760f"
+    },
+    "sharp": {
+      "file": "sharp/open-robotic-hand.svg",
+      "sha256": "a66e45392220c9150c6cbc0678c2e2fb9e855bf6410a25b45a6514126c4f5bb2"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "reason": "Recover original hand perimeter with straight wrist crop between source endpoints. Preserve the source thumb-fold as a negative detail with four-unit outer clearance; no invented diagonal finger seam.",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "hand",
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true,
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0"
+          }
+        ],
+        "round": [
+          {
+            "round": "leaf:0"
+          }
+        ],
+        "sharp": [
+          {
+            "sharp": "leaf:0",
+            "subpath": {
+              "sharp": 0
+            }
+          },
+          {
+            "sharp": "leaf:0",
+            "subpath": {
+              "sharp": 1
+            },
+            "segments": {
+              "sharp": [
+                0,
+                7
+              ]
+            },
+            "reverse": true
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:0",
+        "subpath": {
+          "sharp": 1
+        },
+        "segments": {
+          "sharp": [
+            7,
+            9
+          ]
+        }
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          0
+        ]
+      },
+      "inset_owner": "hand",
+      "outer_clearance_strokes": 1
+    }
+  ]
+}

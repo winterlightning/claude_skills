@@ -1,0 +1,54 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "girl-pigtails",
+  "sources": {
+    "normal": {
+      "file": "normal/girl-pigtails.svg",
+      "sha256": "a154c5c6e24057f579a1e76e17cdcf12295260d1a96d3839dbbe2f39d74116d4"
+    },
+    "round": {
+      "file": "round/girl-pigtails.svg",
+      "sha256": "478d91f94ea82426492d02be3862a744999ec54a4db1a1a7150e07284f23f5c0"
+    },
+    "sharp": {
+      "file": "sharp/girl-pigtails.svg",
+      "sha256": "93aa87cc8e6507daf639c6062d8906b36c871ba3bd28944289a9665e783d692b"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:3"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid head and explicitly closed torso from each native source; preserve both pigtails and the head-to-body gap. Replace Normal-only inferred closure with per-style original torso bindings.",
+  "objects": [
+    {
+      "id": "source-assembly",
+      "treatment": "Recover solid head and explicitly closed torso from each native source; preserve both pigtails and the head-to-body gap. Replace Normal-only inferred closure with per-style original torso bindings."
+    }
+  ]
+}

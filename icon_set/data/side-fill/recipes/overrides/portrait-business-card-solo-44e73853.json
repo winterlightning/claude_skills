@@ -1,0 +1,68 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "portrait-business-card-solo-44e73853",
+  "sources": {
+    "normal": {
+      "file": "normal/portrait-business-card-solo-44e73853.svg",
+      "sha256": "48e45de6ce06ad1c47677250d68e68bce427fac88599e02f15b260fe333721fb"
+    },
+    "round": {
+      "file": "round/portrait-business-card-solo-44e73853.svg",
+      "sha256": "68e81b1988499c1973798959aa8b3384e28038a4ac590a735e3a91e3c9bf5a8e"
+    },
+    "sharp": {
+      "file": "sharp/portrait-business-card-solo-44e73853.svg",
+      "sha256": "b96c478fc07d1c04931c9629c8112092ef47e631368cf8f97670a3fa494ebc82"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2"
+        }
+      ]
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid card and complete transparent head, closed bust and dash. Close the negative shoulder boundary between its own style-specific bottom terminals.",
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "0d56244c2d8544e4a969b82f46472559",
+    "phase": "live-repair-v1"
+  }
+}

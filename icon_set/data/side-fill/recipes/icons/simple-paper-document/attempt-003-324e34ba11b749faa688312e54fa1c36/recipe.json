@@ -1,0 +1,93 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "simple-paper-document",
+  "sources": {
+    "normal": {
+      "file": "derived-candidates/simple-paper-document/normal.svg",
+      "sha256": "919a8010a0689dfe539acb7d5a1cc1cd4ce58a8c831ec60d1a0b7df2568d9c55"
+    },
+    "round": {
+      "file": "derived-candidates/simple-paper-document/round.svg",
+      "sha256": "ccfadec1e56e1532c4ae5b614cb4e76cf58d78398c015cccfaab29e117a7be7b"
+    },
+    "sharp": {
+      "file": "derived-candidates/simple-paper-document/sharp.svg",
+      "sha256": "8ecbf56e6e0b509418124ec992eb97b575c0aba5bbcfb7cd44a38427841fc311"
+    }
+  },
+  "objects": [
+    {
+      "id": "all-native-interiors",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ]
+      },
+      "regions": [
+        {
+          "id": "region-0",
+          "anchors": {
+            "normal": [
+              16.444444179534912,
+              24.003909175284207
+            ],
+            "round": [
+              16.444444179534912,
+              24.003909175284207
+            ],
+            "sharp": [
+              16.444444179534912,
+              24.003909175284207
+            ]
+          }
+        },
+        {
+          "id": "region-1",
+          "anchors": {
+            "normal": [
+              20.44444465637207,
+              32.01147828169633
+            ],
+            "round": [
+              20.44444465637207,
+              32.011477221385576
+            ],
+            "sharp": [
+              20.44444465637207,
+              32.011477221385576
+            ]
+          }
+        }
+      ],
+      "reason": "Reverse every actual closed native interior; do not close open shapes or invent detail.",
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": [
+          [
+            "region-0",
+            "region-1"
+          ]
+        ]
+      }
+    }
+  ],
+  "reason": "Stage B reverse ALL candidate. AI review required; mixed treatment belongs to a later explicit decision."
+}

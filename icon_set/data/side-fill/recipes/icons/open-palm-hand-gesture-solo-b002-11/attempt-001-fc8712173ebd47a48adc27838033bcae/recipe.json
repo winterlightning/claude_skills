@@ -1,0 +1,87 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-palm-hand-gesture-solo-b002-11",
+  "sources": {
+    "normal": {
+      "file": "normal/open-palm-hand-gesture-solo-b002-11.svg",
+      "sha256": "2915c25e01afc9be857e20cf516a86777310caeef44baa332e684025e973bb43"
+    },
+    "round": {
+      "file": "round/open-palm-hand-gesture-solo-b002-11.svg",
+      "sha256": "28a287f6cba7d08f24d95864c7ef34fd76cc375fd8894cca174443bd2f67ef76"
+    },
+    "sharp": {
+      "file": "sharp/open-palm-hand-gesture-solo-b002-11.svg",
+      "sha256": "6c73fb68459abeb1579869375f84046be15f9de1b01c8d36cd2fed2b43ba0c98"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "hand",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              8
+            ],
+            "round": [
+              0,
+              10
+            ],
+            "sharp": [
+              0,
+              8
+            ]
+          }
+        }
+      ],
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            8,
+            10
+          ],
+          "round": [
+            10,
+            13
+          ],
+          "sharp": [
+            8,
+            10
+          ]
+        }
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          0
+        ]
+      },
+      "inset_owner": "hand",
+      "outer_clearance_strokes": 1
+    }
+  ],
+  "rationale": "Fill the native outer hand perimeter; closure follows existing straight thumb segment between its source endpoint and original start. Recover thumb crease from native final fragments, clipped to one-stroke inset from hand outer paint before subtraction."
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "escalator-transport-railing",
+  "sources": {
+    "normal": {
+      "file": "normal/escalator-transport-railing.svg",
+      "sha256": "dc70ba6f25eeb8d4880ffe4d0571825b9e5a90fef4b619d0a7f6b348f08caa83"
+    },
+    "round": {
+      "file": "round/escalator-transport-railing.svg",
+      "sha256": "6f9e856a40c0d9b796690d86647df7035c87d87819dd55bdb1ca4f1873466693"
+    },
+    "sharp": {
+      "file": "sharp/escalator-transport-railing.svg",
+      "sha256": "24626be558f7720e8541a765b5ebbd9ea96482073a6c548b2cf316cc1057d98a"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0"
+        },
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1",
+          "reverse": true
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    }
+  ],
+  "reason": "Recover prior escalator material band between original lower and upper rails; connect paired right and left terminal endpoints, preserve native rail bends and keep separate support foot/riser untouched. Clip closure stroke to original rail painted bounds.",
+  "objects": [
+    {
+      "id": "escalator-transport-railing",
+      "treatment": "Recover prior escalator material band between original lower and upper rails; connect paired right and left terminal endpoints, preserve native rail bends and keep separate support foot/riser untouched. Clip closure stroke to original rail painted bounds."
+    }
+  ]
+}

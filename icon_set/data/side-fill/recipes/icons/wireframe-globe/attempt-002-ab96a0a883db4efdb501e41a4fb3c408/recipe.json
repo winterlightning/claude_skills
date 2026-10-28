@@ -1,0 +1,123 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "wireframe-globe",
+  "sources": {
+    "normal": {
+      "file": "normal/wireframe-globe.svg",
+      "sha256": "8bbbe5166661a7ff5101acc83da9d63c751d558ae2d38109070857305925eab9"
+    },
+    "round": {
+      "file": "round/wireframe-globe.svg",
+      "sha256": "4efadd8d4b5969733f8e75c4a7fb59dfa25de85fccf5aa3aad293e6124825126"
+    },
+    "sharp": {
+      "file": "sharp/wireframe-globe.svg",
+      "sha256": "b494204e5bb0ec9868a8a7f967b47761930cbb87ac0b95ae43f63bf69bf9e343"
+    }
+  },
+  "objects": [
+    {
+      "id": "material",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ]
+      },
+      "regions": [
+        {
+          "id": "region-0",
+          "anchor": [
+            23.999999936628555,
+            14.041338084847666
+          ]
+        },
+        {
+          "id": "region-1",
+          "anchor": [
+            36.76070843686146,
+            14.798728348396253
+          ]
+        },
+        {
+          "id": "region-2",
+          "anchor": [
+            11.23929064634213,
+            14.79872923635412
+          ]
+        },
+        {
+          "id": "region-3",
+          "anchor": [
+            36.760710899339315,
+            33.201268190168776
+          ]
+        },
+        {
+          "id": "region-4",
+          "anchor": [
+            11.239291869127136,
+            33.20127040089574
+          ]
+        },
+        {
+          "id": "region-5",
+          "anchor": [
+            24.0,
+            33.958663667785004
+          ]
+        }
+      ],
+      "reason": "Reverse the globe sectors while preserving its geographic grid.",
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": [
+          [
+            "region-0",
+            "region-1"
+          ],
+          [
+            "region-0",
+            "region-2"
+          ],
+          [
+            "region-0",
+            "region-5"
+          ],
+          [
+            "region-1",
+            "region-3"
+          ],
+          [
+            "region-2",
+            "region-4"
+          ],
+          [
+            "region-3",
+            "region-5"
+          ],
+          [
+            "region-4",
+            "region-5"
+          ]
+        ]
+      }
+    }
+  ],
+  "corner_policy": {},
+  "reason": "Reverse the globe sectors while preserving its geographic grid."
+}

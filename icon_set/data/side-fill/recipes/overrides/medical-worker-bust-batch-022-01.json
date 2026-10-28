@@ -1,0 +1,162 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "medical-worker-bust-batch-022-01",
+  "sources": {
+    "normal": {
+      "file": "normal/medical-worker-bust-batch-022-01.svg",
+      "sha256": "9a6d73a6ee6e5e7012a11896decaed7375c80d79b153ac7cc55cef082d60f37c"
+    },
+    "round": {
+      "file": "round/medical-worker-bust-batch-022-01.svg",
+      "sha256": "56ee8f1ec006c86118a4fdf261c2e68b88cfe87cc9a5a9935e34734c2b6b18d5"
+    },
+    "sharp": {
+      "file": "sharp/medical-worker-bust-batch-022-01.svg",
+      "sha256": "6e24813b621c4de2b4044314079fdccc3f223a8bc8d967c7aeb255dc7e068ab7"
+    }
+  },
+  "objects": [
+    {
+      "id": "head",
+      "treatment": "fill_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0"
+        ],
+        "round": [
+          "leaf:0"
+        ],
+        "sharp": [
+          "leaf:0"
+        ]
+      },
+      "regions": [
+        {
+          "id": "head",
+          "anchor": [
+            24,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "body",
+      "treatment": "fill_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:1"
+        ],
+        "round": [
+          "leaf:1"
+        ],
+        "sharp": [
+          "leaf:1"
+        ]
+      },
+      "regions": [
+        {
+          "id": "torso",
+          "anchor": [
+            29,
+            36
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cross",
+      "treatment": "subtract_strokes",
+      "source_elements": {
+        "normal": [
+          "leaf:2",
+          "leaf:3"
+        ],
+        "round": [
+          "leaf:2",
+          "leaf:3"
+        ],
+        "sharp": [
+          "leaf:2",
+          "leaf:3"
+        ]
+      },
+      "target": "body"
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Explicit user request: minimally close native outline and fill, preserving native detail cuts.",
+  "native_closures": {
+    "schema": "bound-native-closures/v1",
+    "styles": {
+      "normal": {
+        "source_sha256": "9a6d73a6ee6e5e7012a11896decaed7375c80d79b153ac7cc55cef082d60f37c",
+        "closures": [
+          {
+            "leaf": 1,
+            "kind": "close_subpath",
+            "subpath": 0,
+            "native_d_sha256": "8fb72bf6ef9a68c7ea6de49aef07ca8f7032628afa843f0fa15fb43a96b6c0f2",
+            "connector": [
+              [
+                40.0,
+                44.0
+              ],
+              [
+                8.0,
+                44.0
+              ]
+            ]
+          }
+        ]
+      },
+      "round": {
+        "source_sha256": "56ee8f1ec006c86118a4fdf261c2e68b88cfe87cc9a5a9935e34734c2b6b18d5",
+        "closures": [
+          {
+            "leaf": 1,
+            "kind": "close_subpath",
+            "subpath": 0,
+            "native_d_sha256": "8fb72bf6ef9a68c7ea6de49aef07ca8f7032628afa843f0fa15fb43a96b6c0f2",
+            "connector": [
+              [
+                40.0,
+                44.0
+              ],
+              [
+                8.0,
+                44.0
+              ]
+            ]
+          }
+        ]
+      },
+      "sharp": {
+        "source_sha256": "6e24813b621c4de2b4044314079fdccc3f223a8bc8d967c7aeb255dc7e068ab7",
+        "closures": [
+          {
+            "leaf": 1,
+            "kind": "close_subpath",
+            "subpath": 0,
+            "native_d_sha256": "120cc684f0805fc5e1d949106913438e946cafc4fe3836005f8ede1f22e09a68",
+            "connector": [
+              [
+                40.0,
+                46.0
+              ],
+              [
+                8.0,
+                46.0
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

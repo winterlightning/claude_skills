@@ -1,0 +1,136 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "doctor-with-stethoscope",
+  "sources": {
+    "normal": {
+      "file": "normal/doctor-with-stethoscope.svg",
+      "sha256": "c514b81424e9faca9c5a706adcd933b67b93fa766ce3a161779cfc320e117b9e"
+    },
+    "round": {
+      "file": "round/doctor-with-stethoscope.svg",
+      "sha256": "42686d02a55999b0246f7d50da3602d5ba14bf64695a40e2148c5c03ec0b9201"
+    },
+    "sharp": {
+      "file": "sharp/doctor-with-stethoscope.svg",
+      "sha256": "419b9b524ac974591f65334eefcfb265653de2d1cba7c830db686bd8ff4191f7"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:1",
+          "sharp": "leaf:1",
+          "segments": {
+            "sharp": [
+              1,
+              3
+            ]
+          }
+        },
+        {
+          "normal": "leaf:2",
+          "round": "leaf:3",
+          "sharp": "leaf:2",
+          "reverse": true
+        }
+      ]
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:4",
+          "sharp": "leaf:3",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:4",
+          "round": "leaf:5",
+          "sharp": "leaf:4"
+        }
+      ],
+      "id": "body",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:6",
+        "sharp": "leaf:5"
+      },
+      "adjustment": {
+        "kind": "inset_cubic_seam",
+        "stroke_offsets": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:8",
+        "round": "leaf:8",
+        "sharp": "leaf:7"
+      },
+      "adjustment": {
+        "kind": "move_start",
+        "stroke_offset": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:7",
+        "sharp": "leaf:6"
+      }
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:9",
+          "round": "leaf:9",
+          "sharp": "leaf:8"
+        }
+      ]
+    }
+  ],
+  "reason": "Close native torso and upper head, preserve mask. Left straight stem keeps its exact vertical centerline: inset start one stroke and extend end two strokes using collinear source-relative seam controls; retain its native rounded cap. Subtract complete chestpiece and closed right bell, yielding full lower exits without islands.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "9d7e0fd89cc842639953dc90939963af",
+    "previous_failure": "HOLD: close torso using Normal left3 reversed plus right4, from6,42 through24,28 to42,42 and explicit bottom. Round left4/right5; Sharp left3/right4 extends to44. Preserve source-bound upper-head material Normal0+mask2 reversed, Round1+3 reversed, Sharp head1 upper segments[1,3]+mask2 reversed. Inset stethoscope stems Normal5/8, Round6/8, Sharp5/7; subtract solid chestpiece Normal6 (including duplicate7), Round7/0, Sharp6/0 and closed solid right bell Normal/Round9, Sharp8. Missing source_program solid negative-leaf/closed-bell composition with adjusted stems; native outline cuts leave unwanted center islands. Preserve mask negative space and both distinct stethoscope ends; do not accept hollow torso."
+  }
+}

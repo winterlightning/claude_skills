@@ -178,6 +178,11 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
             return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
         }
     }
+    if status == "approve" && icon.family.as_deref() == Some("side-combination-fill-64") {
+        if let Some(waiting) = super::side_fill::unapproved_parts(&ctx.db, key).await? {
+            return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
+        }
+    }
     let sha = icon.svg_sha256.clone();
     if data.get("svg_sha256").and_then(Value::as_str).unwrap_or("") != sha {
         return http::error(409, "Icon changed; reload the gallery before submitting");

@@ -1,0 +1,64 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "front-loading-washer-round-door",
+  "sources": {
+    "normal": {
+      "file": "normal/front-loading-washer-round-door.svg",
+      "sha256": "33e4e8961d3d1c9694b22ba8c22173df6bd72c6de3289444ce5e2cd5ace678f0"
+    },
+    "round": {
+      "file": "round/front-loading-washer-round-door.svg",
+      "sha256": "a579406c540cf3b277eddba284c06a4349549d83fb4788971f2b99af29eeae9a"
+    },
+    "sharp": {
+      "file": "sharp/front-loading-washer-round-door.svg",
+      "sha256": "3ad2a66b38f7522dcbdf787b1ce87e618d7dc8d9d85305428c752378868c5b4c"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Recover solid washer and complete circular negative door. Extend only the control start through left casing; keep its native inner terminal.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "b8099fe759c745f7a2624abecf4a7b80",
+    "previous_failure": "Full circular door is recovered, but the upper-left control cut forms a capsule that touches the casing edge at only one point; the prior clean notch is not recovered. Case leaf:0, door leaf:1 and control leaf:2 are distinct in all styles. Keep the full solid-door subtraction, then extend only the control start through the left exterior while retaining its original inner terminal. source_operations offers full solid cuts but only both-ended extension, which would incorrectly lengthen the control inward; source_program offers single-ended extension but lacks a full closed-shape negative cut. Add the combined operation and re-render before accepting."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "climbing-airliner",
+  "sources": {
+    "normal": {
+      "file": "normal/climbing-airliner.svg",
+      "sha256": "85e49e56867a9c6d6e510eacc343f2efa9b541dae3677c46ead2ff05590c2096"
+    },
+    "round": {
+      "file": "round/climbing-airliner.svg",
+      "sha256": "f8c95188c5b74ff99f30d2e19d9515e1cc82bdf9b75591d411bbb39d6431e64a"
+    },
+    "sharp": {
+      "file": "sharp/climbing-airliner.svg",
+      "sha256": "72a4d2f925679f5ac1615d10cc0e8d21cd56b012c1cb09dcaca055ea1a6b85eb"
+    }
+  },
+  "mode": "source_program",
+  "base": "",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      },
+      "clearance_strokes": 1
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover the good prior solid rear wing behind the filled airplane. Reserve one native stroke clearance against the complete foreground body and preserve its original exterior, avoiding a partial-segment coordinate guess.",
+  "repair_provenance": {
+    "owner": "repair-2",
+    "token": "74beb51db53d4a0e9cb86be1fbe4bfb0",
+    "previous_result": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/climbing-airliner/attempt-001-b7c7196a5dd547c9a319879c1fb50ca5",
+    "evidence": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/evidence/repair-2-7a7c1cba606a46959edca35900ea76d8/climbing-airliner-repair-2-74beb51db53d4a0e9cb86be1fbe4bfb0"
+  }
+}

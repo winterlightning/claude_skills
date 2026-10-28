@@ -1,0 +1,95 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "app-window",
+  "sources": {
+    "normal": {
+      "file": "normal/app-window.svg",
+      "sha256": "de475dbdfcf3c6ffb1063f7dabe082c5c9dafc1f8bef1901653808b9c8b2e720"
+    },
+    "round": {
+      "file": "round/app-window.svg",
+      "sha256": "62af21d33cc39caa338df175f94df1304ecdb8e9fa8c6cc2c8375ce025034ec2"
+    },
+    "sharp": {
+      "file": "sharp/app-window.svg",
+      "sha256": "816f1a4f4df9decfbbc80137f178b1b0305c5d7ead22bea9b32e62a77afed09e"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "window",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              1,
+              10
+            ],
+            "round": [
+              1,
+              10
+            ]
+          },
+          "subpath": {
+            "sharp": 1
+          }
+        }
+      ],
+      "closure": "straight"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            1
+          ],
+          "round": [
+            0,
+            1
+          ]
+        },
+        "subpath": {
+          "sharp": 0
+        }
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          0
+        ]
+      },
+      "outer_clearance_strokes": 1.5,
+      "inset_owner": "window"
+    }
+  ],
+  "objects": [
+    {
+      "id": "window",
+      "treatment": "fill original outer perimeter; reverse original header divider with 1.5 source-stroke outer clearance"
+    }
+  ],
+  "reason": "Recover historical solid window and inset header seam. Original compound path is split at its divider; source-relative inset reproduces Normal historical seam endpoints (12,16) and (36,16) without changing source geometry. Sharp uses its explicit outer subpath and native butt caps.",
+  "reference": {
+    "file": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/app-window/attempt-001-bfe592646c9f4879ba3be9432c01cf2c/historical-fill.svg",
+    "sha256": "5e3334b88906b8bf9fff8809b47131341110783d457f15fa4d912cccaaaf515a",
+    "usage": "visual recovery evidence only"
+  }
+}

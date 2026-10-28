@@ -1,0 +1,102 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "closed-shipping-box",
+  "sources": {
+    "normal": {
+      "file": "normal/closed-shipping-box.svg",
+      "sha256": "7679720dd68e0bcd586488992489a59d2243498bc180c62fa3cb763441a193fd"
+    },
+    "round": {
+      "file": "round/closed-shipping-box.svg",
+      "sha256": "e55e84f6f9dc585c02d6806940753831f0b2de6e855a0c267c85f3187548c247"
+    },
+    "sharp": {
+      "file": "sharp/closed-shipping-box.svg",
+      "sha256": "18f010a6c4c77dcafaf6f6e3674df7b5d6a3b28293682d0403247d8dd7269a2e"
+    }
+  },
+  "mode": "source_program",
+  "base": "",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "stroke_widths": 2,
+        "ends": [
+          "start",
+          "end"
+        ]
+      }
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2"
+        },
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:3",
+          "reverse": true
+        }
+      ]
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid package with open lid seam and fully transparent tape band bounded by the two existing tape edges. Preserve original box proportions. Extend both tape edges upward to remove the tiny cap remnants at the top rim.",
+  "repair_provenance": {
+    "owner": "repair-2",
+    "token": "6e7d3fb5187048c59836d0ac8ceea2b0",
+    "previous_result": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/closed-shipping-box/attempt-001-c05f244d86904095aeac75d4beff02ca",
+    "evidence": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/evidence/repair-2-7a7c1cba606a46959edca35900ea76d8/closed-shipping-box-repair-2-6e7d3fb5187048c59836d0ac8ceea2b0"
+  }
+}

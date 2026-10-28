@@ -1,0 +1,164 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "bulldog-face",
+  "sources": {
+    "normal": {
+      "file": "normal/bulldog-face.svg",
+      "sha256": "d2f5a7d687ccec2ea1c6d7813ada9c4faf29d8c09bf3a1be09a254fe5a4415b6"
+    },
+    "round": {
+      "file": "round/bulldog-face.svg",
+      "sha256": "843464a32319c70641089e36f4dc39720514616ee5e556563c9dd2cf543ecfcf"
+    },
+    "sharp": {
+      "file": "sharp/bulldog-face.svg",
+      "sha256": "f5c5c6d705b775b7e2510351a27ddd47f1a38d3d78bf88cba29fb2dac0b1e674"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [],
+      "id": "head",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          },
+          {
+            "normal": "leaf:4",
+            "round": "leaf:4",
+            "sharp": "leaf:4"
+          },
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3",
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          },
+          {
+            "normal": "leaf:4",
+            "round": "leaf:4",
+            "sharp": "leaf:4"
+          },
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3",
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0",
+            "segments": {
+              "sharp": [
+                2,
+                7
+              ]
+            },
+            "reverse": true
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2"
+          },
+          {
+            "normal": "leaf:1",
+            "round": "leaf:1",
+            "sharp": "leaf:1",
+            "reverse": true
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:6",
+        "sharp": "leaf:4"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:7",
+        "round": "leaf:7",
+        "sharp": "leaf:5"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:0",
+        "segments": {
+          "sharp": [
+            7,
+            9
+          ]
+        }
+      },
+      "clip_to_owner_material": "head"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:0",
+        "segments": {
+          "sharp": [
+            0,
+            2
+          ]
+        }
+      },
+      "clip_to_owner_material": "head"
+    }
+  ],
+  "reason": "Recover filled original head and muzzle counters, reverse source folded-ear curves at their native caps. Upward tangent extensions created crown notches and were removed.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "ef076625f6fc4ebdadab740325d235ad",
+    "previous_failure": "Hold: filling the bulldog head erases both folded-ear strokes, leaving an undifferentiated upper mass. Recover transparent source-bound ear-left leaf 1 and ear-right leaf 2 details with exterior-side endpoint exits, preserving their interior curved tips, cheeks, crown and paired muzzle counters. Bind corresponding curves and endpoints per style; do not replace the ears with invented shapes."
+  }
+}

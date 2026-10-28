@@ -1,0 +1,71 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "building-tall",
+  "sources": {
+    "normal": {
+      "file": "normal/building-tall.svg",
+      "sha256": "c18fd7acdd3d882a9532acbaa2840a26ae8479aa5b856f1db317bc267d70a0da"
+    },
+    "round": {
+      "file": "round/building-tall.svg",
+      "sha256": "f9f2ce5eaf81cd4528b68fd1e57e91659cf7928ade4602650ebd2f5753b7c1c8"
+    },
+    "sharp": {
+      "file": "sharp/building-tall.svg",
+      "sha256": "50e5c081f14bb1e29aa027395bbc1ff48b019c23eee6452f3348fff6ca6a4169"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0"
+        }
+      ],
+      "id": "tower"
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    }
+  ],
+  "reason": "Solid tower with two native window cuts. Subtract complete source doorway including its interior and extend both lower terminals below the ground; preserve original tower and baseline.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  }
+}

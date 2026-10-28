@@ -1,0 +1,97 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "three-unit-server-stack",
+  "sources": {
+    "normal": {
+      "file": "normal/three-unit-server-stack.svg",
+      "sha256": "3b820f38f6d063dcb7137b6b1d5ba05fc1efe386a2e0250c2aa38d417056f4a1"
+    },
+    "round": {
+      "file": "round/three-unit-server-stack.svg",
+      "sha256": "71f19f8bbf5cc4a8dbefeea92bb521da18214c37f87b8a59f4d88b465b02a009"
+    },
+    "sharp": {
+      "file": "sharp/three-unit-server-stack.svg",
+      "sha256": "7cc9c5b50aa3059436bb6e19cb01e4d448f95fcbf1574732f4d1577484660b2d"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "adjustment": {
+        "kind": "move_start",
+        "stroke_offset": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "adjustment": {
+        "kind": "move_start",
+        "stroke_offset": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:5"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "assembly",
+      "decision": "Solid server case with three negative indicator dots and two inset negative divider bars; shorten each divider start by one source stroke width to preserve a 4-unit Normal outer margin."
+    }
+  ],
+  "reason": "Solid server case with three negative indicator dots and two inset negative divider bars; shorten each divider start by one source stroke width to preserve a 4-unit Normal outer margin."
+}

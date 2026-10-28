@@ -1,0 +1,71 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "double-pane-window-solo-b002-03",
+  "sources": {
+    "normal": {
+      "file": "normal/double-pane-window-solo-b002-03.svg",
+      "sha256": "88cbf32bd01a3d1a6c87a387839ea2c396f79bbd6822ebdf560dd45efdc3ee67"
+    },
+    "round": {
+      "file": "round/double-pane-window-solo-b002-03.svg",
+      "sha256": "f9c98c898f5746d7074ce7bb08cfaa30ef275a58862ce95614be35519d7a5b63"
+    },
+    "sharp": {
+      "file": "sharp/double-pane-window-solo-b002-03.svg",
+      "sha256": "360f4b61748d5bae94a637cba19fecf792d737767ca2fa6530e1505dee03fb4b"
+    }
+  },
+  "objects": [
+    {
+      "id": "material",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2"
+        ]
+      },
+      "regions": [
+        {
+          "id": "region-0",
+          "anchor": [
+            10.5,
+            24.0
+          ]
+        },
+        {
+          "id": "region-1",
+          "anchor": [
+            33.0,
+            24.0
+          ]
+        }
+      ],
+      "reason": "Fill/reverse the two window panes, retaining their separator and native handle.",
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": [
+          [
+            "region-0",
+            "region-1"
+          ]
+        ]
+      }
+    }
+  ],
+  "corner_policy": {},
+  "reason": "Fill/reverse the two window panes, retaining their separator and native handle."
+}

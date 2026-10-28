@@ -1,0 +1,58 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "heart-rate",
+  "sources": {
+    "normal": {
+      "file": "normal/heart-rate.svg",
+      "sha256": "c9ac09927537ca827a5da412bbaf173c8fe9e4ae1f70b11d5d647a9c556aed54"
+    },
+    "round": {
+      "file": "round/heart-rate.svg",
+      "sha256": "fea9b9d0ec093eb7b8da38faa7db356e81b03a12b85c44495d08b4f1f0ca9777"
+    },
+    "sharp": {
+      "file": "sharp/heart-rate.svg",
+      "sha256": "5f06d0f6209f4f23a49a7a68638dc443d215bff3b23de4ac5f350477c1af15ea"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Solidify the whole heart and reverse the original pulse stroke into a negative detail with full source-width exits on both sides.",
+  "objects": [
+    {
+      "id": "source-material-and-details",
+      "treatment": "Solidify the whole heart and reverse the original pulse stroke into a negative detail with full source-width exits on both sides."
+    }
+  ]
+}

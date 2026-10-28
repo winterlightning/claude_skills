@@ -1,0 +1,106 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-helping-hand",
+  "sources": {
+    "normal": {
+      "file": "normal/open-helping-hand.svg",
+      "sha256": "13b2d79cb91922380ffe281e795bf0d11a88ff6d33f70fb72cc3c729434443a3"
+    },
+    "round": {
+      "file": "round/open-helping-hand.svg",
+      "sha256": "0199c755336fb03c2037139ca9277b041b8ec1301ce299a23c45d93ff226d285"
+    },
+    "sharp": {
+      "file": "sharp/open-helping-hand.svg",
+      "sha256": "73cc87fd1d5dafef5a1146b7202bd517f0c71d710e64b818d62838199469ebca"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2",
+          "segments": {
+            "normal": [
+              0,
+              3
+            ],
+            "round": [
+              0,
+              3
+            ],
+            "sharp": [
+              0,
+              3
+            ]
+          },
+          "reverse": true
+        }
+      ],
+      "id": "hand"
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      },
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "hand"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2",
+        "segments": {
+          "normal": [
+            3,
+            5
+          ],
+          "round": [
+            3,
+            5
+          ],
+          "sharp": [
+            3,
+            6
+          ]
+        }
+      },
+      "clip_to_owner_interior": "hand"
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ],
+  "reason": "Close hand from original lower contour and reversed upper contour; preserve four-unit cuff gap and subtract original internal thumb crease, keeping cuff hollow.",
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "694ca29df78c49f3ba991239438e520a",
+    "phase": "live-repair-v1"
+  }
+}

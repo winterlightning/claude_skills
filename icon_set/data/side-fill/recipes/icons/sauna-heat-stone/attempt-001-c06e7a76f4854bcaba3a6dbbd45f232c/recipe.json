@@ -1,0 +1,64 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "sauna-heat-stone",
+  "sources": {
+    "normal": {
+      "file": "normal/sauna-heat-stone.svg",
+      "sha256": "f18253210caf68a1d2b9bb2f46d68a76b1883d2733d2cc472e229ce15ccaa7ab"
+    },
+    "round": {
+      "file": "round/sauna-heat-stone.svg",
+      "sha256": "5e8bef350053c3f946c846e25d3aadbd449caab1783512c948c5858994b56f68"
+    },
+    "sharp": {
+      "file": "sharp/sauna-heat-stone.svg",
+      "sha256": "b73cf7119793fe2c96fb0ef3a8bb51f96009a2362402a7a4ef294cf11fe60d65"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "reason": "Open stone lower contour runs between equal-height endpoints; close directly across its upper rim and fill the stone while retaining all three independent steam strokes.",
+  "objects": [
+    {
+      "id": "source-bound-assembly",
+      "treatment": "Open stone lower contour runs between equal-height endpoints; close directly across its upper rim and fill the stone while retaining all three independent steam strokes."
+    }
+  ],
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:3"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    }
+  ]
+}

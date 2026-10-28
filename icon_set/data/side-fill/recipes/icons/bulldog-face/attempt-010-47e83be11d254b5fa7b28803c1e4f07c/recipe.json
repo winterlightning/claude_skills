@@ -1,0 +1,86 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "bulldog-face",
+  "sources": {
+    "normal": {
+      "file": "normal/bulldog-face.svg",
+      "sha256": "d2f5a7d687ccec2ea1c6d7813ada9c4faf29d8c09bf3a1be09a254fe5a4415b6"
+    },
+    "round": {
+      "file": "round/bulldog-face.svg",
+      "sha256": "843464a32319c70641089e36f4dc39720514616ee5e556563c9dd2cf543ecfcf"
+    },
+    "sharp": {
+      "file": "sharp/bulldog-face.svg",
+      "sha256": "f5c5c6d705b775b7e2510351a27ddd47f1a38d3d78bf88cba29fb2dac0b1e674"
+    }
+  },
+  "corner_policy": {},
+  "reason": "Fill the face/muzzle material using existing bounded regions, preserving ear and muzzle divisions as transparent details.",
+  "objects": [
+    {
+      "id": "material",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5",
+          "leaf:6",
+          "leaf:7"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5",
+          "leaf:6",
+          "leaf:7"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5"
+        ]
+      },
+      "regions": [
+        {
+          "id": "material-0",
+          "anchor": [
+            23.999999046325684,
+            20.026338518888224
+          ]
+        },
+        {
+          "id": "material-1",
+          "anchor": [
+            18.27146372734569,
+            33.64505055034533
+          ]
+        },
+        {
+          "id": "material-2",
+          "anchor": [
+            29.72853627265431,
+            33.64505055034533
+          ]
+        }
+      ],
+      "reason": "Reverse the selected native material interiors and fit this object to its original painted bounds using the existing constrained region normalizer. Preserve at least a 4-unit clearance between its separate regions and the source-drawn openings.",
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": []
+      }
+    }
+  ]
+}

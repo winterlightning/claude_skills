@@ -1,0 +1,160 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "parcel-delivery-truck",
+  "sources": {
+    "normal": {
+      "file": "normal/parcel-delivery-truck.svg",
+      "sha256": "c5e3efbfbf22876164092e6e8a0c4bd04bd62ac0643f4cc33f70313b2632f5ab"
+    },
+    "round": {
+      "file": "round/parcel-delivery-truck.svg",
+      "sha256": "d870acfe0eef5e8dfa4ea7b468e0ba65a03f0352118fb09aedc54f339cc3600f"
+    },
+    "sharp": {
+      "file": "sharp/parcel-delivery-truck.svg",
+      "sha256": "aa5375b157f87790aa3a4fdd3f2d5e0955bad244fcec42e62c4e04947e590d6e"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "body",
+      "clip_to_parts_painted_bounds": true,
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              9
+            ],
+            "round": [
+              0,
+              6
+            ],
+            "sharp": [
+              0,
+              3
+            ]
+          }
+        },
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:3",
+          "segments": {
+            "normal": [
+              0,
+              2
+            ],
+            "round": [
+              0,
+              2
+            ],
+            "sharp": [
+              0,
+              2
+            ]
+          },
+          "reverse": true
+        },
+        {
+          "normal": "leaf:4",
+          "round": "leaf:4",
+          "sharp": "leaf:4",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2",
+          "segments": {
+            "normal": [
+              1,
+              2
+            ],
+            "round": [
+              1,
+              2
+            ],
+            "sharp": [
+              1,
+              2
+            ]
+          },
+          "reverse": true
+        }
+      ]
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            9,
+            10
+          ],
+          "round": [
+            6,
+            7
+          ],
+          "sharp": [
+            3,
+            4
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 3
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:6",
+        "sharp": "leaf:6"
+      },
+      "clip_to_owner_interior": "body"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:5"
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          0
+        ]
+      },
+      "inset_owner": "body",
+      "outer_clearance_strokes": 0.5
+    }
+  ],
+  "reason": "Close complete truck body along original cargo/cab/chassis and original upper wheel arcs. Preserve native wheel counters, recover full negative tape only inside owned body to retain cargo roof, open cargo divider at upper end only, and inset original windscreen inside cab material. Extend divider start three stroke widths so its cap cannot nick the roof; inset windscreen by a declared half-stroke outer margin to keep a readable horizontal window at its original y and on its original centerline.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  }
+}

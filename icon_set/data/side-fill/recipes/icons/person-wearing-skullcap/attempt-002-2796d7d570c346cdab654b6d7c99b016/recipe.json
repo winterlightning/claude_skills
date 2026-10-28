@@ -1,0 +1,127 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "person-wearing-skullcap",
+  "sources": {
+    "normal": {
+      "file": "normal/person-wearing-skullcap.svg",
+      "sha256": "43b1bff99c7224c515ded242d4d8b3ea5d54a20c4ca6f42db071a5f16ce22553"
+    },
+    "round": {
+      "file": "round/person-wearing-skullcap.svg",
+      "sha256": "b8ed8a6460d3041320d0bf8478960367e7ccb7995a28e419e73120568a51a41e"
+    },
+    "sharp": {
+      "file": "sharp/person-wearing-skullcap.svg",
+      "sha256": "5873e197626fc1a3d22bdfc88d77577b8ebb0f53410ed0b03654d2f29f35ae38"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "clip_to_parts_painted_bounds": true,
+      "id": "body",
+      "parts": [
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2"
+        }
+      ]
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      },
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "body"
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "clip_to_parts_painted_bounds": true,
+      "id": "face-interior-owner",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              2,
+              4
+            ],
+            "round": [
+              2,
+              4
+            ],
+            "sharp": [
+              2,
+              4
+            ]
+          }
+        },
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ]
+    },
+    {
+      "operation": "cut_boundary",
+      "clip_to_parts_painted_bounds": true,
+      "id": "face-interior-owner",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              2,
+              4
+            ],
+            "round": [
+              2,
+              4
+            ],
+            "sharp": [
+              2,
+              4
+            ]
+          }
+        },
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clip_to_owner_interior": "face-interior-owner"
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Close native shoulder crop and separate intact filled head by owned outward clearance. Preserve original cap division and lower face opening using the interior of its source-bound lower-head/cap contour, retaining the outer circular head paint.",
+  "repair_provenance": {
+    "owner": "repair-2",
+    "token": "2796d7d570c346cdab654b6d7c99b016",
+    "phase": "live-repair-v1"
+  }
+}

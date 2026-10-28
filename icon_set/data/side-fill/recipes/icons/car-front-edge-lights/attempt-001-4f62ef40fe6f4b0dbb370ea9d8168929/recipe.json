@@ -1,0 +1,80 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "car-front-edge-lights",
+  "sources": {
+    "normal": {
+      "file": "normal/car-front-edge-lights.svg",
+      "sha256": "f5d68f5a941f8b473dae22d0ce5684ee6ea3c31e206ca198d52bdc3c3d7b8468"
+    },
+    "round": {
+      "file": "round/car-front-edge-lights.svg",
+      "sha256": "eac75ceb3fb9fc394fd8aec725cd2e4b2001f07cad0824da485da91819e10fc9"
+    },
+    "sharp": {
+      "file": "sharp/car-front-edge-lights.svg",
+      "sha256": "01dcd759788e14ee2cdeef867453929003131c28c526375b628b6984e4ac2892"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "id": "body",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Fill source body and reverse both edge-light strokes, extending only their exterior endpoints through body sides. Preserve original interior endpoints, native caps, windshield opening and both tyre counters. Source indices0,2,3 match in all inspected styles; Sharp interior light ends remain longer as drawn.",
+  "objects": [
+    {
+      "id": "body",
+      "treatment": "solidify original body"
+    },
+    {
+      "id": "lights",
+      "treatment": "reverse native marks with outward-only exits"
+    },
+    {
+      "id": "cabin-and-tyres",
+      "treatment": "retain native outlines and openings"
+    }
+  ]
+}

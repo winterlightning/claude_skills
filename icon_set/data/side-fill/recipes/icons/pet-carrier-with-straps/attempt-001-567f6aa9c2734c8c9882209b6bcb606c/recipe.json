@@ -1,0 +1,123 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "pet-carrier-with-straps",
+  "sources": {
+    "normal": {
+      "file": "normal/pet-carrier-with-straps.svg",
+      "sha256": "9ef9814a24e88e4cc80c7bc1312ca66314bea535f1d3738dea341de420253cde"
+    },
+    "round": {
+      "file": "round/pet-carrier-with-straps.svg",
+      "sha256": "9711e2d1a058455214e848b738c1e29fbfb8fb31356ca205efedd73c5e9abda4"
+    },
+    "sharp": {
+      "file": "sharp/pet-carrier-with-straps.svg",
+      "sha256": "f708506ee2fd13b28d9f9cccd5fea2f65cbf0c35c8a212dade9a2591775e3924"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [],
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1",
+        "segments": {
+          "normal": [
+            1,
+            2
+          ],
+          "round": [
+            1,
+            2
+          ],
+          "sharp": [
+            1,
+            2
+          ]
+        }
+      },
+      "extension": {
+        "ends": [],
+        "stroke_widths": 0
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            3
+          ],
+          "round": [
+            6,
+            7
+          ],
+          "sharp": [
+            3,
+            4
+          ]
+        }
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          -1
+        ]
+      }
+    }
+  ],
+  "reason": "Recover three solid carrier panels with full-width negative strap exits. Retain the original handle arc, cropped by a source-top-relative horizontal seam one stroke above the body top, matching prior separation without inventing handle geometry."
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "sitting-dog-tucked-paw",
+  "sources": {
+    "normal": {
+      "file": "normal/sitting-dog-tucked-paw.svg",
+      "sha256": "a81fcdad1e42c69b1121921a7b68cbfc8b29a36cfd37e63310c3f5841ba4325b"
+    },
+    "round": {
+      "file": "round/sitting-dog-tucked-paw.svg",
+      "sha256": "5d66ad9fce5aeb30b1f02ccd167c60da9b07533f393e4f4ff8797f37c57297b1"
+    },
+    "sharp": {
+      "file": "sharp/sitting-dog-tucked-paw.svg",
+      "sha256": "b943db3f654a8c275ea3f13abd2a25c3b4674460fc6231bacf8d026778c071e6"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    }
+  ],
+  "objects": [],
+  "reason": "Recover solid seated body with negative tucked paw curl extending through the lower outline; preserve positive tail.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  }
+}

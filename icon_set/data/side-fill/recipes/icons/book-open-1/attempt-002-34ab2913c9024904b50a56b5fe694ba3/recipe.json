@@ -1,0 +1,88 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "book-open-1",
+  "sources": {
+    "normal": {
+      "file": "normal/book-open-1.svg",
+      "sha256": "7590d5ff22bfe5540fd7efbcc8c4f6394ce46cdbc8090d16c6a7b61d64edf8ea"
+    },
+    "round": {
+      "file": "round/book-open-1.svg",
+      "sha256": "80f7f446b9e7019ef54e1b115b638d168b00b47354eaca78bd91eb993d8bfc49"
+    },
+    "sharp": {
+      "file": "sharp/book-open-1.svg",
+      "sha256": "dc55c9d3e160a95cf1073691f68c257178ad44c8debf576e010f92fa745826ce"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            14
+          ],
+          "round": [
+            0,
+            14
+          ],
+          "sharp": [
+            1,
+            11
+          ]
+        }
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            1
+          ],
+          "round": [
+            0,
+            1
+          ],
+          "sharp": [
+            0,
+            1
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "repair-object",
+      "decision": "Recover book spread; bind Sharp embedded spine separately and cut both terminals through cover."
+    }
+  ],
+  "repair_owner": "repair-3",
+  "repair_phase": "live-repair-v1",
+  "repair_reason": "Recover book spread; bind Sharp embedded spine separately and cut both terminals through cover."
+}

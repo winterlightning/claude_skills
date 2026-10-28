@@ -1,0 +1,92 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "envelope",
+  "sources": {
+    "normal": {
+      "file": "normal/envelope.svg",
+      "sha256": "03da5d01f88ad9ad6959a9ebbb6705d8a0ec87399d6bc2b24002a1f613deb460"
+    },
+    "round": {
+      "file": "round/envelope.svg",
+      "sha256": "0c6c730dfd30f3b504eb14c6b27eb099605e408a43e40b91319cc63fa229aadb"
+    },
+    "sharp": {
+      "file": "sharp/envelope.svg",
+      "sha256": "0dc41bf297ef453753c09b14f5f8033bb252e75beef9016e81da06c65437e661"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "id": "envelope",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Recover the prior solid envelope with transparent flap and two diagonal folds. Follow saved user correction: extend every boundary-connected seam through the exterior at native stroke width. Preserve all native shell and flap geometry, using each style\u2019s four inspected corresponding leaves.",
+  "objects": [
+    {
+      "id": "source-bound-material-and-details",
+      "treatment": "Recover the prior solid envelope with transparent flap and two diagonal folds. Follow saved user correction: extend every boundary-connected seam through the exterior at native stroke width. Preserve all native shell and flap geometry, using each style\u2019s four inspected corresponding leaves."
+    }
+  ],
+  "historical_reference": {
+    "file": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/envelope/attempt-001-035ec2c4aca34839b5e855262bec5081/historical-fill.svg",
+    "sha256": "d2f094c485ce44b93e6bcfa0dea62ce9cb3aae9c0fbf8032701e9a3fad07ec32",
+    "usage": "Visual comparison only; never styled geometry"
+  }
+}

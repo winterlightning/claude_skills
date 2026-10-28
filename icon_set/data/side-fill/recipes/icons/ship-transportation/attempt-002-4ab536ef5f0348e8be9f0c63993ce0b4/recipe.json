@@ -1,0 +1,124 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "ship-transportation",
+  "sources": {
+    "normal": {
+      "file": "normal/ship-transportation.svg",
+      "sha256": "0a48c5069001a2f76a8edcf2df6bcca813edc989b3d3b4af6a2714d2b0ed955c"
+    },
+    "round": {
+      "file": "round/ship-transportation.svg",
+      "sha256": "b36e1ad2a40452c3b0ee5e576ca10d1af826a8fe045af8ee0d17adebece77598"
+    },
+    "sharp": {
+      "file": "sharp/ship-transportation.svg",
+      "sha256": "d72ddd2864aa916d41add42be733084927c64202e96740ddcc0688f1b0ddfd1f"
+    }
+  },
+  "mode": "source_program",
+  "adjacency_distance": 3.28125,
+  "closure_requested": false,
+  "closures": [],
+  "native_cuts": [],
+  "small_detail_evidence": [],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "proposal": "Normal smart_fill only; per-region decisions frozen for review",
+  "objects": [
+    {
+      "id": "source-assembly",
+      "name": "ship-transportation",
+      "scope": "entire source assembly",
+      "treatment": "explicit region roles; preserve unselected native paint"
+    }
+  ],
+  "warning": "No executable historical recipe recovered; new semantic review required.",
+  "recovery_reason": "Recover solid sail with original sail endpoints closed across (25,28) to (18,28). Fill source hull and preserve source wave contours. Reverse hull top stroke as full-width gap separating sail and hull.",
+  "recovery_owner": "overnight-5",
+  "recovery_claim_token": "4ab536ef5f0348e8be9f0c63993ce0b4",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2",
+            "segments": {
+              "sharp": [
+                2,
+                4
+              ]
+            }
+          }
+        ]
+      },
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            3
+          ],
+          "round": [
+            0,
+            1
+          ],
+          "sharp": [
+            1,
+            2
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 3
+      }
+    }
+  ]
+}

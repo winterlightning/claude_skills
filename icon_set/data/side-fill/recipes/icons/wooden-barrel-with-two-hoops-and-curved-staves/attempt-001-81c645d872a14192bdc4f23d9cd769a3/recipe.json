@@ -1,0 +1,101 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "wooden-barrel-with-two-hoops-and-curved-staves",
+  "sources": {
+    "normal": {
+      "file": "normal/wooden-barrel-with-two-hoops-and-curved-staves.svg",
+      "sha256": "1fdb00783d22ccf6b33c65ac80b0c87632244b27c4732e535ec22777abc1f761"
+    },
+    "round": {
+      "file": "round/wooden-barrel-with-two-hoops-and-curved-staves.svg",
+      "sha256": "0fc317facba5ce7214936be7fbafd6438b7cb031cf0d0a483df09408e4d860b2"
+    },
+    "sharp": {
+      "file": "sharp/wooden-barrel-with-two-hoops-and-curved-staves.svg",
+      "sha256": "ac4677883b8a44f7707c0fd592d4ed186f7304b3a7db4dfb570453601ef2e35b"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "objects": [
+    {
+      "id": "barrel",
+      "treatment": "Recover solid barrel material with both hoops and both curved stave divisions transparent. Preserve the entire native outer contour and extend each negative source line only through its perimeter exits."
+    }
+  ],
+  "reason": "Recover solid barrel material with both hoops and both curved stave divisions transparent. Preserve the entire native outer contour and extend each negative source line only through its perimeter exits.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "division-1",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "division-2",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "division-3",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "id": "division-4",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 1
+      }
+    }
+  ]
+}

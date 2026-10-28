@@ -1,0 +1,163 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "chemical-hexagon-health",
+  "sources": {
+    "normal": {
+      "file": "normal/chemical-hexagon-health.svg",
+      "sha256": "3e72aba39ab4a005084a5a78744cdc9a4b5ca25be395f1f5e7cd93ef995a03c3"
+    },
+    "round": {
+      "file": "round/chemical-hexagon-health.svg",
+      "sha256": "aba50918333a17ab97b044e151ef8f6b33cb5c76d61a49abeb375d2fad724e39"
+    },
+    "sharp": {
+      "file": "sharp/chemical-hexagon-health.svg",
+      "sha256": "ad601d58f7c55bd2a44948033e595ce9871f1a29a9e2653434cdf7c68da3148e"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:7",
+          "round": "leaf:7",
+          "sharp": "leaf:7",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:6",
+          "round": "leaf:6",
+          "sharp": "leaf:6"
+        },
+        {
+          "normal": "leaf:4",
+          "round": "leaf:4",
+          "sharp": "leaf:4",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:5",
+          "round": "leaf:5",
+          "sharp": "leaf:5"
+        }
+      ]
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:13",
+          "round": "leaf:13",
+          "sharp": "leaf:13"
+        },
+        {
+          "normal": "leaf:7",
+          "round": "leaf:7",
+          "sharp": "leaf:7",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:8",
+          "round": "leaf:8",
+          "sharp": "leaf:8"
+        },
+        {
+          "normal": "leaf:12",
+          "round": "leaf:12",
+          "sharp": "leaf:12"
+        }
+      ]
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:8",
+          "round": "leaf:8",
+          "sharp": "leaf:8",
+          "reverse": true
+        },
+        {
+          "normal": "leaf:6",
+          "round": "leaf:6",
+          "sharp": "leaf:6"
+        },
+        {
+          "normal": "leaf:9",
+          "round": "leaf:9",
+          "sharp": "leaf:9"
+        },
+        {
+          "normal": "leaf:10",
+          "round": "leaf:10",
+          "sharp": "leaf:10"
+        },
+        {
+          "normal": "leaf:11",
+          "round": "leaf:11",
+          "sharp": "leaf:11"
+        }
+      ]
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:6",
+        "round": "leaf:6",
+        "sharp": "leaf:6"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:7",
+        "round": "leaf:7",
+        "sharp": "leaf:7"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:8",
+        "round": "leaf:8",
+        "sharp": "leaf:8"
+      },
+      "extension": {
+        "ends": [
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "source-repair",
+      "decision": "Recover all three material hexagons from original edge chains; extend only exterior ends of Y separators through cell boundaries. Preserve all four protruding positive bond strokes and native geometry."
+    }
+  ],
+  "repair_owner": "repair-3",
+  "repair_phase": "live-repair-v1",
+  "repair_reason": "Recover all three material hexagons from original edge chains; extend only exterior ends of Y separators through cell boundaries. Preserve all four protruding positive bond strokes and native geometry."
+}

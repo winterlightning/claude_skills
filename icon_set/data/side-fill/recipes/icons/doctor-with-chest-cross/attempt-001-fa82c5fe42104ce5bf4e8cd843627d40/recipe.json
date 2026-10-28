@@ -1,0 +1,64 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "doctor-with-chest-cross",
+  "sources": {
+    "normal": {
+      "file": "normal/doctor-with-chest-cross.svg",
+      "sha256": "6d4b61d745d7a734955b4e2251bcf60ec857dc5137fb2b7b28df0afa7aaa12f2"
+    },
+    "round": {
+      "file": "round/doctor-with-chest-cross.svg",
+      "sha256": "de8074156f8d6f2bf1467ca814a2da69e4110a10079f9423af623c0cf7586ab1"
+    },
+    "sharp": {
+      "file": "sharp/doctor-with-chest-cross.svg",
+      "sha256": "1cdf8f229e2dc33f3de07ff201f75ba06553bac91494b687d50fcdb57fcbcde4"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    }
+  ],
+  "reason": "Solid head and explicitly closed native torso bottom; cut both original chest-cross strokes. Preserve native neckline and symbol position."
+}

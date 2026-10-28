@@ -1,0 +1,43 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "cargo-ship-facing-left",
+  "sources": {
+    "normal": {
+      "file": "normal/cargo-ship-facing-left.svg",
+      "sha256": "d6d83c6ef9520fa9041f6247c1d2fc929f5281df7910f15f05757e19fdb9a120"
+    },
+    "round": {
+      "file": "round/cargo-ship-facing-left.svg",
+      "sha256": "b4de6e49e0204c01371690282a5117e1206381e9ffb5621e255ef36747961b38"
+    },
+    "sharp": {
+      "file": "sharp/cargo-ship-facing-left.svg",
+      "sha256": "5ae60a67875f035ce5d4d5d943b37d69c52969567fc11031e6464d7365679e0e"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid hull while consistently retaining the stepped cargo outline; avoid partial arbitrary fills in a continuous cargo frame. Direct source binding preserves Round/Sharp topology and all native deck extents.",
+  "repair_provenance": {
+    "owner": "repair-2",
+    "token": "0f79da39fcb144ec9c8352ed5434f9ce",
+    "previous_result": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/cargo-ship-facing-left/attempt-001-feecd6951ada4403972df5767993c9d8",
+    "evidence": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/evidence/repair-2-7a7c1cba606a46959edca35900ea76d8/cargo-ship-facing-left-repair-2-0f79da39fcb144ec9c8352ed5434f9ce"
+  }
+}

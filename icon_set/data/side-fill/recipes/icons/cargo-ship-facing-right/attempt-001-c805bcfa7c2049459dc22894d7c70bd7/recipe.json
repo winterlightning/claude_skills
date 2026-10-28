@@ -1,0 +1,43 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "cargo-ship-facing-right",
+  "sources": {
+    "normal": {
+      "file": "normal/cargo-ship-facing-right.svg",
+      "sha256": "a02cab64d208aa980c1e9d4628cea60dc4ab4f47f672cf36dc8f843fb11d2dfd"
+    },
+    "round": {
+      "file": "round/cargo-ship-facing-right.svg",
+      "sha256": "4b34cdfebd8d1169db6c8a6da48bccbdb2a6b1bc3765ec216e4f9ae0d605097a"
+    },
+    "sharp": {
+      "file": "sharp/cargo-ship-facing-right.svg",
+      "sha256": "7fc993f8723d2732eec1677792632084ec8977e3011e56844129e1d00ec170ee"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "hull",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0"
+        }
+      ],
+      "closure": "straight"
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    }
+  ],
+  "reason": "Recover prior solid hull with explicit source hull boundary and native closed stroke join; retain open stepped cargo outline using each style original leaf."
+}

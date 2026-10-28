@@ -1,0 +1,155 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "helmet-83968c0b",
+  "sources": {
+    "normal": {
+      "file": "normal/helmet-83968c0b.svg",
+      "sha256": "7dd3846a474cab9f2520e8c896416950a9f14c445763a662cb8713ea7a441903"
+    },
+    "round": {
+      "file": "round/helmet-83968c0b.svg",
+      "sha256": "0922479a29712b7bc039b318c84975183902c4c5d7c7cc71e150381a2bc1160b"
+    },
+    "sharp": {
+      "file": "sharp/helmet-83968c0b.svg",
+      "sha256": "3873119a6c4bc979176c595147636d8c62210c23e9e532b49b13b1b581934920"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "id": "crown",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              1,
+              2
+            ],
+            "round": [
+              1,
+              3
+            ],
+            "sharp": [
+              1,
+              2
+            ]
+          }
+        },
+        {
+          "normal": "leaf:2",
+          "round": "leaf:2",
+          "sharp": "leaf:2"
+        }
+      ],
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            0,
+            1
+          ],
+          "round": [
+            0,
+            1
+          ],
+          "sharp": [
+            0,
+            1
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            2,
+            3
+          ],
+          "round": [
+            3,
+            4
+          ],
+          "sharp": [
+            2,
+            3
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3",
+        "segments": {
+          "normal": [
+            0,
+            1
+          ],
+          "round": [
+            4,
+            5
+          ],
+          "sharp": [
+            3,
+            4
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Recover source-linked crown boundary from left shell, native ridge top and right shell. Reverse both native ridge legs with full top exits; extend them through crown base, then recover the solid brim separated at its original top edge."
+}

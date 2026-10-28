@@ -1,0 +1,103 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "shop-6f9eafdb",
+  "sources": {
+    "normal": {
+      "file": "normal/shop-6f9eafdb.svg",
+      "sha256": "b2c68afd27df6cdae3e011eb985d708c9d7d245822d74f5c1e821bc91b325695"
+    },
+    "round": {
+      "file": "round/shop-6f9eafdb.svg",
+      "sha256": "92b356db1431f3b8e2488913f2a0c0032c2973c99ab7b8c86c30f419ab3d4d1b"
+    },
+    "sharp": {
+      "file": "sharp/shop-6f9eafdb.svg",
+      "sha256": "50b4b8e46f9f1211f116d0d6a35b03746aa7231cb9857c4609ec90b5b943c428"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            3,
+            5
+          ],
+          "round": [
+            5,
+            7
+          ],
+          "sharp": [
+            3,
+            5
+          ]
+        }
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "adjustment": {
+        "kind": "translate",
+        "stroke_offset": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ],
+  "objects": [
+    {
+      "id": "native-object-treatments",
+      "treatment": "Fill both storefront panels and awning; create negative awning separation using its two native lower curves shifted down one stroke width; shift native vertical divider down one stroke width to meet that band and exit the bottom without cutting into the awning."
+    }
+  ],
+  "recovery_reason": "Fill both storefront panels and awning; create negative awning separation using its two native lower curves shifted down one stroke width; shift native vertical divider down one stroke width to meet that band and exit the bottom without cutting into the awning. Reapply unchanged native awning material after cuts to protect its original outer contour from the band terminals."
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "electrical-power-outlet-batch-007-06",
+  "sources": {
+    "normal": {
+      "file": "normal/electrical-power-outlet-batch-007-06.svg",
+      "sha256": "16c2b32677843cda7e247b12d83cb8e28c26393412092664298cd622c60a3e51"
+    },
+    "round": {
+      "file": "round/electrical-power-outlet-batch-007-06.svg",
+      "sha256": "90e2cc6e40e41d1cb577cd5fe6e832387a54b8ed7702307a7bc097006896982f"
+    },
+    "sharp": {
+      "file": "sharp/electrical-power-outlet-batch-007-06.svg",
+      "sha256": "ba756da9a1c4b63144c10751dfbd0f3f5c726fccc82099518ad67c965936c459"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    }
+  ],
+  "reason": "Recover prior solid inset circular face with two transparent plug holes, separated from unchanged outer rim by original annular opening. Explicit style leaf bindings preserve small holes."
+}

@@ -1,0 +1,107 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "smartphone-check-mark",
+  "sources": {
+    "normal": {
+      "file": "normal/smartphone-check-mark.svg",
+      "sha256": "30a7b0c3d15ca3245e34994b65b40f17ea51fc252376bbc536371f2033d7dffc"
+    },
+    "round": {
+      "file": "round/smartphone-check-mark.svg",
+      "sha256": "d7b59f3eeba6ade0d68c294e813c8bfa6b23ae91c8b976f1f108ae3abb5a3708"
+    },
+    "sharp": {
+      "file": "sharp/smartphone-check-mark.svg",
+      "sha256": "747abb94be67a1004da5d221c100999acfc535d348331b01877515e353ca3028"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "segments": {
+              "normal": [
+                7,
+                8
+              ]
+            }
+          },
+          {
+            "normal": "leaf:0",
+            "segments": {
+              "normal": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "normal": "leaf:1",
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "round": "leaf:0",
+            "segments": {
+              "round": [
+                5,
+                8
+              ]
+            }
+          },
+          {
+            "round": "leaf:1",
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "sharp": "leaf:0",
+            "segments": {
+              "sharp": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "sharp": "leaf:1",
+            "reverse": true
+          }
+        ]
+      },
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    }
+  ],
+  "objects": [
+    {
+      "name": "screen",
+      "treatment": "fill upper phone material using native top contour, straight native side intervals and reversed bottom-separator path; retain lower phone strip as original outline"
+    },
+    {
+      "name": "check",
+      "treatment": "negative native leaf2, explicit per-style binding preserves shifted styled checks"
+    }
+  ],
+  "reason": "Preserve accepted solid screen, negative native check and hollow lower strip. Vertical boundary bridges follow each native phone side between upper corner and original separator endpoints; no source geometry is copied across styles.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  }
+}

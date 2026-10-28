@@ -23,6 +23,12 @@ macro_rules! part_errors {
            SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_sizes p ON p.reference_id = COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) AND p.size = 72 \
             WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family IN ('combination-72', 'container-combination-72') \
               AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
+                  COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve' \
+           UNION ALL \
+           SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_fills m ON m.combined = i.key AND m.role = 'main' \
+             JOIN reference_part_fills p ON p.reference_id = m.reference_id AND p.rank = m.rank \
+            WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family = 'side-combination-fill-64' \
+              AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve'), \
          errs AS (SELECT key, json_group_array(upper(substr(role, 1, 1)) || substr(role, 2) || ' ' || \
                          substr(icon, instr(icon, '/') + 1) || ' is not approved in Icon review') AS errors \
@@ -34,7 +40,9 @@ macro_rules! part_errors {
 /// that part's review changed.
 pub const USING_PART: &str = "SELECT i.key FROM icons i WHERE (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) AND (\
     (i.family IN ('side_combination64', 'container_combination64') AND i.icon_id IN (SELECT reference_id FROM reference_parts WHERE icon = ?1)) \
-    OR (i.family IN ('combination-72', 'container-combination-72') AND COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)))";
+    OR (i.family IN ('combination-72', 'container-combination-72') AND COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)) \
+    OR (i.family = 'side-combination-fill-64' AND i.key IN (SELECT m.combined FROM reference_part_fills m WHERE m.role = 'main' AND m.combined IS NOT NULL \
+        AND m.reference_id IN (SELECT reference_id FROM reference_part_fills WHERE icon = ?1))))";
 
 /// The icons in `?1` whose failed flag or errors are no longer what their parts' reviews say.
 pub const CHANGED: &str = concat!(part_errors!(),
@@ -76,7 +84,8 @@ mod tests {
                             build_failed INTEGER DEFAULT 0, record TEXT, card TEXT);
                           CREATE TABLE reviews (icon TEXT, svg_sha256 TEXT, status TEXT, PRIMARY KEY (icon, svg_sha256));
                           CREATE TABLE reference_parts (reference_id TEXT, role TEXT, icon TEXT, built_sha TEXT);
-                          CREATE TABLE reference_part_sizes (reference_id TEXT, role TEXT, size INTEGER, icon TEXT, built_sha TEXT);").unwrap();
+                          CREATE TABLE reference_part_sizes (reference_id TEXT, role TEXT, size INTEGER, icon TEXT, built_sha TEXT);
+                          CREATE TABLE reference_part_fills (reference_id TEXT, role TEXT, rank INTEGER, icon TEXT, built_sha TEXT, combined TEXT);").unwrap();
         for (key, sha) in [("solo/bag", "m1"), ("sub/check", "s2")] {
             db.execute("INSERT INTO icons(key, icon_id, family, svg_sha256, record) VALUES (?, ?, ?, ?, '{}')",
                        params![key, key, key.split('/').next().unwrap(), sha]).unwrap();
@@ -128,5 +137,31 @@ mod tests {
         let (failed, errors, _) = update(&db);
         assert!(failed);
         assert_eq!(errors, r#"["Sub check is not approved in Icon review"]"#);
+    }
+
+    #[test]
+    fn a_fill_pick_is_rechecked_by_its_rank() {
+        let db = db();
+        // Pick 2 of fill pair f1 uses the main's region-1 fill (fm1) and the sub; only pick 1 uses its current fill.
+        db.execute_batch("INSERT INTO icons(key, icon_id, family, svg_sha256, record) VALUES
+              ('main-fill-48/bag-region-1', 'bag-region-1', 'main-fill-48', 'fm1', '{}'),
+              ('side-combination-fill-64/f1--2', 'f1--2', 'side-combination-fill-64', 'c2', '{\"errors\":[]}');
+            INSERT INTO reference_part_fills VALUES ('f1', 'main', 1, 'solo/bag', 'm1', 'side-combination-fill-64/f1'),
+              ('f1', 'sub', 1, 'sub/check', 's2', NULL), ('f1', 'main', 2, 'main-fill-48/bag-region-1', 'fm1', 'side-combination-fill-64/f1--2'),
+              ('f1', 'sub', 2, 'sub/check', 's2', NULL);
+            INSERT INTO reviews VALUES ('sub/check', 's2', 'approve');").unwrap();
+        let using: Vec<String> = db.prepare(USING_PART).unwrap().query_map(params!["main-fill-48/bag-region-1"], |r| r.get(0)).unwrap()
+            .map(Result::unwrap).collect();
+        assert_eq!(using, vec!["side-combination-fill-64/f1--2"]);
+        let key = r#"["side-combination-fill-64/f1--2"]"#;
+        for sql in UPDATE { db.execute(sql, params![key]).unwrap(); }
+        let (failed, errors): (bool, String) = db.query_row("SELECT build_failed, json_extract(record, '$.errors') FROM icons WHERE key = 'side-combination-fill-64/f1--2'",
+            [], |r| Ok((r.get::<_, i64>(0)? != 0, r.get(1)?))).unwrap();
+        assert!(failed);
+        assert_eq!(errors, r#"["Main bag-region-1 is not approved in Icon review"]"#);
+        db.execute_batch("INSERT INTO reviews VALUES ('main-fill-48/bag-region-1', 'fm1', 'approve');").unwrap();
+        assert_eq!(db.prepare(CHANGED).unwrap().query_map(params![key], |r| r.get::<_, String>(0)).unwrap().count(), 1);
+        for sql in UPDATE { db.execute(sql, params![key]).unwrap(); }
+        assert_eq!(db.query_row("SELECT build_failed FROM icons WHERE key = 'side-combination-fill-64/f1--2'", [], |r| r.get::<_, i64>(0)).unwrap(), 0);
     }
 }

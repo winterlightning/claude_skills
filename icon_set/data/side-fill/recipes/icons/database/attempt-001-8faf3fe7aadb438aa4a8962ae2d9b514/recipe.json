@@ -1,0 +1,101 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "database",
+  "sources": {
+    "normal": {
+      "file": "normal/database.svg",
+      "sha256": "60a09ee5ffe098d734bb02a285067756f13c90846e3db761b4c2c71a5dfe7eaa"
+    },
+    "round": {
+      "file": "round/database.svg",
+      "sha256": "1d821d20272bd49d8629e480780ad34d1605e67cb6d7ea16e5619652aa0be9e3"
+    },
+    "sharp": {
+      "file": "sharp/database.svg",
+      "sha256": "3cb57092963c595d470b71c831a0c6c7b091278d4363cd9368e27aa1f3dbca49"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "database",
+      "name": "Database cylinder and tier boundaries",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3"
+        ]
+      },
+      "reason": "User requested reversing all database interiors and enlarging this group; preserve tier separation.",
+      "regions": [
+        {
+          "id": "tier-1",
+          "anchor": [
+            24.000000476690495,
+            8.007424979121424
+          ]
+        },
+        {
+          "id": "tier-2",
+          "anchor": [
+            24.0,
+            17.455100396135656
+          ]
+        },
+        {
+          "id": "tier-3",
+          "anchor": [
+            24.0,
+            28.45509854773458
+          ]
+        },
+        {
+          "id": "tier-4",
+          "anchor": [
+            24.0,
+            38.45510292053223
+          ]
+        }
+      ],
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": [
+          [
+            "tier-1",
+            "tier-2"
+          ],
+          [
+            "tier-2",
+            "tier-3"
+          ],
+          [
+            "tier-3",
+            "tier-4"
+          ]
+        ]
+      }
+    }
+  ]
+}

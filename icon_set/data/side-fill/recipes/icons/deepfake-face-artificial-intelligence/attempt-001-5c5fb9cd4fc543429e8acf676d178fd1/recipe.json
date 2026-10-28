@@ -1,0 +1,76 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "deepfake-face-artificial-intelligence",
+  "sources": {
+    "normal": {
+      "file": "normal/deepfake-face-artificial-intelligence.svg",
+      "sha256": "12d87c9e00b8e1209278965f6052a7798f5068f6a41ae7cea836a5dd696a85fd"
+    },
+    "round": {
+      "file": "round/deepfake-face-artificial-intelligence.svg",
+      "sha256": "3d565eaa2f83096c59183299afbb86a7559154adc7ce2e01ec1e20a0316ce9ca"
+    },
+    "sharp": {
+      "file": "sharp/deepfake-face-artificial-intelligence.svg",
+      "sha256": "f9027aa402876a7cde73c3c6c6cda4be90698a2e2b49f6ed1a34ed20b732778e"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "id": "face",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      },
+      "clip_to_owner_interior": "face"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "clip_to_owner_interior": "face"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "clip_to_owner_interior": "face"
+    }
+  ],
+  "reason": "Fill the native face silhouette and preserve the crossbar, central divider/nose and smile as transparent original-stroke details inside its rim. Baseline and prior fill swallowed the nose; preserve all source details, proportions and path positions with explicit per-style original leaves.",
+  "objects": [
+    {
+      "id": "source-bound-material-and-details",
+      "treatment": "Fill the native face silhouette and preserve the crossbar, central divider/nose and smile as transparent original-stroke details inside its rim. Baseline and prior fill swallowed the nose; preserve all source details, proportions and path positions with explicit per-style original leaves."
+    }
+  ],
+  "historical_reference": {
+    "file": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/deepfake-face-artificial-intelligence/attempt-001-5c5fb9cd4fc543429e8acf676d178fd1/historical-fill.svg",
+    "sha256": "03bba191cd41bf95fa499ad59c04b9607a49f30f10ce1c73759b75e7f3c56fc5",
+    "usage": "Visual comparison only; never styled geometry"
+  }
+}

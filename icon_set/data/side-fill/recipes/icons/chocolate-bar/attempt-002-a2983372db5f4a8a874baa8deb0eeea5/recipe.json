@@ -1,0 +1,95 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "chocolate-bar",
+  "sources": {
+    "normal": {
+      "file": "normal/chocolate-bar.svg",
+      "sha256": "408454fc43af66b966e32e69ee3a05b5df1966cb6e3bb5cec578cfac730f97c3"
+    },
+    "round": {
+      "file": "round/chocolate-bar.svg",
+      "sha256": "185a4c7d85c2085bc536c5ac6bb836b7ccedbdedeb401e91702ddcf0fbb520db"
+    },
+    "sharp": {
+      "file": "sharp/chocolate-bar.svg",
+      "sha256": "de97cd118477fe5d3062e437a70f386a9c87386b1795a3cb4e522da8facf9c83"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0"
+        }
+      ],
+      "id": "bar"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "clip_to_owner_material": "bar",
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "clip_to_owner_material": "bar",
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "clearance_strokes": 0.5,
+      "clip_to_owner_material": "bar"
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    }
+  ],
+  "reason": "Recover four source chocolate tiles and solid wrapper. Clip grid cuts to bar; reserve half a native stroke around wrapper to preserve lower tile depth and restore wrapper.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "repair_provenance": {
+    "owner": "repair-4",
+    "token": "a2983372db5f4a8a874baa8deb0eeea5",
+    "previous_failure": "Geometry hold: the vertical chocolate seam runs into the wrapper and the sloped wrapper boundary disappears. Recover all four chocolate tile regions and a separate solid wrapper with source-bound grid leaf 1, divide leaf 2 and wrapper-top fragments of leaf 3. Clip tile cuts to chocolate ownership and preserve the full diagonal wrapper seam with visible clearance; keep original bar and wrapper contours."
+  }
+}

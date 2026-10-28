@@ -1,0 +1,419 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "baby-bottle",
+  "sources": {
+    "normal": {
+      "file": "normal/baby-bottle.svg",
+      "sha256": "b8ef688a11e6807f98dc4650ea19b98d485f89d276e0e4aa27af41fb86584adf"
+    },
+    "round": {
+      "file": "round/baby-bottle.svg",
+      "sha256": "018bd36fed691d37d9b9aa410250fc65b0f170916227ee50f53911625a35ea79"
+    },
+    "sharp": {
+      "file": "sharp/baby-bottle.svg",
+      "sha256": "03c7bf82426b3103fde34f30ede71ee0f8f88653c35a7c502ea4c903a3aad6db"
+    }
+  },
+  "mode": "source_program",
+  "operations": [
+    {
+      "operation": "solidify",
+      "id": "bottle",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "solidify",
+      "id": "teat",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0",
+        "segments": {
+          "normal": [
+            7,
+            8
+          ],
+          "round": [
+            9,
+            10
+          ],
+          "sharp": [
+            5,
+            6
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "historical_recipe": {
+    "schema": "source-fill-recipe/v1",
+    "status": "needs_repair",
+    "index": 607,
+    "name": "baby-bottle",
+    "collection": 48,
+    "source_sha256": "b8ef688a11e6807f98dc4650ea19b98d485f89d276e0e4aa27af41fb86584adf",
+    "sources": {
+      "normal": {
+        "path": "output/.internal/48/baby-bottle/b8ef688a11e6807f98dc4650ea19b98d485f89d276e0e4aa27af41fb86584adf.svg",
+        "sha256": "b8ef688a11e6807f98dc4650ea19b98d485f89d276e0e4aa27af41fb86584adf",
+        "available": true
+      },
+      "round": {
+        "path": "corner_fill_48/sources/round/baby-bottle.svg",
+        "sha256": "018bd36fed691d37d9b9aa410250fc65b0f170916227ee50f53911625a35ea79",
+        "available": true
+      },
+      "sharp": {
+        "path": "corner_fill_48/sources/sharp/baby-bottle.svg",
+        "sha256": "03c7bf82426b3103fde34f30ede71ee0f8f88653c35a7c502ea4c903a3aad6db",
+        "available": true
+      }
+    },
+    "strategy": "fill_material_first",
+    "base": "source_paint",
+    "operations": [
+      {
+        "operation": "fill_face",
+        "face": 1,
+        "anchor": [
+          24.0,
+          32.0
+        ]
+      },
+      {
+        "operation": "fill_face",
+        "face": 0,
+        "anchor": [
+          24.000000430029132,
+          12.072624519467354
+        ]
+      },
+      {
+        "operation": "cut_leaf",
+        "leaf": 3
+      },
+      {
+        "operation": "cut_leaf",
+        "leaf": 2
+      }
+    ],
+    "proposal_method": "reference-assisted source-operation search; AI review required",
+    "historical_reason": "Fill both nipple and bottle, separate the collar through both sides, and retain the two short measurement strokes as inset negative marks.",
+    "reference_used_only_for_proposal_scoring": true,
+    "compile_reads_reference": false,
+    "corner_policy": {
+      "round": {
+        "selection": "convex_black",
+        "radius_from_stroke": 0.5,
+        "reduce_to_fit": true
+      },
+      "sharp": "source_geometry"
+    },
+    "measurements": {
+      "proposal_reference_iou": 0.8968920696224536,
+      "script_reference_iou": 0.7211120830427353,
+      "source_area": 556.0654944637653,
+      "proposal_area": 887.9513151873715,
+      "script_area": 885.2055509474962
+    },
+    "script": {
+      "algorithm": "smart_fill",
+      "edge_close": false,
+      "adjacency_distance": 3.28125
+    },
+    "ai_review": {
+      "choice": "needs_repair",
+      "reason": "Bottle neck/body division is missing; cut the original horizontal neck boundary through both sides.",
+      "evidence": "review.json"
+    },
+    "operands": [
+      {
+        "id": "source-leaf-0",
+        "selector": "leaf:0",
+        "role": "source_paint",
+        "operations": []
+      },
+      {
+        "id": "source-leaf-1",
+        "selector": "leaf:1",
+        "role": "source_paint",
+        "operations": []
+      },
+      {
+        "id": "source-leaf-2",
+        "selector": "leaf:2",
+        "role": "source_paint",
+        "operations": [
+          {
+            "operation": "cut_leaf",
+            "leaf": 2
+          }
+        ]
+      },
+      {
+        "id": "source-leaf-3",
+        "selector": "leaf:3",
+        "role": "source_paint",
+        "operations": [
+          {
+            "operation": "cut_leaf",
+            "leaf": 3
+          }
+        ]
+      }
+    ],
+    "compiler": {
+      "file": "tools/compile_review_batch.py",
+      "sha256": "648f0cafba2cc81243d92ef16c2ad07479a9ae36fdd243f01796126b174703a1",
+      "geometry_file": "tools/recipe_batch.py",
+      "geometry_sha256": "d5932020ecbcbb13488f71e41c74d2e8de17a49ffc69355814f0a31fff3c446c",
+      "round_file": "tools/round_compound_fill.py",
+      "round_sha256": "35cd77b92358da4a8da08e52b181d0f8587ae7fd2348b49a9359216026def120"
+    },
+    "final_review": {
+      "path": "output-review.json",
+      "sha256": "f5e94127bd09401f1456127f4a68668b5c7ab746f39985b20d884ef31419c5ab",
+      "normal_semantic_verdict": "needs_repair",
+      "reason": "Bottle neck/body division is missing; cut the original horizontal neck boundary through both sides."
+    },
+    "original_strokes": {
+      "document": "document.json",
+      "sha256": "57138ea8202227eefd9ba0f4fee1a8f46319aceb043858f76baf2929879bb1e7",
+      "embedded_svg_field": "sources.{style}.svg"
+    },
+    "style_mappings": {
+      "normal": [
+        {
+          "operation": "fill_face",
+          "normal_face": 1,
+          "styled_face": 1,
+          "score": 1.0
+        },
+        {
+          "operation": "fill_face",
+          "normal_face": 0,
+          "styled_face": 0,
+          "score": 1.0
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 3,
+          "styled_leaf": 3
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 2,
+          "styled_leaf": 2
+        }
+      ],
+      "round": [
+        {
+          "operation": "fill_face",
+          "normal_face": 1,
+          "styled_face": 1,
+          "score": 0.9980363541296474
+        },
+        {
+          "operation": "fill_face",
+          "normal_face": 0,
+          "styled_face": 0,
+          "score": 1.0
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 3,
+          "styled_leaf": 3
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 2,
+          "styled_leaf": 2
+        }
+      ],
+      "sharp": [
+        {
+          "operation": "fill_face",
+          "normal_face": 1,
+          "styled_face": 1,
+          "score": 0.9844321129663398
+        },
+        {
+          "operation": "fill_face",
+          "normal_face": 0,
+          "styled_face": 0,
+          "score": 1.0
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 3,
+          "styled_leaf": 3
+        },
+        {
+          "operation": "cut_leaf",
+          "normal_leaf": 2,
+          "styled_leaf": 2
+        }
+      ]
+    },
+    "objects": [
+      {
+        "id": "source-assembly",
+        "name": "baby-bottle",
+        "scope": "compound source assembly",
+        "source_elements": {
+          "normal": [
+            "leaf:0",
+            "leaf:1",
+            "leaf:2",
+            "leaf:3"
+          ],
+          "round": [
+            "leaf:0",
+            "leaf:1",
+            "leaf:2",
+            "leaf:3"
+          ],
+          "sharp": [
+            "leaf:0",
+            "leaf:1",
+            "leaf:2",
+            "leaf:3"
+          ]
+        },
+        "decision": "apply_ordered_source_operations",
+        "inside_regions": [
+          {
+            "id": "normal-face-1",
+            "source_face": 1,
+            "anchor_normal": [
+              24.0,
+              32.0
+            ],
+            "decision": "fill_material_black"
+          },
+          {
+            "id": "normal-face-0",
+            "source_face": 0,
+            "anchor_normal": [
+              24.000000430029132,
+              12.072624519467354
+            ],
+            "decision": "fill_material_black"
+          }
+        ],
+        "detail_roles": [
+          {
+            "id": "source-leaf-0",
+            "selector": "leaf:0",
+            "role": "source_paint",
+            "operations": []
+          },
+          {
+            "id": "source-leaf-1",
+            "selector": "leaf:1",
+            "role": "source_paint",
+            "operations": []
+          },
+          {
+            "id": "source-leaf-2",
+            "selector": "leaf:2",
+            "role": "source_paint",
+            "operations": [
+              {
+                "operation": "cut_leaf",
+                "leaf": 2
+              }
+            ]
+          },
+          {
+            "id": "source-leaf-3",
+            "selector": "leaf:3",
+            "role": "source_paint",
+            "operations": [
+              {
+                "operation": "cut_leaf",
+                "leaf": 3
+              }
+            ]
+          }
+        ],
+        "default_unselected_regions": "preserve source paint and openings"
+      }
+    ],
+    "object_grouping": "compound assembly with explicit source operands; semantic sub-object partition not separately recovered",
+    "constraints": {
+      "canvas": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "style_inputs": "hash-bound original strokes",
+      "rounding": "source-derived geometry; convex black joins only",
+      "clearance_validation": "cart has explicit 4-unit neighbor constraints; other recipes require per-object constraints before any reverse-region scaling"
+    }
+  },
+  "objects": [
+    {
+      "id": "source-bound-material",
+      "treatment": "Solidify nipple and bottle with their original paths; recover the collar separator by cutting only the horizontal bottle-top fragment and extending it through both sides. Retain the two original measurement stroke cuts as visually present in the historical reference.",
+      "source_bindings": "Explicit per-style leaves and fragments in operations; original source strokes unchanged."
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover solid bottle and teat, full-width collar separation, and both measurement cuts extended outward only at their boundary-connected starts. Retain native inner endpoints and all original outer contours.",
+  "base": "source_paint"
+}

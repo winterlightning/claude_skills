@@ -1,0 +1,77 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "female-user-profile",
+  "sources": {
+    "normal": {
+      "file": "normal/female-user-profile.svg",
+      "sha256": "4f075aae95bff5d271a41023a45aca7a50bdda1114eda8a584852ba6f97b2089"
+    },
+    "round": {
+      "file": "round/female-user-profile.svg",
+      "sha256": "1b8e18039c97594219e83f6fd534b2e7d5e266f8f771bce0cd87212280b3b4dd"
+    },
+    "sharp": {
+      "file": "sharp/female-user-profile.svg",
+      "sha256": "94565965e5b649fed7c2250d2dcb106a0ea1660469077a23434ff88a955c0138"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "id": "head",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "keep",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "id": "shoulders",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:3"
+        }
+      ],
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true
+    }
+  ],
+  "reason": "Recover the good previous filled head and closed shoulders with explicit per-style source-bound closure. Join only the shoulder-arch endpoints along a straight cropped bottom and stroke that closure; clip its painted extent to original shoulder bounds so Sharp endpoint extensions do not enlarge the icon. Retain both sloping hair strokes and original head/body gap.",
+  "historical_reference": {
+    "file": "/Users/jakesdev/Downloads/fill-remake/fill_processing/collection-11059/icons/female-user-profile/attempt-001-81050f9f3ca945bd8dd451106ef57e1c/historical-fill.svg",
+    "sha256": "1911009d2859465de356343fe5986c457b06cdae866489b695a36ad021973fce",
+    "usage": "Visual reference only"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-shoulder-user-bust-solo-4a672a0c",
+  "sources": {
+    "normal": {
+      "file": "normal/open-shoulder-user-bust-solo-4a672a0c.svg",
+      "sha256": "6fb51db60c6c920f218ff7447b7c9e674e162f339800447614b722208c7685d4"
+    },
+    "round": {
+      "file": "round/open-shoulder-user-bust-solo-4a672a0c.svg",
+      "sha256": "ab393cb9df061ceeee1e1d0b703ddade5e306a46948b66e5e6e593ddc6e495b4"
+    },
+    "sharp": {
+      "file": "sharp/open-shoulder-user-bust-solo-4a672a0c.svg",
+      "sha256": "3d5e7684acb6f5f5a55897dc46db3dd7637ce49c4d9b606fedacf4bcc9156711"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "reason": "Solidify the native head and close the original shoulder path between its native endpoints in every style. Clip the new bottom boundary to the shoulder source painted bounds so Sharp native y46 endpoints do not acquire a y48 overshoot. Preserve the existing head/shoulder gap.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "detective-woman-1-avatar",
+  "sources": {
+    "normal": {
+      "file": "normal/detective-woman-1-avatar.svg",
+      "sha256": "3161b1dfff72ae98bcfa2cf9068734f135175e123b288aa56ae3b02c36711601"
+    },
+    "round": {
+      "file": "round/detective-woman-1-avatar.svg",
+      "sha256": "9517c6391edc2dfd62520babcef130f23e9811e6314ca77348ac7ba755120c94"
+    },
+    "sharp": {
+      "file": "sharp/detective-woman-1-avatar.svg",
+      "sha256": "3dd5228880a3cd8492d7fc817ab1a35511d304964aabed1e35baa9ea8f8156af"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:5",
+            "round": "leaf:5",
+            "sharp": "leaf:5"
+          },
+          {
+            "normal": "leaf:6",
+            "round": "leaf:6",
+            "sharp": "leaf:6",
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:5",
+            "round": "leaf:5",
+            "sharp": "leaf:5"
+          },
+          {
+            "normal": "leaf:6",
+            "round": "leaf:6",
+            "sharp": "leaf:6",
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:4",
+            "round": "leaf:4",
+            "sharp": "leaf:4"
+          }
+        ]
+      },
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2",
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0"
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2",
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:1",
+            "round": "leaf:1",
+            "sharp": "leaf:1"
+          }
+        ]
+      },
+      "id": "head"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:0"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      },
+      "clip_to_owner_material": "head"
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Recover complete original head and reverse only curved cap band with true exterior exits; retain native hair strokes. Join both original shoulder paths and stroke lower crop, preserving source V-neck silhouette and explicit Sharp combined outline.",
+  "repair_owner": "repair-1",
+  "repair_token": "5c0a50316e3048a6b80cb026858cf3c6",
+  "repair_phase": "live-repair-v2",
+  "repair_reason": "Replay saved source-bound decisions with validated v2 precise vector export and bounded numerical debris removal; no visible detail removal."
+}

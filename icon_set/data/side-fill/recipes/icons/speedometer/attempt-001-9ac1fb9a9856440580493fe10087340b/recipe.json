@@ -1,0 +1,103 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "speedometer",
+  "sources": {
+    "normal": {
+      "file": "normal/speedometer.svg",
+      "sha256": "6ede389ba1b3dde826dceea264e5e665bee5d0080edd5007e5298f7d83db06ab"
+    },
+    "round": {
+      "file": "round/speedometer.svg",
+      "sha256": "b99eae00e1d9ad042425915412b36d19d82e1e17115fd2155a99e1fba31de198"
+    },
+    "sharp": {
+      "file": "sharp/speedometer.svg",
+      "sha256": "a6d3ef52d3b6f460d59367bb34fa3550179e69a6aaed909e4ac04a3b49fdcf6b"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "objects": [
+    {
+      "id": "dial",
+      "decision": "Fill gauge by joining original lower rim endpoints, preserve circular hub and pointer as negative native marks; reverse three ticks and extend only their exterior starts."
+    }
+  ],
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0"
+        }
+      ],
+      "closure": "straight",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:4",
+        "round": "leaf:4",
+        "sharp": "leaf:4"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:5",
+        "round": "leaf:5",
+        "sharp": "leaf:5"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 1
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      },
+      "extension": {
+        "ends": [
+          "start"
+        ],
+        "stroke_widths": 1
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "radius": 2
+    }
+  }
+}

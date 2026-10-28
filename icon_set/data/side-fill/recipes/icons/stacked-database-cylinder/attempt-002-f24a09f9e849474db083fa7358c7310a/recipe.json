@@ -1,0 +1,264 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "stacked-database-cylinder",
+  "sources": {
+    "normal": {
+      "file": "normal/stacked-database-cylinder.svg",
+      "sha256": "1b5699acc4fb719fa7e1c71156c92dab586583a20fd17c94243576520654e88d"
+    },
+    "round": {
+      "file": "round/stacked-database-cylinder.svg",
+      "sha256": "4aaa3b50a5d392a837cea17bd5a2f28f75f7713b1ed68f35087f3564e90e6ad0"
+    },
+    "sharp": {
+      "file": "sharp/stacked-database-cylinder.svg",
+      "sha256": "f3f5af9665ece6f3dc804288602cda23064ab38f1d08dac46ba8d47cb381537f"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts_by_style": {
+        "normal": [
+          {
+            "normal": "leaf:1",
+            "round": "leaf:1",
+            "sharp": "leaf:1"
+          },
+          {
+            "normal": "leaf:5",
+            "round": "leaf:5",
+            "sharp": "leaf:5",
+            "reverse": true
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2",
+            "reverse": true
+          },
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0",
+            "segments": {
+              "normal": [
+                0,
+                1
+              ]
+            },
+            "reverse": true
+          }
+        ],
+        "round": [
+          {
+            "normal": "leaf:1",
+            "round": "leaf:1",
+            "sharp": "leaf:1"
+          },
+          {
+            "normal": "leaf:5",
+            "round": "leaf:5",
+            "sharp": "leaf:5",
+            "reverse": true
+          },
+          {
+            "normal": "leaf:2",
+            "round": "leaf:2",
+            "sharp": "leaf:2",
+            "reverse": true
+          },
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0",
+            "segments": {
+              "round": [
+                0,
+                1
+              ]
+            },
+            "reverse": true
+          }
+        ],
+        "sharp": [
+          {
+            "normal": "leaf:3",
+            "round": "leaf:3",
+            "sharp": "leaf:3"
+          },
+          {
+            "normal": "leaf:0",
+            "round": "leaf:0",
+            "sharp": "leaf:0",
+            "segments": {
+              "sharp": [
+                0,
+                1
+              ]
+            },
+            "reverse": true
+          }
+        ]
+      },
+      "id": "lower"
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:4",
+          "round": "leaf:4",
+          "sharp": "leaf:2"
+        },
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              1
+            ],
+            "round": [
+              0,
+              1
+            ],
+            "sharp": [
+              0,
+              1
+            ]
+          }
+        }
+      ],
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "lower"
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:4",
+          "round": "leaf:4",
+          "sharp": "leaf:2"
+        },
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              1
+            ],
+            "round": [
+              0,
+              1
+            ],
+            "sharp": [
+              0,
+              1
+            ]
+          }
+        }
+      ],
+      "id": "middle"
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              1
+            ],
+            "round": [
+              0,
+              1
+            ],
+            "sharp": [
+              0,
+              1
+            ]
+          }
+        }
+      ],
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "middle"
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:3",
+          "round": "leaf:3",
+          "sharp": "leaf:1"
+        },
+        {
+          "normal": "leaf:0",
+          "round": "leaf:0",
+          "sharp": "leaf:0",
+          "segments": {
+            "normal": [
+              0,
+              1
+            ],
+            "round": [
+              0,
+              1
+            ],
+            "sharp": [
+              0,
+              1
+            ]
+          }
+        }
+      ],
+      "id": "upper"
+    },
+    {
+      "operation": "cut_solid",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      },
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "upper"
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "source-repair",
+      "decision": "Recover solid top and three source-shaped body bands by removing successive source-bound upper material silhouettes with one-stroke clearance. Preserve native elliptic curves, straight sides and total extents."
+    }
+  ],
+  "repair_reason": "Recover solid top and three source-shaped body bands by removing successive source-bound upper material silhouettes with one-stroke clearance. Preserve native elliptic curves, straight sides and total extents.",
+  "repair_owner": "repair-3",
+  "repair_phase": "live-repair-v1"
+}

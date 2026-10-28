@@ -1,0 +1,93 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "laptop-small-squares",
+  "sources": {
+    "normal": {
+      "file": "normal/laptop-small-squares.svg",
+      "sha256": "56c315f319b681dd63d48b5bed61f10878cc55e5d2bf5a947ebfd56c20cf5666"
+    },
+    "round": {
+      "file": "round/laptop-small-squares.svg",
+      "sha256": "aa6559e2e64e0bbf6b52d69bdeedab59fe46ec4e54a5c57e077a7f2203ed180c"
+    },
+    "sharp": {
+      "file": "sharp/laptop-small-squares.svg",
+      "sha256": "7482e8ae3c132ed0164aa29c9f2c88533b3a6238f9a5026dc2740999208693c8"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:3",
+          "sharp": "leaf:3"
+        }
+      ],
+      "closure": "straight"
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:2",
+        "sharp": "leaf:2",
+        "segments": {
+          "normal": [
+            5,
+            6
+          ],
+          "round": [
+            5,
+            6
+          ],
+          "sharp": [
+            3,
+            4
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    }
+  ],
+  "reason": "Fill original screen and base; reverse both source marks and cut full screen-bottom separator.",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "source-object-treatments/v1",
+  "name": "house-ventilator",
+  "sources": {
+    "normal": {
+      "file": "normal/house-ventilator.svg",
+      "sha256": "0e3700cf11a655b151444770506f30e1483ac5b8c3e2445e2aacc36af02ed683"
+    },
+    "round": {
+      "file": "round/house-ventilator.svg",
+      "sha256": "63bdef841d5a6f296c65631947bf9770f1422dc91d3426d860faae6d6ce09fff"
+    },
+    "sharp": {
+      "file": "sharp/house-ventilator.svg",
+      "sha256": "480105e68c47d9cac3dc16fb1eaf8342ced38b52fcb43ad2e82360d5e52c60ca"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [
+    {
+      "id": "house",
+      "name": "House outline",
+      "treatment": "fill_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0"
+        ],
+        "round": [
+          "leaf:0"
+        ],
+        "sharp": [
+          "leaf:0"
+        ]
+      },
+      "regions": [
+        {
+          "id": "house-interior",
+          "anchor": [
+            24,
+            24
+          ]
+        }
+      ],
+      "reason": "Fill original existing house interior as accepted Normal."
+    },
+    {
+      "id": "fan",
+      "name": "Original four fan blades",
+      "treatment": "subtract_strokes",
+      "target": "house",
+      "source_elements": {
+        "normal": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4"
+        ],
+        "round": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4"
+        ],
+        "sharp": [
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4"
+        ]
+      },
+      "reason": "Preserve accepted transparent fan cutout using exact original native fan strokes."
+    }
+  ]
+}

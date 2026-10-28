@@ -1,0 +1,38 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "open-umbrella-with-ribs",
+  "sources": {
+    "normal": {
+      "file": "normal/open-umbrella-with-ribs.svg",
+      "sha256": "6bdcc470d6808ad39d83419ac446395706515f88630e5e74356df9b7d2c70148"
+    },
+    "round": {
+      "file": "round/open-umbrella-with-ribs.svg",
+      "sha256": "01e04e28602f1e545512723419bae08708fe7330b0a587e90e337d1560f0df8f"
+    },
+    "sharp": {
+      "file": "sharp/open-umbrella-with-ribs.svg",
+      "sha256": "dff12ee90bc7fe80e89bd01684ac6ef609d314417eeae19a65ebc3e4d5187a7c"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "objects": [],
+  "reason": "Recover prior completely solid canopy using its original smooth outer arcs and scalloped lower edge. Internal supporting ribs merge into canopy material; retain the separate continuous original hooked handle.",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    }
+  ]
+}

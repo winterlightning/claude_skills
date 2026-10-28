@@ -1,0 +1,83 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "helmet",
+  "sources": {
+    "normal": {
+      "file": "normal/helmet.svg",
+      "sha256": "cb1bd58883679c75fa1647734c5f4ead92b4c2f524e2666569086307ff4ba919"
+    },
+    "round": {
+      "file": "round/helmet.svg",
+      "sha256": "97ccf579553030a439a3e4af9f7f0ca534e1246f13254cf999121d24bf5b7a9b"
+    },
+    "sharp": {
+      "file": "sharp/helmet.svg",
+      "sha256": "39e3ac601d86a89da45ae147f0865fb1ba4e754f512b79838a9c553680a743c7"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1",
+        "segments": {
+          "normal": [
+            0,
+            3
+          ],
+          "round": [
+            6,
+            7
+          ],
+          "sharp": [
+            3,
+            4
+          ]
+        }
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Recover solid dome and brim separated along original brim top. Reverse the native ridge through dome top and bottom before restoring separate brim material; preserve original outer contours."
+}

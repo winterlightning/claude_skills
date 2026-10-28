@@ -1,0 +1,199 @@
+{
+  "name": "nine-square-grid-layout",
+  "sources": {
+    "normal": {
+      "file": "normal/nine-square-grid-layout.svg",
+      "sha256": "6acaa3e11f9fa5db652df799edf70f5a09963395a98410fb667a02266c0a03b5"
+    },
+    "round": {
+      "file": "round/nine-square-grid-layout.svg",
+      "sha256": "ddf7ce0a6d576c0419b87bc4658f2dfeb76b348846b453dc41fb72750afbaff5"
+    },
+    "sharp": {
+      "file": "sharp/nine-square-grid-layout.svg",
+      "sha256": "871b72e5909999d55776dab8f79e6eabf68405ef77ed36ef2de3c5b8265b7754"
+    }
+  },
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "schema": "source-object-treatments/v1",
+  "objects": [
+    {
+      "id": "grid",
+      "name": "Nine reversed native cells",
+      "treatment": "reverse_regions",
+      "source_elements": {
+        "normal": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5",
+          "leaf:6",
+          "leaf:7",
+          "leaf:8",
+          "leaf:9",
+          "leaf:10",
+          "leaf:11",
+          "leaf:12"
+        ],
+        "round": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5",
+          "leaf:6",
+          "leaf:7",
+          "leaf:8",
+          "leaf:9",
+          "leaf:10",
+          "leaf:11",
+          "leaf:12"
+        ],
+        "sharp": [
+          "leaf:0",
+          "leaf:1",
+          "leaf:2",
+          "leaf:3",
+          "leaf:4",
+          "leaf:5",
+          "leaf:6",
+          "leaf:7",
+          "leaf:8",
+          "leaf:9",
+          "leaf:10",
+          "leaf:11",
+          "leaf:12"
+        ]
+      },
+      "regions": [
+        {
+          "id": "cell-0-0",
+          "anchor": [
+            12,
+            12
+          ]
+        },
+        {
+          "id": "cell-0-1",
+          "anchor": [
+            24,
+            12
+          ]
+        },
+        {
+          "id": "cell-0-2",
+          "anchor": [
+            36,
+            12
+          ]
+        },
+        {
+          "id": "cell-1-0",
+          "anchor": [
+            12,
+            24
+          ]
+        },
+        {
+          "id": "cell-1-1",
+          "anchor": [
+            24,
+            24
+          ]
+        },
+        {
+          "id": "cell-1-2",
+          "anchor": [
+            36,
+            24
+          ]
+        },
+        {
+          "id": "cell-2-0",
+          "anchor": [
+            12,
+            36
+          ]
+        },
+        {
+          "id": "cell-2-1",
+          "anchor": [
+            24,
+            36
+          ]
+        },
+        {
+          "id": "cell-2-2",
+          "anchor": [
+            36,
+            36
+          ]
+        }
+      ],
+      "normalization": {
+        "target": "normal_object_painted_bounds",
+        "gap": 4,
+        "tolerance": 0.001,
+        "neighbors": [
+          [
+            "cell-0-0",
+            "cell-0-1"
+          ],
+          [
+            "cell-0-0",
+            "cell-1-0"
+          ],
+          [
+            "cell-0-1",
+            "cell-0-2"
+          ],
+          [
+            "cell-0-1",
+            "cell-1-1"
+          ],
+          [
+            "cell-0-2",
+            "cell-1-2"
+          ],
+          [
+            "cell-1-0",
+            "cell-1-1"
+          ],
+          [
+            "cell-1-0",
+            "cell-2-0"
+          ],
+          [
+            "cell-1-1",
+            "cell-1-2"
+          ],
+          [
+            "cell-1-1",
+            "cell-2-1"
+          ],
+          [
+            "cell-1-2",
+            "cell-2-2"
+          ],
+          [
+            "cell-2-0",
+            "cell-2-1"
+          ],
+          [
+            "cell-2-1",
+            "cell-2-2"
+          ]
+        ]
+      },
+      "reason": "Recover all nine reversed cells enlarged to original grid painted bounds, with four-unit adjacent gaps; preserve each style native cell geometry."
+    }
+  ]
+}

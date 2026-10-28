@@ -1,0 +1,61 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "half-globe-batch-024-01",
+  "sources": {
+    "normal": {
+      "file": "normal/half-globe-batch-024-01.svg",
+      "sha256": "e299ecc358924980f549bf9293d586580a2b107d1d309efb5aeaf5c96e44e04b"
+    },
+    "round": {
+      "file": "round/half-globe-batch-024-01.svg",
+      "sha256": "482ff515b38b23cc6c0b3e94c0bff0fb66b9cad98641fb2dc49c7edb674bec24"
+    },
+    "sharp": {
+      "file": "sharp/half-globe-batch-024-01.svg",
+      "sha256": "6cd7cb09442fbd115f442f56d54e96b32f364116529d3df9cae7120492151615"
+    }
+  },
+  "mode": "source_program",
+  "base": "empty",
+  "operations": [
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:1",
+        "round": "leaf:1",
+        "sharp": "leaf:1"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    },
+    {
+      "operation": "cut",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      },
+      "extension": {
+        "ends": [
+          "start",
+          "end"
+        ],
+        "stroke_widths": 2
+      }
+    }
+  ],
+  "reason": "Recover the solid original hemisphere and subtract both native latitude strokes through both boundaries, creating three distinct curved bands without tracing prior fill."
+}

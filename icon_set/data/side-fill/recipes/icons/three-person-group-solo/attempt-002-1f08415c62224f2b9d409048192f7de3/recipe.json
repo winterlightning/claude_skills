@@ -1,0 +1,118 @@
+{
+  "schema": "normal-region-decisions/v1",
+  "name": "three-person-group-solo",
+  "sources": {
+    "normal": {
+      "file": "normal/three-person-group-solo.svg",
+      "sha256": "bc833735216a1cffae2d485f22f0715686244718bc1460177f1b07fbaceef9f8"
+    },
+    "round": {
+      "file": "round/three-person-group-solo.svg",
+      "sha256": "a6d3e6be563ed63f7cc96c7d695428404c4f8ba42a58fd97e1b3c2ff688789f5"
+    },
+    "sharp": {
+      "file": "sharp/three-person-group-solo.svg",
+      "sha256": "bf4b77ef66cf9ebca0c0e693f34e7feb1d323319dbebdfc48dd41dd44f369805"
+    }
+  },
+  "mode": "source_program",
+  "base": "source_paint",
+  "operations": [
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:4",
+          "round": "leaf:4",
+          "sharp": "leaf:4"
+        }
+      ],
+      "id": "left",
+      "closure": "vertical_then_horizontal",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:5",
+          "round": "leaf:5",
+          "sharp": "leaf:5"
+        }
+      ],
+      "id": "right",
+      "closure": "vertical_then_horizontal",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "left",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "cut_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clearance_strokes": 1,
+      "clip_to_owner_material": "right",
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "material_boundary",
+      "parts": [
+        {
+          "normal": "leaf:1",
+          "round": "leaf:1",
+          "sharp": "leaf:1"
+        }
+      ],
+      "clip_to_parts_painted_bounds": true
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:0",
+        "round": "leaf:0",
+        "sharp": "leaf:0"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:2",
+        "round": "leaf:2",
+        "sharp": "leaf:2"
+      }
+    },
+    {
+      "operation": "solidify",
+      "source": {
+        "normal": "leaf:3",
+        "round": "leaf:3",
+        "sharp": "leaf:3"
+      }
+    }
+  ],
+  "corner_policy": {
+    "round": {
+      "operation": "round_convex_black",
+      "radius": 2
+    }
+  },
+  "reason": "Close both side shoulders down to their own native lower extent, then reserve four-unit clearance around complete foreground central torso in side owners only. Fill all three original heads and retain existing head-to-body spaces.",
+  "repair_owner": "repair-1",
+  "repair_token": "1f08415c62224f2b9d409048192f7de3"
+}
