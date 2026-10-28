@@ -32,7 +32,8 @@ fn link(db: &Connection, id: &str, key: &str) {
 type Row = (String, String, String, i64, String);
 
 fn combinations(db: &Connection, size: i64) -> Vec<Row> {
-    db.prepare(&format!("{} SELECT reference_id, kind, state, missing, icon_key FROM combos ORDER BY reference_id", combination_query::cte(size)))
+    db.prepare(&format!("{} SELECT reference_id, kind, state, missing, {} FROM combos c ORDER BY reference_id",
+        combination_query::cte(size), combination_query::icon_key(size)))
         .unwrap().query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?)))
         .unwrap().map(Result::unwrap).collect()
 }
@@ -165,5 +166,69 @@ fn list_and_totals_do_linear_work_instead_of_repeated_family_scans() {
     }
     for (small, large) in work[0].iter().zip(&work[1]) {
         assert!(*large < small * 4, "tripling the catalog must not cause quadratic work: {small} → {large}");
+    }
+}
+
+#[test]
+fn built_pairs_and_selective_refreshes_keep_their_fast_paths() {
+    let db = database();
+    db.execute_batch("BEGIN").unwrap();
+    for key in ["container-72/part", "symbol-36/part", "main-54/part", "sub-36/part"] {
+        icon(&db, key, "current");
+        db.execute("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by)
+            VALUES (?, 'current', 'approve', 'today', 'human')", [key]).unwrap();
+    }
+    for i in 0..3000 {
+        let id = format!("pair-{i:05}");
+        let container = i % 4 != 0;
+        pair(&db, &id, if container { "container" } else { "side" });
+        let parts = if container { [("container", "container-72/part"), ("symbol", "symbol-36/part")] }
+                    else { [("main", "main-54/part"), ("sub", "sub-36/part")] };
+        for (role, key) in parts {
+            db.execute("INSERT INTO reference_part_sizes(reference_id, role, size, icon, built_sha)
+                VALUES (?, ?, 72, ?, 'current')", params![id, role, key]).unwrap();
+        }
+        let key = format!("{}/{id}", if container { "container-combination-72" } else { "combination-72" });
+        icon(&db, &key, "combined");
+        link(&db, &id, &key);
+    }
+    db.execute_batch("COMMIT").unwrap();
+    let target = "pair-01501";
+    let search = "WHERE (c.concept LIKE ? OR c.reference_id LIKE ?)";
+    let by_icon = "WHERE c.reference_id IN (SELECT reference_id FROM icon_references WHERE icon = ?)";
+    let cte = combination_query::cte(72);
+    use rusqlite::types::Value;
+    let cases: Vec<(_, _, _, Vec<Value>)> = vec![
+        ("built page", combination_query::page(72, ""), legacy_page(""), vec![101.into(), 0.into()]),
+        ("single-pair refresh", combination_query::page(72, search), legacy_page(search),
+            vec![format!("%{target}%").into(), format!("{target}%").into(), 2.into(), 0.into()]),
+        ("single-icon refresh", combination_query::page(72, by_icon), legacy_page(by_icon),
+            vec![format!("container-combination-72/{target}").into(), 2.into(), 0.into()]),
+        ("built totals", format!("{cte} SELECT kind, state, count(*) FROM combos GROUP BY 1, 2"),
+            format!("{} SELECT kind, state, count(*) FROM combos GROUP BY 1, 2", legacy_cte()), vec![]),
+        ("single-pair total", format!("{cte} SELECT count(*) FROM combos c {search}"),
+            format!("{} SELECT count(*) FROM combos c {search}", legacy_cte()),
+            vec![format!("%{target}%").into(), format!("{target}%").into()]),
+        ("empty missing page", combination_query::page(72, "WHERE c.missing = 1"), legacy_page("WHERE c.missing = 1"),
+            vec![101.into(), 0.into()]),
+    ];
+    // Statistics may change join choices; both planner states must retain the fast paths.
+    for analyzed in [false, true] {
+        if analyzed { db.execute_batch("ANALYZE").unwrap(); }
+        for (label, fixed, old, values) in &cases {
+            let args: Vec<&dyn rusqlite::ToSql> = values.iter().map(|v| v as &dyn rusqlite::ToSql).collect();
+            let (rows, steps) = run(&db, fixed, &args);
+            let (before, old_steps) = run(&db, old, &args);
+            assert_eq!(rows, before, "{label}: results (analyzed={analyzed})");
+            let plan: Vec<String> = db.prepare(&format!("EXPLAIN QUERY PLAN {fixed}")).unwrap()
+                .query_map(args.as_slice(), |r| r.get(3)).unwrap().map(Result::unwrap).collect();
+            assert!(plan.iter().any(|p| p.contains("SEARCH ir USING INDEX icon_references_reference (reference_id=?)")),
+                "{label}: lookups must start from the existing reference index: {plan:#?}");
+            assert!(plan.iter().filter(|p| p.starts_with("SEARCH x ")).all(|p| p.contains("(key=?)")),
+                "{label}: linked icons must be probed by key, not searched by family: {plan:#?}");
+            println!("3,000 built pairs · {label} (analyzed={analyzed}): {old_steps} → {steps} VM steps");
+            assert!((steps as f64) <= old_steps as f64 * 1.05,
+                "{label}: built/selective work regressed: {old_steps} → {steps} (analyzed={analyzed})");
+        }
     }
 }

@@ -37,7 +37,7 @@ fn native_container_parts_preserve_side_layouts_and_uploaded_identity() {
     assert_eq!(db.query_row("SELECT svg FROM uploaded_icons WHERE icon = ?", [uploaded], |r| r.get::<_, String>(0)).unwrap(), "<original/>");
     let resolved = db.query_row(combination_identity::EXISTING_CONTAINER72, params![rid, format!("container-combination-72/{rid}")], |r| r.get::<_, String>(0)).unwrap();
     assert_eq!(resolved, uploaded);
-    let list = format!("{} SELECT icon_key FROM combos WHERE reference_id = ?", combination_query::cte(72));
+    let list = format!("{} SELECT {} FROM combos c WHERE reference_id = ?", combination_query::cte(72), combination_query::icon_key(72));
     assert_eq!(db.query_row(&list, [rid], |r| r.get::<_, String>(0)).unwrap(), uploaded);
     // Only an explicit browser build activates part-review checks on a historical upload.
     let keys = serde_json::json!([uploaded]).to_string();
