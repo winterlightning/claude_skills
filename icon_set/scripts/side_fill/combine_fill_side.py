@@ -315,5 +315,3 @@ def combine(main_fill, sub_fill, main_transform, sub_transform):
     sub = place(sub_fill, *sub_transform)
     cut, details = cut_main(main, sub)
     return unary_union([cut, sub]), cut, sub, details
-
-

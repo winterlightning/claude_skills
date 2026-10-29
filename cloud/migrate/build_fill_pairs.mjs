@@ -61,7 +61,8 @@ for (const [n, {pair, pick}] of jobs.entries()) {
   try {
     const main = part('main', pair.main), sub = part('sub', pair.sub);
     const {svg} = Fill.combine({main, sub, options: pick.options});
-    const answer = await call('POST', '/api/side-fill/build', {reference_id: pair.id, rank: pick.rank, svg,
+    // The pair version the picks were read at: a pair changed on the site since is refused, not overwritten.
+    const answer = await call('POST', '/api/side-fill/build', {reference_id: pair.id, rank: pick.rank, version: pair.version, svg,
       main: {icon: pick.main.icon, svg_sha256: main.sha}, sub: {icon: pick.sub.icon, svg_sha256: sub.sha}});
     built++;
     if (answer.build_failed) partsNotApproved++;

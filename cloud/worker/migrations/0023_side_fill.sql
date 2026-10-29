@@ -42,9 +42,20 @@ CREATE TABLE fill_pairs (
     main_source TEXT, sub_source TEXT,
     main_layout TEXT, sub_layout TEXT,        -- the pair's own placement on the 64 grid: a new pick starts from it
     note TEXT,
+    -- Bumped by every change to the pair's picks (pick, move, unpick): a build names the version it combined, and a
+    -- build of an older one is refused (fill_guard), so a stale tab never overwrites newer work.
+    version INTEGER NOT NULL DEFAULT 0,
+    -- Set when a person changes the pair's picks on the site: an import never touches that pair's picks again.
+    edited_at TEXT,
     updated_at TEXT NOT NULL);
 CREATE INDEX fill_pairs_page ON fill_pairs(state, sort_key);
 CREATE INDEX fill_pairs_order ON fill_pairs(sort_key);
+CREATE INDEX fill_pairs_main ON fill_pairs(main_source);
+CREATE INDEX fill_pairs_sub ON fill_pairs(sub_source);
+
+-- Never holds a row: a write that must not land when its pair changed inserts NULL here when the pair's version is
+-- not the one it was made from, which fails its whole batch (D1 rolls a batch back on any error).
+CREATE TABLE fill_guard (ok INTEGER NOT NULL);
 
 -- The mains and subs the fill pairs use, as the Fill main / sub pages list them: one row per source icon (solo/…,
 -- sub/…), text subs and undrawn parts included. status: ready | outline | redrawn | no-source | no-fill |

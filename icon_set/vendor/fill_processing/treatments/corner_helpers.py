@@ -114,4 +114,3 @@ def rounded_ring(ring, role, radius, protected_boundary=None,minimum_radius=.02)
         if abs(end-start)>1e-8:segs.append(Line(start,end))
         if j in trims:segs.append(trims[j][2])
     return Path(*segs),audits
-

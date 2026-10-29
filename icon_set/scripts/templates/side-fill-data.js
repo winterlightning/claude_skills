@@ -50,6 +50,12 @@
     if (key === pairRow[role]) return 'outline';
     return (pairRow[`${role}_variants`] || []).find(v => v.key === key)?.variant || key.split('/').pop();
   }
+  // The sub icon the layout editor's sub variant names: the outline is the sub itself; "fill" is the fill this
+  // combination uses when it uses one (a sub can have several), else its first fill.
+  function subFor(name, selected, outline, fills) {
+    if (name === 'outline') return outline;
+    return fills.some(f => f.key === selected) ? selected : fills[0]?.key;
+  }
   // A pick is stale when a part was redrawn since its combined icon was built (or it was never built).
   const stale = p => !p.combined || ['main', 'sub'].some(r => p[r] && p[r].built_sha !== p[r].svg_sha256);
   // The pair's own placement as units of whole elements (a single box without element numbers takes them all).
@@ -76,5 +82,7 @@
     return box;
   }
 
-  window.SideFillData = {api, pairsPage, pair, partsPage, pick, unpick, build, move, drawings, iconUrl, svgUrl, keyshapes, labelOf, stale, units, artBox};
+  const exported = {api, pairsPage, pair, partsPage, pick, unpick, build, move, drawings, iconUrl, svgUrl, keyshapes, labelOf, stale, units, artBox, subFor};
+  if (typeof window !== 'undefined') window.SideFillData = exported;
+  if (typeof module === 'object' && module.exports) module.exports = exported;
 })();

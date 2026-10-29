@@ -12,6 +12,7 @@ pub mod primitives;
 pub mod query;
 pub mod refimg;
 pub mod reviews;
+pub mod side_fill;
 pub mod stats;
 pub mod svg;
 pub mod time;

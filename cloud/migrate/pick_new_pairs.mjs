@@ -80,8 +80,9 @@ for (const listed of pairs) {
   } catch (error) { skipped.push(`${pair.id} ${pair.concept}: ${error.message}`); continue; }
   made++;
   if (!args.send) continue;
-  await call('POST', '/api/side-fill/pick', {reference_id: pair.id, rank: 1, main, sub, layout});
-  await call('POST', '/api/side-fill/build', {reference_id: pair.id, rank: 1, svg,
+  // Appended (the pair has no pick, so it is the output), at the version read; then built at the version it made.
+  const picked = await call('POST', '/api/side-fill/pick', {reference_id: pair.id, append: true, version: pair.version, main, sub, layout});
+  await call('POST', '/api/side-fill/build', {reference_id: pair.id, rank: picked.rank, version: picked.version, svg,
     main: {icon: main, svg_sha256: drawings[main].svg_sha256}, sub: {icon: sub, svg_sha256: drawings[sub].svg_sha256}});
 }
 console.log(`${pairs.length} pairs without a pick use a part brought up to the site; ${made} ${args.send ? 'picked and built' : 'can be picked'}; ${skipped.length} skipped`);

@@ -9,13 +9,17 @@
 //!      each pair's normal Side combination 64 icon, side_combination64/<id>, by key)
 //! GET  /api/side-fill/pair?id=                          one pair, its picks, its parts' variants, its neighbours
 //! GET  /api/side-fill/parts?role=main|sub&status=&after=&limit=&q=   a page of the mains / subs the pairs use
-//! POST /api/side-fill/pick {reference_id, rank?, main, sub, layout?: {main, sub}, options?}   set a pair's pick of
-//!      that rank (main / sub: a fill variant icon of the part, or the part's own solo / sub icon for its outline)
-//! POST /api/side-fill/build {reference_id, rank, svg, main: {icon, svg_sha256}, sub: {icon, svg_sha256}}   save the
-//!      pick's combined drawing (made in the browser by side-fill-combine.js) as its icon, Ready in Icon review
-//! POST /api/side-fill/unpick {reference_id, rank}       drop a pick (later ranks move up)
-//! POST /api/side-fill/move {reference_id, rank, to}      move a pick to another rank (the ones between shift)
-//! A pick with insert: true goes in at its rank, the picks from there on move down one.
+//! POST /api/side-fill/pick {reference_id, rank?, append?|insert?, main, sub, layout?: {main, sub}, options?, version?}
+//!      a pair's pick (main / sub: a fill variant icon of the part, or the part's own solo / sub icon for its outline):
+//!      append: true adds it after the last (refused at 9 picks); insert: true puts it in at `rank`, the picks from there
+//!      moving down one; otherwise it replaces the pick at `rank`, which must exist
+//! POST /api/side-fill/build {reference_id, rank, version, svg, main: {icon, svg_sha256}, sub: {icon, svg_sha256}}
+//!      save the pick's combined drawing (made in the browser by side-fill-combine.js) as its icon, Ready in Icon review
+//! POST /api/side-fill/unpick {reference_id, rank, version?}       drop a pick (later ranks move up)
+//! POST /api/side-fill/move {reference_id, rank, to, version?}      move a pick to another rank (the ones between shift)
+//! Every pick / move / unpick gives the pair a new `version` and marks it edited on the site (the import leaves its
+//! picks alone). A build names the version it combined, and is refused (409, nothing written) when the pair has
+//! changed since; a pick / move / unpick that names one is refused the same way.
 
 use std::cell::Cell;
 use std::collections::HashMap;
@@ -23,6 +27,7 @@ use std::collections::HashMap;
 use crate::args;
 use crate::db::{self, Arg};
 use crate::http::{self, Ctx};
+use pictographic_core::side_fill as sql;
 use pictographic_core::time::iso_utc;
 use serde::de::DeserializeOwned;
 use serde::Deserialize;
@@ -78,7 +83,7 @@ fn prefix_range(q: Option<&str>) -> Option<(String, String)> {
 
 #[derive(Deserialize)]
 struct PairRow { reference_id: String, sort_key: String, state: String, main_source: Option<String>, sub_source: Option<String>,
-                 main_layout: Option<String>, sub_layout: Option<String>, note: Option<String>, concept: Option<String> }
+                 main_layout: Option<String>, sub_layout: Option<String>, note: Option<String>, concept: Option<String>, version: f64 }
 #[derive(Deserialize)]
 struct PickRow { reference_id: String, role: String, rank: f64, icon: Option<String>, layout: Option<String>, built_sha: Option<String>,
                  options: Option<String>, combined: Option<String>, icon_sha: Option<String>, icon_of: Option<String> }
@@ -111,7 +116,7 @@ struct CombinedRow { key: String, svg_sha256: Option<String>, build_failed: Opti
 #[derive(Deserialize)]
 struct CountRow { status: String, n: f64 }
 
-const PAIR_COLUMNS: &str = "f.reference_id, f.sort_key, f.state, f.main_source, f.sub_source, f.main_layout, f.sub_layout, f.note, \
+const PAIR_COLUMNS: &str = "f.reference_id, f.sort_key, f.state, f.main_source, f.sub_source, f.main_layout, f.sub_layout, f.note, f.version, \
     (SELECT concept FROM \"references\" r WHERE r.reference_id = f.reference_id) AS concept";
 
 async fn counts(reads: &Reads<'_>, scope: &str) -> Result<Value> {
@@ -160,7 +165,7 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool, origi
                 "review": c.review.clone().unwrap_or_else(|| "ready".into())}));
             ranks.push(json!({"rank": rank, "main": part("main"), "sub": part("sub"), "options": options, "combined": built}));
         }
-        json!({"id": p.reference_id, "concept": p.concept, "state": p.state, "note": p.note, "sort_key": p.sort_key,
+        json!({"id": p.reference_id, "concept": p.concept, "state": p.state, "note": p.note, "sort_key": p.sort_key, "version": p.version as i64,
                "main": p.main_source, "sub": p.sub_source, "picks": ranks,
                "original": if originals { combined.get(&format!("{COMBINED_FAMILY}/{}", p.reference_id)).map(|c| json!({"key": c.key,
                    "svg_sha256": c.svg_sha256, "review": c.review.clone().unwrap_or_else(|| "ready".into())})) } else { None },
@@ -269,17 +274,61 @@ fn count_move(ctx: &Ctx, from: &str, to: &str) -> Result<Vec<worker::D1PreparedS
     ])
 }
 
+/// The pair version a request names, when it names one (a number; anything else is refused by the caller).
+fn named_version(data: &Value) -> std::result::Result<Option<i64>, ()> {
+    match data.get("version") { None | Some(Value::Null) => Ok(None), Some(v) => v.as_i64().map(Some).ok_or(()) }
+}
+
+/// Run a write batch; a batch refused by sql::GUARD (the pair changed) or by a key another write just took is a 409.
+async fn write(ctx: &Ctx, statements: Vec<worker::D1PreparedStatement>) -> Result<Option<Response>> {
+    match db::batch(&ctx.db, statements).await {
+        Ok(_) => Ok(None),
+        Err(error) if sql::is_guard_error(&error.to_string()) =>
+            Ok(Some(http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and try again.")?)),
+        Err(error) if error.to_string().contains("UNIQUE constraint failed: icons.key") =>
+            Ok(Some(http::error(409, "Another build took this output's key at the same moment. Build again.")?)),
+        Err(error) => Err(error),
+    }
+}
+
+/// The pair's version after a write (one row by key).
+async fn version_of(reads: &Reads<'_>, id: &str) -> Result<i64> {
+    #[derive(Deserialize)]
+    struct V { version: f64 }
+    Ok(reads.first::<V>("SELECT version FROM fill_pairs WHERE reference_id = ?", args![id]).await?.map_or(0, |v| v.version as i64))
+}
+
 /// POST /api/side-fill/pick {reference_id, rank?, main, sub, layout?: {main, sub}}: the fill variant icons a pick
 /// uses, checked against the pair's parts (each must be a fill variant of that part's source).
 pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" { return http::error(401, "Log in to pick fill variants."); }
     let reads = Reads::new(ctx);
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
-    let rank = data["rank"].as_i64().unwrap_or(1);
-    if !(1..=MAX_RANK).contains(&rank) { return http::error(400, "rank must be 1 to 9."); }
+    let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
+    let (append, insert) = (data["append"] == json!(true), data["insert"] == json!(true));
+    if append && insert { return http::error(400, "A pick is appended or inserted, not both."); }
     let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
+    if version.is_some_and(|v| v != row.version as i64) {
+        return http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and try again.");
+    }
+    #[derive(Deserialize)]
+    struct Ranks { top: Option<f64>, here: Option<f64> }
+    let asked = data["rank"].as_i64().unwrap_or(1);
+    let ranks = reads.first::<Ranks>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ?",
+        args![asked, id]).await?;
+    let top = ranks.as_ref().and_then(|r| r.top).unwrap_or(0.0) as i64;
+    let exists = ranks.as_ref().and_then(|r| r.here).unwrap_or(0.0) > 0.0;
+    // Appending and inserting add a pick (at most 9); replacing changes one that is there.
+    let rank = if append { top + 1 } else { asked };
+    if (append || insert) && top >= MAX_RANK {
+        return http::error(409, "A pair keeps at most 9 picks: remove one, or replace a pick instead.");
+    }
+    if !(1..=MAX_RANK).contains(&rank) || (insert && rank > top + 1) { return http::error(400, "rank must be 1 to 9, and a new pick goes at most one after the last."); }
+    if !append && !insert && !exists {
+        return http::error(409, "There is no pick at that rank to replace (it may have been removed): reload the pair, or add this as a new pick.");
+    }
     #[derive(Deserialize)]
     struct Of { key: String, style: String, style_of: Option<String> }
     let mut chosen = vec![];
@@ -303,12 +352,8 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     };
     let now = iso_utc(chrono::Utc::now());
     let mut statements = vec![];
-    if data["insert"].as_bool() == Some(true) {
-        #[derive(Deserialize)]
-        struct Top { top: Option<f64> }
-        let top = reads.first::<Top>("SELECT max(rank) AS top FROM reference_part_fills WHERE reference_id = ?", args![id]).await?
-            .and_then(|t| t.top).unwrap_or(0.0) as i64;
-        if top >= MAX_RANK { return http::error(400, "A pair keeps at most 9 picks."); }
+    if let Some(v) = version { statements.push(db::stmt(&ctx.db, sql::GUARD, args![id, v])?); }
+    if insert {
         // Through negative ranks, so the primary key never collides mid-update.
         statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank + 1) WHERE reference_id = ? AND rank >= ?", args![id, rank])?);
         statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?);
@@ -324,12 +369,14 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             updated_at = excluded.updated_at, updated_by = excluded.updated_by",
             args![id, *role, rank, key.as_str(), layout_arg, options_arg, now.clone(), user])?);
     }
-    statements.push(db::stmt(&ctx.db, "UPDATE fill_pairs SET state = 'picked', updated_at = ? WHERE reference_id = ?", args![now.clone(), id])?);
+    statements.push(db::stmt(&ctx.db, "UPDATE fill_pairs SET state = 'picked', note = NULL, updated_at = ? WHERE reference_id = ?", args![now.clone(), id])?);
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?);
     statements.extend(count_move(ctx, &row.state, "picked")?);
     statements.push(db::activity(&ctx.db, user, "fill_pick", Some(id), db::details(vec![("rank", json!(rank)),
         ("main", json!(chosen[0].1)), ("sub", json!(chosen[1].1))]))?);
-    db::batch(&ctx.db, statements).await?;
-    reads.answer(&json!({"reference_id": id, "rank": rank, "main": chosen[0].1, "sub": chosen[1].1, "updated_at": now}))
+    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
+    let version = version_of(&reads, id).await?;
+    reads.answer(&json!({"reference_id": id, "rank": rank, "main": chosen[0].1, "sub": chosen[1].1, "updated_at": now, "version": version}))
 }
 
 /// POST /api/side-fill/unpick {reference_id, rank}: drop a pick; the later ranks move up one.
@@ -338,9 +385,13 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let reads = Reads::new(ctx);
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let Some(rank) = data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)) else { return http::error(400, "rank must be 1 to 9.") };
+    let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
     let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
+    if version.is_some_and(|v| v != row.version as i64) {
+        return http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and try again.");
+    }
     #[derive(Deserialize)]
     struct Top { top: Option<f64> }
     let top = reads.first::<Top>("SELECT max(rank) AS top FROM reference_part_fills WHERE reference_id = ?", args![id]).await?
@@ -354,13 +405,15 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let now = iso_utc(chrono::Utc::now());
     let left = if top >= rank { top - 1 } else { top };
     let state = if left > 0 { "picked" } else { "unpicked" };
-    let mut statements = vec![
+    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v])).transpose()?.into_iter().collect::<Vec<_>>();
+    statements.extend([
         db::stmt(&ctx.db, "DELETE FROM reference_part_fills WHERE reference_id = ? AND rank = ?", args![id, rank])?,
         // Later ranks move up; done through a negative rank so the primary key never collides mid-update.
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank - 1) WHERE reference_id = ? AND rank > ?", args![id, rank])?,
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
         db::stmt(&ctx.db, "UPDATE fill_pairs SET state = ?, updated_at = ? WHERE reference_id = ?", args![state, now.clone(), id])?,
-    ];
+        db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?,
+    ]);
     statements.extend(count_move(ctx, &row.state, state)?);
     if let Some(o) = &orphan {
         statements.extend(super::icon_list::remove(&ctx.db, &o.combined)?);
@@ -369,8 +422,9 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     }
     statements.push(db::activity(&ctx.db, user, "fill_unpick", Some(id), db::details(vec![("rank", json!(rank)),
         ("removed_icon", json!(orphan.as_ref().map(|o| o.combined.clone())))]))?);
-    db::batch(&ctx.db, statements).await?;
-    reads.answer(&json!({"reference_id": id, "rank": rank, "picks_left": left, "state": state}))
+    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
+    let version = version_of(&reads, id).await?;
+    reads.answer(&json!({"reference_id": id, "rank": rank, "picks_left": left, "state": state, "version": version}))
 }
 
 /// Layout boxes as reference_part_fills stores them: null, or a list of {x, y, w, h} (and `paths`) on the 64 grid.
@@ -406,11 +460,15 @@ fn options_of(options: &Value) -> Option<Option<Value>> {
     Some((!out.is_empty()).then(|| Value::Object(out)))
 }
 
-/// POST /api/side-fill/build {reference_id, rank, svg, main: {icon, svg_sha256}, sub: {icon, svg_sha256}}: a pick's
+/// POST /api/side-fill/build {reference_id, rank, version, svg, main: {icon, svg_sha256}, sub: {icon, svg_sha256}}: a pick's
 /// combined drawing, made in the browser from the pick's icons, saved as the pick's icon (a
 /// side_combination64 icon of style fill), as combinations::build saves a side pair: the parts must still be the pick's and their
 /// current drawings, the SVG passes the sanitizer, and a part not approved in Icon review marks it build_failed.
 /// A new drawing has no review yet: Ready in Icon review. Reads the pair, its pick rows and the two parts (~10 rows).
+/// `version` is the pair version the drawing was combined from: when a pick, move or unpick changed the pair since,
+/// the build is refused and nothing is written (sql::GUARD first in the batch), so a stale tab cannot overwrite
+/// newer work. A pick without an output yet gets the first `--fill[-n]` key no icon has, a kept reviewed output of
+/// a removed pick included; it is inserted, not upserted, so two builds can never share it.
 /// The push token builds as `side-fill import` (cloud/migrate/build_fill_pairs.mjs builds every imported pick once).
 pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let user = if user == "system" && super::internal::authorized(ctx) { "side-fill import" } else { user };
@@ -418,9 +476,15 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let reads = Reads::new(ctx);
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let Some(rank) = data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)) else { return http::error(400, "rank must be 1 to 9.") };
+    let Some(version) = data["version"].as_i64() else {
+        return http::error(400, "Give the pair version the drawing was combined from (reload the pair).");
+    };
     let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
+    if version != row.version as i64 {
+        return http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and build again.");
+    }
     let picks: Vec<PickRow> = reads.all(&format!("SELECT {PICK_COLUMNS} FROM {PICK_FROM} WHERE p.reference_id = ?"), args![id]).await?;
     let mine = |role: &str| picks.iter().find(|p| p.rank as i64 == rank && p.role == role);
     let (Some(main), Some(sub)) = (mine("main"), mine("sub")) else { return http::error(409, "That pick is gone. Reload the pair.") };
@@ -450,8 +514,18 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let svg = data["svg"].as_str().unwrap_or("").to_string();
     if let Err(error) = pictographic_core::svg::safe_svg(&svg, 64) { return http::error(400, &error); }
     let sha = hex::encode(Sha256::digest(svg.as_bytes()));
-    let taken: Vec<String> = picks.iter().filter(|p| p.rank as i64 != rank).filter_map(|p| p.combined.clone()).collect();
-    let key = main.combined.clone().unwrap_or_else(|| free_combined_key(id, &taken));
+    let fresh = main.combined.is_none();
+    let key = match &main.combined {
+        Some(own) => own.clone(),
+        None => {
+            #[derive(Deserialize)]
+            struct Key { key: String }
+            let mut taken: Vec<String> = picks.iter().filter(|p| p.rank as i64 != rank).filter_map(|p| p.combined.clone()).collect();
+            taken.extend(reads.all::<Key>(sql::OUTPUT_KEYS, args![format!("{COMBINED_FAMILY}/{id}--{COMBINED_STYLE}")]).await?
+                .into_iter().map(|k| k.key));
+            free_combined_key(id, &taken)
+        }
+    };
     let icon_id = key.split_once('/').map_or(key.as_str(), |(_, n)| n).to_string();
     let now = iso_utc(chrono::Utc::now());
     let preview = format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(&key), &sha[..12]);
@@ -469,17 +543,20 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         "created_at_source": "side-fill-pair", "uploaded_icon": false});
     let db = &ctx.db;
     let mut statements = vec![
+        db::stmt(db, sql::GUARD, args![id, version])?,
         // origin combination-build, as a side pair build: a catalog push leaves the icon and its list columns alone.
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'combination-build', ?)",
                  args![sha.clone(), key.clone(), svg, now.clone()])?,
     ];
     statements.extend(super::icon_list::uncount(db, &key)?);
-    // Only ever a fill icon's row: the guard keeps a write off the pair's normal side combination icon.
-    statements.push(db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
-        build_failed, uploaded, record, pushed_at, style, style_of) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, 'Side', \
-        'SIDE_COMBINATION64', 64, ?, ?, ?, 0, ?, ?, ?, ?) ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, \
+    // Only ever a fill icon's row: the guard keeps a write off the pair's normal side combination icon. A new key is
+    // inserted plainly: if another build took it meanwhile, the batch fails instead of writing over that output.
+    let upsert = if fresh { "" } else { " ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, \
         preview_url = excluded.preview_url, build_failed = excluded.build_failed, record = excluded.record \
-        WHERE icons.family = excluded.family AND icons.style = excluded.style",
+        WHERE icons.family = excluded.family AND icons.style = excluded.style" };
+    statements.push(db::stmt(db, &format!("INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
+        build_failed, uploaded, record, pushed_at, style, style_of) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, 'Side', \
+        'SIDE_COMBINATION64', 64, ?, ?, ?, 0, ?, ?, ?, ?){upsert}"),
         args![key.clone(), icon_id.clone(), id, COMBINED_FAMILY, sha.clone(), preview.clone(), !errors.is_empty(), record.to_string(), now.clone(),
               COMBINED_STYLE, style_of.clone()])?);
     statements.push(super::icon_list::index_statement(db, &key, &listed, Some("style = 'fill'"))?);
@@ -495,9 +572,9 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     }
     statements.push(db::activity(db, user, "fill_build", Some(&key), db::details(vec![("svg_sha256", json!(sha)), ("rank", json!(rank)),
         ("errors", json!(errors))]))?);
-    db::batch(db, statements).await?;
+    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
     reads.answer(&json!({"reference_id": id, "rank": rank, "key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(),
-                         "errors": errors, "preview_url": preview}))
+                         "errors": errors, "preview_url": preview, "version": version}))
 }
 
 /// POST /api/side-fill/move {reference_id, rank, to}: a pick to another rank, keeping its icons, boxes and combined
@@ -509,6 +586,7 @@ pub async fn move_pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     let (Some(from), Some(to)) = (data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)), data["to"].as_i64().filter(|r| (1..=MAX_RANK).contains(r))) else {
         return http::error(400, "rank and to must be 1 to 9.");
     };
+    let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
     #[derive(Deserialize)]
     struct Top { top: Option<f64>, here: f64 }
     let found = reads.first::<Top>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ?", args![from, id]).await?;
@@ -516,14 +594,18 @@ pub async fn move_pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     let to = to.min(found.top.unwrap_or(1.0) as i64);
     if to == from { return reads.answer(&json!({"reference_id": id, "rank": from, "to": to})); }
     let (low, high, step) = if to < from { (to, from - 1, 1) } else { (from + 1, to, -1) };
-    let statements = vec![
+    let now = iso_utc(chrono::Utc::now());
+    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v])).transpose()?.into_iter().collect::<Vec<_>>();
+    statements.extend([
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = CASE WHEN rank = ? THEN -? ELSE -(rank + ?) END \
             WHERE reference_id = ? AND (rank = ? OR rank BETWEEN ? AND ?)", args![from, to, step, id, from, low, high])?,
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
+        db::stmt(&ctx.db, sql::EDITED, args![id, now])?,
         db::activity(&ctx.db, user, "fill_move", Some(id), db::details(vec![("rank", json!(from)), ("to", json!(to))]))?,
-    ];
-    db::batch(&ctx.db, statements).await?;
-    reads.answer(&json!({"reference_id": id, "rank": from, "to": to}))
+    ]);
+    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
+    let version = version_of(&reads, id).await?;
+    reads.answer(&json!({"reference_id": id, "rank": from, "to": to, "version": version}))
 }
 
 /// The parts of a fill side pair's combined icon (`key`) that are not approved on their current drawing, as

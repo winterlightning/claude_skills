@@ -6,10 +6,14 @@ cloud/migrate/backfill_combinations.py fills the combination tables: run deliber
     python3 cloud/migrate/upload_fill_parts.py --base-url … --send       # the fill variant icons
     (cd cloud/worker && npx wrangler d1 execute pictographic-review-next --remote --file ../../icon_set/state/side-fill/side-fill-picks.sql)
 
-side-fill-import.sql   fill_pairs, fill_parts and fill_counts (replaced whole: they are listings of this build)
+side-fill-import.sql   fill_pairs, fill_parts and fill_counts, upserted: a pair edited on the site keeps its state, a
+                       part filled on the site stays filled, and the totals are counted from the rows written
 side-fill-picks.sql    reference_part_fills: each pair's picks in order, rank 1 its output. Each pick names its fill
                        variant icon by key (fill_icons.fill_key) and is written only when that icon exists, so it runs
-                       after the upload; a pick whose variant was not uploaded is skipped.
+                       after the upload; a pick whose variant was not uploaded is skipped. Upserted: a pick keeps its
+                       output (combined) and, when its choice is unchanged, its built drawing (built_sha). The picks
+                       of a pair edited on the site (fill_pairs.edited_at) are never touched, and only imported rows
+                       the build no longer has are removed.
                        An outline pick uses the solo / sub icon itself.
 Every statement is a write keyed by primary key or a lookup on an index: nothing here scans a table.
 """
@@ -34,6 +38,64 @@ def q(value):
 
 def sort_key(text, ref):
     return f'{(text or "").lower()} {ref}'
+
+
+NO_FILL_NOTE = 'Neither the main nor the sub has a fill: this pair has no fill version.'   # core side_fill::NO_FILL_NOTE
+READY_NOTE = 'Has a fill: combined in its pairs.'
+NOT_EDITED = "NOT EXISTS (SELECT 1 FROM fill_pairs e WHERE e.reference_id = {ref} AND e.edited_at IS NOT NULL)"
+
+
+def pick_statement(ref, role, rank, icon, layout, options, now, exists=False):
+    """One imported pick row: written unless the pair was edited on the site, as an upsert that keeps its output and
+    (with the same icon, layout and options) its built drawing. `exists`: only when the icon is there (a variant)."""
+    where = NOT_EDITED.format(ref=q(ref)) + (f" AND EXISTS (SELECT 1 FROM icons WHERE key = {q(icon)})" if exists else '')
+    return (f"INSERT INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) "
+            f"SELECT {q(ref)}, {q(role)}, {rank}, {q(icon)}, {q(layout)}, {q(options)}, {q(now)}, 'side-fill import' WHERE {where} "
+            f"ON CONFLICT(reference_id, role, rank) DO UPDATE SET "
+            f"built_sha = CASE WHEN reference_part_fills.icon IS excluded.icon AND reference_part_fills.layout IS excluded.layout "
+            f"AND reference_part_fills.options IS excluded.options THEN reference_part_fills.built_sha END, "
+            f"icon = excluded.icon, layout = excluded.layout, options = excluded.options, updated_at = excluded.updated_at "
+            f"WHERE reference_part_fills.updated_by = 'side-fill import';")
+
+
+def picks_head(keys):
+    """Removes the imported picks this build no longer has (`keys`: 'ref role rank'), of pairs not edited on the site."""
+    return ("DELETE FROM reference_part_fills WHERE updated_by = 'side-fill import' AND " + NOT_EDITED.format(ref='reference_part_fills.reference_id')
+            + f" AND (reference_id || ' ' || role || ' ' || rank) NOT IN (SELECT value FROM json_each({q(json.dumps(sorted(keys)))}));")
+
+
+def pair_statement(ref, sort, state, main, sub, layouts, note, now):
+    """One fill_pairs row, upserted: a pair edited on the site keeps its state and note, and one a site fill made
+    pickable (FIRST_FILL) is not put back to waiting for a fill."""
+    return (f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
+            f"VALUES ({q(ref)}, {q(sort)}, {q(state)}, {q(main)}, {q(sub)}, {layouts[0]}, {layouts[1]}, {q(note)}, {q(now)}) "
+            f"ON CONFLICT(reference_id) DO UPDATE SET sort_key = excluded.sort_key, main_source = excluded.main_source, "
+            f"sub_source = excluded.sub_source, main_layout = excluded.main_layout, sub_layout = excluded.sub_layout, "
+            f"state = CASE WHEN fill_pairs.edited_at IS NOT NULL THEN fill_pairs.state "
+            f"WHEN fill_pairs.state = 'unpicked' AND excluded.state = 'uncombined' AND excluded.note = {q(NO_FILL_NOTE)} THEN 'unpicked' "
+            f"ELSE excluded.state END, "
+            f"note = CASE WHEN fill_pairs.edited_at IS NOT NULL OR (fill_pairs.state = 'unpicked' AND excluded.note = {q(NO_FILL_NOTE)}) "
+            f"THEN fill_pairs.note ELSE excluded.note END, updated_at = excluded.updated_at;")
+
+
+def part_statement(key, role, sort, status, note, text, pair_count, now):
+    """One fill_parts row, upserted: a part filled on the site (FIRST_FILL) stays filled."""
+    return (f"INSERT INTO fill_parts(key, role, sort_key, status, note, text, pair_count, updated_at) VALUES "
+            f"({q(key)}, {q(role)}, {q(sort)}, {q(status)}, {q(note)}, {q(text)}, {pair_count}, {q(now)}) "
+            f"ON CONFLICT(key) DO UPDATE SET role = excluded.role, sort_key = excluded.sort_key, text = excluded.text, "
+            f"pair_count = excluded.pair_count, updated_at = excluded.updated_at, "
+            f"status = CASE WHEN fill_parts.status = 'ready' AND excluded.status IN ('no-fill', 'outline') THEN 'ready' ELSE excluded.status END, "
+            f"note = CASE WHEN fill_parts.status = 'ready' AND excluded.status IN ('no-fill', 'outline') THEN fill_parts.note ELSE excluded.note END;")
+
+
+# The totals, counted from the rows written (one pass over each table, at import only).
+COUNTS = ["DELETE FROM fill_counts;",
+          "UPDATE fill_pairs SET state = 'picked', note = NULL WHERE state != 'picked' "
+          "AND EXISTS (SELECT 1 FROM reference_part_fills p WHERE p.reference_id = fill_pairs.reference_id);",
+          "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', state, COUNT(*) FROM fill_pairs GROUP BY state;",
+          "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', 'all', COUNT(*) FROM fill_pairs;",
+          "INSERT INTO fill_counts(scope, status, n) SELECT role, status, COUNT(*) FROM fill_parts GROUP BY role, status;",
+          "INSERT INTO fill_counts(scope, status, n) SELECT role, 'all', COUNT(*) FROM fill_parts GROUP BY role;"]
 
 
 def keyshape_fits():
@@ -172,27 +234,28 @@ def build():
         note = uncombined_note(parts, errors.get(ref)) if row is None else None
         if state == 'unpicked' and not any(p.get('icon') in filled for p in parts.values()):
             # A fill side pair needs a filled main or sub: with both outline only there is nothing to pick.
-            state, note = 'uncombined', 'Neither the main nor the sub has a fill: this pair has no fill version.'
+            state, note = 'uncombined', NO_FILL_NOTE
+        counts[('pairs', state)] = counts.get(('pairs', state), 0) + 1
         layouts = [q(json.dumps(parts[r]['layout']) if parts.get(r, {}).get('layout') else None) for r in ('main', 'sub')]
-        pairs.append(f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
-                     f"VALUES ({q(ref)}, {q(sort_key(item['concept'], ref))}, {q(state)}, {q(parts.get('main', {}).get('icon'))}, "
-                     f"{q(parts.get('sub', {}).get('icon'))}, {layouts[0]}, {layouts[1]}, {q(note)}, {q(now)});")
+        pairs.append(pair_statement(ref, sort_key(item['concept'], ref), state, parts.get('main', {}).get('icon'),
+                                    parts.get('sub', {}).get('icon'), layouts, note, now))
+    listed = [item['reference_id'] for item in items]
+    pairs.append(f"DELETE FROM fill_pairs WHERE reference_id NOT IN (SELECT value FROM json_each({q(json.dumps(listed))}));")
     fitted = keyshape_fits()
+    keys = set()
     for spec in specs:
         ref, rank = spec['reference_id'], spec['rank']
         fit = fitted.get(ref, {}).get(str(rank))
         for role, part in spec['roles'].items():
             # A pick laid out again to fill the 64px keyshape (cloud/migrate/fit_fill_keyshapes.mjs) uses those boxes.
             boxes = fit[role] if fit else part['layout']
-            layout = q(json.dumps(boxes) if boxes else None)
-            options = q(json.dumps(spec['options'], sort_keys=True) if role == 'main' and spec['options'] else None)
+            layout = json.dumps(boxes) if boxes else None
+            options = json.dumps(spec['options'], sort_keys=True) if role == 'main' and spec['options'] else None
+            keys.add(f'{ref} {role} {rank}')
             if part['label'] == 'outline':      # the outline is the solo / sub icon itself
-                picks.append(f"INSERT OR IGNORE INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) VALUES "
-                             f"({q(ref)}, {q(role)}, {rank}, {q(part['source'])}, {layout}, {options}, {q(now)}, 'side-fill import');")
-                continue
-            picks.append(f"INSERT OR IGNORE INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) "
-                         f"SELECT {q(ref)}, {q(role)}, {rank}, key, {layout}, {options}, {q(now)}, 'side-fill import' "
-                         f"FROM icons WHERE key = {q(fill_key(part['source'], part['label']))};")
+                picks.append(pick_statement(ref, role, rank, part['source'], layout, options, now))
+            else:
+                picks.append(pick_statement(ref, role, rank, fill_key(part['source'], part['label']), layout, options, now, exists=True))
     mains, subs = parts_listing(set(rows))
     from .fill_icons import site_fill
     from .parts import STATUS_NOTE
@@ -204,23 +267,16 @@ def build():
                 # (pick_new_pairs.mjs), so it is a filled part like any other.
                 entry = {**entry, 'status': 'ready', 'note': STATUS_NOTE['ready']}
             counts[(role, entry['status'])] = counts.get((role, entry['status']), 0) + 1
-            counts[(role, 'all')] = counts.get((role, 'all'), 0) + 1
-            parts_sql.append(f"INSERT INTO fill_parts(key, role, sort_key, status, note, text, pair_count, updated_at) VALUES "
-                             f"({q(entry['key'])}, {q(role)}, {q(sort_key(entry['name'], entry['key']))}, {q(entry['status'])}, "
-                             f"{q(entry['note'])}, {q(art.get('text'))}, {len(entry['pairs'])}, {q(now)});")
-    count_sql = [f"INSERT INTO fill_counts(scope, status, n) VALUES ({q(s)}, {q(st)}, {n});" for (s, st), n in sorted(counts.items())]
-    # A pair picked on the site (it has picks) stays picked when the listings are imported again; the pair totals are
-    # then counted from the rows written (one pass over fill_pairs, at import only).
-    count_sql += ["UPDATE fill_pairs SET state = 'picked', note = NULL WHERE state != 'picked' "
-                  "AND EXISTS (SELECT 1 FROM reference_part_fills p WHERE p.reference_id = fill_pairs.reference_id);",
-                  "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', state, COUNT(*) FROM fill_pairs GROUP BY state;",
-                  "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', 'all', COUNT(*) FROM fill_pairs;"]
-    head = ['DELETE FROM fill_pairs;', 'DELETE FROM fill_parts;', 'DELETE FROM fill_counts;']
-    IMPORT.write_text('\n'.join(head + pairs + parts_sql + count_sql) + '\n')
-    # The picks replace the imported ones only: picks made on the site since (updated_by a person) are kept.
-    PICKS.write_text('\n'.join(["DELETE FROM reference_part_fills WHERE updated_by = 'side-fill import';"] + picks) + '\n')
-    return {'pairs': len(pairs), 'parts': len(parts_sql), 'pick_rows': len(picks), 'pick_fallbacks': fallbacks, 'dropped_rejected_picks': len(dropped), 'counts': {f'{s}:{st}': n for (s, st), n in counts.items()},
-            'import_sql': str(IMPORT), 'picks_sql': str(PICKS)}
+            parts_sql.append(part_statement(entry['key'], role, sort_key(entry['name'], entry['key']), entry['status'],
+                                            entry['note'], art.get('text'), len(entry['pairs']), now))
+    listed_parts = [entry['key'] for listing in (mains, subs) for entry, _ in listing]
+    parts_sql.append(f"DELETE FROM fill_parts WHERE key NOT IN (SELECT value FROM json_each({q(json.dumps(listed_parts))}));")
+    IMPORT.write_text('\n'.join(pairs + parts_sql + COUNTS) + '\n')
+    # Picks made or changed on the site are kept; open pair pages of the pairs whose picks this may change reload.
+    PICKS.write_text('\n'.join([picks_head(keys)] + picks + COUNTS
+                               + ["UPDATE fill_pairs SET version = version + 1 WHERE edited_at IS NULL;"]) + '\n')
+    return {'pairs': len(items), 'parts': len(listed_parts), 'pick_rows': len(picks), 'pick_fallbacks': fallbacks, 'dropped_rejected_picks': len(dropped),
+            'counts': {f'{s}:{st}': n for (s, st), n in counts.items()}, 'import_sql': str(IMPORT), 'picks_sql': str(PICKS)}
 
 
 def main(argv=None):

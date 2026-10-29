@@ -22,6 +22,19 @@ pair's output, later ranks are alternatives. A combined icon is `build_failed` w
 in Icon review (as for side pairs), and Icon review approves it only after both parts are; approving the parts clears
 the flag (`combined_parts` rechecks fill picks too). Removing a pick deletes its combined icon unless someone reviewed it.
 
+**Edits never overwrite each other.** Every pick, move and unpick gives the pair a new `version`; a build names the
+version it combined and is refused (409, nothing written) when the pair changed since, as is a pick / move / unpick
+that names an older one. Adding a pick is explicit (`append`, refused at 9 picks; `insert` at a rank); otherwise a
+pick replaces the one at its rank, which must exist. A new pick's output key skips every `--fill[-n]` icon that
+exists, so a kept reviewed output of a removed pick is never written over. Replace on the parts pages names the
+drawing it replaces (`expected_sha256`), Add fill only creates. A part's first fill marks it filled and lets the pairs
+that waited for one be picked.
+
+**The import keeps the site's work.** Pick, move and unpick mark the pair edited on the site (`edited_at`): the picks
+SQL never touches its picks again. It upserts the others, keeping each pick's output and, when its choice is
+unchanged, its built drawing, and removes only imported picks the build no longer has. The listings keep an edited
+pair's state and a part filled on the site.
+
 `options` (main row): `omit` (main elements left out), `overlap: "join"` (an outline sub joined, not cut),
 `sub_scaled` (a filled sub under 20 px scales its stroke too).
 
@@ -79,7 +92,8 @@ lookup a pair, about 120 rows for 60 pairs).
 
 No route counts or scans. Lists are keyset pages on `(state, sort_key)` / `(role, status, sort_key)` with `LIMIT`; picks,
 icons and reviews are key lookups; totals are `fill_counts` rows. Every response says what it read in
-`X-D1-Rows-Read`, and `cloud/worker/tests/side_fill` fails when a route reads more than its ceiling:
+`X-D1-Rows-Read` (its lookups; the reads inside a write batch are not counted), and `cloud/worker/tests/side_fill`
+fails when a route reads more than its ceiling:
 
 | Request | Rows read (3,614 pairs, ~1,900 fill icons) | Ceiling |
 | --- | --- | --- |
@@ -95,7 +109,9 @@ A tile image is `/api/icon-artwork/svg` (one icon row and one revision); the pai
 
 `icon_set/data/side-fill` is the snapshot the Python tools read (layouts, review decisions, region recipes, the source
 and fill drawings, the Oct 26 backup). It is data, so git holds none of it (the folder is ignored): its 9,273 files are
-R2 objects under `references/side-fill-data/<path>`, named with their sha256 by `references/side-fill-data/manifest.json`.
+R2 objects stored once by content (`references/side-fill-data/objects/<sha256>`, never overwritten), and
+`references/side-fill-data/manifest.json` maps each path to its sha256. The manifest is written last, so a push that
+fails part way leaves the previous snapshot whole.
 The JS goldens (`icon_set/tests/js/fixtures/side-fill`) are made from it and are not in git either.
 
 ```

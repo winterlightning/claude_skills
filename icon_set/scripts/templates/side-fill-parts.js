@@ -28,14 +28,19 @@
     input.addEventListener('change', async () => { if (input.files[0]) onText(await input.files[0].text()); });
     input.click();
   }
-  async function storeFill(part, variant, svg) {
+  // `expected`: the drawing the card showed (Replace), or null to only create one (Add fill). A drawing changed by
+  // someone else meanwhile is reported, never overwritten.
+  async function storeFill(part, variant, svg, expected) {
     $('headline').textContent = `Saving ${variant} of ${part.key}…`;
     try {
       const response = await fetch('/api/icons/styled', {method: 'POST', credentials: 'same-origin', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({items: [{source_key: part.key, style: 'fill', variant, svg}], replace: true})});
+        body: JSON.stringify({items: [{source_key: part.key, style: 'fill', variant, svg, expected_sha256: expected}], replace: true})});
       const answer = await response.json().catch(() => ({}));
       if (!response.ok) throw Error(answer.error || response.statusText);
-      if (answer.errors?.length) throw Error(answer.errors[0].error);
+      const refused = answer.errors?.[0];
+      if (refused?.conflict) throw Error(expected === null ? `a variant named ${variant} exists already: Replace it instead`
+        : 'someone changed this variant since the page loaded: reload and try again');
+      if (refused) throw Error(refused.error);
       const outcome = answer.results?.[0]?.outcome;
       await load();
       $('headline').textContent = outcome === 'unchanged' ? `${variant} of ${part.key} already has that drawing.`
@@ -78,7 +83,7 @@
       const order = v => v.variant === 'current' || v.variant === 'fill' ? '' : v.variant;
       for (const v of [...part.variants].sort((a, b) => order(a).localeCompare(order(b), undefined, {numeric: true}))) {
         const f = figure(v.variant, iconUrl(v.key, v.svg_sha256), v.review);
-        f.append(action('Replace', `Choose an SVG as the new drawing of ${v.key}`, () => chooseSvg(svg => storeFill(part, v.variant, svg))));
+        f.append(action('Replace', `Choose an SVG as the new drawing of ${v.key}`, () => chooseSvg(svg => storeFill(part, v.variant, svg, v.svg_sha256))));
         variants.append(f);
       }
     }
@@ -92,7 +97,7 @@
         const go = action('Choose SVG', 'Choose the SVG for this variant', () => {
           const variant = name.value.trim().toLowerCase();
           if (!/^[a-z0-9-]{1,60}$/.test(variant)) { $('headline').textContent = 'A variant name is letters, digits and hyphens.';return; }
-          chooseSvg(svg => storeFill(part, variant, svg));
+          chooseSvg(svg => storeFill(part, variant, svg, null));
         });
         const row = document.createElement('div');row.className = 'sf-add-row';row.append(name, go);
         el.querySelector('.sf-add-row')?.remove();el.append(row);name.focus();

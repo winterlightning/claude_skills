@@ -108,7 +108,7 @@ def test_pick_and_unpick_write_one_pair():
     before = pair
     main, sub = pair['main_variants'][0]['key'], pair['sub_variants'][0]['key']
     top = max(p['rank'] for p in before['picks'])
-    status, answer, rows = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'rank': top + 1, 'main': main, 'sub': sub})
+    status, answer, rows = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'append': True, 'main': main, 'sub': sub})
     assert status == 200, answer
     assert rows <= BUDGET['pick']
     after, _ = get('/api/side-fill/pair', id=pair['id'])
@@ -283,3 +283,113 @@ def test_originals_come_with_the_page_only_when_asked():
         assert p['original'] is None or p['original']['key'] == 'side_combination64/' + p['id']
     one, rows = get('/api/side-fill/pair', id=data['pairs'][0]['id'])
     assert 'original' in one and rows <= BUDGET['pair']
+
+
+def pair_now(pair_id):
+    return get('/api/side-fill/pair', id=pair_id)[0]
+
+
+def build(pair_id, rank, version, svg, pick):
+    return call('POST', '/api/side-fill/build', {'reference_id': pair_id, 'rank': rank, 'version': version, 'svg': svg,
+        'main': {'icon': pick['main']['icon'], 'svg_sha256': drawing(pick['main']['icon'])['svg_sha256']},
+        'sub': {'icon': pick['sub']['icon'], 'svg_sha256': drawing(pick['sub']['icon'])['svg_sha256']}})
+
+
+def replace(pair_id, pick, version, layout=None, options='same'):
+    return call('POST', '/api/side-fill/pick', {'reference_id': pair_id, 'rank': pick['rank'], 'version': version,
+        'main': pick['main']['icon'], 'sub': pick['sub']['icon'],
+        'layout': layout or {'main': pick['main']['layout'], 'sub': pick['sub']['layout']},
+        'options': pick['options'] if options == 'same' else options})
+
+
+@pytest.mark.parametrize('change', ['layout', 'options'])
+def test_a_build_from_an_older_version_is_refused_and_writes_nothing(change):
+    pair, pick = built_pick_with_fill_variants()
+    key, old = pick['combined']['key'], drawing(pick['combined']['key'])
+    try:
+        # Tab 2 changes the pick (a layout moved one unit, or the options) and the pair gets a new version.
+        if change == 'layout':
+            moved = {'main': [{**b, 'x': b['x'] + 1} for b in pick['main']['layout']], 'sub': pick['sub']['layout']}
+            status, answer, _ = replace(pair['id'], pick, pair['version'], layout=moved)
+        else:
+            status, answer, _ = replace(pair['id'], pick, pair['version'], options={**(pick['options'] or {}), 'sub_scaled': not (pick['options'] or {}).get('sub_scaled')})
+        assert status == 200 and answer['version'] > pair['version'], answer
+        # Tab 1 still shows the old version: its build is refused and the output is untouched.
+        status, answer, _ = build(pair['id'], pick['rank'], pair['version'], old['svg'], pick)
+        assert status == 409 and 'changed since it was loaded' in answer['error'], answer
+        assert drawing(key)['svg_sha256'] == old['svg_sha256']
+        # A pick that names an old version is refused the same way.
+        status, answer, _ = replace(pair['id'], pick, pair['version'])
+        assert status == 409, answer
+    finally:
+        now = pair_now(pair['id'])
+        status, answer, _ = replace(pair['id'], pick, now['version'])
+        assert status == 200, answer
+        status, answer, _ = build(pair['id'], pick['rank'], answer['version'], old['svg'], pick)
+        assert status == 200 and answer['key'] == key, answer
+
+
+def test_a_kept_reviewed_output_is_never_written_over():
+    pair, pick = built_pick_with_fill_variants()
+    svg = drawing(pick['combined']['key'])['svg']
+    add = {'reference_id': pair['id'], 'append': True, 'main': pick['main']['icon'], 'sub': pick['sub']['icon'],
+           'layout': {'main': pick['main']['layout'], 'sub': pick['sub']['layout']}, 'options': pick['options']}
+    status, added, _ = call('POST', '/api/side-fill/pick', add)
+    assert status == 200, added
+    status, first, _ = build(pair['id'], added['rank'], added['version'], svg, {'main': {'icon': added['main']}, 'sub': {'icon': added['sub']}})
+    assert status == 200, first
+    kept = first['key']
+    review(kept, 'rejected')                    # someone reviewed it: removing the pick keeps the output
+    status, answer, _ = call('POST', '/api/side-fill/unpick', {'reference_id': pair['id'], 'rank': added['rank']})
+    assert status == 200, answer
+    status, again, _ = call('POST', '/api/side-fill/pick', add)
+    assert status == 200, again
+    status, second, _ = build(pair['id'], again['rank'], again['version'], svg.replace('</svg>', '<path d="M1 1L2 2" stroke="none"/></svg>'),
+                              {'main': {'icon': again['main']}, 'sub': {'icon': again['sub']}})
+    try:
+        assert status == 200 and second['key'] != kept, (kept, second)
+        assert drawing(kept)['svg_sha256'] == first['svg_sha256'], 'the kept output must keep its drawing'
+    finally:
+        call('POST', '/api/side-fill/unpick', {'reference_id': pair['id'], 'rank': again['rank']})
+
+
+def test_a_tenth_pick_is_refused_and_the_ninth_kept():
+    pair, _ = a_pair_with_variants()
+    main, sub = pair['main_variants'][0]['key'], pair['sub_variants'][0]['key']
+    added = 0
+    top = len(pair_now(pair['id'])['picks'])
+    # Replacing a rank that has no pick is refused: it is not a way to add one.
+    status, answer, _ = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'rank': top + 1, 'main': main, 'sub': sub})
+    assert status == 409 and 'no pick at that rank' in answer['error'], answer
+    try:
+        while len(pair_now(pair['id'])['picks']) < 9:
+            status, answer, _ = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'append': True, 'main': main, 'sub': sub})
+            assert status == 200, answer
+            added += 1
+        ninth = [p for p in pair_now(pair['id'])['picks'] if p['rank'] == 9][0]
+        status, answer, _ = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'append': True, 'main': main, 'sub': sub})
+        assert status == 409 and 'at most 9' in answer['error'], answer
+        status, answer, _ = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'rank': 1, 'insert': True, 'main': main, 'sub': sub})
+        assert status == 409, answer
+        assert [p for p in pair_now(pair['id'])['picks'] if p['rank'] == 9][0] == ninth
+        # Replacing the ninth stays possible at 9 picks.
+        status, answer, _ = call('POST', '/api/side-fill/pick', {'reference_id': pair['id'], 'rank': 9, 'main': main, 'sub': sub})
+        assert status == 200, answer
+    finally:
+        for _ in range(added):
+            top = max(p['rank'] for p in pair_now(pair['id'])['picks'])
+            call('POST', '/api/side-fill/unpick', {'reference_id': pair['id'], 'rank': top})
+
+
+def test_replacing_a_fill_names_the_drawing_it_replaces():
+    pair, _ = a_pair_with_variants()
+    variant = pair['main_variants'][0]
+    current = drawing(variant['key'])
+    stale = {'items': [{'source_key': pair['main'], 'style': 'fill', 'variant': variant['variant'],
+                        'svg': current['svg'].replace('</svg>', '<path d="M1 1L2 2" stroke="none"/></svg>'), 'expected_sha256': '0' * 64}],
+             'replace': True}
+    status, answer, _ = call('POST', '/api/icons/styled', stale)
+    assert status == 200 and answer['errors'] and answer['errors'][0].get('conflict'), answer
+    status, answer, _ = call('POST', '/api/icons/styled', {**stale, 'items': [{**stale['items'][0], 'expected_sha256': None}]})
+    assert status == 200 and answer['errors'] and answer['errors'][0].get('conflict'), 'Add fill must not overwrite a variant that exists'
+    assert drawing(variant['key'])['svg_sha256'] == current['svg_sha256']

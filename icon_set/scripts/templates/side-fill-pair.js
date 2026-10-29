@@ -13,6 +13,7 @@
   const {overlay, label, keyshape} = window.SideFillOverlay;
   const id = new URLSearchParams(location.search).get('id');
   let pair = null, drawings = {}, busy = false, renders = new Map(), token = 0;
+  const MAX_PICKS = 9;
 
   const status = (text, bad = false) => { $('status').textContent = text;$('status').style.color = bad ? '#b91c1c' : ''; };
   const yieldFrame = () => new Promise(resolve => setTimeout(resolve, 0));
@@ -59,20 +60,22 @@
     catch (error) { status(error.message, true); }
     finally { busy = false;draw(); }
   }
-  // Save a pick (icons and boxes) at a rank, then build its combined icon from what is shown.
-  // `insert`: the pick goes in at its rank and the picks from there on move down one.
-  async function savePick(rank, main, sub, options, insert = false) {
-    await D.pick({reference_id: pair.id, rank, insert, main: main.key, sub: sub.key, layout: {main: main.layout, sub: sub.layout}, options});
-    await buildPick(rank, main, sub, options);
+  // Save a pick (icons and boxes), then build its combined icon from what is shown. `mode`: 'append' adds it after
+  // the last pick, 'insert' puts it in at `rank` (the picks from there on move down one), 'replace' changes the pick
+  // at `rank`. Each names the pair version this page shows, so a pair changed elsewhere is refused, never overwritten.
+  async function savePick(rank, main, sub, options, mode) {
+    const saved = await D.pick({reference_id: pair.id, rank, append: mode === 'append', insert: mode === 'insert', version: pair.version,
+                                main: main.key, sub: sub.key, layout: {main: main.layout, sub: sub.layout}, options});
+    await buildPick(saved.rank, main, sub, options, saved.version);
   }
-  async function buildPick(rank, main, sub, options) {
+  async function buildPick(rank, main, sub, options, version = pair.version) {
     const result = render(main, sub, options);
     if (result.error) throw new Error(`Saved the pick, but it cannot be combined: ${result.error}`);
-    const answer = await D.build({reference_id: pair.id, rank, svg: result.svg,
+    const answer = await D.build({reference_id: pair.id, rank, version, svg: result.svg,
       main: {icon: main.key, svg_sha256: drawings[main.key].svg_sha256}, sub: {icon: sub.key, svg_sha256: drawings[sub.key].svg_sha256}});
     return answer;
   }
-  const nextRank = () => Math.min(9, (Math.max(0, ...pair.picks.map(p => p.rank)) || 0) + 1);
+  const full = () => pair.picks.length >= MAX_PICKS;
 
   function tile({main, sub, options, pick}) {
     const card = document.createElement('article');
@@ -96,15 +99,19 @@
         : `Built · Icon review: ${built.review}${built.build_failed ? ' · a part is not approved yet' : ''}`;
       card.append(order, state);
       if (!built || D.stale(pick)) actions.append(button('Build', () => act(() => buildPick(pick.rank, main, sub, options), `Pick ${pick.rank} built: it is in Icon review as Ready.`), 'primary'));
-      if (pick.rank !== 1) actions.append(button('Make the output', () => act(() => D.move({reference_id: pair.id, rank: pick.rank, to: 1}),
+      if (pick.rank !== 1) actions.append(button('Make the output', () => act(() => D.move({reference_id: pair.id, rank: pick.rank, to: 1, version: pair.version}),
         'This pick is now the output; the others moved down one.')));
       actions.append(button('Adjust layout', () => editLayout({main, sub, options, rank: pick.rank})));
-      actions.append(button('Remove', () => act(() => D.unpick({reference_id: pair.id, rank: pick.rank}), `Pick ${pick.rank} removed.`), 'danger'));
+      actions.append(button('Remove', () => act(() => D.unpick({reference_id: pair.id, rank: pick.rank, version: pair.version}), `Pick ${pick.rank} removed.`), 'danger'));
     } else {
-      actions.append(button(pair.picks.length ? 'Add as next pick' : 'Pick as output', () => act(() => savePick(nextRank(), main, sub, options),
-        pair.picks.length ? 'Added as the next pick.' : 'Picked as the output.'), 'primary'));
-      if (pair.picks.length) actions.append(button('Make the output', () => act(() => savePick(1, main, sub, options, true),
-        'This combination is now the output; the other picks moved down one.')));
+      // A pair keeps at most 9 picks: adding is off then (replace or remove a pick instead).
+      const add = button(pair.picks.length ? 'Add as next pick' : 'Pick as output', () => act(() => savePick(null, main, sub, options, 'append'),
+        pair.picks.length ? 'Added as the next pick.' : 'Picked as the output.'), 'primary');
+      const first = button('Make the output', () => act(() => savePick(1, main, sub, options, 'insert'),
+        'This combination is now the output; the other picks moved down one.'));
+      for (const b of [add, first]) if (full()) { b.disabled = true;b.title = `A pair keeps at most ${MAX_PICKS} picks: remove one first.`; }
+      actions.append(add);
+      if (pair.picks.length) actions.append(first);
       actions.append(button('Adjust layout', () => editLayout({main, sub, options, rank: null})));
     }
     card.append(actions);
@@ -117,7 +124,8 @@
     const row = {id: pair.id, concept: pair.concept, variants: mains.map(c => c.name), sub: {has_fill: subs.length > 1}};
     const candidate = {base_variant: D.labelOf(pair, 'main', main.key), sub_variant: sub.key === pair.sub ? 'outline' : 'fill',
                        label: rank ? `pick ${rank}` : 'new pick', units: {main: main.layout, sub: sub.layout}};
-    const subKey = name => name === 'outline' ? pair.sub : subs.find(c => c.name !== 'outline')?.key;
+    // The sub the editor's "fill" means is the one this combination uses (a sub can have several fills).
+    const subKey = name => D.subFor(name, sub.key, pair.sub, subs.filter(c => c.name !== 'outline'));
     const backend = {
       keyshapes: D.keyshapes,
       elements: async () => Object.fromEntries(['main', 'sub'].map(role => {
@@ -133,10 +141,10 @@
       save: async (proposal, result) => {
         const mainKey = keyOfName('main', proposal.base_variant) || main.key, sKey = subKey(proposal.sub_variant) || sub.key;
         const boxes = result.candidate.layout_boxes;
-        const at = rank ?? nextRank();
-        await act(() => savePick(at, {key: mainKey, layout: boxes.main}, {key: sKey, layout: boxes.sub}, options),
-                  `Layout saved into pick ${at} and built.`);
-        return {variant: `pick ${at}`};
+        if (!rank && full()) throw new Error(`A pair keeps at most ${MAX_PICKS} picks: remove one before adding this layout.`);
+        await act(() => savePick(rank, {key: mainKey, layout: boxes.main}, {key: sKey, layout: boxes.sub}, options, rank ? 'replace' : 'append'),
+                  rank ? `Layout saved into pick ${rank} and built.` : 'Layout saved as a new pick and built.');
+        return {variant: rank ? `pick ${rank}` : 'new pick'};
       },
     };
     window.SideLayoutEditor.open(row, candidate, null, backend);
@@ -219,7 +227,8 @@
     $('prev').disabled = !pair.neighbours?.previous;$('next').disabled = !pair.neighbours?.next;
     $('prev').onclick = () => go(pair.neighbours.previous);$('next').onclick = () => go(pair.neighbours.next);
     original();
-    if (pair.state === 'uncombined') {
+    // A pair the import could not combine can still be picked once a part has a fill (Add fill on the parts pages).
+    if (pair.state === 'uncombined' && !(pair.main && pair.sub && (pair.main_variants.length || pair.sub_variants.length))) {
       status(pair.note || 'The combine cannot draw this pair.', true);
       return;
     }

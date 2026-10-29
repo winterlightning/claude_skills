@@ -6,7 +6,9 @@
 //! `icon_style`, since a record's `style` is its stroke style), so the list shows it under that style and it is
 //! reviewed on its own. A side pair part (a solo, container or sub icon) has several fill variants (`{source_key, style: "fill", variant?, svg}`):
 //! `<source_key>--fill` is its fill (variant current / fill), `<source_key>--fill-<variant>` the others (region-3,
-//! group-wheels…); a fill has no corner check and keeps its source's canvas. It is kept like an upload (uploaded_icons + revisions), so artwork serving and Pick work as
+//! group-wheels…); a fill has no corner check and keeps its source's canvas. A part's first fill also makes it a
+//! filled part of the fill side pairs and lets the pairs that waited for one be picked (core side_fill FIRST_FILL).
+//! Send `expected_sha256` (the drawing you replace, or null to only create) so a newer drawing is never overwritten. It is kept like an upload (uploaded_icons + revisions), so artwork serving and Pick work as
 //! for any uploaded icon. A new drawing starts Ready; one whose corner check failed is a failed build (the Failed tab).
 //!
 //! Sending the same drawing with the same check changes nothing. The same drawing with another check result changes
@@ -216,6 +218,14 @@ pub async fn post_styled(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
                 details(vec![("status", json!("ready")), ("svg_sha256", json!(digest)), ("artwork_source", json!(origin.clone()))]))?),
         }
         statements.extend(super::icon_list::recount(db, &key, matches!(write, Write::Create))?);
+        if fill {
+            // A part's first fill makes it a filled part of the fill side pairs, and the pairs that waited for a fill
+            // can be picked (no change once the part is filled).
+            let all = args![source.key.clone(), now.clone(), pictographic_core::side_fill::NO_FILL_NOTE];
+            for (sql, n) in pictographic_core::side_fill::FIRST_FILL {
+                statements.push(db::stmt(db, sql, all[..n].to_vec())?);
+            }
+        }
     }
     let (mut created, mut updated, mut checks) = (0, 0, 0);
     if !writes.is_empty() {

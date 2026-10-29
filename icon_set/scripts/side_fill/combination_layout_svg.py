@@ -22,7 +22,8 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent / 'vendor'))
+# icon_combination is the vendored combination engine (icon_set/vendor/combination), not a copy of it.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'vendor' / 'combination'))
 
 NS = 'http://www.w3.org/2000/svg'
 SHAPES = ('path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon')
