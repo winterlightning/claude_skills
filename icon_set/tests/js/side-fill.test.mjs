@@ -1,7 +1,9 @@
 // side-fill-combine.js against the Python fill combine (side_fill/pick_combine.py).
 //   node --test icon_set/tests/js/side-fill.test.mjs
 // fixtures/side-fill/*.json.gz: real picks of every kind (stroke-fill, flat and outline mains and subs, layout picks,
-// omitted elements, joined overlaps) combined by pick_combine.combine (`python3 -m icon_set side-fill goldens`).
+// omitted elements, joined overlaps) combined by pick_combine.combine. They are made from the snapshot, which is data
+// in R2, not in git: `python3 cloud/migrate/side_fill_data.py pull`, then `python3 -m icon_set side-fill goldens`.
+// Without them these tests are skipped and say so.
 // Shapely and Clipper round arcs differently, so the drawings are compared by area: the part of either drawing the
 // other does not cover, less slivers thinner than 0.3 px along the edges, must stay under a square pixel.
 import test from 'node:test';
@@ -16,8 +18,9 @@ const folder = process.env.SIDE_FILL_GOLDENS || new URL('./fixtures/side-fill/',
 const cases = existsSync(folder) ? readdirSync(folder).filter(f => f.endsWith('.json.gz')).sort()
   .map(f => JSON.parse(gunzipSync(readFileSync(folder + f)))) : [];
 const TOLERANCE = 1.0;   // px²
+const skip = cases.length ? false : `no side fill goldens in ${folder}: pull the snapshot and run \`python3 -m icon_set side-fill goldens\``;
 
-test('fill side pairs match the Python combine', () => {
+test('fill side pairs match the Python combine', {skip}, () => {
   assert.ok(cases.length >= 100, `side fill goldens missing (${folder})`);
   const failures = [], slow = [];
   let worst = 0;
@@ -41,7 +44,7 @@ test('fill side pairs match the Python combine', () => {
 
 // The layout editor's preview (side-fill-layout.js): a pick's own boxes sent back as the editor sends them give the
 // same drawing as the pick, keyshape checks for both parts, and the 8px stress cut for a filled main.
-test('the layout editor previews a pick as it is combined', () => {
+test('the layout editor previews a pick as it is combined', {skip}, () => {
   const Layout = require('../../scripts/templates/side-fill-layout.js');
   const keyshapes = JSON.parse(readFileSync(new URL('../../data/side-fill/data/side-keyshapes.json', import.meta.url)));
   const picks = cases.filter(c => c.pick.main.layout?.every(b => b.paths) && c.pick.sub.layout?.every(b => b.paths)).slice(0, 25);

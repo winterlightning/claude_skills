@@ -21,8 +21,16 @@ const Layout = require('../../icon_set/scripts/templates/side-fill-layout.js');
 const Fill = require('../../icon_set/scripts/templates/side-fill-combine.js');
 const I = Fill.internals;
 const OUT = new URL('../../icon_set/data/side-fill/data/keyshape-fit-layouts.json', import.meta.url);
-const KEYSHAPES_FILE = new URL('../../icon_set/data/side-fill/data/side-keyshapes.json', import.meta.url);
-const {values: args} = parseArgs({options: {'base-url': {type: 'string'}, ids: {type: 'string'}}});
+// The contract's SOLO48 / SUB32 keyshapes as centerline bounds, as the pages read them (side-fill-data.js keyshapes).
+const LAB = JSON.parse(readFileSync(new URL('../../published/gallery/laboratory.json', import.meta.url)));
+const KEYSHAPE_TABLE = Object.fromEntries([['main', 'SOLO48'], ['sub', 'SUB32']].map(([role, profile]) => [role, Object.fromEntries(
+  Object.entries(LAB.keyshapes.resolved[profile]).map(([n, k]) => [n, k.centerline_bounds]).filter(([, b]) => Array.isArray(b)))]));
+const {values: args} = parseArgs({options: {'base-url': {type: 'string'}, ids: {type: 'string'},
+  // How far a refit may move from the pick (defaults: the strict pass). A wider pass is for a person to review.
+  'max-cut': {type: 'string', default: '0.04'}, 'max-gap': {type: 'string', default: '4'}, balance: {type: 'string', default: '0.8-1.3'},
+  out: {type: 'string'}}});
+const MAX_CUT = Number(args['max-cut']), MAX_GAP = Number(args['max-gap']);
+const [BALANCE_LO, BALANCE_HI] = args.balance.split('-').map(Number);
 const base = (args['base-url'] || '').replace(/\/$/, '');
 if (!base) { console.error('error: --base-url is required'); process.exit(2); }
 const headers = {'User-Agent': 'pictographic-migrate/1.0'};
@@ -98,7 +106,7 @@ function candidates(position, main, sub) {
         if (!(rest >= 12) || (vertical ? own[other][0] : own[other][1]) * ko > 40.5) continue;
         const k = {[wide]: kw, [other]: ko};
         const q = k.sub / k.main;
-        if (q < 0.8 || q > 1.3) continue;
+        if (q < BALANCE_LO || q > BALANCE_HI) continue;
         tried.push({gap, k, q});
       }
     }
@@ -129,7 +137,7 @@ function candidates(position, main, sub) {
   return out;
 }
 
-const keyshapes = JSON.parse(readFileSync(KEYSHAPES_FILE));
+const keyshapes = KEYSHAPE_TABLE;
 const wanted = args.ids ? new Set(args.ids.split(',')) : null;
 const result = {}, unfit = [];
 let checked = 0, off = 0;
@@ -175,10 +183,10 @@ for (let after = null; ;) {
           Layout.preview({keyshapes, position: pair.id.slice(-2), options: pick.options, main: part('main', pair.main), sub: part('sub', pair.sub),
                           proposal: {main: {units: c.main}, sub: {units: c.sub}}});
           const after = reading(c.main, c.sub);
-          if (after.cut > before.cut + 0.04) throw new Error(`cuts ${Math.round(after.cut * 100)}% of the main away (now ${Math.round(before.cut * 100)}%)`);
+          if (after.cut > before.cut + MAX_CUT) throw new Error(`cuts ${Math.round(after.cut * 100)}% of the main away (now ${Math.round(before.cut * 100)}%)`);
           const sideAfter = side(c.main, c.sub);
           if (sideAfter.some((v, i) => v !== sideBefore[i])) throw new Error(`the sub moves to another side of the main (${sideBefore} → ${sideAfter})`);
-          if (after.gap > before.gap + 4) throw new Error(`parts drift apart (${after.gap.toFixed(1)}px, now ${before.gap.toFixed(1)}px)`);
+          if (after.gap > before.gap + MAX_GAP) throw new Error(`parts drift apart (${after.gap.toFixed(1)}px, now ${before.gap.toFixed(1)}px)`);
           kept = {main: c.main, sub: c.sub, keyshape: m.name};
           break;
         } catch (error) { why = error.message; if (process.env.DEBUG) console.log(c.target, why); }
@@ -190,7 +198,13 @@ for (let after = null; ;) {
   if (!page.next) break;
   after = page.next;
 }
-writeFileSync(OUT, JSON.stringify({schema: 'side-fill-keyshape-fit/v1', pairs: result, unfit}, null, 1) + '\n');
+// Picks fitted before keep their layouts (they are on the keyshape now, so this run does not see them again).
+const target = args.out ? new URL(args.out, `file://${process.cwd()}/`) : OUT;
+let earlier = {};
+try { earlier = JSON.parse(readFileSync(OUT)).pairs || {}; } catch { /* first run */ }
+const merged = {...earlier};
+for (const [id, ranks] of Object.entries(result)) merged[id] = {...(merged[id] || {}), ...ranks};
+writeFileSync(target, JSON.stringify({schema: 'side-fill-keyshape-fit/v1', pairs: args.out ? result : merged, unfit}, null, 1) + '\n');
 const fitted = Object.values(result).reduce((n, ranks) => n + Object.keys(ranks).length, 0);
 console.log(`${checked} picks checked; ${off} off keyshape; ${fitted} laid out again; ${unfit.length} left for a hand layout`);
 for (const u of unfit.slice(0, 15)) console.log(`  ${u.id} #${u.rank} ${u.concept}: ${u.why}`);

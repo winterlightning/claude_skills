@@ -16,7 +16,11 @@ const require = createRequire(import.meta.url);
 const Fill = require('../../icon_set/scripts/templates/side-fill-combine.js');
 const Layout = require('../../icon_set/scripts/templates/side-fill-layout.js');
 const SITE = JSON.parse(readFileSync(new URL('../../icon_set/data/side-fill/data/site-drawings.json', import.meta.url)));
-const KEYSHAPES = JSON.parse(readFileSync(new URL('../../icon_set/data/side-fill/data/side-keyshapes.json', import.meta.url)));
+// The contract's SOLO48 / SUB32 keyshapes as centerline bounds, as the pages read them (side-fill-data.js keyshapes).
+const LAB = JSON.parse(readFileSync(new URL('../../published/gallery/laboratory.json', import.meta.url)));
+const KEYSHAPE_TABLE = Object.fromEntries([['main', 'SOLO48'], ['sub', 'SUB32']].map(([role, profile]) => [role, Object.fromEntries(
+  Object.entries(LAB.keyshapes.resolved[profile]).map(([n, k]) => [n, k.centerline_bounds]).filter(([, b]) => Array.isArray(b)))]));
+const KEYSHAPES = KEYSHAPE_TABLE;
 const {values: args} = parseArgs({options: {'base-url': {type: 'string'}, cookie: {type: 'string'}, send: {type: 'boolean'}}});
 const base = (args['base-url'] || '').replace(/\/$/, '');
 if (!base || (args.send && !args.cookie)) { console.error('error: --base-url is required, and --send needs --cookie (a signed-in session)'); process.exit(2); }

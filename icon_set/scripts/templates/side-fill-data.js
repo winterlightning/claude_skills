@@ -37,8 +37,12 @@
   }
   const iconUrl = (key, sha) => key ? `/api/icon-artwork/svg?icon=${encodeURIComponent(key)}${sha ? '&v=' + sha.slice(0, 12) : ''}` : null;
   const svgUrl = svg => svg ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}` : null;
+  // The contract's SOLO48 / SUB32 keyshapes as centerline bounds ({main: {name: bounds}, sub: …}), from laboratory.json
+  // as the Side pairs editor reads them.
   let keyshapeTable = null;
-  const keyshapes = () => keyshapeTable ||= fetch('side-fill-keyshapes.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  const keyshapes = () => keyshapeTable ||= fetch('laboratory.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
+    .then(d => Object.fromEntries([['main', 'SOLO48'], ['sub', 'SUB32']].map(([role, profile]) => [role, Object.fromEntries(
+      Object.entries(d?.keyshapes?.resolved?.[profile] || {}).map(([n, k]) => [n, k.centerline_bounds]).filter(([, b]) => Array.isArray(b)))])));
 
   // What a pick's part is: its variant label, or 'outline' when it is the solo / sub icon itself.
   function labelOf(pairRow, role, key) {

@@ -91,17 +91,21 @@ icons and reviews are key lookups; totals are `fill_counts` rows. Every response
 A tile image is `/api/icon-artwork/svg` (one icon row and one revision); the pair page reads its drawings with one
 `/api/combinations/drawings` request.
 
-## The snapshot's drawings are in R2
+## The snapshot is data, in R2
 
-`icon_set/data/side-fill` is the snapshot the Python tools read. Its JSON (layouts, review decisions, region recipes)
-is in git; its 8,056 SVG drawings (sources, fills, the Oct 26 backup) are R2 objects under
-`references/side-fill-data/<path>`, and `svg-manifest.json` names each with its sha256.
+`icon_set/data/side-fill` is the snapshot the Python tools read (layouts, review decisions, region recipes, the source
+and fill drawings, the Oct 26 backup). It is data, so git holds none of it (the folder is ignored): its 9,273 files are
+R2 objects under `references/side-fill-data/<path>`, named with their sha256 by `references/side-fill-data/manifest.json`.
+The JS goldens (`icon_set/tests/js/fixtures/side-fill`) are made from it and are not in git either.
 
 ```
-python3 cloud/migrate/side_fill_svgs.py pull        # a fresh checkout: the drawings from R2 (R2 keys in cloud/.env)
-python3 cloud/migrate/side_fill_svgs.py check       # the files here against the manifest
-python3 cloud/migrate/side_fill_svgs.py manifest    # after changing drawings, then `push --backend s3`
+python3 cloud/migrate/side_fill_data.py pull        # a fresh checkout: the snapshot from R2 (R2 keys in cloud/.env)
+python3 cloud/migrate/side_fill_data.py check       # the files here against the manifest
+python3 cloud/migrate/side_fill_data.py manifest    # after changing files, then `push --backend s3`
+python3 -m icon_set side-fill goldens               # the JS goldens; without them side-fill.test.mjs is skipped
 ```
+
+The pages read the source keyshapes from `laboratory.json`, as the Side pairs editor does.
 
 ## Commands
 
@@ -128,8 +132,8 @@ python3 -m icon_set side-fill goldens      # fixtures for side-fill.test.mjs
    imported picks; picks made on the site are kept).
 5. `node cloud/migrate/build_fill_pairs.mjs --base-url <site> --token "$PICTOGRAPHIC_PUSH_TOKEN"` (dry run), then
    `--send`: each pick's combined icon, made by the pages' own engine, into Icon review.
-6. Publish the gallery (`side-fill*.html|js|css`, `side-fill-combine.js`, `side-fill-layout.js`, `clipper.js`,
-   `side-fill-keyshapes.json`).
+6. Publish the gallery (`side-fill*.html|js|css`, `side-fill-combine.js`, `side-fill-layout.js`, `clipper.js`), and
+   push the snapshot to R2 (`side_fill_data.py push --backend s3`) so others can pull it.
 
 Locally: `wrangler dev --persist-to <dir> --var PUSH_TOKEN:<32+ characters>` on a seeded D1 (`cloud/worker/tests/side_fill/make_local_seed.py`), the same
 steps against `http://localhost:<port>`, and `python3 -m icon_set dev --cloud-api http://localhost:<port>` for the pages

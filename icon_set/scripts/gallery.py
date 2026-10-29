@@ -443,9 +443,6 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
         built = published / 'gallery' / asset
         if built.is_file() and built.resolve() != (target / asset).resolve():
             shutil.copyfile(built, target / asset)
-    # Fill side pairs: the source keyshapes the layout editor locks parts to (all other fill data is D1's).
-    shutil.copyfile(Path(__file__).resolve().parents[1] / 'data' / 'side-fill' / 'data' / 'side-keyshapes.json',
-                    target / 'side-fill-keyshapes.json')
     # Text symbols for container pairs (container-text-symbol.js): default text per symbol source.
     container_text = Path(__file__).resolve().parents[1] / 'data' / 'container-text-v2.json'
     if container_text.exists():

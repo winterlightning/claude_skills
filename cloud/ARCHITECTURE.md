@@ -260,7 +260,7 @@ Bucket `pictographic-review`, live contents:
 | `site/gallery/preview-icons.json` | 1 | ~2.4 MB | `push_files.py` | `/gallery/preview-icons.json`, with D1 uploads appended |
 | `site/gallery/side-combination64.json` | 1 | ~1.3 MB | `push_files.py` | as is (its icons are also D1 rows, section 4.2) |
 | `site/<profile>/manifest.json`, `site/failed/<profile>/manifest.json` | 13 | ~57 MB (solo48 is 49.7 MB) | `published/<profile>/manifest.json` | as is |
-| `references/side-fill-data/` | 8,074 | ~70 MB | `icon_set/data/side-fill/**.svg` (the fill side pairs snapshot's drawings; its JSON is in git) | not served; `cloud/migrate/side_fill_svgs.py pull` restores them |
+| `references/side-fill-data/` | 9,274 | ~105 MB | `icon_set/data/side-fill/` (the fill side pairs snapshot: JSON, recipes and drawings; not in git) and its `manifest.json` | not served; `cloud/migrate/side_fill_data.py pull` restores it |
 | `stores/reference-images/` | **0** | | Mac mini `state/reference-images/` | `/api/reference-images?id=` |
 
 Per-icon SVGs (`published/solo48/*.svg`, `sub32/`, `failed/…`) are **answered from D1** by
