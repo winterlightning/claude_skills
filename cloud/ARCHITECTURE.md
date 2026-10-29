@@ -77,6 +77,14 @@ The account's older `pictographic` bucket and search Workers are separate and un
   Pages: `gallery/combinations.html`, `container-pairs.html`, `side-pairs.html`; routes in
   `worker/app/src/routes/combinations.rs`. A catalog push adds combined icons it builds but never overwrites
   one built in the browser nor removes one.
+* **Fill side pairs** (migration 0023, `docs/side-fill.md`) are the same 64 pairs combined from fill variants of
+  their parts. A part's fill variants are icons of style `fill` in the part's own family (`solo/<name>--fill`,
+  `--fill-region-3`…, `sub/<name>--fill`, `style_of` the normal icon, stored with `POST /api/icons/styled`, uploaded
+  rows); the normal icon is the outline. A pair's picks are `reference_part_fills` rows (rank 1 its output); its
+  outputs are Side combination 64 icons of style `fill` (`side_combination64/<id>--fill[-n]`, origin
+  `combination-build`), built in the browser by `side-fill-combine.js` and stored by `POST /api/side-fill/build`.
+  The pages read `fill_pairs` / `fill_parts` / `fill_counts` (written by the import, kept by every write) in keyset
+  pages; every route reports `X-D1-Rows-Read` and `cloud/worker/tests/side_fill` holds each to a ceiling.
 * After an artwork change (pick, upload, approve-as-exception) the local gallery re-pushes
   `site/gallery/icons.json` and `site/gallery/side-components.json` in the background (at most every
   30 s), so the cloud pages show the new drawing and the component's new status.
@@ -252,6 +260,7 @@ Bucket `pictographic-review`, live contents:
 | `site/gallery/preview-icons.json` | 1 | ~2.4 MB | `push_files.py` | `/gallery/preview-icons.json`, with D1 uploads appended |
 | `site/gallery/side-combination64.json` | 1 | ~1.3 MB | `push_files.py` | as is (its icons are also D1 rows, section 4.2) |
 | `site/<profile>/manifest.json`, `site/failed/<profile>/manifest.json` | 13 | ~57 MB (solo48 is 49.7 MB) | `published/<profile>/manifest.json` | as is |
+| `references/side-fill-data/` | 8,074 | ~70 MB | `icon_set/data/side-fill/**.svg` (the fill side pairs snapshot's drawings; its JSON is in git) | not served; `cloud/migrate/side_fill_svgs.py pull` restores them |
 | `stores/reference-images/` | **0** | | Mac mini `state/reference-images/` | `/api/reference-images?id=` |
 
 Per-icon SVGs (`published/solo48/*.svg`, `sub32/`, `failed/…`) are **answered from D1** by

@@ -84,7 +84,17 @@ pub fn error(status: u16, message: &str) -> Result<Response> {
 /// Untrusted SVG, displayed sandboxed exactly like deploy.py, with its sha256 in X-SVG-SHA256 so a caller can tell
 /// which drawing it got.
 pub fn svg(document: &str) -> Result<Response> {
-    let headers = base_headers("image/svg+xml", "no-store")?;
+    svg_with(document, "no-store")
+}
+
+/// The same, cacheable by the browser: only for a URL that names the exact drawing it answers (a new drawing has
+/// another URL), so the copy kept can never be stale.
+pub fn svg_immutable(document: &str) -> Result<Response> {
+    svg_with(document, "private, max-age=604800, immutable")
+}
+
+fn svg_with(document: &str, cache: &str) -> Result<Response> {
+    let headers = base_headers("image/svg+xml", cache)?;
     headers.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")?;
     headers.set("X-SVG-SHA256", &hex::encode(Sha256::digest(document.as_bytes())))?;
     Ok(Response::from_bytes(document.as_bytes().to_vec())?.with_headers(headers))

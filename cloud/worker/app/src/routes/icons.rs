@@ -431,9 +431,13 @@ pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
         db::first(&ctx.db, pictographic_core::combination_identity::CURRENT_UPLOADED_SVG,
             args![icon.svg_sha256.clone(), key]).await?
     } else {
-        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256]).await?
+        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?
     };
+    // `v` (the drawing's sha, or its first 12+ characters) names this exact revision: the browser may keep it
+    // (the grids and the fill side pairs pages ask this way); without it, or for another drawing, never cached.
+    let named = ctx.param("v").is_some_and(|v| v.len() >= 12 && icon.svg_sha256.starts_with(v));
     match row {
+        Some(row) if named => http::svg_immutable(&row.svg),
         Some(row) => http::svg(&row.svg),
         None => http::error(503, "Artwork is unavailable on this server."),
     }

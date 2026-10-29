@@ -37,12 +37,15 @@ macro_rules! part_errors {
 }
 
 /// The combined icons (keys) built from a part (`?1`, its icon key) in any size: the ones to check again after
-/// that part's review changed.
+/// that part's review changed. It runs on every review, so the 64 branches look icons up by key, from the part
+/// tables (a combined 64 icon's key is `<family>/<reference_id>`, a fill output's is its pick's `combined`), never
+/// by walking a family: Side combination 64 holds the fill outputs too.
 pub const USING_PART: &str = "SELECT i.key FROM icons i WHERE (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) AND (\
-    (i.family IN ('side_combination64', 'container_combination64') AND i.icon_id IN (SELECT reference_id FROM reference_parts WHERE icon = ?1)) \
+    i.key IN (SELECT f.family || '/' || p.reference_id FROM reference_parts p, \
+        (SELECT 'side_combination64' AS family UNION ALL SELECT 'container_combination64') f WHERE p.icon = ?1) \
     OR (i.family IN ('combination-72', 'container-combination-72') AND COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)) \
-    OR (i.family = 'side_combination64' AND i.style = 'fill' AND i.key IN (SELECT m.combined FROM reference_part_fills m WHERE m.role = 'main' AND m.combined IS NOT NULL \
-        AND m.reference_id IN (SELECT reference_id FROM reference_part_fills WHERE icon = ?1))))";
+    OR i.key IN (SELECT m.combined FROM reference_part_fills m WHERE m.role = 'main' AND m.combined IS NOT NULL \
+        AND m.reference_id IN (SELECT reference_id FROM reference_part_fills WHERE icon = ?1)))";
 
 /// The icons in `?1` whose failed flag or errors are no longer what their parts' reviews say.
 pub const CHANGED: &str = concat!(part_errors!(),
