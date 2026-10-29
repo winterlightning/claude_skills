@@ -169,8 +169,6 @@ def build():
         row = rows.get(ref)
         state = 'uncombined' if row is None else 'picked' if ref in picked else 'unpicked'
         note = uncombined_note(parts, errors.get(ref)) if row is None else None
-        counts[('pairs', state)] = counts.get(('pairs', state), 0) + 1
-        counts[('pairs', 'all')] = counts.get(('pairs', 'all'), 0) + 1
         layouts = [q(json.dumps(parts[r]['layout']) if parts.get(r, {}).get('layout') else None) for r in ('main', 'sub')]
         pairs.append(f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
                      f"VALUES ({q(ref)}, {q(sort_key(item['concept'], ref))}, {q(state)}, {q(parts.get('main', {}).get('icon'))}, "
@@ -192,15 +190,27 @@ def build():
                          f"SELECT {q(ref)}, {q(role)}, {rank}, key, {layout}, {options}, {q(now)}, 'side-fill import' "
                          f"FROM icons WHERE key = {q(fill_key(part['source'], part['label']))};")
     mains, subs = parts_listing(set(rows))
+    from .fill_icons import site_fill
+    from .parts import STATUS_NOTE
     parts_sql = []
     for role, listing in (('main', mains), ('sub', subs)):
         for entry, art in listing:
+            if entry['status'] == 'redrawn' and site_fill(role, entry):
+                # Its fill is of the site's current drawing (side-fill sources): its pairs are picked on that drawing
+                # (pick_new_pairs.mjs), so it is a filled part like any other.
+                entry = {**entry, 'status': 'ready', 'note': STATUS_NOTE['ready']}
             counts[(role, entry['status'])] = counts.get((role, entry['status']), 0) + 1
             counts[(role, 'all')] = counts.get((role, 'all'), 0) + 1
             parts_sql.append(f"INSERT INTO fill_parts(key, role, sort_key, status, note, text, pair_count, updated_at) VALUES "
                              f"({q(entry['key'])}, {q(role)}, {q(sort_key(entry['name'], entry['key']))}, {q(entry['status'])}, "
                              f"{q(entry['note'])}, {q(art.get('text'))}, {len(entry['pairs'])}, {q(now)});")
     count_sql = [f"INSERT INTO fill_counts(scope, status, n) VALUES ({q(s)}, {q(st)}, {n});" for (s, st), n in sorted(counts.items())]
+    # A pair picked on the site (it has picks) stays picked when the listings are imported again; the pair totals are
+    # then counted from the rows written (one pass over fill_pairs, at import only).
+    count_sql += ["UPDATE fill_pairs SET state = 'picked', note = NULL WHERE state != 'picked' "
+                  "AND EXISTS (SELECT 1 FROM reference_part_fills p WHERE p.reference_id = fill_pairs.reference_id);",
+                  "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', state, COUNT(*) FROM fill_pairs GROUP BY state;",
+                  "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', 'all', COUNT(*) FROM fill_pairs;"]
     head = ['DELETE FROM fill_pairs;', 'DELETE FROM fill_parts;', 'DELETE FROM fill_counts;']
     IMPORT.write_text('\n'.join(head + pairs + parts_sql + count_sql) + '\n')
     # The picks replace the imported ones only: picks made on the site since (updated_by a person) are kept.
