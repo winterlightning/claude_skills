@@ -393,3 +393,32 @@ def test_replacing_a_fill_names_the_drawing_it_replaces():
     status, answer, _ = call('POST', '/api/icons/styled', {**stale, 'items': [{**stale['items'][0], 'expected_sha256': None}]})
     assert status == 200 and answer['errors'] and answer['errors'][0].get('conflict'), 'Add fill must not overwrite a variant that exists'
     assert drawing(variant['key'])['svg_sha256'] == current['svg_sha256']
+
+
+def test_each_save_returns_its_own_version_so_a_slower_tab_cannot_build_over_a_newer_save():
+    pair, pick = built_pick_with_fill_variants()
+    key, old = pick['combined']['key'], drawing(pick['combined']['key'])
+    layouts = [{'main': [{**b, 'x': b['x'] + dx} for b in pick['main']['layout']], 'sub': pick['sub']['layout']} for dx in (1, 2)]
+    try:
+        # Tab A saves layout A, then tab B saves layout B on top of it.
+        status, a, _ = replace(pair['id'], pick, pair['version'], layout=layouts[0])
+        assert status == 200, a
+        status, b, _ = replace(pair['id'], pick, a['version'], layout=layouts[1])
+        assert status == 200, b
+        assert a['version'] == pair['version'] + 1 and b['version'] == a['version'] + 1, 'each save reports the version it made'
+        # A builds its drawing with the version its save returned: refused, nothing written.
+        before, totals = pair_now(pair['id']), get('/api/side-fill/pairs', limit=1)[0]['counts']
+        status, answer, _ = build(pair['id'], pick['rank'], a['version'], old['svg'].replace('</svg>', '<path d="M3 3L4 4" stroke="none"/></svg>'), pick)
+        assert status == 409, answer
+        after = pair_now(pair['id'])
+        assert drawing(key)['svg_sha256'] == old['svg_sha256']
+        assert after['picks'] == before['picks'] and get('/api/side-fill/pairs', limit=1)[0]['counts'] == totals
+        # B builds with its own version: lands.
+        status, answer, _ = build(pair['id'], pick['rank'], b['version'], old['svg'], pick)
+        assert status == 200, answer
+    finally:
+        now = pair_now(pair['id'])
+        status, answer, _ = replace(pair['id'], pick, now['version'])
+        assert status == 200, answer
+        status, answer, _ = build(pair['id'], pick['rank'], answer['version'], old['svg'], pick)
+        assert status == 200 and answer['key'] == key, answer

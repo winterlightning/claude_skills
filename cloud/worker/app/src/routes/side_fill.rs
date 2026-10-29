@@ -264,14 +264,9 @@ pub async fn parts(ctx: &Ctx) -> Result<Response> {
     reads.answer(&json!({"parts": items, "next": next, "counts": totals}))
 }
 
-/// Move one pair between fill_counts states (both totals rows, no scan).
-fn count_move(ctx: &Ctx, from: &str, to: &str) -> Result<Vec<worker::D1PreparedStatement>> {
-    if from == to { return Ok(vec![]); }
-    Ok(vec![
-        db::stmt(&ctx.db, "UPDATE fill_counts SET n = n - 1 WHERE scope = 'pairs' AND status = ?", args![from])?,
-        db::stmt(&ctx.db, "INSERT INTO fill_counts(scope, status, n) VALUES ('pairs', ?, 1) \
-            ON CONFLICT(scope, status) DO UPDATE SET n = n + 1", args![to])?,
-    ])
+/// The pair (`id`) moved to the state `next` with its totals, from the state it has when the batch runs (sql::state_moves).
+fn state_moves(ctx: &Ctx, id: &str, next: &str, now: &str) -> Result<Vec<worker::D1PreparedStatement>> {
+    sql::state_moves(next).iter().map(|q| db::stmt(&ctx.db, q, args![id, now])).collect()
 }
 
 /// The pair version a request names, when it names one (a number; anything else is refused by the caller).
@@ -279,23 +274,25 @@ fn named_version(data: &Value) -> std::result::Result<Option<i64>, ()> {
     match data.get("version") { None | Some(Value::Null) => Ok(None), Some(v) => v.as_i64().map(Some).ok_or(()) }
 }
 
-/// Run a write batch; a batch refused by sql::GUARD (the pair changed) or by a key another write just took is a 409.
-async fn write(ctx: &Ctx, statements: Vec<worker::D1PreparedStatement>) -> Result<Option<Response>> {
+/// Run a write batch: its results, or the 409 for a batch refused by a guard (the pair, its pick or a part drawing
+/// changed) or by an output key another build just took. Nothing of a refused batch is written.
+async fn write(ctx: &Ctx, statements: Vec<worker::D1PreparedStatement>) -> Result<std::result::Result<Vec<worker::D1Result>, Response>> {
     match db::batch(&ctx.db, statements).await {
-        Ok(_) => Ok(None),
+        Ok(results) => Ok(Ok(results)),
         Err(error) if sql::is_guard_error(&error.to_string()) =>
-            Ok(Some(http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and try again.")?)),
+            Ok(Err(http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and try again.")?)),
         Err(error) if error.to_string().contains("UNIQUE constraint failed: icons.key") =>
-            Ok(Some(http::error(409, "Another build took this output's key at the same moment. Build again.")?)),
+            Ok(Err(http::error(409, "Another build took this output's key at the same moment. Build again.")?)),
         Err(error) => Err(error),
     }
 }
 
-/// The pair's version after a write (one row by key).
-async fn version_of(reads: &Reads<'_>, id: &str) -> Result<i64> {
+/// The version sql::EDITED committed in this batch (its RETURNING row), not one read later: another tab may have
+/// saved since, and its version is not this write's.
+fn committed_version(results: &[worker::D1Result], at: usize) -> Result<i64> {
     #[derive(Deserialize)]
     struct V { version: f64 }
-    Ok(reads.first::<V>("SELECT version FROM fill_pairs WHERE reference_id = ?", args![id]).await?.map_or(0, |v| v.version as i64))
+    Ok(results.get(at).map(|r| r.results::<V>()).transpose()?.and_then(|rows| rows.into_iter().next()).map_or(0, |v| v.version as i64))
 }
 
 /// POST /api/side-fill/pick {reference_id, rank?, main, sub, layout?: {main, sub}}: the fill variant icons a pick
@@ -369,13 +366,13 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             updated_at = excluded.updated_at, updated_by = excluded.updated_by",
             args![id, *role, rank, key.as_str(), layout_arg, options_arg, now.clone(), user])?);
     }
-    statements.push(db::stmt(&ctx.db, "UPDATE fill_pairs SET state = 'picked', note = NULL, updated_at = ? WHERE reference_id = ?", args![now.clone(), id])?);
+    statements.extend(state_moves(ctx, id, "'picked'", &now)?);
+    let edited = statements.len();
     statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?);
-    statements.extend(count_move(ctx, &row.state, "picked")?);
     statements.push(db::activity(&ctx.db, user, "fill_pick", Some(id), db::details(vec![("rank", json!(rank)),
         ("main", json!(chosen[0].1)), ("sub", json!(chosen[1].1))]))?);
-    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
-    let version = version_of(&reads, id).await?;
+    let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
+    let version = committed_version(&results, edited)?;
     reads.answer(&json!({"reference_id": id, "rank": rank, "main": chosen[0].1, "sub": chosen[1].1, "updated_at": now, "version": version}))
 }
 
@@ -411,10 +408,10 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         // Later ranks move up; done through a negative rank so the primary key never collides mid-update.
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank - 1) WHERE reference_id = ? AND rank > ?", args![id, rank])?,
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
-        db::stmt(&ctx.db, "UPDATE fill_pairs SET state = ?, updated_at = ? WHERE reference_id = ?", args![state, now.clone(), id])?,
-        db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?,
     ]);
-    statements.extend(count_move(ctx, &row.state, state)?);
+    statements.extend(state_moves(ctx, id, sql::STATE_AFTER_UNPICK, &now)?);
+    let edited = statements.len();
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?);
     if let Some(o) = &orphan {
         statements.extend(super::icon_list::remove(&ctx.db, &o.combined)?);
         statements.push(db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![o.combined.clone()])?);
@@ -422,8 +419,8 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     }
     statements.push(db::activity(&ctx.db, user, "fill_unpick", Some(id), db::details(vec![("rank", json!(rank)),
         ("removed_icon", json!(orphan.as_ref().map(|o| o.combined.clone())))]))?);
-    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
-    let version = version_of(&reads, id).await?;
+    let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
+    let version = committed_version(&results, edited)?;
     reads.answer(&json!({"reference_id": id, "rank": rank, "picks_left": left, "state": state, "version": version}))
 }
 
@@ -543,7 +540,9 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         "created_at_source": "side-fill-pair", "uploaded_icon": false});
     let db = &ctx.db;
     let mut statements = vec![
-        db::stmt(db, sql::GUARD, args![id, version])?,
+        // The pair at the version, the pick still of these icons, each still the drawing combined: or nothing lands.
+        db::stmt(db, sql::BUILD_GUARD, args![id, version, rank, main.icon.clone(), data["main"]["svg_sha256"].as_str().unwrap_or(""),
+                                            sub.icon.clone(), data["sub"]["svg_sha256"].as_str().unwrap_or("")])?,
         // origin combination-build, as a side pair build: a catalog push leaves the icon and its list columns alone.
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'combination-build', ?)",
                  args![sha.clone(), key.clone(), svg, now.clone()])?,
@@ -572,7 +571,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     }
     statements.push(db::activity(db, user, "fill_build", Some(&key), db::details(vec![("svg_sha256", json!(sha)), ("rank", json!(rank)),
         ("errors", json!(errors))]))?);
-    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
+    if let Err(refused) = write(ctx, statements).await? { return Ok(refused); }
     reads.answer(&json!({"reference_id": id, "rank": rank, "key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(),
                          "errors": errors, "preview_url": preview, "version": version}))
 }
@@ -600,11 +599,12 @@ pub async fn move_pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = CASE WHEN rank = ? THEN -? ELSE -(rank + ?) END \
             WHERE reference_id = ? AND (rank = ? OR rank BETWEEN ? AND ?)", args![from, to, step, id, from, low, high])?,
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
-        db::stmt(&ctx.db, sql::EDITED, args![id, now])?,
-        db::activity(&ctx.db, user, "fill_move", Some(id), db::details(vec![("rank", json!(from)), ("to", json!(to))]))?,
     ]);
-    if let Some(refused) = write(ctx, statements).await? { return Ok(refused); }
-    let version = version_of(&reads, id).await?;
+    let edited = statements.len();
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now])?);
+    statements.push(db::activity(&ctx.db, user, "fill_move", Some(id), db::details(vec![("rank", json!(from)), ("to", json!(to))]))?);
+    let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
+    let version = committed_version(&results, edited)?;
     reads.answer(&json!({"reference_id": id, "rank": from, "to": to, "version": version}))
 }
 
