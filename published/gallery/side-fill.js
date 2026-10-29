@@ -32,9 +32,17 @@
     const guides = $('guides').getAttribute('aria-pressed') === 'true';
     const ks = pick ? keyshape(pick.main?.layout, pick.sub?.layout) : null;
     const built = pick?.combined;
-    const fill = artBox(built ? iconUrl(built.key, built.svg_sha256) : null, {href, overlay: pick && guides ? overlay(ks) : null,
+    if (!pick && pair.state === 'unpicked') {
+      // No output chosen yet: the pair's main and sub (their outlines), so the tile says what the pair is.
+      const parts = document.createElement('a');
+      parts.className = 'sf-duo sf-unpicked';parts.href = href;parts.title = 'Open the pair to choose its output';
+      for (const key of [pair.main, pair.sub]) parts.append(artBox(iconUrl(key), {empty: '—'}));
+      card.append(parts);
+    }
+    const fill = (!pick && pair.state === 'unpicked') ? null : artBox(built ? iconUrl(built.key, built.svg_sha256) : null, {href, overlay: pick && guides ? overlay(ks) : null,
       empty: pair.state === 'uncombined' ? 'Not combined' : pair.state === 'unpicked' ? 'Choose an output' : 'Not built yet'});
-    if (state.original) {
+    if (!fill) { /* the parts are shown instead */ }
+    else if (state.original) {
       const figure = (caption, art) => {
         const f = document.createElement('figure'), c = document.createElement('figcaption');
         c.textContent = caption;f.append(art, c);return f;
@@ -51,7 +59,7 @@
     card.append(title);
     const which = document.createElement('p');
     if (!pick) {
-      which.className = 'sf-note';which.textContent = pair.note || (pair.state === 'unpicked' ? 'No output picked yet.' : 'Not combined.');
+      which.className = 'sf-note';which.textContent = pair.note || (pair.state === 'unpicked' ? 'No output picked yet: open it to choose one.' : 'Not combined.');
       which.title = which.textContent;card.append(which);
       return card;
     }
