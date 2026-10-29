@@ -49,6 +49,14 @@ elsewhere), `side-fill build --steps mains,baseline,recombine,duplicates,layouts
 `icons`, `d1-import` and the upload. When the site's drawing is the one the pairs were laid out on, its pairs
 combine again; when it is newer, the fill is uploaded and its pairs stay *Not combined* until laid out again.
 
+## Replacing a fill
+
+On *Fill main icons* / *Fill sub icons*, signed in: **Replace** under a fill variant takes an SVG as its new drawing,
+**Add fill…** stores a new variant (`current` / `fill`, or a name such as `region-5`). Both save through
+`POST /api/icons/styled` (style fill, `replace: true`): the variant is Ready in Icon review again (approve it there)
+and every pick using it shows *Build again* on its pair page. *Needs a new layout* lists mains redrawn on the site
+after their pairs were laid out: their fill is current, their pairs wait for a layout on the new drawing.
+
 ## Keyshape
 
 An output's keyshape is its parts' boxes plus the 4px stroke (as the grid, its *Off keyshape only* filter and Icon

@@ -205,9 +205,24 @@ def test_only_solo_and_sub_icons_have_fill_variants():
     assert status == 200 and answer['errors'] and not answer['results'], answer
 
 
+def review(key, status):
+    sha = drawing(key)['svg_sha256']
+    return call('POST', '/api/reviews', {'icon': key, 'status': status, 'svg_sha256': sha})
+
+
+def restore_reviews(saved):
+    """Put back the review each icon had ({key: status}): the tests leave the seeded review state as they found it."""
+    for key, status in saved.items():
+        status = status or 'ready'          # no review row is Ready
+        if (drawing(key)['review'] or 'ready') != status:
+            got, answer, _ = review(key, status)
+            assert got in (200, 201), (key, answer)
+
+
 def test_a_redrawn_part_makes_its_picks_stale():
     pair, pick = built_pick_with_fill_variants()
     key = pick['main']['icon']
+    saved = {key: drawing(key)['review']}
     original = drawing(key)['svg']
     redrawn = original.replace('</svg>', '<path d="M1 1L1 1" fill="none" stroke="none"/></svg>')
     try:
@@ -218,19 +233,18 @@ def test_a_redrawn_part_makes_its_picks_stale():
         assert first['main']['svg_sha256'] != first['main']['built_sha'], 'the pick should show its main was redrawn'
     finally:
         upload_variant(pair, 'main', pick['main']['label'], original)
+        restore_reviews(saved)
     restored, _ = get('/api/side-fill/pair', id=pair['id'])
     assert restored['picks'][0]['main']['svg_sha256'] == restored['picks'][0]['main']['built_sha']
-
-
-def review(key, status):
-    sha = drawing(key)['svg_sha256']
-    return call('POST', '/api/reviews', {'icon': key, 'status': status, 'svg_sha256': sha})
 
 
 def test_a_combined_icon_is_approved_only_after_its_parts():
     pair, pick = built_pick_with_fill_variants()
     combined, main, sub = pick['combined']['key'], pick['main']['icon'], pick['sub']['icon']
+    saved = {key: drawing(key)['review'] for key in (combined, main, sub)}
     try:
+        for key in (combined, main, sub):
+            review(key, 'ready')
         status, answer, _ = review(combined, 'approve')
         assert status == 409 and 'Approve the main' in answer['error'], answer
         for key in (main, sub):
@@ -240,11 +254,12 @@ def test_a_combined_icon_is_approved_only_after_its_parts():
         assert after['picks'][0]['combined']['build_failed'] is False, 'approving both parts clears the failed build'
         status, answer, _ = review(combined, 'approve')
         assert status in (200, 201), answer
-    finally:
-        for key in (combined, main, sub):
+        for key in (main, sub):
             review(key, 'ready')
-    reset, _ = get('/api/side-fill/pair', id=pair['id'])
-    assert reset['picks'][0]['combined']['build_failed'] is True
+        reset, _ = get('/api/side-fill/pair', id=pair['id'])
+        assert reset['picks'][0]['combined']['build_failed'] is True, 'a part back to Ready fails the build again'
+    finally:
+        restore_reviews({key: saved[key] for key in (main, sub, combined)})
 
 
 def test_an_output_is_a_side_combination_64_icon_of_style_fill():

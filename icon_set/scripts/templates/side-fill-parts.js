@@ -2,7 +2,9 @@
 
    One keyset page of the parts the fill side pairs use (SideFillData.partsPage): each card is the part's own icon
    (its outline) and its fill variant icons with their Icon review status, the pairs that use it, and why a part
-   has no fill. Each drawing is an image of the icon's current revision, so a redraw shows at once. */
+   has no fill. Each drawing is an image of the icon's current revision, so a redraw shows at once. Signed in, a
+   variant's Replace takes an SVG as its new drawing and Add fill stores a new variant (POST /api/icons/styled, style
+   fill, as the uploader does): Ready in Icon review again, and every pick using it shows Build again. */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -12,12 +14,40 @@
   const params = new URLSearchParams(location.search);
   const state = {status: params.get('status') || 'all', cursors: [null], at: 0, q: params.get('q') || ''};
   const KINDS = role === 'main'
-    ? [['all', 'All'], ['ready', 'Filled'], ['outline', 'Outline only'], ['redrawn', 'Source changed'], ['no-fill', 'No fill'], ['no-source', 'No source'], ['not-drawn', 'Not drawn']]
-    : [['all', 'All'], ['ready', 'Filled'], ['outline', 'Outline only'], ['text', 'Text subs'], ['redrawn', 'Source changed'], ['no-fill', 'No fill'], ['no-source', 'No source']];
+    ? [['all', 'All'], ['ready', 'Filled'], ['outline', 'Outline only'], ['redrawn', 'Needs a new layout'], ['no-fill', 'No fill'], ['no-source', 'No source'], ['not-drawn', 'Not drawn']]
+    : [['all', 'All'], ['ready', 'Filled'], ['outline', 'Outline only'], ['text', 'Text subs'], ['redrawn', 'Needs a new layout'], ['no-fill', 'No fill'], ['no-source', 'No source']];
   const NAMES = Object.fromEntries(KINDS);
   const BADGE = {ready: 'done', outline: 'review', redrawn: 'fail', 'no-fill': 'fail', 'no-source': 'fail', 'not-drawn': 'missing', text: 'text'};
   const REVIEW = {approve: 'approved', disapprove: 'disapproved', ready: 'ready'};
   let token = 0, counts = {};
+
+  // An SVG file chosen by the reviewer, stored as the part's fill variant (replacing the drawing it has).
+  function chooseSvg(onText) {
+    const input = document.createElement('input');
+    input.type = 'file';input.accept = '.svg,image/svg+xml';
+    input.addEventListener('change', async () => { if (input.files[0]) onText(await input.files[0].text()); });
+    input.click();
+  }
+  async function storeFill(part, variant, svg) {
+    $('headline').textContent = `Saving ${variant} of ${part.key}…`;
+    try {
+      const response = await fetch('/api/icons/styled', {method: 'POST', credentials: 'same-origin', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({items: [{source_key: part.key, style: 'fill', variant, svg}], replace: true})});
+      const answer = await response.json().catch(() => ({}));
+      if (!response.ok) throw Error(answer.error || response.statusText);
+      if (answer.errors?.length) throw Error(answer.errors[0].error);
+      const outcome = answer.results?.[0]?.outcome;
+      await load();
+      $('headline').textContent = outcome === 'unchanged' ? `${variant} of ${part.key} already has that drawing.`
+        : `${variant} of ${part.key} saved: Ready in Icon review; its pairs show Build again.`;
+    } catch (error) { $('headline').textContent = `Could not save ${variant} of ${part.key}: ${error.message}`; }
+  }
+  function action(text, title, onClick) {
+    const b = document.createElement('button');
+    b.type = 'button';b.className = 'sf-part-action login-only';b.textContent = text;b.title = title;
+    b.addEventListener('click', onClick);
+    return b;
+  }
 
   function figure(caption, url, review) {
     const f = document.createElement('figure');
@@ -47,10 +77,27 @@
       if (part.source_sha256) variants.append(figure('outline', iconUrl(part.key, part.source_sha256), part.source_review));
       const order = v => v.variant === 'current' || v.variant === 'fill' ? '' : v.variant;
       for (const v of [...part.variants].sort((a, b) => order(a).localeCompare(order(b), undefined, {numeric: true}))) {
-        variants.append(figure(v.variant, iconUrl(v.key, v.svg_sha256), v.review));
+        const f = figure(v.variant, iconUrl(v.key, v.svg_sha256), v.review);
+        f.append(action('Replace', `Choose an SVG as the new drawing of ${v.key}`, () => chooseSvg(svg => storeFill(part, v.variant, svg))));
+        variants.append(f);
       }
     }
     el.append(variants);
+    if (part.status !== 'text' && part.source_sha256) {
+      const base = role === 'main' ? 'current' : 'fill';
+      el.append(action('Add fill…', `Store an SVG as a new fill variant of ${part.key}: ${base}, or a name such as region-5`, () => {
+        const name = document.createElement('input');
+        name.className = 'sf-variant-name';name.value = part.variants.some(v => v.variant === base) ? 'region-' : base;
+        name.setAttribute('aria-label', 'Variant name');name.title = `${base}, or a short name: letters, digits, hyphens`;
+        const go = action('Choose SVG', 'Choose the SVG for this variant', () => {
+          const variant = name.value.trim().toLowerCase();
+          if (!/^[a-z0-9-]{1,60}$/.test(variant)) { $('headline').textContent = 'A variant name is letters, digits and hyphens.';return; }
+          chooseSvg(svg => storeFill(part, variant, svg));
+        });
+        const row = document.createElement('div');row.className = 'sf-add-row';row.append(name, go);
+        el.querySelector('.sf-add-row')?.remove();el.append(row);name.focus();
+      }));
+    }
     if (part.note) { const n = document.createElement('p');n.className = 'sf-note';n.textContent = part.note;el.append(n); }
     return el;
   }
