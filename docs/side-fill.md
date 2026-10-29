@@ -47,7 +47,10 @@ changed*, *No source*). Read the parts' current drawings with one bounded reques
 and not applied), `publish_stroke_fills main sub --names … --apply` (only those parts: a rebuilt review can differ
 elsewhere), `side-fill build --steps mains,baseline,recombine,duplicates,layouts,gallery --ids <their pairs>`,
 `icons`, `d1-import` and the upload. When the site's drawing is the one the pairs were laid out on, its pairs
-combine again; when it is newer, the fill is uploaded and its pairs stay *Not combined* until laid out again.
+combine again; when it is newer, the fill is uploaded and its pairs wait for a layout. `node cloud/migrate/pick_new_pairs.mjs
+--base-url <site> --cookie pictographic_session=…` (dry run, then `--send`) then gives every such pair without a pick
+an output, as the pair page would: the main's current fill with the sub's fill (else outlines) on the pair's placement,
+a redrawn part on one box over the area its old boxes covered. It skips text subs and rejected parts.
 
 ## Replacing a fill
 
