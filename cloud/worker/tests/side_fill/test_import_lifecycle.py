@@ -45,8 +45,7 @@ def picks(layout='[{"x": 1}]'):
                  D.pick_statement(ref, 'sub', 1, 'sub/b--fill', layout, None, NOW, exists=True),
                  D.pick_statement(ref, 'main', 2, 'solo/a--fill-region-1', layout, None, NOW, exists=True),
                  D.pick_statement(ref, 'sub', 2, 'sub/b', layout, None, NOW)]
-    keys = {f'{ref} {role} {rank}' for ref in ('p1', 'p2') for role in ('main', 'sub') for rank in (1, 2)}
-    return [D.picks_head(keys)] + rows + D.COUNTS
+    return rows + [D.picks_tail(NOW)] + D.COUNTS
 
 
 def order(db, ref):
@@ -86,9 +85,9 @@ def test_a_pick_the_build_no_longer_has_goes_unless_the_pair_was_edited():
     db = database()
     run(db, pairs(db) + picks())
     db.execute(EDITED, ('p1', NOW))
-    statements = picks()
-    keep = {f'{ref} {role} 1' for ref in ('p1', 'p2') for role in ('main', 'sub')}
-    run(db, pairs(db) + [D.picks_head(keep)] + [s for s in statements[1:] if "', 2, '" not in s])
+    later = '2026-10-30T00:00:00+00:00'            # the next import, whose build has only the first picks
+    rank_one = [s.replace(NOW, later) for s in picks()[:-len(D.COUNTS) - 1] if "', 2, '" not in s]
+    run(db, [s.replace(NOW, later) for s in pairs(db)] + rank_one + [D.picks_tail(later)] + D.COUNTS)
     assert [r[0] for r in order(db, 'p1')] == [1, 1, 2, 2]
     assert [r[0] for r in order(db, 'p2')] == [1, 1]
 

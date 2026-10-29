@@ -58,10 +58,11 @@ def pick_statement(ref, role, rank, icon, layout, options, now, exists=False):
             f"WHERE reference_part_fills.updated_by = 'side-fill import';")
 
 
-def picks_head(keys):
-    """Removes the imported picks this build no longer has (`keys`: 'ref role rank'), of pairs not edited on the site."""
+def picks_tail(now):
+    """After the picks: removes the imported picks this import did not write (stamped `now`), of pairs not edited on
+    the site. A stamp, not a list of keys: D1 refuses a statement that long."""
     return ("DELETE FROM reference_part_fills WHERE updated_by = 'side-fill import' AND " + NOT_EDITED.format(ref='reference_part_fills.reference_id')
-            + f" AND (reference_id || ' ' || role || ' ' || rank) NOT IN (SELECT value FROM json_each({q(json.dumps(sorted(keys)))}));")
+            + f" AND updated_at != {q(now)};")
 
 
 def pair_statement(ref, sort, state, main, sub, layouts, note, now):
@@ -239,10 +240,8 @@ def build():
         layouts = [q(json.dumps(parts[r]['layout']) if parts.get(r, {}).get('layout') else None) for r in ('main', 'sub')]
         pairs.append(pair_statement(ref, sort_key(item['concept'], ref), state, parts.get('main', {}).get('icon'),
                                     parts.get('sub', {}).get('icon'), layouts, note, now))
-    listed = [item['reference_id'] for item in items]
-    pairs.append(f"DELETE FROM fill_pairs WHERE reference_id NOT IN (SELECT value FROM json_each({q(json.dumps(listed))}));")
+    pairs.append(f"DELETE FROM fill_pairs WHERE updated_at != {q(now)};")          # pairs no longer listed
     fitted = keyshape_fits()
-    keys = set()
     for spec in specs:
         ref, rank = spec['reference_id'], spec['rank']
         fit = fitted.get(ref, {}).get(str(rank))
@@ -251,7 +250,6 @@ def build():
             boxes = fit[role] if fit else part['layout']
             layout = json.dumps(boxes) if boxes else None
             options = json.dumps(spec['options'], sort_keys=True) if role == 'main' and spec['options'] else None
-            keys.add(f'{ref} {role} {rank}')
             if part['label'] == 'outline':      # the outline is the solo / sub icon itself
                 picks.append(pick_statement(ref, role, rank, part['source'], layout, options, now))
             else:
@@ -270,10 +268,10 @@ def build():
             parts_sql.append(part_statement(entry['key'], role, sort_key(entry['name'], entry['key']), entry['status'],
                                             entry['note'], art.get('text'), len(entry['pairs']), now))
     listed_parts = [entry['key'] for listing in (mains, subs) for entry, _ in listing]
-    parts_sql.append(f"DELETE FROM fill_parts WHERE key NOT IN (SELECT value FROM json_each({q(json.dumps(listed_parts))}));")
+    parts_sql.append(f"DELETE FROM fill_parts WHERE updated_at != {q(now)};")       # parts no longer listed
     IMPORT.write_text('\n'.join(pairs + parts_sql + COUNTS) + '\n')
     # Picks made or changed on the site are kept; open pair pages of the pairs whose picks this may change reload.
-    PICKS.write_text('\n'.join([picks_head(keys)] + picks + COUNTS
+    PICKS.write_text('\n'.join(picks + [picks_tail(now)] + COUNTS
                                + ["UPDATE fill_pairs SET version = version + 1 WHERE edited_at IS NULL;"]) + '\n')
     return {'pairs': len(items), 'parts': len(listed_parts), 'pick_rows': len(picks), 'pick_fallbacks': fallbacks, 'dropped_rejected_picks': len(dropped),
             'counts': {f'{s}:{st}': n for (s, st), n in counts.items()}, 'import_sql': str(IMPORT), 'picks_sql': str(PICKS)}

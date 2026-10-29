@@ -4,7 +4,8 @@
 // its outline) with the sub's fill (else its outline) on the pair's own placement, combined by the pages' engine,
 // checked by the layout preview, then picked (POST /api/side-fill/pick) and built (POST /api/side-fill/build).
 // A part redrawn after its pair was laid out has elements the layout does not number: it gets one box over the
-// area its old boxes covered, at its own proportions, anchored to its side of the pair.
+// area its old boxes covered, at its own proportions, anchored to its side of the pair. A pair with a keyshape fit
+// (data/keyshape-fit-layouts.json, rank 1) is picked on that layout instead.
 //
 //   node cloud/migrate/pick_new_pairs.mjs --base-url http://localhost:8821 --cookie pictographic_session=…   # dry run
 //   node cloud/migrate/pick_new_pairs.mjs --base-url … --cookie … --send
@@ -16,6 +17,9 @@ const require = createRequire(import.meta.url);
 const Fill = require('../../icon_set/scripts/templates/side-fill-combine.js');
 const Layout = require('../../icon_set/scripts/templates/side-fill-layout.js');
 const SITE = JSON.parse(readFileSync(new URL('../../icon_set/data/side-fill/data/site-drawings.json', import.meta.url)));
+// Layouts made to fill the 64px keyshape (fit_fill_keyshapes.mjs and its review): a pick made here uses its pair's.
+const FITS = (() => { try { return JSON.parse(readFileSync(new URL('../../icon_set/data/side-fill/data/keyshape-fit-layouts.json', import.meta.url))).pairs; }
+                      catch { return {}; } })();
 // The contract's SOLO48 / SUB32 keyshapes as centerline bounds, as the pages read them (side-fill-data.js keyshapes).
 const LAB = JSON.parse(readFileSync(new URL('../../published/gallery/laboratory.json', import.meta.url)));
 const KEYSHAPE_TABLE = Object.fromEntries([['main', 'SOLO48'], ['sub', 'SUB32']].map(([role, profile]) => [role, Object.fromEntries(
@@ -74,7 +78,9 @@ for (const listed of pairs) {
   const part = (key, source) => ({svg: drawings[key].svg, source: drawings[source].svg, outline: key === source});
   let svg, layout;
   try {
-    layout = {main: units('main', pair.layout.main, drawings[pair.main].svg, position), sub: units('sub', pair.layout.sub, drawings[pair.sub].svg, position)};
+    const fit = FITS[pair.id]?.['1'];
+    layout = fit ? {main: fit.main, sub: fit.sub}
+      : {main: units('main', pair.layout.main, drawings[pair.main].svg, position), sub: units('sub', pair.layout.sub, drawings[pair.sub].svg, position)};
     Layout.preview({keyshapes: KEYSHAPES, position, main: part(main, pair.main), sub: part(sub, pair.sub), proposal: {main: {units: layout.main}, sub: {units: layout.sub}}});
     svg = Fill.combine({main: {...part(main, pair.main), layout: layout.main}, sub: {...part(sub, pair.sub), layout: layout.sub}}).svg;
   } catch (error) { skipped.push(`${pair.id} ${pair.concept}: ${error.message}`); continue; }
