@@ -29,7 +29,13 @@
     if (!source?.svg || !icon?.svg) throw new Error(`The ${role} drawing is not available.`);
     return {svg: icon.svg, source: source.svg, layout, outline: key === pair[role], sha: icon.svg_sha256};
   }
-  const baseLayout = role => D.units(pair.layout?.[role], Layout.elements(drawings[pair[role]].svg).sources);
+  // The pair's own placement. A drawing with transforms cannot be split into elements: its boxes are used as stored
+  // (a box over all its elements places it whole, as the engine does).
+  function baseLayout(role) {
+    let sources = [];
+    try { sources = Layout.elements(drawings[pair[role]].svg).sources; } catch (error) { /* placed whole */ }
+    return D.units(pair.layout?.[role], sources);
+  }
   // Main choices: its fill variants (current first) and the outline; sub choices: its fill and the outline.
   function choices(role) {
     const variants = [...(pair[`${role}_variants`] || [])].sort((a, b) => (a.variant !== 'current') - (b.variant !== 'current') || a.variant.localeCompare(b.variant));
@@ -164,7 +170,9 @@
         if (mine !== token) return;
       }
     }
-    $('candidates').replaceChildren(...candidates);
+    $('candidates').replaceChildren(...(candidates.length ? candidates : [Object.assign(document.createElement('p'), {className: 'sc-empty',
+      textContent: choices('main').length + choices('sub').length === 2 ? 'Neither the main nor the sub has a fill: this pair has no fill version.'
+        : 'Every candidate is picked already.'})]));
     parts();
   }
 
@@ -215,7 +223,7 @@
       status(pair.note || 'The combine cannot draw this pair.', true);
       return;
     }
-    draw();
+    draw().catch(error => status(`This pair cannot be shown: ${error.message}`, true));
   }
   start();
 })();

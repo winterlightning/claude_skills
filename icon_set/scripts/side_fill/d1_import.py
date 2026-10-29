@@ -163,12 +163,16 @@ def build():
     pairs, picks, counts, dropped = [], [], {}, []
     specs = pick_specs(rows, available, fallbacks, dropped)
     picked = {spec['reference_id'] for spec in specs}
+    filled = {source for source, _label in available}          # parts with a fill variant icon
     for item in items:
         ref = item['reference_id']
         parts = {p['role']: p for p in item['parts']}
         row = rows.get(ref)
         state = 'uncombined' if row is None else 'picked' if ref in picked else 'unpicked'
         note = uncombined_note(parts, errors.get(ref)) if row is None else None
+        if state == 'unpicked' and not any(p.get('icon') in filled for p in parts.values()):
+            # A fill side pair needs a filled main or sub: with both outline only there is nothing to pick.
+            state, note = 'uncombined', 'Neither the main nor the sub has a fill: this pair has no fill version.'
         layouts = [q(json.dumps(parts[r]['layout']) if parts.get(r, {}).get('layout') else None) for r in ('main', 'sub')]
         pairs.append(f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
                      f"VALUES ({q(ref)}, {q(sort_key(item['concept'], ref))}, {q(state)}, {q(parts.get('main', {}).get('icon'))}, "
