@@ -17,6 +17,7 @@ def main(argv=None):
         'typeface-sizes': 'typeface_sizes',
         'side-text': 'side_text',
         'combinations': 'combination_library',
+        'side-fill': 'side_fill.cli',
     }
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=commands)

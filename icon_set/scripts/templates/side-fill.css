@@ -1,0 +1,37 @@
+/* Fill side pairs: the pair grid, its keyshape overlay and the part cards (shared with side-components.css). */
+.sf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--sf-tile,160px)),1fr));gap:12px}
+.sf-tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.sf-tile[data-group=proposed]{background:#eef4ff;border-color:#7ea2e8}.sf-tile[data-group=pending]{background:#fdf1ee;border-color:#e3a596}
+.sf-art{position:relative;display:block;aspect-ratio:1;background:#fff;border-radius:8px;overflow:hidden;color:#111}
+.sf-art>svg{position:absolute;inset:0;width:100%;height:100%}
+.sf-art .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:11px;color:var(--muted);background:repeating-linear-gradient(45deg,#f7f9f4,#f7f9f4 6px,#eef2ea 6px,#eef2ea 12px)}
+.sf-tile h3{font-size:12px;line-height:1.3;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sf-tile p{font-size:11px;color:var(--muted);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sf-tile p.multi{color:#2453b3;font-weight:650}
+.sf-ks{font-size:10px;font-weight:650}.sf-ks.ok{color:#16a34a}.sf-ks.bad{color:#dc2626}
+svg.sf-guide{pointer-events:none;z-index:1}
+.sf-guide .g{stroke:#3b82f6;stroke-opacity:.18;stroke-width:.25}.sf-guide .g.major{stroke-opacity:.35}
+.sf-guide .ks{fill:none;stroke-width:.6;stroke-dasharray:1.6 1}.sf-guide .ks.ok{stroke:#16a34a}.sf-guide .ks.bad{stroke:#dc2626;stroke-width:.9;stroke-dasharray:none}
+.sf-guide .box{fill:none;stroke:#dc2626;stroke-width:.4}.sf-guide .part{fill:none;stroke:#7c8aa0;stroke-width:.3;stroke-dasharray:.8 .8}
+.sf-pairs{font-size:12px}.sf-pairs summary{cursor:pointer;color:var(--muted)}.sf-pairs ul{margin:6px 0 0;padding-left:16px;max-height:160px;overflow:auto}
+.sf-variants{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
+.sf-variants figure{margin:0;min-width:0}.sf-variants .sf-art{background:#f7f9f4}.sf-variants figcaption{font-size:10px;color:var(--muted);text-align:center;margin-top:3px;overflow-wrap:anywhere}
+.sf-variants figure[data-status=rejected] .sf-art{opacity:.35}.sf-variants figure[data-status=approved] figcaption{color:#1f6b35;font-weight:650}
+.sf-section{margin:22px 0}.sf-section h2{font-size:18px;margin:0 0 6px}.sf-section>summary{cursor:pointer;font-weight:650}
+.sf-pair-nav{display:flex;align-items:center;gap:10px;margin:8px 0}.sf-pair-nav button,.sf-actions button{border:1px solid var(--line);border-radius:8px;padding:7px 11px;background:#fff;font:inherit;font-size:12px;cursor:pointer}
+.sf-pair-nav button:disabled,.sf-actions button:disabled{opacity:.5;cursor:default}
+.sf-pair-grid{--sf-tile:200px}.sf-actions{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.sf-actions button.primary{background:var(--green);border-color:var(--green);color:#fff}.sf-actions button.danger{border-color:#cfa9a0;color:#8a2e1f;background:#fff7f5}
+.sf-tile[data-picked]{outline:3px solid #2563eb;outline-offset:1px}.sf-tile .order{font-size:11px;font-weight:700;color:#2453b3}
+.sf-parts{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+a.sf-art{cursor:pointer}
+.sf-duo{display:grid;grid-template-columns:1fr 1fr;gap:4px}.sf-duo figure{margin:0;min-width:0}
+.sf-duo figcaption{font-size:10px;color:var(--muted);text-align:center;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sf-art.sf-text{display:grid;place-items:center;font:800 30px/1 system-ui,sans-serif;letter-spacing:-.5px;color:#111;background:#f7f9f4}
+.sf-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.sf-tile[data-group=uncombined]{background:#f6f6f3;border-style:dashed}
+.sf-note{font-size:11px;color:#8a2e1f}
+.sf-flag{font-size:10px;font-weight:650;color:#b45309}
+.sf-tile[data-group=picked]{background:#eef4ff;border-color:#7ea2e8}.sf-tile[data-group=unpicked]{background:#fdf1ee;border-color:#e3a596}
+.sf-part-action{margin-top:4px;border:1px solid var(--line);border-radius:7px;padding:3px 8px;background:#fff;font:inherit;font-size:11px;cursor:pointer}
+.sf-add-row{display:flex;gap:6px;margin-top:6px}.sf-variant-name{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:3px 6px;font:inherit;font-size:12px}
+.sf-unpicked{text-decoration:none}.sf-unpicked .sf-art{background:#f7f9f4}

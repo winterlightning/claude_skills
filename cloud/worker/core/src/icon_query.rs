@@ -16,7 +16,7 @@ const SORTS: [&str; 9] = ["name", "newest", "oldest", "modified-newest", "modifi
                           "segments-asc", "segments-desc"];
 pub const PAGE_SIZES: [i64; 4] = [24, 48, 96, 192];
 /// Icon styles (migration 0019): every catalog icon is normal; corner_processing adds round and sharp records.
-pub const STYLES: [&str; 3] = ["normal", "round", "sharp"];
+pub const STYLES: [&str; 4] = ["normal", "round", "sharp", "fill"];
 
 /// The page's filters, by the names its URL uses.
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -62,7 +62,7 @@ impl Params {
         let opt = |name: &str| get(name);
         let mut params = Params {
             family: text("family"),
-            style: one_of(opt("style").as_deref(), &["normal", "round", "sharp", "all"]),
+            style: one_of(opt("style").as_deref(), &["normal", "round", "sharp", "fill", "all"]),
             category: opt("category").filter(|c| !c.is_empty()),
             category_group: one_of(opt("category_group").as_deref(), &["uncategorized"]),
             q: text("q").to_lowercase(),

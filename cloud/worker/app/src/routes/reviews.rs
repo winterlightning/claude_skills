@@ -171,10 +171,17 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
     // A combined side icon (64 or 72) cannot be approved while one of its parts is not approved on its current
     // drawing. A combined container icon can be approved on its own even then (the reviewer's decision, 2026-09-30).
-    let side_size = match icon.family.as_deref() { Some("side_combination64") => Some(64), Some("combination-72") => Some(72), _ => None };
+    // A fill side pair's output (side_combination64/<id>--fill…) is checked against its pick's parts below instead.
+    let fill = super::side_fill::is_fill_combined(key);
+    let side_size = match icon.family.as_deref() { Some("side_combination64") if !fill => Some(64), Some("combination-72") => Some(72), _ => None };
     if let (true, Some(size)) = (status == "approve", side_size) {
         let reference = key.split_once('/').map_or("", |(_, id)| id);
         if let Some(waiting) = super::combinations::unapproved_parts(&ctx.db, reference, size).await? {
+            return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
+        }
+    }
+    if status == "approve" && fill {
+        if let Some(waiting) = super::side_fill::unapproved_parts(&ctx.db, key).await? {
             return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
         }
     }

@@ -39,6 +39,10 @@ fn native_container_parts_preserve_side_layouts_and_uploaded_identity() {
     assert_eq!(resolved, uploaded);
     let list = format!("{} SELECT {} FROM combos c WHERE reference_id = ?", combination_query::cte(72), combination_query::icon_key(72));
     assert_eq!(db.query_row(&list, [rid], |r| r.get::<_, String>(0)).unwrap(), uploaded);
+    // The later migrations too: the shared part-review checks below also read their tables (0023 reference_part_fills).
+    for f in files.iter().filter(|f| f.file_name().unwrap().to_str().unwrap() > "0023") {
+        db.execute_batch(&std::fs::read_to_string(f).unwrap()).unwrap();
+    }
     // Only an explicit browser build activates part-review checks on a historical upload.
     let keys = serde_json::json!([uploaded]).to_string();
     assert_eq!(db.prepare(combined_parts::CHANGED).unwrap().query_map([&keys], |_| Ok(())).unwrap().count(), 0);

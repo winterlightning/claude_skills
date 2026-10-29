@@ -9,6 +9,7 @@ pub mod icons;
 pub mod internal;
 pub mod primitives;
 pub mod reviews;
+pub mod side_fill;
 pub mod styled;
 pub mod work;
 
@@ -100,6 +101,9 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/combinations/drawings" => combinations::drawings(ctx).await,
         "/api/combinations/candidates" => combinations::candidates(ctx).await,
         "/api/side-components" => edits::side_components(ctx).await,
+        "/api/side-fill/pairs" => side_fill::pairs(ctx).await,
+        "/api/side-fill/pair" => side_fill::pair(ctx).await,
+        "/api/side-fill/parts" => side_fill::parts(ctx).await,
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, None, "system").await,
         "/api/activity" => internal::read_activity(ctx).await,
@@ -115,7 +119,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
-    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex", "/api/icons/records",
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/side-fill/pick", "/api/side-fill/unpick", "/api/side-fill/build", "/api/side-fill/move", "/api/icons/reindex", "/api/icons/records",
     "/api/icons/refresh", "/api/icons/styled"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
@@ -128,7 +132,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         return http::error(403, "Cross-origin feedback is not allowed");
     }
     let limit = match path {
-        "/api/icons/upload" | "/api/icon-artwork" | "/api/combinations/build" => 2 * 1024 * 1024,
+        "/api/icons/upload" | "/api/icon-artwork" | "/api/combinations/build" | "/api/side-fill/build" => 2 * 1024 * 1024,
         "/api/reference-images" => MAX_REFERENCE_BODY,
         "/api/work/result" => MAX_WORK_RESULT_BODY,
         "/api/catalog/push" | "/api/icons/records" => MAX_PUSH_BODY,
@@ -166,6 +170,10 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/parts" => combinations::post_part(ctx, &data, user).await,
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
+        "/api/side-fill/pick" => side_fill::pick(ctx, &data, user).await,
+        "/api/side-fill/unpick" => side_fill::unpick(ctx, &data, user).await,
+        "/api/side-fill/build" => side_fill::build(ctx, &data, user).await,
+        "/api/side-fill/move" => side_fill::move_pick(ctx, &data, user).await,
         "/api/icons/reindex" => icon_list::reindex(ctx, &data).await,
         "/api/icons/records" => icon_list::records(ctx, &data).await,
         "/api/icons/refresh" => icon_list::refresh(ctx, &data, user).await,

@@ -149,7 +149,7 @@ pub fn index(record: &Value, facet: Option<&Value>) -> IconIndex {
         keyshape: text(record, "keyshape").map(str::to_string),
         author: text(record, "author").map(str::to_string),
         side_role: text(record, "side_role").map(str::to_string),
-        style: text(record, "icon_style").filter(|s| ["round", "sharp"].contains(s)).unwrap_or("normal").to_string(),
+        style: text(record, "icon_style").filter(|s| ["round", "sharp", "fill"].contains(s)).unwrap_or("normal").to_string(),
         style_of: text(record, "style_of").map(str::to_string),
         stroke_count: stroke_count(record),
         segment_count: segment_count(record),

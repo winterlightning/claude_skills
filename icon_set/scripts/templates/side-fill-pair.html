@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fill side pair · Pictographic</title>
+<link rel="stylesheet" href="site.css"><link rel="stylesheet" href="side-components.css"><link rel="stylesheet" href="side-fill.css"><link rel="stylesheet" href="side-fill-layout-editor.css"><script src="site.js" defer></script>
+</head>
+<body class="guest" data-page="pair">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
+<main class="sc-main">
+  <a class="sc-back" id="back" href="side-fill.html">← Fill side pairs</a>
+  <nav class="sc-tabs" aria-label="Fill side pairs"><a href="side-fill.html">Fill side pairs</a><a href="side-fill-mains.html">Fill main icons</a><a href="side-fill-subs.html">Fill sub icons</a></nav>
+  <section class="sc-intro"><p class="eyebrow">FILL SIDE PAIR</p><h1 id="title">Loading…</h1><p id="subtitle"></p></section>
+  <div class="sf-pair-nav"><button id="prev" type="button">‹ Previous pair</button><span id="position" class="sc-note"></span><button id="next" type="button">Next pair ›</button></div>
+  <p id="status" class="sc-note" role="status" aria-live="polite"></p>
+  <section class="sf-section"><h2>Original</h2><p class="sc-note">The pair's normal Side combination 64 icon: the fill output is its fill style.</p><div id="original" class="sf-grid sf-pair-grid"></div></section>
+  <section class="sf-section"><h2>Picked output</h2><p class="sc-note" id="picksNote"></p><div id="picks" class="sf-grid sf-pair-grid"></div></section>
+  <section class="sf-section"><h2>Candidates</h2><p class="sc-note">Every fill variant of the main with the sub's fill or outline, on the pair's own placement, combined from the parts' current drawings. Add as next pick keeps the picks you have; Make the output puts it first. Adjust layout opens the editor: the boxes you save belong to that pick only.</p><div id="candidates" class="sf-grid sf-pair-grid"></div></section>
+  <section class="sf-section"><h2>Parts</h2><p class="sc-note">The main's and sub's fill variants and outlines as Icon review has them; a redrawn part changes every combination above.</p><div id="parts" class="sf-variants sf-parts"></div></section>
+</main>
+<footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Fill side pair</span></footer>
+  <dialog id="layout-editor" class="side-layout"><div class="dialog-head"><div><h2 id="layout-title"></h2><div class="meta">Source keyshape locked · 4px stroke · 64px canvas</div></div><button id="layout-close" class="close" type="button">Close</button></div>
+    <div class="side-layout-candidate"><label>Main variant<select id="layout-base"></select></label><label>Sub variant<select id="layout-sub-variant"><option value="fill">Fill</option><option value="outline">Outline</option></select></label><label>Pair position<select id="layout-position"><option value="ri">Right</option><option value="br">Bottom right</option><option value="tr">Top right</option><option value="bo">Bottom</option><option value="bl">Bottom left</option><option value="le">Left</option><option value="tl">Top left</option><option value="to">Top</option></select></label><label hidden>Candidate name<input id="layout-name" pattern="[a-z0-9-]+" value="manual-adjusted"></label><label hidden>Reason<input id="layout-reason" value="Pair-local layout adjustment"></label></div>
+    <div class="side-layout-presets" id="layout-presets" role="group" aria-label="Main and sub size"></div>
+    <div class="side-layout-bar"><span>Click selects</span><button type="button" data-select-level="whole" aria-pressed="true">Whole icon</button><button type="button" data-select-level="element" aria-pressed="false">Element</button><button type="button" data-select-level="path" aria-pressed="false" title="One path of a connected element (the stand of a monitor)">Path</button><label><input type="checkbox" id="layout-centerline"> Centerline</label><span class="spacer"></span><button type="button" id="layout-reset" title="Back to the pair's own placement">Reset to the pair's placement</button><button type="button" id="layout-discard" title="Back to the layout this editor opened with">Discard changes</button><button type="button" id="layout-apply" title="Combine the main and sub with this layout to see the result">Apply layout</button><label class="side-layout-force" title="Save this manual edit even though a part goes past its keyshape guide. The 64px canvas limit still applies."><input type="checkbox" id="layout-force"> Force (manual edit)</label><button type="button" id="layout-save" class="side-layout-save" disabled>Save layout</button></div>
+    <div class="side-layout-stages">
+      <figure><svg id="layout-canvas" class="side-layout-canvas" tabindex="0" role="application" aria-label="Layout editor, 64 by 64 grid" viewBox="-1 -1 66 66"></svg><figcaption>Editing view: main and sub drawn whole, centerline in red.</figcaption></figure>
+      <div class="side-layout-results"><p class="side-layout-stale" id="layout-stale" hidden></p>
+        <figure><div class="side-layout-art"><img id="layout-preview" alt="Combined result at 4px"><svg class="layout-guides" viewBox="0 0 64 64" aria-hidden="true"></svg></div><figcaption>Combined result · 4px margin (the sub erases the main)</figcaption></figure>
+        <figure><div class="side-layout-art"><img id="layout-stress" alt="Filled main with 8px sub clearance stress cut"><svg class="layout-guides" viewBox="0 0 64 64" aria-hidden="true"></svg></div><figcaption id="layout-stress-label">Actual 8px stress cut</figcaption></figure>
+        <div class="side-layout-output" aria-label="Output SVG at 32, 48 and 64 pixels"><figure><img data-layout-size="32" width="32" height="32" alt="32px output"><figcaption>32 px</figcaption></figure><figure><img data-layout-size="48" width="48" height="48" alt="48px output"><figcaption>48 px</figcaption></figure><figure><img data-layout-size="64" width="64" height="64" alt="64px output"><figcaption>64 px</figcaption></figure></div>
+      </div>
+      <div class="side-layout-list"><div id="layout-element-list"></div><div class="row-actions"><button type="button" id="layout-split" title="Resize the paths of a connected element one by one">Split into paths</button><button type="button" id="layout-clear-selection">Clear selection</button></div></div>
+    </div>
+    <p class="side-layout-readout" id="layout-readout"></p>
+    <p id="layout-status" role="status"></p>
+    <p class="side-layout-hint">The main and sub sizes (every 4) snap the part onto its source keyshape at that size (purple / teal dashes; red when it does not fit) — the middle size is automatic; Free lets you drag it to any size inside its keyshape. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both; Esc clears the selection. Everything snaps to the grid; the stroke stays 4. Edits do not combine by themselves: click Apply layout to see the combined result, then Save layout to keep it as a review candidate.</p>
+  </dialog>
+<script src="side-fill-data.js"></script>
+<script src="side-fill-overlay.js"></script>
+<script src="clipper.js"></script>
+<script src="combine-side.js"></script>
+<script src="side-fill-combine.js"></script>
+<script src="side-fill-layout.js"></script>
+<script src="side-fill-layout-editor.js"></script>
+<script src="side-fill-pair.js"></script>
+</body>
+</html>

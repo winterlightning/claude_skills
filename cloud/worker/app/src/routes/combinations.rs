@@ -587,7 +587,9 @@ async fn records_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
             i.build_failed, i.original_sources, i.record
         FROM icons i JOIN revisions r ON r.svg_sha256 = i.svg_sha256 AND r.origin = 'combination-build'
         WHERE i.family IN ('side_combination64', 'container_combination64', 'combination-72', 'container-combination-72'){}",
-        if key.is_some() { " AND i.key = ?" } else { "" });
+        // The full list (pages that overlay every side pair build) leaves out fill side pair outputs; one icon's own
+        // record (reindex, the icon detail) is given whatever its style.
+        if key.is_some() { " AND i.key = ?" } else { " AND i.style != 'fill'" });
     let rows: Vec<BuiltRow> = db::all(&ctx.db, &sql, key.map(|k| args![k]).unwrap_or_default()).await?;
     Ok(rows.into_iter().map(built_record).collect())
 }
