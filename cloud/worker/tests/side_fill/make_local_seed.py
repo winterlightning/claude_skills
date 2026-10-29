@@ -13,6 +13,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[4]
 DATA = REPO / 'icon_set/data/side-fill'
 TEST_TOKEN = 'side-fill-test-session'
+REVIEWER_TOKEN = 'side-fill-test-reviewer-session'
 
 
 def q(value):
@@ -31,8 +32,25 @@ def source_file(part, role):
     return flat if flat.is_file() else DATA / 'archive/sub-32-revisions' / name / f"{part.get('current_sha') or part['built_sha']}.svg"
 
 
+def published_keyshapes():
+    """{icon key: (keyshape, keyshape_bounds)} of the published catalog, so a seeded icon has the keyshape its
+    production record has (a styled fill copies it from there). Uploads made on the site since are not in it."""
+    found = {}
+    for path in sorted((REPO / 'published').glob('*/manifest.json')) + sorted((REPO / 'published/failed').glob('*/manifest.json')):
+        try:
+            icons = json.loads(path.read_text()).get('icons', [])
+        except ValueError:
+            continue
+        for icon in icons:
+            key = icon.get('key') or f"{icon.get('family', '')}/{icon.get('icon_id', '')}"
+            if icon.get('keyshape'):
+                found.setdefault(key, (icon['keyshape'], icon.get('keyshape_bounds')))
+    return found
+
+
 def main():
     out = sys.stdout
+    keyshapes = published_keyshapes()
     items = json.loads((DATA / 'data/production-layouts.json').read_text())['items']
     seen_refs, seen_icons = set(), set()
     now = '2026-10-28T00:00:00.000Z'
@@ -56,11 +74,16 @@ def main():
             sha = hashlib.sha256(svg.encode()).hexdigest()
             family, name = key.split('/', 1)
             profile, canvas = ('SOLO48', 48) if family == 'solo' else ('SUB32', 32)
-            out.write(f"INSERT OR IGNORE INTO icons(key, icon_id, name, family, profile, canvas_size, svg_sha256, pushed_at, sort_name) VALUES "
-                      f"({q(key)}, {q(name)}, {q(name)}, {q(family)}, {q(profile)}, {canvas}, {q(sha)}, {q(now)}, {q(name)});\n")
+            keyshape, bounds = keyshapes.get(key, (None, None))
+            record = {'keyshape': keyshape, 'keyshape_bounds': bounds} if keyshape else {}
+            out.write(f"INSERT OR IGNORE INTO icons(key, icon_id, name, family, profile, canvas_size, svg_sha256, pushed_at, sort_name, keyshape, record) VALUES "
+                      f"({q(key)}, {q(name)}, {q(name)}, {q(family)}, {q(profile)}, {canvas}, {q(sha)}, {q(now)}, {q(name)}, {q(keyshape)}, {q(json.dumps(record))});\n")
             out.write(f"INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES ({q(sha)}, {q(key)}, {q(svg)}, 'build', {q(now)});\n")
     token = hashlib.sha256(TEST_TOKEN.encode()).hexdigest()
     out.write(f"INSERT OR REPLACE INTO admin_sessions(token, username, expires) VALUES ({q(token)}, 'side-fill-test', 99999999999);\n")
+    # A local stand-in for the reviewer who approves the fill parts (upload_fill_parts.py --approve).
+    token = hashlib.sha256(REVIEWER_TOKEN.encode()).hexdigest()
+    out.write(f"INSERT OR REPLACE INTO admin_sessions(token, username, expires) VALUES ({q(token)}, 'jakes', 99999999999);\n")
 
 
 if __name__ == '__main__':

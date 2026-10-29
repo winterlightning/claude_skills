@@ -1,11 +1,12 @@
 //! Fill side pairs (migration 0023): the 64 side pairs combined from fill variants of their main and sub.
 //!
 //! Every read is bounded: lists are keyset pages on (state, sort_key) indexes with LIMIT (no OFFSET, no COUNT(*)),
-//! picks are primary-key lookups, a part's fill variants come through icons_variant_of (family, variant_of), and the
+//! picks are primary-key lookups, a part's fill variants come through icons_style_of (style_of, style), and the
 //! totals are fill_counts rows that each write keeps in step. Each response says what it read in X-D1-Rows-Read, so
 //! cloud/worker/tests/side_fill checks the budget on every route.
 //!
-//! GET  /api/side-fill/pairs?state=&after=&limit=&q=   a page of fill pairs with their picks and parts' variants
+//! GET  /api/side-fill/pairs?state=&after=&limit=&q=&original=1   a page of fill pairs with their picks (original=1: and
+//!      each pair's normal Side combination 64 icon, side_combination64/<id>, by key)
 //! GET  /api/side-fill/pair?id=                          one pair, its picks, its parts' variants, its neighbours
 //! GET  /api/side-fill/parts?role=main|sub&status=&after=&limit=&q=   a page of the mains / subs the pairs use
 //! POST /api/side-fill/pick {reference_id, rank?, main, sub, layout?: {main, sub}, options?}   set a pair's pick of
@@ -29,12 +30,13 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use worker::{Response, Result};
 
-const MAIN_FAMILY: &str = "main-fill-48";
+// A part's fill variants are icons of style fill in its own family (POST /api/icons/styled): solo/<name>--fill,
+// solo/<name>--fill-region-3…, sub/<name>--fill, style_of the solo / sub icon, which is itself the outline.
+const PART_STYLE: &str = "fill";
 // A pick's combined icon is a Side combination 64 icon of style fill (as round / sharp icons are styles of a
 // normal icon, migration 0019): key side_combination64/<reference_id>--fill[-n], style_of the pair's normal key.
 const COMBINED_FAMILY: &str = "side_combination64";
 const COMBINED_STYLE: &str = "fill";
-const SUB_FAMILY: &str = "sub-fill-32";
 const MAX_LIMIT: i64 = 120;
 const MAX_RANK: i64 = 9;
 const PAIR_STATES: [&str; 3] = ["picked", "unpicked", "uncombined"];
@@ -79,14 +81,31 @@ struct PairRow { reference_id: String, sort_key: String, state: String, main_sou
                  main_layout: Option<String>, sub_layout: Option<String>, note: Option<String>, concept: Option<String> }
 #[derive(Deserialize)]
 struct PickRow { reference_id: String, role: String, rank: f64, icon: Option<String>, layout: Option<String>, built_sha: Option<String>,
-                 options: Option<String>, combined: Option<String>, icon_sha: Option<String>, icon_label: Option<String> }
+                 options: Option<String>, combined: Option<String>, icon_sha: Option<String>, icon_of: Option<String> }
 
 // The pick's icon read once with it (by key): its current drawing and, for a fill variant, its label.
 const PICK_COLUMNS: &str = "p.reference_id, p.role, p.rank, p.icon, p.layout, p.built_sha, p.options, p.combined, \
-    i.svg_sha256 AS icon_sha, i.variant_label AS icon_label";
+    i.svg_sha256 AS icon_sha, i.style_of AS icon_of";
 const PICK_FROM: &str = "reference_part_fills p LEFT JOIN icons i ON i.key = p.icon";
 #[derive(Deserialize)]
-struct VariantRow { key: String, variant_of: Option<String>, variant_label: Option<String>, svg_sha256: Option<String>, review: Option<String> }
+struct VariantRow { key: String, style_of: Option<String>, svg_sha256: Option<String>, review: Option<String> }
+
+/// The fill variants of some solo / sub icons with their review status, by style_of (icons_style_of).
+async fn variants_of(reads: &Reads<'_>, sources: &[&str]) -> Result<HashMap<String, Vec<Value>>> {
+    let mut variants: HashMap<String, Vec<Value>> = HashMap::new();
+    if sources.is_empty() { return Ok(variants); }
+    let rows: Vec<VariantRow> = reads.all("SELECT i.key, i.style_of, i.svg_sha256, \
+            (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review \
+        FROM icons i WHERE i.style_of IN (SELECT value FROM json_each(?)) AND i.style = ?",
+        args![json!(sources).to_string(), PART_STYLE]).await?;
+    for row in rows {
+        let Some(of) = row.style_of else { continue };
+        let Some(label) = super::styled::fill_variant(&row.key, &of) else { continue };
+        variants.entry(of.clone()).or_default().push(json!({"key": row.key, "variant": label, "svg_sha256": row.svg_sha256,
+            "review": row.review.unwrap_or_else(|| "ready".into())}));
+    }
+    Ok(variants)
+}
 #[derive(Deserialize)]
 struct CombinedRow { key: String, svg_sha256: Option<String>, build_failed: Option<f64>, review: Option<String> }
 #[derive(Deserialize)]
@@ -101,8 +120,9 @@ async fn counts(reads: &Reads<'_>, scope: &str) -> Result<Value> {
 }
 
 /// The picks and their combined icons of some pairs, by key; with `variants` (the pair page) also every fill variant
-/// of their parts with its review status. The grid leaves the variants out: a pick names its own label.
-async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool) -> Result<Vec<Value>> {
+/// of their parts with its review status. The grid leaves the variants out: a pick names its own label. With
+/// `originals`, each pair's normal Side combination 64 icon (the outline pair the fill one is a style of).
+async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool, originals: bool) -> Result<Vec<Value>> {
     let ids: Vec<&str> = pairs.iter().map(|p| p.reference_id.as_str()).collect();
     let picks: Vec<PickRow> = if ids.is_empty() { vec![] } else {
         reads.all(&format!("SELECT {PICK_COLUMNS} FROM {PICK_FROM} \
@@ -111,21 +131,9 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool) -> Re
     };
     let mains: Vec<&str> = pairs.iter().filter_map(|p| p.main_source.as_deref()).collect();
     let subs: Vec<&str> = pairs.iter().filter_map(|p| p.sub_source.as_deref()).collect();
-    let mut variants: HashMap<String, Vec<Value>> = HashMap::new();
-    for (family, sources) in [(MAIN_FAMILY, &mains), (SUB_FAMILY, &subs)] {
-        if sources.is_empty() || !variants_too { continue; }
-        let rows: Vec<VariantRow> = reads.all("SELECT i.key, i.variant_of, i.variant_label, i.svg_sha256, \
-                (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review \
-            FROM icons i WHERE i.family = ? AND i.variant_of IN (SELECT value FROM json_each(?))",
-            args![family, json!(sources).to_string()]).await?;
-        for row in rows {
-            if let Some(of) = row.variant_of.clone() {
-                variants.entry(of).or_default().push(json!({"key": row.key, "variant": row.variant_label,
-                    "svg_sha256": row.svg_sha256, "review": row.review}));
-            }
-        }
-    }
-    let combined_keys: Vec<String> = picks.iter().filter_map(|p| p.combined.clone()).collect();
+    let variants = if variants_too { variants_of(reads, &[mains, subs].concat()).await? } else { HashMap::new() };
+    let mut combined_keys: Vec<String> = picks.iter().filter_map(|p| p.combined.clone()).collect();
+    if originals { combined_keys.extend(pairs.iter().map(|p| format!("{COMBINED_FAMILY}/{}", p.reference_id))); }
     let combined: HashMap<String, CombinedRow> = if combined_keys.is_empty() { HashMap::new() } else {
         reads.all::<CombinedRow>("SELECT i.key, i.svg_sha256, i.build_failed, \
                 (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review \
@@ -142,7 +150,8 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool) -> Re
         for rank in numbers {
             let row_of = |role: &str| rows.iter().find(|r| r.rank as i64 == rank && r.role == role);
             let part = |role: &str| row_of(role).map(|r| json!({"icon": r.icon, "svg_sha256": r.icon_sha,
-                "label": if r.icon == if role == "main" { p.main_source.clone() } else { p.sub_source.clone() } { Some("outline".to_string()) } else { r.icon_label.clone() },
+                "label": if r.icon == if role == "main" { p.main_source.clone() } else { p.sub_source.clone() } { Some("outline".to_string()) }
+                         else { r.icon.as_deref().zip(r.icon_of.as_deref()).and_then(|(k, of)| super::styled::fill_variant(k, of)).map(str::to_string) },
                 "layout": r.layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok()), "built_sha": r.built_sha}));
             let main = row_of("main");
             let options = main.and_then(|r| r.options.as_deref()).and_then(|o| serde_json::from_str::<Value>(o).ok());
@@ -153,6 +162,8 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool) -> Re
         }
         json!({"id": p.reference_id, "concept": p.concept, "state": p.state, "note": p.note, "sort_key": p.sort_key,
                "main": p.main_source, "sub": p.sub_source, "picks": ranks,
+               "original": if originals { combined.get(&format!("{COMBINED_FAMILY}/{}", p.reference_id)).map(|c| json!({"key": c.key,
+                   "svg_sha256": c.svg_sha256, "review": c.review.clone().unwrap_or_else(|| "ready".into())})) } else { None },
                "layout": {"main": p.main_layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok()),
                           "sub": p.sub_layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok())},
                "main_variants": p.main_source.as_ref().and_then(|m| variants.get(m)).cloned().unwrap_or_default(),
@@ -192,7 +203,7 @@ pub async fn pairs(ctx: &Ctx) -> Result<Response> {
     let filter = if filters.is_empty() { String::new() } else { format!("WHERE {}", filters.join(" AND ")) };
     let mut rows: Vec<PairRow> = reads.all(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f {filter} ORDER BY f.sort_key LIMIT ?"), values).await?;
     let next = if rows.len() as i64 > limit { rows.truncate(limit as usize); rows.last().map(|r| r.sort_key.clone()) } else { None };
-    let items = details(&reads, &rows, false).await?;
+    let items = details(&reads, &rows, false, ctx.param("original") == Some("1")).await?;
     let totals = counts(&reads, "pairs").await?;
     reads.answer(&json!({"pairs": items, "next": next, "counts": totals}))
 }
@@ -208,7 +219,7 @@ pub async fn pair(ctx: &Ctx) -> Result<Response> {
     struct Id { reference_id: String }
     let previous = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE sort_key < ? ORDER BY sort_key DESC LIMIT 1", args![row.sort_key.clone()]).await?;
     let next = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE sort_key > ? ORDER BY sort_key LIMIT 1", args![row.sort_key.clone()]).await?;
-    let mut item = details(&reads, std::slice::from_ref(&row), true).await?.remove(0);
+    let mut item = details(&reads, std::slice::from_ref(&row), true, true).await?.remove(0);
     item["neighbours"] = json!({"previous": previous.map(|p| p.reference_id), "next": next.map(|p| p.reference_id)});
     reads.answer(&item)
 }
@@ -239,20 +250,7 @@ pub async fn parts(ctx: &Ctx) -> Result<Response> {
         filters.join(" AND ")), values).await?;
     let next = if rows.len() as i64 > limit { rows.truncate(limit as usize); rows.last().map(|r| r.sort_key.clone()) } else { None };
     let keys: Vec<&str> = rows.iter().map(|r| r.key.as_str()).collect();
-    let family = if role == "main" { MAIN_FAMILY } else { SUB_FAMILY };
-    let mut variants: HashMap<String, Vec<Value>> = HashMap::new();
-    if !keys.is_empty() {
-        let found: Vec<VariantRow> = reads.all("SELECT i.key, i.variant_of, i.variant_label, i.svg_sha256, \
-                (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review \
-            FROM icons i WHERE i.family = ? AND i.variant_of IN (SELECT value FROM json_each(?))",
-            args![family, json!(keys).to_string()]).await?;
-        for v in found {
-            if let Some(of) = v.variant_of.clone() {
-                variants.entry(of).or_default().push(json!({"key": v.key, "variant": v.variant_label, "svg_sha256": v.svg_sha256,
-                                                             "review": v.review.unwrap_or_else(|| "ready".into())}));
-            }
-        }
-    }
+    let variants = variants_of(&reads, &keys).await?;
     let items: Vec<Value> = rows.iter().map(|r| json!({"key": r.key, "role": r.role, "status": r.status, "note": r.note, "text": r.text,
         "pair_count": r.pair_count as i64, "sort_key": r.sort_key, "source_sha256": r.source_sha,
         "source_review": r.source_review.clone().unwrap_or_else(|| "ready".into()),
@@ -283,14 +281,14 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         return http::error(404, "Unknown fill side pair.");
     };
     #[derive(Deserialize)]
-    struct Of { key: String, family: String, variant_of: Option<String> }
+    struct Of { key: String, style: String, style_of: Option<String> }
     let mut chosen = vec![];
-    for (role, family, source) in [("main", MAIN_FAMILY, &row.main_source), ("sub", SUB_FAMILY, &row.sub_source)] {
+    for (role, source) in [("main", &row.main_source), ("sub", &row.sub_source)] {
         let Some(key) = data[role].as_str() else { return http::error(400, &format!("Give the {role} fill variant icon.")) };
-        let found = reads.first::<Of>("SELECT key, family, variant_of FROM icons WHERE key = ?", args![key]).await?;
+        let found = reads.first::<Of>("SELECT key, style, style_of FROM icons WHERE key = ?", args![key]).await?;
         match found {
             // A fill variant of the pair's part, or the part's own solo / sub icon (its outline).
-            Some(of) if (of.family == family && of.variant_of.is_some() && &of.variant_of == source)
+            Some(of) if (of.style == PART_STYLE && of.style_of.is_some() && &of.style_of == source)
                         || source.as_deref() == Some(of.key.as_str()) => chosen.push((role, of.key)),
             _ => return http::error(400, &format!("{key} is neither a fill variant of this pair's {role} nor the {role} itself.")),
         }

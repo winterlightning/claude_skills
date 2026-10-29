@@ -179,10 +179,30 @@ def drawing(key):
 
 
 def upload_variant(pair, role, label, svg):
-    status, answer, _ = call('POST', '/api/icons/upload', {'name': f'test {label}', 'family': 'main-fill-48' if role == 'main' else 'sub-fill-32',
-        'variant_of': pair[role], 'variant_label': label, 'bypass_validation': True, 'svg': svg})
-    assert status == 200, answer
+    status, answer, _ = call('POST', '/api/icons/styled', {'items': [{'source_key': pair[role], 'style': 'fill', 'variant': label, 'svg': svg}],
+                                                          'replace': True})
+    assert status == 200 and not answer['errors'], answer
     return answer
+
+
+def test_fill_variants_are_fill_icons_of_their_solo_and_sub():
+    pair, _ = a_pair_with_variants()
+    for role, family in (('main', 'solo'), ('sub', 'sub')):
+        assert pair[role].startswith(family + '/')
+        for variant in pair[f'{role}_variants']:
+            suffix = '' if variant['variant'] in ('current', 'fill') else '-' + variant['variant']
+            assert variant['key'] == f'{pair[role]}--fill{suffix}', variant
+    status, answer, _ = call('GET', '/api/icons', family='solo', style='fill', q=pair['main'].split('/', 1)[1], limit=24)
+    assert status == 200, answer
+    listed = [i for i in answer.get('icons', answer.get('items', [])) if i['key'].startswith(pair['main'] + '--fill')]
+    assert listed and all(i.get('family') == 'solo' for i in listed), answer
+
+
+def test_only_solo_and_sub_icons_have_fill_variants():
+    data, _ = get('/api/side-fill/pairs', state='picked', limit=1)
+    combined = data['pairs'][0]['picks'][0]['combined']['key'].split('--fill')[0]
+    status, answer, _ = call('POST', '/api/icons/styled', {'items': [{'source_key': combined, 'style': 'fill', 'svg': '<svg/>'}]})
+    assert status == 200 and answer['errors'] and not answer['results'], answer
 
 
 def test_a_redrawn_part_makes_its_picks_stale():
@@ -237,3 +257,14 @@ def test_an_output_is_a_side_combination_64_icon_of_style_fill():
     assert record['family'] == 'side_combination64'
     assert record.get('icon_style', record.get('style')) == 'fill'
     assert record['style_of'] == 'side_combination64/' + pair['id']
+
+
+def test_originals_come_with_the_page_only_when_asked():
+    plain, rows_plain = get('/api/side-fill/pairs', limit=60)
+    assert all(p['original'] is None for p in plain['pairs'])
+    data, rows = get('/api/side-fill/pairs', limit=60, original=1)
+    assert rows <= BUDGET['pairs60'] and rows - rows_plain <= 3 * len(data['pairs']), (rows_plain, rows)
+    for p in data['pairs']:
+        assert p['original'] is None or p['original']['key'] == 'side_combination64/' + p['id']
+    one, rows = get('/api/side-fill/pair', id=data['pairs'][0]['id'])
+    assert 'original' in one and rows <= BUDGET['pair']

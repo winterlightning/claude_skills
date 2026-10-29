@@ -113,7 +113,7 @@ def source_text(part):
 def pick_inputs(ids=None):
     """[(spec, pick)] for every pick (d1_import.pick_specs) with the icon texts it combines."""
     from .d1_import import pick_specs
-    manifest = {(m['variant_of'], m['variant_label']): WORK / m['svg']
+    manifest = {(m['source_key'], m['variant']): WORK / m['svg']
                 for m in json.loads((WORK / 'fill-icons/manifest.json').read_text())}
     items = {i['reference_id']: i for i in json.loads((DATA / 'data/production-layouts.json').read_text())['items']}
     out = []

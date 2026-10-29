@@ -246,24 +246,6 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         Some(Value::String(id)) if (1..=64).contains(&id.len()) && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-') => Some(id.to_lowercase()),
         _ => return http::error(400, "reference_id must be a reference id (letters, digits and hyphens, up to 64 characters)."),
     };
-    // Optional: a fill variant of another icon (fill side pairs, migration 0023): `variant_of` is that icon's key and
-    // `variant_label` the variant (current, outline, region-3, fill…). One icon per (family, variant_of, label): uploading
-    // the same variant again is a new drawing of that icon, as a second upload for a reference is.
-    let variant = match (data.get("variant_of"), data.get("variant_label")) {
-        (None | Some(Value::Null), None | Some(Value::Null)) => None,
-        (Some(Value::String(of)), Some(Value::String(label)))
-            if (1..=200).contains(&of.len()) && (1..=60).contains(&label.len())
-            && label.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-') => Some((of.clone(), label.clone())),
-        _ => return http::error(400, "variant_of must be an icon key and variant_label a short lowercase name (letters, digits, hyphens)."),
-    };
-    if let Some((of, _)) = &variant {
-        if db::first::<Value>(&ctx.db, "SELECT key FROM icons WHERE key = ?", args![of.as_str()]).await?.is_none() {
-            return http::error(400, &format!("variant_of: no icon {of}."));
-        }
-        if reference_id.is_some() || reference.is_some() {
-            return http::error(400, "A variant upload links through variant_of, not reference_id.");
-        }
-    }
     if let (Some(id), Some((part, _))) = (&reference_id, &reference) {
         if id != part {
             return http::error(400, "reference_id and reference.id name different references.");
@@ -281,9 +263,8 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     let status = if approve { "approve" } else { "ready" };
     let canvas = family["canvas_size"].as_i64().unwrap_or(48);
     let svg_input = data.get("svg").and_then(Value::as_str).unwrap_or("");
-    // Uploads for a combination part (with `reference`, container-pairs.html) keep whatever canvas they were drawn on,
-    // and so does a variant: a fill side pair's fill keeps its solo / sub drawing's canvas (a 32 × 40 sub, …).
-    let cleaned = if reference.is_some() || variant.is_some() { pictographic_core::svg::safe_svg_any_canvas(svg_input) }
+    // Uploads for a combination part (with `reference`, container-pairs.html) keep whatever canvas they were drawn on.
+    let cleaned = if reference.is_some() { pictographic_core::svg::safe_svg_any_canvas(svg_input) }
                   else { pictographic_core::svg::safe_svg(svg_input, canvas) };
     let document = match cleaned {
         Ok(document) => document,
@@ -301,23 +282,6 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
                                 "svg_sha256": digest, "preview_url": format!("../api/icon-artwork/svg?icon={}&v={digest}", http::percent_encode(&existing.key)),
                                 "artwork_source": "use_upload"});
             return http::json(200, &json!({"record": record, "status": "ready", "candidate_of": existing.key}));
-        }
-    }
-    if let Some((of, label)) = &variant {
-        #[derive(Deserialize)]
-        struct Key { key: String }
-        let existing = db::first::<Key>(&ctx.db, "SELECT key FROM icons WHERE family = ? AND variant_of = ? AND variant_label = ? LIMIT 1",
-                                        args![family_id, of.as_str(), label.as_str()]).await?;
-        if let Some(found) = existing {
-            if let Some(existing) = data::icon(&ctx.db, &found.key, true).await? {
-                let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, author.as_deref(), keyshape.as_deref(), user, &now).await?;
-                db::batch(&ctx.db, statements).await?;
-                let record = json!({"key": existing.key, "icon_id": existing.icon_id, "name": existing.name, "family": family_id,
-                                    "svg_sha256": digest, "variant_of": of, "variant_label": label,
-                                    "preview_url": format!("../api/icon-artwork/svg?icon={}&v={digest}", http::percent_encode(&existing.key)),
-                                    "artwork_source": "use_upload"});
-                return http::json(200, &json!({"record": record, "status": "ready", "candidate_of": existing.key}));
-            }
         }
     }
     let mut validation = json!({
@@ -361,11 +325,9 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     let mut statements = vec![
         db::stmt(db, "INSERT INTO uploaded_icons VALUES (?, ?, ?)", args![key.clone(), record_text.clone(), document.clone()])?,
         db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
-            original_sources, uploaded, record, pushed_at, variant_of, variant_root, variant_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?)",
+            original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)",
             args![key.clone(), icon_id.clone(), name.trim(), family_id, category.clone(), record["profile"].as_str(), canvas,
-                  digest.clone(), preview_url.clone(), original_sources.to_string(), record_text, now.clone(),
-                  variant.as_ref().map(|(of, _)| of.clone()), variant.as_ref().map(|(of, _)| of.clone()),
-                  variant.as_ref().map(|(_, label)| label.clone())])?,
+                  digest.clone(), preview_url.clone(), original_sources.to_string(), record_text, now.clone()])?,
         super::icon_list::index_statement(db, &key, &record, None)?,
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
                  args![digest.clone(), key.clone(), document, now.clone()])?,

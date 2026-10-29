@@ -15,7 +15,7 @@
   }
   const query = params => new URLSearchParams(Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')).toString();
   // {pairs: [{id, concept, state, note, main, sub, layout, picks: [{rank, main, sub, options, combined}], main_variants,
-  //   sub_variants}], next, counts}
+  //   sub_variants, original (with original: 1: the normal side_combination64/<id> icon {key, svg_sha256, review})}], next, counts}
   const pairsPage = params => api('pairs?' + query(params));
   const pair = id => api('pair?id=' + encodeURIComponent(id));      // as in pairs, with neighbours {previous, next}
   const partsPage = params => api('parts?' + query(params));        // {parts: [{key, role, status, note, text, pair_count, variants}], next, counts}

@@ -44,20 +44,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('roles', nargs='*', choices=sorted(ROLES), default=sorted(ROLES))
     parser.add_argument('--apply', action='store_true', help='write files (default: dry run)')
+    parser.add_argument('--names', nargs='*', help='only these icons (a rebuilt review can differ elsewhere too)')
     args = parser.parse_args()
     layouts = json.loads(DEFAULT_LAYOUTS.read_text())['items']
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     for role in args.roles:
         _review, target = ROLES[role]
-        files = publishable(role, layouts)
+        files = {key: v for key, v in publishable(role, layouts).items() if not args.names or key[0] in args.names}
         old = {key: (sha(fill_path(part, role)) if fill_path(part, role).is_file() else None)
                for key, (_src, part) in files.items()}
         changed = {key: src for key, (src, _part) in files.items() if old[key] != sha(src)}
         print(f'{role}: publishable {len(files)} · fill changes {len(changed)}')
+        for name, source_sha in sorted(changed):
+            print(f'  {name} {source_sha[:12]}')
         if not args.apply or not changed:
             continue
         if target.exists():
-            backup = DATA / 'archive' / f'stroke-fill-publish-backup-{stamp}' / target.name
+            # In the ignored build state: a copy under DATA would join the snapshot (and its R2 manifest).
+            backup = WORK / 'stroke-fill-publish-backups' / stamp / target.name
             shutil.copytree(target, backup)
             print(f'backup {backup}')
         with LOG.open('a') as log:

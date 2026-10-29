@@ -2,7 +2,8 @@
 
    One keyset page of pairs at a time (SideFillData.pairsPage): a picked pair shows each pick's combined icon in rank
    order, an unpicked pair a link to choose its output, and a pair the combine cannot draw why. Totals come with the
-   page, so the filter buttons never count rows. The keyshape overlay is measured from each pick's boxes. */
+   page, so the filter buttons never count rows. The keyshape overlay is measured from each pick's boxes. Show
+   original puts the pair's normal Side combination 64 icon beside each output (the page then asks for them too). */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -10,7 +11,7 @@
   const {overlay, label, keyshape} = window.SideFillOverlay;
   const GROUPS = [['all', 'All pairs'], ['picked', 'Picked'], ['unpicked', 'Not picked'], ['uncombined', 'Not combined']];
   const params = new URLSearchParams(location.search);
-  const state = {group: params.get('group') || 'all', cursors: [null], at: 0, q: params.get('q') || ''};
+  const state = {group: params.get('group') || 'all', cursors: [null], at: 0, q: params.get('q') || '', original: params.get('original') === '1'};
   let token = 0, counts = {}, lastPage = null;
 
   function stats() {
@@ -31,8 +32,20 @@
     const guides = $('guides').getAttribute('aria-pressed') === 'true';
     const ks = pick ? keyshape(pick.main?.layout, pick.sub?.layout) : null;
     const built = pick?.combined;
-    card.append(artBox(built ? iconUrl(built.key, built.svg_sha256) : null, {href, overlay: pick && guides ? overlay(ks) : null,
-      empty: pair.state === 'uncombined' ? 'Not combined' : pair.state === 'unpicked' ? 'Choose an output' : 'Not built yet'}));
+    const fill = artBox(built ? iconUrl(built.key, built.svg_sha256) : null, {href, overlay: pick && guides ? overlay(ks) : null,
+      empty: pair.state === 'uncombined' ? 'Not combined' : pair.state === 'unpicked' ? 'Choose an output' : 'Not built yet'});
+    if (state.original) {
+      const figure = (caption, art) => {
+        const f = document.createElement('figure'), c = document.createElement('figcaption');
+        c.textContent = caption;f.append(art, c);return f;
+      };
+      const original = pair.original;
+      const duo = document.createElement('div');duo.className = 'sf-duo';
+      duo.append(figure(original ? `Original · ${original.review === 'approve' ? 'approved' : original.review}` : 'Original',
+                        artBox(original ? iconUrl(original.key, original.svg_sha256) : null, {href, empty: 'No normal icon'})),
+                 figure('Fill', fill));
+      card.append(duo);
+    } else card.append(fill);
     const title = document.createElement('h3');
     title.textContent = pair.concept || pair.id;title.title = `${pair.concept}\n${pair.main || '—'} + ${pair.sub || '—'}\n${pair.id}`;
     card.append(title);
@@ -93,13 +106,14 @@
     $('headline').textContent = 'Loading…';
     let page;
     try {
-      page = await pairsPage({state: state.group === 'all' ? null : state.group, after: state.cursors[state.at], limit: $('perPage').value, q: state.q});
+      page = await pairsPage({state: state.group === 'all' ? null : state.group, after: state.cursors[state.at], limit: $('perPage').value, q: state.q,
+                              original: state.original ? 1 : null});
     } catch (error) { $('headline').textContent = `Could not load the fill side pairs: ${error.message}`;return; }
     if (mine !== token) return;
     lastPage = page;counts = page.counts;stats();render();
     for (const nav of [$('pagerTop'), $('pagerBottom')]) pager(nav, page.next);
     const url = new URL(location.href);
-    for (const [k, v] of [['group', state.group === 'all' ? '' : state.group], ['q', state.q]]) v ? url.searchParams.set(k, v) : url.searchParams.delete(k);
+    for (const [k, v] of [['group', state.group === 'all' ? '' : state.group], ['q', state.q], ['original', state.original ? '1' : '']]) v ? url.searchParams.set(k, v) : url.searchParams.delete(k);
     history.replaceState(null, '', url);
   }
   function restart() { state.cursors = [null];state.at = 0;load(); }
@@ -112,6 +126,12 @@
   $('guides').addEventListener('click', event => {
     const on = event.currentTarget.getAttribute('aria-pressed') !== 'true';
     event.currentTarget.setAttribute('aria-pressed', String(on));render();
+  });
+  $('original').setAttribute('aria-pressed', String(state.original));
+  $('original').addEventListener('click', () => {
+    state.original = !state.original;$('original').setAttribute('aria-pressed', String(state.original));
+    // The originals come with the page: the same page again, with them.
+    load();
   });
   $('tileSize').addEventListener('change', () => document.documentElement.style.setProperty('--sf-tile', $('tileSize').value));
   load();

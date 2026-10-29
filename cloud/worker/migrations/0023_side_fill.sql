@@ -1,23 +1,22 @@
 -- Fill side pairs: the 64 side pairs combined from fill variants of their main (solo) and sub, stored the way the
 -- 72 set is (migration 0013): the parts and the combined icons are icons, a pair's picks are per-part rows.
 --
--- Icons (no new icon tables; uploaded with POST /api/icons/upload, combined with POST /api/side-fill/build):
---   main-fill-48/…                          a fill variant of a solo main (current, region-N, group-*):
---                                           icons.variant_of = 'solo/<name>', variant_label = the variant
---   sub-fill-32/…                           a sub's fill (closed fills included): variant_of = 'sub/<name>'
---   The outline variant is the solo / sub icon itself: a pick uses its key directly, nothing is uploaded for it.
+-- Icons (no new icon tables or families; parts stored with POST /api/icons/styled, combined with POST
+-- /api/side-fill/build), each a style fill icon beside a normal one, as round / sharp are (0019):
+--   solo/<name>--fill, solo/<name>--fill-<variant>   a solo main's fill variants (current, region-N, group-*),
+--                                           style_of = 'solo/<name>'
+--   sub/<name>--fill                        a sub's fill (closed fills included), style_of = 'sub/<name>'
+--   The outline is the normal solo / sub icon itself: a pick uses its key directly, nothing is stored for it.
 --   side_combination64/<reference_id>--fill[-<n>]   a pair's combined pick, built in the browser: a Side
---                                           combination 64 icon of style fill (style_of the pair's normal key, as round /
---                                           sharp are styles, 0019). Its key is kept on the pick (reference_part_fills.
---                                           combined), so it follows the pick when ranks move up
+--                                           combination 64 icon of style fill, style_of the pair's normal key. Its key
+--                                           is kept on the pick (reference_part_fills.combined), so it follows the
+--                                           pick when ranks move up
 -- Their SVGs are revisions rows and their reviews start Ready, as for every upload and build.
 --
 -- Reads stay bounded (no COUNT(*), no OFFSET, no scan of "references" or icons): the pages list fill_pairs and
 -- fill_parts by their (state, sort_key) indexes with LIMIT, look picks up by primary key, variants through
--- icons_variant_of (family, variant_of), and totals from fill_counts, which every write keeps in step.
-INSERT OR IGNORE INTO upload_families(id, name, canvas_size, created_at, created_by) VALUES
-    ('main-fill-48', 'Fill main 48 (fill side pairs)', 48, '2026-10-28T00:00:00.000Z', 'migration'),
-    ('sub-fill-32', 'Fill sub 32 (fill side pairs)', 32, '2026-10-28T00:00:00.000Z', 'migration');
+-- icons_style_of (style_of, style), and totals from fill_counts, which every write keeps in step.
+CREATE INDEX icons_style_of ON icons(style_of, style);
 
 -- A pair's pick: for each rank, the fill variant icon used for its main and its sub, and their boxes on the 64
 -- grid ({paths, x, y, w, h} as reference_parts.layout). built_sha: the part drawing the combined icon of that rank

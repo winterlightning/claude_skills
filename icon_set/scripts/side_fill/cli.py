@@ -5,6 +5,7 @@
             duplicates, layouts, gallery)
   icons     export the fill variant icons (SVGs + manifest) for cloud/migrate/upload_fill_parts.py
   d1-import write the SQL that fills fill_pairs / fill_parts / fill_counts and the picks (wrangler d1 execute)
+  sources   bring the snapshot's source drawings up to the site's current ones (a drawings.json read from the site)
   check     combine every pick from the icon files and compare it with the combined SVG reviewed in the gallery
   goldens   write the fixtures side-fill.test.mjs checks side-fill-combine.js against
 """
@@ -16,6 +17,7 @@ COMMANDS = {
     'build': 'build',
     'icons': 'fill_icons',
     'd1-import': 'd1_import',
+    'sources': 'sources',
     'check': 'pick_combine',
     'goldens': 'pick_combine',
 }

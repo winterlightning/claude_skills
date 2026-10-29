@@ -7,9 +7,9 @@ cloud/migrate/backfill_combinations.py fills the combination tables: run deliber
     (cd cloud/worker && npx wrangler d1 execute pictographic-review-next --remote --file ../../icon_set/state/side-fill/side-fill-picks.sql)
 
 side-fill-import.sql   fill_pairs, fill_parts and fill_counts (replaced whole: they are listings of this build)
-side-fill-picks.sql    reference_part_fills: each pair's picks in order, rank 1 its output. Each pick finds its fill
-                       variant icon by (family, variant_of, variant_label) through icons_variant_of, so it runs
-                       after the upload; a pick whose variant was not uploaded is skipped (the icon lookup is NULL).
+side-fill-picks.sql    reference_part_fills: each pair's picks in order, rank 1 its output. Each pick names its fill
+                       variant icon by key (fill_icons.fill_key) and is written only when that icon exists, so it runs
+                       after the upload; a pick whose variant was not uploaded is skipped.
                        An outline pick uses the solo / sub icon itself.
 Every statement is a write keyed by primary key or a lookup on an index: nothing here scans a table.
 """
@@ -17,11 +17,11 @@ import argparse
 import json
 from datetime import datetime, timezone
 
+from .fill_icons import fill_key
 from .paths import DATA, WORK
 
 IMPORT = WORK / 'side-fill-import.sql'
 PICKS = WORK / 'side-fill-picks.sql'
-FAMILY = {'main': 'main-fill-48', 'sub': 'sub-fill-32'}
 
 
 def q(value):
@@ -34,6 +34,12 @@ def q(value):
 
 def sort_key(text, ref):
     return f'{(text or "").lower()} {ref}'
+
+
+def keyshape_fits():
+    """{pair: {rank: {main, sub, keyshape}}}: picks laid out again to fill the 64px keyshape, by rank."""
+    path = DATA / 'data/keyshape-fit-layouts.json'
+    return json.loads(path.read_text())['pairs'] if path.is_file() else {}
 
 
 def gallery_rows():
@@ -53,9 +59,9 @@ def uncombined_note(parts, error):
 
 
 def uploaded_variants():
-    """{(variant_of, label)} of the fill variant icons exported for upload (side-fill icons)."""
+    """{(source_key, variant)} of the fill variant icons exported for upload (side-fill icons)."""
     path = WORK / 'fill-icons/manifest.json'
-    return {(m['variant_of'], m['variant_label']) for m in json.loads(path.read_text())} if path.is_file() else set()
+    return {(m['source_key'], m['variant']) for m in json.loads(path.read_text())} if path.is_file() else set()
 
 
 def resolve(source, label, available):
@@ -169,19 +175,22 @@ def build():
         pairs.append(f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
                      f"VALUES ({q(ref)}, {q(sort_key(item['concept'], ref))}, {q(state)}, {q(parts.get('main', {}).get('icon'))}, "
                      f"{q(parts.get('sub', {}).get('icon'))}, {layouts[0]}, {layouts[1]}, {q(note)}, {q(now)});")
+    fitted = keyshape_fits()
     for spec in specs:
         ref, rank = spec['reference_id'], spec['rank']
+        fit = fitted.get(ref, {}).get(str(rank))
         for role, part in spec['roles'].items():
-            layout = q(json.dumps(part['layout']) if part['layout'] else None)
+            # A pick laid out again to fill the 64px keyshape (cloud/migrate/fit_fill_keyshapes.mjs) uses those boxes.
+            boxes = fit[role] if fit else part['layout']
+            layout = q(json.dumps(boxes) if boxes else None)
             options = q(json.dumps(spec['options'], sort_keys=True) if role == 'main' and spec['options'] else None)
             if part['label'] == 'outline':      # the outline is the solo / sub icon itself
-                picks.append(f"INSERT INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) VALUES "
+                picks.append(f"INSERT OR IGNORE INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) VALUES "
                              f"({q(ref)}, {q(role)}, {rank}, {q(part['source'])}, {layout}, {options}, {q(now)}, 'side-fill import');")
                 continue
-            picks.append(f"INSERT INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) "
+            picks.append(f"INSERT OR IGNORE INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) "
                          f"SELECT {q(ref)}, {q(role)}, {rank}, key, {layout}, {options}, {q(now)}, 'side-fill import' "
-                         f"FROM icons WHERE family = {q(FAMILY[role])} AND variant_of = {q(part['source'])} "
-                         f"AND variant_label = {q(part['label'])} LIMIT 1;")
+                         f"FROM icons WHERE key = {q(fill_key(part['source'], part['label']))};")
     mains, subs = parts_listing(set(rows))
     parts_sql = []
     for role, listing in (('main', mains), ('sub', subs)):

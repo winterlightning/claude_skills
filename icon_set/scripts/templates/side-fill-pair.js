@@ -4,7 +4,8 @@
    are one more (GET /api/combinations/drawings). Everything shown is combined here, from the parts' current drawings,
    by side-fill-combine.js: a redrawn part shows at once. A pick is a pair of icons and their boxes
    (POST /api/side-fill/pick); its combined icon is the drawing made here, saved with POST /api/side-fill/build into
-   Icon review as Ready. The first pick is the pair's output; the others are alternatives in order. */
+   Icon review as Ready. The first pick is the pair's output; the others are alternatives in order. The pair's
+   normal Side combination 64 icon (its original) comes with the pair and is shown above the picks. */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -167,6 +168,16 @@
     parts();
   }
 
+  function original() {
+    const o = pair.original, card = document.createElement('article');
+    card.className = 'sf-tile';
+    const caption = document.createElement('p');
+    caption.textContent = o ? `${o.key} · ${o.review === 'approve' ? 'approved' : o.review}` : `No normal icon side_combination64/${pair.id}`;
+    caption.title = caption.textContent;
+    card.append(D.artBox(o ? D.iconUrl(o.key, o.svg_sha256) : null, {empty: 'No normal icon'}), caption);
+    $('original').replaceChildren(card);
+  }
+
   function parts() {
     const figures = [];
     for (const role of ['main', 'sub']) {
@@ -199,6 +210,7 @@
     const go = to => { location.search = '?id=' + encodeURIComponent(to); };
     $('prev').disabled = !pair.neighbours?.previous;$('next').disabled = !pair.neighbours?.next;
     $('prev').onclick = () => go(pair.neighbours.previous);$('next').onclick = () => go(pair.neighbours.next);
+    original();
     if (pair.state === 'uncombined') {
       status(pair.note || 'The combine cannot draw this pair.', true);
       return;

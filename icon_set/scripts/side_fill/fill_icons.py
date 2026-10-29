@@ -5,8 +5,9 @@ flat region / group fills; a sub's fill (closed fills included). Never a rejecte
     python3 -m icon_set side-fill icons        # after `side-fill build`
 
 Writes icon_set/state/side-fill/fill-icons/<main|sub>/<name>/<variant>.svg and manifest.json:
-  [{family, variant_of, variant_label, name, svg, svg_sha256, source_sha256}]
-which cloud/migrate/upload_fill_parts.py uploads (POST /api/icons/upload with variant_of / variant_label).
+  [{key, source_key, variant, name, svg, svg_sha256, source_sha256}]
+which cloud/migrate/upload_fill_parts.py stores (POST /api/icons/styled, style fill): each variant is an icon of style
+fill in its solo / sub icon's own family, `key` (fill_key) beside the normal icon `source_key`.
 
 Each SVG keeps its source drawing's canvas, 5 decimals, and what the upload route keeps (ids, not data- attributes:
 portable()). The outline is the solo / sub icon itself: a pick uses its key, nothing is uploaded for it. A part whose
@@ -20,7 +21,12 @@ import hashlib
 from .paths import DATA, WORK
 
 OUT = WORK / 'fill-icons'
-FAMILY = {'main': 'main-fill-48', 'sub': 'sub-fill-32'}
+
+
+def fill_key(source, variant):
+    """The fill variant's icon key, as POST /api/icons/styled stores it: <source>--fill for the fill itself (a main's
+    current, a sub's fill), <source>--fill-<variant> for the others (region-3, group-wheels…)."""
+    return f'{source}--fill' if variant in ('current', 'fill') else f'{source}--fill-{variant}'
 
 
 def sha(text):
@@ -87,6 +93,28 @@ def variants_of(role, entry, part, needed=(), rejected=None):
     return out
 
 
+def site_fill(role, entry):
+    """[('current', svg)] for a main redrawn since its pairs were laid out whose snapshot drawing the site confirmed
+    is its current one (`side-fill sources`): its reworked fill of that drawing. Its pairs stay uncombined until they
+    are laid out again; its fill can be reviewed and picked meanwhile."""
+    from .adaptive_overlap import source_path
+    from .combine_fill_side_layouts import is_reverse_fill
+    from .publish_stroke_fills import ROLES, SKIP_STATUSES
+    from .sources import site_drawings
+    if role != 'main':
+        return []
+    source = source_path({'icon': entry['key']}, role)
+    if not source.is_file() or site_drawings().get(entry['key']) != sha(source.read_text()):
+        return []
+    review = ROLES['main'][0]
+    for record in json.loads((review / 'manifest.json').read_text())['records']:
+        if (record['name'] == entry['name'] and record['source_sha256'] == site_drawings()[entry['key']]
+                and record['kind'] != 'error' and record['review_status'] not in SKIP_STATUSES):
+            path = review / record['output']
+            return [('current', portable(compact(path.read_text()), is_reverse_fill(path)))] if path.is_file() else []
+    return []
+
+
 def view_box(svg):
     import re
     match = re.search(r'<svg\b[^>]*?\bviewBox="([^"]+)"', svg)
@@ -130,12 +158,14 @@ def export():
     manifest, skipped, off_canvas = [], {}, []
     for role, listing in (('main', mains), ('sub', subs)):
         for entry, _art in listing:
-            if entry['status'] not in ('ready', 'outline'):
+            relayout = site_fill(role, entry) if entry['status'] == 'redrawn' else []
+            if entry['status'] not in ('ready', 'outline') and not relayout:
                 skipped[entry['status']] = skipped.get(entry['status'], 0) + 1
                 continue
             part = parts[entry['key']]
             source = source_path(part, role).read_text()
-            for label, svg in variants_of(role, entry, part, needed.get(entry['key'], set()), rejected):
+            revision = sha(source) if relayout else entry['revision']
+            for label, svg in relayout or variants_of(role, entry, part, needed.get(entry['key'], set()), rejected):
                 svg = on_canvas(svg, source)
                 if svg is None:
                     off_canvas.append(f'{entry["key"]} {label}')
@@ -143,14 +173,15 @@ def export():
                 path = OUT / role / entry['name'] / f'{label}.svg'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(svg)
-                manifest.append({'family': FAMILY[role], 'variant_of': entry['key'], 'variant_label': label,
+                manifest.append({'key': fill_key(entry['key'], label), 'source_key': entry['key'], 'variant': label,
                                  'name': f'{entry["name"]} {label}', 'svg': str(path.relative_to(WORK)),
-                                 'svg_sha256': sha(svg), 'source_sha256': entry['revision']})
+                                 'svg_sha256': sha(svg), 'source_sha256': revision})
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
     counts = {}
     for m in manifest:
-        counts[m['family']] = counts.get(m['family'], 0) + 1
+        family = m['source_key'].split('/')[0]
+        counts[family] = counts.get(family, 0) + 1
     return {'icons': len(manifest), 'by_family': counts, 'skipped_parts': skipped, 'off_canvas': off_canvas,
             'manifest': str(OUT / 'manifest.json')}
 

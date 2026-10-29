@@ -144,14 +144,14 @@ mod tests {
         let db = db();
         // Pick 2 of fill pair f1 uses the main's region-1 fill (fm1) and the sub; only pick 1 uses its current fill.
         db.execute_batch("INSERT INTO icons(key, icon_id, family, svg_sha256, record) VALUES
-              ('main-fill-48/bag-region-1', 'bag-region-1', 'main-fill-48', 'fm1', '{}'),
+              ('solo/bag--fill-region-1', 'bag--fill-region-1', 'solo', 'fm1', '{}'),
               ('side_combination64/f1--fill-2', 'f1--fill-2', 'side_combination64', 'c2', '{\"errors\":[]}');
-            UPDATE icons SET style = 'fill' WHERE key = 'side_combination64/f1--fill-2';
+            UPDATE icons SET style = 'fill' WHERE key IN ('side_combination64/f1--fill-2', 'solo/bag--fill-region-1');
             INSERT INTO reference_part_fills VALUES ('f1', 'main', 1, 'solo/bag', 'm1', 'side_combination64/f1--fill'),
-              ('f1', 'sub', 1, 'sub/check', 's2', NULL), ('f1', 'main', 2, 'main-fill-48/bag-region-1', 'fm1', 'side_combination64/f1--fill-2'),
+              ('f1', 'sub', 1, 'sub/check', 's2', NULL), ('f1', 'main', 2, 'solo/bag--fill-region-1', 'fm1', 'side_combination64/f1--fill-2'),
               ('f1', 'sub', 2, 'sub/check', 's2', NULL);
             INSERT INTO reviews VALUES ('sub/check', 's2', 'approve');").unwrap();
-        let using: Vec<String> = db.prepare(USING_PART).unwrap().query_map(params!["main-fill-48/bag-region-1"], |r| r.get(0)).unwrap()
+        let using: Vec<String> = db.prepare(USING_PART).unwrap().query_map(params!["solo/bag--fill-region-1"], |r| r.get(0)).unwrap()
             .map(Result::unwrap).collect();
         assert_eq!(using, vec!["side_combination64/f1--fill-2"]);
         let key = r#"["side_combination64/f1--fill-2"]"#;
@@ -159,8 +159,8 @@ mod tests {
         let (failed, errors): (bool, String) = db.query_row("SELECT build_failed, json_extract(record, '$.errors') FROM icons WHERE key = 'side_combination64/f1--fill-2'",
             [], |r| Ok((r.get::<_, i64>(0)? != 0, r.get(1)?))).unwrap();
         assert!(failed);
-        assert_eq!(errors, r#"["Main bag-region-1 is not approved in Icon review"]"#);
-        db.execute_batch("INSERT INTO reviews VALUES ('main-fill-48/bag-region-1', 'fm1', 'approve');").unwrap();
+        assert_eq!(errors, r#"["Main bag--fill-region-1 is not approved in Icon review"]"#);
+        db.execute_batch("INSERT INTO reviews VALUES ('solo/bag--fill-region-1', 'fm1', 'approve');").unwrap();
         assert_eq!(db.prepare(CHANGED).unwrap().query_map(params![key], |r| r.get::<_, String>(0)).unwrap().count(), 1);
         for sql in UPDATE { db.execute(sql, params![key]).unwrap(); }
         assert_eq!(db.query_row("SELECT build_failed FROM icons WHERE key = 'side_combination64/f1--fill-2'", [], |r| r.get::<_, i64>(0)).unwrap(), 0);

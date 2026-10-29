@@ -1,24 +1,33 @@
 #!/usr/bin/env python3
-"""Upload the fill variant icons of the fill side pairs (icon_set/state/side-fill/fill-icons/manifest.json, written by
-`python3 -m icon_set side-fill icons`): one POST /api/icons/upload per variant, family main-fill-48 / sub-fill-32,
-with variant_of (the solo / sub icon it fills) and variant_label (current, region-3, fill…). Each starts Ready in Icon
-review. The outline is the solo / sub icon itself and is not uploaded.
+"""Store the fill variant icons of the fill side pairs (icon_set/state/side-fill/fill-icons/manifest.json, written by
+`python3 -m icon_set side-fill icons`) with POST /api/icons/styled, 50 a request: each is an icon of style fill in
+its solo / sub icon's own family (solo/<name>--fill, solo/<name>--fill-region-3…, sub/<name>--fill), style_of that
+normal icon, Ready in Icon review. The outline is the normal solo / sub icon itself and is not sent.
 
     python3 cloud/migrate/upload_fill_parts.py --base-url http://127.0.0.1:8821            # dry run
-    python3 cloud/migrate/upload_fill_parts.py --base-url … --send
+    python3 cloud/migrate/upload_fill_parts.py --base-url … --send                         # push token from cloud/.env
+    PICTOGRAPHIC_SESSION=<the reviewer's pictographic_session cookie> \
+    python3 cloud/migrate/upload_fill_parts.py --base-url … --send --approve               # and approve each, as them
 
-What is on the site already is read from GET /api/side-fill/parts (keyset pages of 120 parts with their variants'
-shas: about one row per part and variant, never a table scan). A variant whose drawing is already there is skipped;
-one that changed is uploaded again, which the route stores as a new drawing of the same icon (back to Ready).
-Run the import SQL first (fill_parts lists the parts), then this, then the picks SQL.
+A variant whose file was sent before (fill-icons/uploaded.json, per site) is skipped; the route itself reports a
+drawing it holds already as unchanged, so a lost ledger costs only requests. A changed drawing replaces the icon's
+(back to Ready); one that people have worked on (a review other than Ready, an edit, feedback) is kept and listed,
+unless --replace. Run the import SQL first, then this, then the picks SQL.
+
+--approve approves each variant's current drawing in Icon review (POST /api/reviews, status approve) as the person
+whose session it sends, exactly as their Approve button does: the review records them, and every fill pair output
+using the variant is rechecked (its Failed check clears once both its parts are approved). A variant approved
+before on the same drawing is skipped. With a session the variants are stored as that person too (no push token).
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import os
 import sys
-import urllib.parse
+import urllib.error
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -28,80 +37,100 @@ import cloudapi  # noqa: E402
 REPO = Path(__file__).resolve().parents[2]
 WORK = REPO / 'icon_set/state/side-fill'
 MANIFEST = WORK / 'fill-icons/manifest.json'
-# What was sent and what the site stored (the route cleans the SVG, so its sha is not the file's): a variant is
-# skipped when the site still has the drawing sent for the same file.
+# What was sent and what the site stored (the route cleans the SVG, so its sha is not the file's).
 LEDGER = WORK / 'fill-icons/uploaded.json'
+BATCH = 50
 
 
-def on_site(base_url: str) -> dict[tuple[str, str], str]:
-    """(variant_of, variant_label) → svg_sha256 of the fill variants the site has, from bounded part pages."""
-    found = {}
-    for role in ('main', 'sub'):
-        after = None
-        while True:
-            query = {'role': role, 'limit': 120, **({'after': after} if after else {})}
-            status, content = cloudapi.request(base_url, 'GET', '/api/side-fill/parts?' + urllib.parse.urlencode(query))
-            if status >= 400:
-                raise SystemExit(f'error: GET /api/side-fill/parts -> {status} {content[:200]!r}')
-            page = json.loads(content)
-            for part in page['parts']:
-                for v in part['variants']:
-                    found[(part['key'], v['variant'])] = v['svg_sha256']
-            after = page.get('next')
-            if not after:
-                break
-    return found
+def as_reviewer(base_url: str, session: str, path: str, payload: dict) -> dict:
+    """A POST as the signed-in reviewer (their session cookie, the site's own origin)."""
+    base = base_url.rstrip('/')
+    request = urllib.request.Request(base + path, data=json.dumps(payload).encode(), method='POST', headers={
+        'Content-Type': 'application/json', 'User-Agent': 'pictographic-migrate/1.0', 'Origin': base,
+        'Cookie': f'pictographic_session={session}'})
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            return json.loads(response.read())
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f'POST {path} -> HTTP {error.code}: {json.loads(error.read() or b"{}").get("error")}') from None
+
+
+def approve(base_url: str, session: str, manifest: list, ledger: dict) -> list[str]:
+    """Approve each stored variant's current drawing as the session's reviewer; returns the failures."""
+    todo = [m['key'] for m in manifest if ledger.get(m['key'], {}).get('site_sha256')
+            and ledger[m['key']].get('approved_sha256') != ledger[m['key']]['site_sha256']]
+    print(f'{len(todo)} fill variants to approve', flush=True)
+    failed = []
+
+    def one(key):
+        sha = ledger[key]['site_sha256']
+        try:
+            answer = as_reviewer(base_url, session, '/api/reviews', {'icon': key, 'status': 'approve', 'svg_sha256': sha})
+            ledger[key]['approved_sha256'] = sha
+            ledger[key]['approved_by'] = answer.get('updated_by')
+        except RuntimeError as error:
+            failed.append(f'{key}: {error}')
+    with ThreadPoolExecutor(4) as pool:
+        for n, _ in enumerate(pool.map(one, todo), 1):
+            if n % 200 == 0 or n == len(todo):
+                print(f'approved {n - len(failed)}/{len(todo)} ({len(failed)} failed)', flush=True)
+    return failed
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--base-url', required=True)
     parser.add_argument('--send', action='store_true')
+    parser.add_argument('--replace', action='store_true', help='also replace variants people have worked on')
     parser.add_argument('--limit', type=int)
-    parser.add_argument('--workers', type=int, default=4)
+    parser.add_argument('--approve', action='store_true', help='approve each variant as the PICTOGRAPHIC_SESSION reviewer')
     args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text())
-    existing = on_site(args.base_url)
     ledger_all = json.loads(LEDGER.read_text()) if LEDGER.is_file() else {}
     ledger = ledger_all.setdefault(args.base_url.rstrip('/'), {})
     todo = []
     for item in manifest:
         svg = (WORK / item['svg']).read_text()
-        mine = hashlib.sha256(svg.encode()).hexdigest()
-        sent = ledger.get(f'{item["variant_of"]} {item["variant_label"]}', {})
-        if sent.get('file_sha256') == mine and existing.get((item['variant_of'], item['variant_label'])) == sent.get('site_sha256'):
-            continue
-        todo.append((item, svg))
-    print(f'{len(manifest)} fill variant icons; {len(manifest) - len(todo)} on the site already; {len(todo)} to upload'
-          + (f' (sending the first {args.limit})' if args.limit else ''))
+        if ledger.get(item['key'], {}).get('file_sha256') != hashlib.sha256(svg.encode()).hexdigest():
+            todo.append((item, svg))
+    print(f'{len(manifest)} fill variant icons; {len(manifest) - len(todo)} sent already; {len(todo)} to send'
+          + (f' (the first {args.limit})' if args.limit else ''))
     todo = todo[:args.limit] if args.limit else todo
     if not args.send:
         for item, _ in todo[:5]:
-            print(f'  would upload {item["family"]} {item["variant_of"]} {item["variant_label"]}')
+            print(f'  would store {item["key"]} (style fill of {item["source_key"]})')
+        if args.approve:
+            waiting = sum(1 for m in manifest if ledger.get(m['key'], {}).get('approved_sha256') != ledger.get(m['key'], {}).get('site_sha256', '-'))
+            print(f'and approve about {waiting} variants (all sent variants not yet approved on their current drawing)')
         return 0
-
-    def send(job):
-        item, svg = job
+    session = os.environ.get('PICTOGRAPHIC_SESSION')
+    if args.approve and not session:
+        raise SystemExit('error: --approve needs PICTOGRAPHIC_SESSION (the reviewer\'s session cookie value)')
+    token = None if session else cloudapi.push_token(args.base_url)
+    totals, failed, kept = {}, [], []
+    for start in range(0, len(todo), BATCH):
+        batch = todo[start:start + BATCH]
+        items = [{'source_key': item['source_key'], 'style': 'fill', 'variant': item['variant'], 'svg': svg} for item, svg in batch]
         try:
-            answer = cloudapi.post_json(args.base_url, '/api/icons/upload', {
-                'name': item['name'], 'family': item['family'], 'category': 'Fill side pairs',
-                'variant_of': item['variant_of'], 'variant_label': item['variant_label'],
-                'bypass_validation': True, 'svg': svg})
-            return item, answer, None
+            payload = {'items': items, 'replace': args.replace}
+            answer = (as_reviewer(args.base_url, session, '/api/icons/styled', payload) if session
+                      else cloudapi.post_json(args.base_url, '/api/icons/styled', payload, token=token))
         except RuntimeError as error:
-            return item, None, str(error)
-
-    failed = []
-    with ThreadPoolExecutor(args.workers) as pool:
-        for n, (item, answer, error) in enumerate(pool.map(send, todo), 1):
-            if error:
-                failed.append(f'{item["variant_of"]} {item["variant_label"]}: {error}')
-            else:
-                ledger[f'{item["variant_of"]} {item["variant_label"]}'] = {
-                    'file_sha256': item['svg_sha256'], 'site_sha256': answer['record']['svg_sha256'], 'key': answer['record']['key']}
-            if n % 100 == 0 or n == len(todo):
-                print(f'uploaded {n}/{len(todo)} ({len(failed)} failed)', flush=True)
-    LEDGER.write_text(json.dumps(ledger_all, indent=1) + '\n')
+            failed.extend(f'{item["key"]}: {error}' for item, _ in batch)
+            continue
+        files = {item['key']: item['svg_sha256'] for item, _ in batch}
+        for result in answer['results']:
+            ledger[result['key']] = {'file_sha256': files[result['key']], 'site_sha256': result['svg_sha256']}
+            totals[result['outcome']] = totals.get(result['outcome'], 0) + 1
+        kept.extend(k['key'] for k in answer['kept_manual'])
+        failed.extend(f'{e.get("key") or e.get("source_key")} {e.get("variant") or ""}: {e["error"]}' for e in answer['errors'])
+        print(f'sent {min(start + BATCH, len(todo))}/{len(todo)} {totals} ({len(failed)} failed, {len(kept)} kept)', flush=True)
+        LEDGER.write_text(json.dumps(ledger_all, indent=1) + '\n')
+    for key in kept[:10]:
+        print('  kept (people worked on it; --replace to replace)', key)
+    if args.approve:
+        failed += approve(args.base_url, session, manifest, ledger)
+        LEDGER.write_text(json.dumps(ledger_all, indent=1) + '\n')
     for line in failed[:10]:
         print('  failed', line)
     return 1 if failed else 0
