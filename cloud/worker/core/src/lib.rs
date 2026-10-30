@@ -20,3 +20,5 @@ pub mod work;
 
 pub mod combination_identity;
 pub mod combination_query;
+
+pub mod combination_build;
