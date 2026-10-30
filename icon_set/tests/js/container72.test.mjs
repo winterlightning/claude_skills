@@ -30,3 +30,13 @@ test('unaccepted or stale proposals are never silently applied', () => {
   const stale=P.placementOf(changed,{},true,defaults);assert.deepEqual(stale.center,[36,31]);assert.match(stale.note,/older artwork/);
   changed.parts[0].current_sha='new-container';assert.equal(P.placementOf(changed,{},true,defaults).needsReview,true);
 });
+test('a crossing-mark room is an overlay whatever the recorded or saved layout says', () => {
+  const d = structuredClone(defaults); d.containers['container-72/a'].room.status = 'crossing-mark';
+  d.pairs.pair.overlay = false; d.pairs.pair.proposal.overlay = false;
+  assert.equal(P.placementOf(item, {}, true, d).overlay, true, 'accepted proposal');
+  assert.equal(P.placementOf(item, {}, false, d).overlay, true, 'room');
+  const saved = structuredClone(item); saved.parts[1].layout = [{x: 21, y: 22, w: 32, h: 32, scope: 'pair', overlay: false}];
+  assert.equal(P.placementOf(saved, {}, true, d).overlay, true, 'saved pair box');
+  assert.equal(P.builtLayout([{x: 21, y: 22, w: 32, h: 32}], P.placementOf(saved, {}, true, d))[0].overlay, true, 'stored on the build');
+  assert.equal(P.placementOf(saved, {}, true, defaults).overlay, false, 'other rooms keep their recorded flag');
+});
