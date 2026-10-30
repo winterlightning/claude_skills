@@ -86,7 +86,7 @@ def pair(client):
 
 def request(item, icons, drawings, placement=None, **override):
     result = compose(drawings[icons['container']]['svg'], drawings[icons['symbol']]['svg'], placement or {'center': [32, 32], 'ink': None})
-    build = {'reference_id': item['reference_id'], 'svg': result['svg'], 'parts': {
+    build = {'reference_id': item['reference_id'], 'expected_sha256': (item['icon'] or {}).get('svg_sha256'), 'svg': result['svg'], 'parts': {
         'container': {'icon': icons['container'], 'svg_sha256': drawings[icons['container']]['svg_sha256'], 'layout': result['layout']['container']},
         'symbol': {'icon': icons['symbol'], 'svg_sha256': drawings[icons['symbol']]['svg_sha256'], 'layout': result['layout']['symbol']}}}
     build.update(override)

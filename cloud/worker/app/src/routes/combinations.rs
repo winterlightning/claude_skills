@@ -12,7 +12,7 @@
 use crate::args;
 use crate::db::{self, Arg};
 use crate::http::{self, Ctx};
-use pictographic_core::combination_query;
+use pictographic_core::{combination_query, combination_build};
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
@@ -432,9 +432,20 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         struct Existing { key: String, icon_id: String, uploaded: f64, name: Option<String>, record: String, svg_sha256: String, original_sources: String }
         let existing: Vec<Existing> = if size == 72 && kind == "container" {
             db::all(&ctx.db, pictographic_core::combination_identity::EXISTING_CONTAINER72, args![id, canonical.clone()]).await?
+        } else if kind == "container" {
+            db::all(&ctx.db, "SELECT key, icon_id, uploaded, name, record, svg_sha256, original_sources FROM icons WHERE key = ?",
+                    args![canonical.clone()]).await?
         } else { vec![] };
         if existing.len() > 1 {
             results.push(failed("Multiple uploaded combinations match this reference. Resolve the duplicate links before saving.".into()));
+            continue;
+        }
+        if kind == "container" && existing.is_empty() && b["expected_sha256"].as_str().is_some() {
+            results.push(failed("This combination was removed since it was loaded. Reload before saving.".into()));
+            continue;
+        }
+        if size == 64 && existing.first().is_some_and(|e| e.uploaded != 0.0) {
+            results.push(failed("This uploaded icon cannot be replaced by a 64px combination build.".into()));
             continue;
         }
         if let Some(old) = existing.first() {
@@ -449,14 +460,27 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let (profile, category) = if size == 72 && kind == "container" { ("CONTAINER_COMBINATION72", "Container 72") }
                                   else if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
                                   else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
+        // Snapshot the choice as well as the drawing: another Pick can change its revision without
+        // changing the SVG hash. Recheck both inside the same D1 transaction as every build write.
+        if kind == "container" {
+            #[derive(Deserialize)]
+            struct Choice { document: String }
+            let choice: Option<Choice> = db::first(&ctx.db,
+                "SELECT document FROM store_documents WHERE store = 'icon-artwork' AND key = ?", args![key.clone()]).await?;
+            let part_hashes: Map<String, Value> = parts.values().filter_map(|p| p["icon"].as_str().map(|k|
+                (k.to_string(), json!({"svg_sha256": p["svg_sha256"]})))).collect();
+            statements.push(db::stmt(&ctx.db, combination_build::GUARD,
+                args![key.clone(), existing.first().map(|e| e.svg_sha256.as_str()), choice.map(|c| c.document),
+                      json!(part_hashes).to_string()])?);
+        }
         let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
                             "errors": errors, "reference_id": id, "built_by": user, "built_at": now});
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
-        if uploaded {
-            // The explicit layout save supersedes an older selected edit, but retains every revision.
-            statements.push(db::stmt(&ctx.db, "DELETE FROM store_documents WHERE store = 'icon-artwork' AND key = ?", args![key.clone()])?);
+        if kind == "container" {
+            statements.push(db::stmt(&ctx.db, combination_build::SELECT_BUILD,
+                                     args![key.clone(), sha.clone(), now.clone(), user])?);
         }
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
             preview_url, build_failed, uploaded, record, pushed_at) \
@@ -473,6 +497,10 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             let mut merged = old.as_object().cloned().unwrap_or_default();
             merged.extend(listed.as_object().unwrap().clone());
             listed = Value::Object(merged);
+        }
+        if kind == "container" {
+            // Do not carry a selected-upload marker forward from an uploaded 72px record.
+            listed["artwork_source"] = json!("use_org");
         }
         listed["uploaded_icon"] = json!(uploaded);
         statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("uploaded = 0 OR family = 'container-combination-72'"))?);
@@ -508,7 +536,12 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                             "errors": errors, "preview_url": preview_url(&key, &sha)}));
     }
     if !statements.is_empty() {
-        db::batch(&ctx.db, statements).await?;
+        match db::batch(&ctx.db, statements).await {
+            Ok(_) => {},
+            Err(error) if combination_build::is_conflict(&error.to_string()) =>
+                return http::error(409, "A combination, its artwork selection, or a part changed while saving. Nothing was saved. Reload and try again."),
+            Err(error) => return Err(error),
+        }
     }
     http::json(200, &json!({"results": results}))
 }
