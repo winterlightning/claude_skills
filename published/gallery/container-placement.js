@@ -36,6 +36,17 @@
   // the container's published default, the canvas centre. `label` says which, `scope` where a save would go.
   function placementOf(item, icons = {}, own = true, defaults = {}) {
     if (defaults.canvas === 72) return placement72(item, icons, own, defaults);
+    const containerKey = icons.container ?? part(item, 'container').icon;
+    // This reviewed center-only container is an overlay: its slash must be erased around the symbol.
+    // Keep the 64px container identity/layout; side-pair routing would change its roles and placement.
+    // Older saved layouts and container-centers.json did not record the composition mode.
+    const savedOverlay = containerKey === part(item, 'container').icon ? layoutOf(part(item, 'symbol'))?.overlay : undefined;
+    const overlay = savedOverlay ?? (containerKey === 'container/universal-prohibited-symbol');
+    const placement = placement64(item, icons, own, defaults);
+    return overlay || savedOverlay !== undefined ? {...placement, overlay: !!overlay} : placement;
+  }
+
+  function placement64(item, icons, own, defaults) {
     const s = part(item, 'symbol'), containerKey = icons.container ?? part(item, 'container').icon, symbolKey = icons.symbol ?? s.icon;
     if (own && symbolKey === s.icon) {
       const box = pairBox(s), center = box ? null : pairCenter(s);
@@ -86,7 +97,9 @@
   // container's placement (`kept`) carried along.
   function builtLayout(boxes, placement, kept) {
     const scope = placement.pinned ? 'pair' : placement.saved === 'container' ? 'container' : 'default';
-    return boxes.map(b => ({...b, scope, ...(placement.canvas === 72 ? {overlay: !!placement.overlay, native_text: !!placement.nativeText} : {}), ...(kept ? {container: kept} : {})}));
+    const composition = placement.canvas === 72 ? {overlay: !!placement.overlay, native_text: !!placement.nativeText}
+      : placement.overlay !== undefined ? {overlay: !!placement.overlay} : {};
+    return boxes.map(b => ({...b, scope, ...composition, ...(kept ? {container: kept} : {})}));
   }
 
   // A pair's symbol layout once its container's placement is `target` ({center, size}, or null to remove it): its
