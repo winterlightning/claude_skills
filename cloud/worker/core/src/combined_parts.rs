@@ -39,9 +39,10 @@ macro_rules! part_errors {
 /// The parts of side 64 pair `?` that keep its combined icon from being approved: those whose current drawing is not
 /// approved in Icon review. A native text sub (no icon; its `form` is the typeface glyph, `native_text`) has no
 /// drawing or review of its own and never waits, as the build (`POST /api/combinations/build`) and `part_errors`
-/// treat it. A part with no icon that is not native text still waits, shown as "(none picked)".
+/// treat it. A part with no icon that is not native text still waits, shown as "(none picked)"; so does one whose
+/// form is not valid JSON (json_extract would fail the whole query).
 pub const UNAPPROVED_64: &str = "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon \
-    WHERE p.reference_id = ? AND NOT (p.icon IS NULL AND COALESCE(json_extract(p.form, '$.native_text'), 0) = 1) \
+    WHERE p.reference_id = ? AND NOT (p.icon IS NULL AND COALESCE(CASE WHEN json_valid(p.form) THEN json_extract(p.form, '$.native_text') END, 0) = 1) \
       AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve' \
     ORDER BY p.role";
 
@@ -198,10 +199,12 @@ mod tests {
     fn a_sub_with_no_icon_that_is_not_text_still_waits() {
         let db = db();
         db.execute_batch("INSERT INTO reference_parts VALUES ('u1', 'main', 'solo/bag', 'm1', NULL), ('u1', 'sub', NULL, NULL, NULL),
-              ('u2', 'main', 'solo/bag', 'm1', NULL), ('u2', 'sub', NULL, NULL, '{\"native_text\":false}');
+              ('u2', 'main', 'solo/bag', 'm1', NULL), ('u2', 'sub', NULL, NULL, '{\"native_text\":false}'),
+              ('u3', 'main', 'solo/bag', 'm1', NULL), ('u3', 'sub', NULL, NULL, 'not json');
             INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve');").unwrap();
         assert_eq!(waiting(&db, "u1"), vec![("sub".to_string(), None)]);
         assert_eq!(waiting(&db, "u2"), vec![("sub".to_string(), None)]);
+        assert_eq!(waiting(&db, "u3"), vec![("sub".to_string(), None)], "a malformed form waits, it does not fail the query");
         assert_eq!(waiting(&db, "p1"), vec![("sub".to_string(), Some("sub/check".to_string()))], "a drawn sub on its unapproved drawing waits");
     }
 }
