@@ -1,4 +1,4 @@
-//! Atomic guards and artwork selection for explicit container rebuilds.
+//! Atomic guards and artwork selection for explicit combination rebuilds (container and side pairs).
 
 pub const GUARD: &str = "INSERT INTO combination_build_guard(ok) SELECT NULL
     WHERE (SELECT svg_sha256 FROM icons WHERE key = ?1) IS NOT ?2
