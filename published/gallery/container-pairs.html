@@ -1056,6 +1056,8 @@ $('edSave').onclick = async () => {
       const target = containerPlacement();
       const n = await saveContainerPlacement(icons.container, target, item.reference_id);
       const s = part(item, 'symbol'), {scope: _, ...rest} = layoutOf(s) || {};
+      // Composition belongs to the old container, not the replacement used in `followed` below.
+      if (icons.container !== part(item, 'container').icon) delete rest.overlay;
       // On the container picked in the editor, so the placement just saved applies to it.
       const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]}
                                                     : p.role === 'container' ? {...p, icon: icons.container} : p)};
