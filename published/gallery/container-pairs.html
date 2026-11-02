@@ -240,6 +240,9 @@ function combinedState(item) {
     try { if (!sameBox(compose(c.icon, s.icon, placementOf(item)).layout.symbol[0], built)) changes.push('the symbol position or size changed'); }
     catch (error) { /* a part without a drawing: nothing to compare */ }
   }
+  // A slash container cuts out around its symbol; a pair built before that (no overlay stored) is drawn wrong.
+  if (!!placementOf(item).overlay !== !!layoutOf(s)?.overlay)
+    changes.push(placementOf(item).overlay ? 'the container now cuts out around the symbol' : 'the container no longer cuts out around the symbol');
   if (changes.length) return {label: 'Outdated: recombine', tone: 'fix', why: 'Since it was built, ' + changes.join(', ') + '.', rebuild: true};
   const check = checks.get(icon.key);
   if (check?.build_failed && !['pending', 'rejected', 'approve'].includes(icon.review)) {

@@ -56,3 +56,19 @@ test('overlay follows confirmed container identity, across placement scopes, wit
   saved.parts[0].icon='container/other'; delete saved.parts[1].layout[0].overlay;
   assert.equal(P.placementOf(saved).overlay,undefined,'ordinary containment is unchanged');
 });
+
+test('every listed slash container cuts out; other containers do not', () => {
+  assert.ok(P.SLASH_CONTAINERS.has(key));
+  for (const k of P.SLASH_CONTAINERS) assert.equal(P.placementOf({reference_id:'p', parts:[{role:'container',icon:k},{role:'symbol',icon:'symbol/x',layout:[]}]}).overlay, true, k);
+  assert.equal(P.placementOf({reference_id:'p', parts:[{role:'container',icon:'container/precision-crosshair'},{role:'symbol',icon:'symbol/x',layout:[]}]}).overlay, undefined);
+});
+
+test('a slash piece shorter than half a stroke is dropped, not drawn as a dot', () => {
+  // Anti-Terrorism Prohibition Symbol (badfb3fb-…-a9ab-d8e814463361): the saved box left a 1.45-unit slash end.
+  const row = item('symbol/person-in-ski-mask-sub32', [{x:20,y:18,w:24,h:28,scope:'pair'}]);
+  const r = C.container(fixture.main, fixture.ski_mask, P.placementOf(row));
+  const segs = S.engineSegments(mainSvg(r));
+  const slash = segs.filter(([a, b]) => [a, b].some(([x, y]) => Math.abs(Math.hypot(x - 32, y - 32) - 28) > 0.6));
+  assert.ok(slash.length, 'the top slash end is kept');
+  assert.ok(slash.every(([a]) => a[0] < 32), 'no stray piece left at the bottom right');
+});

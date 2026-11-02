@@ -226,11 +226,15 @@ for (const symbolKey of ['symbol/boot-sub32', 'symbol/geometric-three-toed-paw-s
   test('64px editor saves and reopens the slash cutout: ' + symbolKey, async t => {
     const {w, $, rows, posts, uploads} = await page(t, 64, false, symbolKey);
     const container = result => w.Combine.serialize(w.Combine.parse(result.svg).children.find(n => n.attrs?.id === 'container'));
-    const initialMain = container(w.page.editor.last);
+    const initialSvg = w.page.editor.last.svg, initialMain = container(w.page.editor.last);
     $('bx').value = '20'; $('bx').onchange();
     $('bw').value = '24'; $('bw').onchange();
     const preview = w.page.editor.last.svg;
-    assert.notEqual(container(w.page.editor.last), initialMain, 'gap follows the edited symbol');
+    assert.notEqual(preview, initialSvg, 'the edit is previewed');
+    // The gap follows the edited symbol, unless the symbol covers the slash so only the ring and its ends remain.
+    const points = [...container(w.page.editor.last).matchAll(/(-?[\d.]+),(-?[\d.]+)/g)].map(m => [+m[1], +m[2]]);
+    assert.ok(container(w.page.editor.last) !== initialMain || points.every(([x, y]) => Math.hypot(x - 32, y - 32) > 18),
+              'the slash is cut out around the edited symbol');
     assert.equal(w.ContainerPlacement.placementOf(rows[0]).overlay, true);
     await $('edSave').onclick();
     assert.equal(posts.length, 1);
