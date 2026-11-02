@@ -1,4 +1,40 @@
-//! Atomic guards and artwork selection for explicit container rebuilds.
+//! Build validation, atomic guards and artwork selection for explicit rebuilds.
+
+use serde::Deserialize;
+use sha2::{Digest, Sha256};
+
+/// Server-resolved native text. Its form is the drawing the side engine embeds.
+#[derive(Deserialize)]
+pub struct NativeTextPart {
+    pub reference_id: String,
+    pub role: String,
+    pub icon: Option<String>,
+    pub svg_sha256: Option<String>,
+    pub document: Option<String>,
+    pub current_sha: Option<String>,
+    pub review: Option<String>,
+}
+
+impl NativeTextPart {
+    /// A valid but unapproved drawing may be saved as a failed build, like other parts.
+    pub fn validate(&self, requested_sha: Option<&str>) -> Result<Option<String>, String> {
+        let Some(icon) = self.icon.as_deref() else {
+            return Err(format!("The {} has no unambiguous native text icon. Pick an existing drawing.", self.role));
+        };
+        let Some((sha, document)) = self.svg_sha256.as_deref().zip(self.document.as_deref()) else {
+            return Err("The native text form has no drawing or hash. Reload its form before building.".into());
+        };
+        if requested_sha != Some(sha) || self.current_sha.as_deref() != Some(sha)
+            || hex::encode(Sha256::digest(document.as_bytes())) != sha
+        {
+            return Err("The native text drawing changed. Refresh its form, reload and build again.".into());
+        }
+        Ok((self.review.as_deref() != Some("approve")).then(|| {
+            let name = icon.strip_prefix("text/").unwrap_or(icon);
+            format!("Sub {name} is not approved in Icon review")
+        }))
+    }
+}
 
 pub const GUARD: &str = "INSERT INTO combination_build_guard(ok) SELECT NULL
     WHERE (SELECT svg_sha256 FROM icons WHERE key = ?1) IS NOT ?2

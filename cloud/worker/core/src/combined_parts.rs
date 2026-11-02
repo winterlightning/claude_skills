@@ -10,15 +10,60 @@
 //! Each statement binds one JSON array of combined icon keys (`?1`). App routes run `CHANGED` for the pairs that
 //! use a part whose review was written, then, for each changed icon, its uncount, `UPDATE` and recount.
 
+// A native form carries the catalog key (model_key and/or text/<icon>) and the exact
+// SVG it embeds. Never guess by name, reference, or a hash shared by several icons.
+// Conflicting identities fail closed; malformed JSON behaves like a missing pick.
+macro_rules! parts64 {
+    () => {
+        "WITH forms64 AS (SELECT p.*, CASE WHEN json_valid(p.form) THEN p.form ELSE '{}' END AS text_form \
+                         FROM reference_parts p), \
+         identities64 AS (SELECT f.*, \
+           CASE WHEN json_type(text_form, '$.model_key') = 'text' THEN NULLIF(json_extract(text_form, '$.model_key'), '') END AS model_key, \
+           CASE WHEN json_extract(text_form, '$.family') = 'text' AND json_type(text_form, '$.icon') = 'text' \
+                     AND length(json_extract(text_form, '$.icon')) > 0 \
+                THEN 'text/' || json_extract(text_form, '$.icon') END AS text_key \
+           FROM forms64 f), \
+         parts64 AS (SELECT f.*, CASE WHEN icon IS NOT NULL THEN icon \
+           WHEN role = 'sub' AND json_extract(text_form, '$.native_text') = 1 \
+             AND COALESCE(json_extract(text_form, '$.family'), 'text') = 'text' \
+             AND (json_extract(text_form, '$.model_key') IS NULL OR model_key IS NOT NULL) \
+             AND (json_extract(text_form, '$.icon') IS NULL OR text_key IS NOT NULL) \
+             AND (model_key IS NULL OR text_key IS NULL OR model_key = text_key) \
+             AND COALESCE(model_key, text_key) GLOB 'text/?*' \
+           THEN COALESCE(model_key, text_key) END AS resolved_icon, \
+           CASE WHEN json_type(text_form, '$.sha256') = 'text' THEN NULLIF(json_extract(text_form, '$.sha256'), '') END AS form_sha \
+           FROM identities64 f) "
+    };
+}
+
+// Native text is rendered from the stored form, not automatically replaced by a
+// newly picked text drawing. Both the form and any recorded build must still match.
+macro_rules! invalid_native64 {
+    () => {
+        "(p.icon IS NULL AND (p.resolved_icon IS NULL OR x.family IS NOT 'text' OR p.form_sha IS NULL \
+           OR p.form_sha IS NOT x.svg_sha256 OR (p.built_sha IS NOT NULL AND p.built_sha IS NOT p.form_sha)))"
+    };
+}
+
+/// Resolve native text for a build from the server's forms, never from client identity claims.
+pub const NATIVE_TEXT_PARTS: &str = concat!(parts64!(),
+    "SELECT p.reference_id, p.role, x.key AS icon, p.form_sha AS svg_sha256, \
+       CASE WHEN json_type(p.text_form, '$.document') = 'text' THEN json_extract(p.text_form, '$.document') END AS document, x.svg_sha256 AS current_sha, \
+       (SELECT status FROM reviews v WHERE v.icon = x.key AND v.svg_sha256 = p.form_sha) AS review \
+     FROM parts64 p LEFT JOIN icons x ON x.key = p.resolved_icon AND x.family = 'text' \
+     WHERE p.icon IS NULL AND p.reference_id IN (SELECT value FROM json_each(?1))");
+
 /// The not-approved parts of the combined icons in `?1`, as `errs(key, errors)`: errors is a JSON array of
 /// "Main x is not approved in Icon review", the text the build writes, sorted by role.
 macro_rules! part_errors {
     () => {
-        "WITH parts AS (\
-           SELECT i.key, p.role, p.icon FROM icons i JOIN reference_parts p ON p.reference_id = i.icon_id \
+        concat!(parts64!(), ", parts AS (\
+           SELECT i.key, p.role, p.resolved_icon AS icon FROM icons i JOIN parts64 p ON p.reference_id = i.icon_id \
+             LEFT JOIN icons x ON x.key = p.resolved_icon \
             WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family IN ('side_combination64', 'container_combination64') \
-              AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
-                  COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve' \
+              AND (", invalid_native64!(), " OR x.key IS NULL OR COALESCE((SELECT v.status FROM reviews v \
+                WHERE v.icon = p.resolved_icon AND v.svg_sha256 = COALESCE(p.built_sha, \
+                    CASE WHEN p.icon IS NULL THEN p.form_sha END, x.svg_sha256)), '') != 'approve') \
            UNION ALL \
            SELECT i.key, p.role, p.icon FROM icons i JOIN reference_part_sizes p ON p.reference_id = COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) AND p.size = 72 \
             WHERE i.key IN (SELECT value FROM json_each(?1)) AND i.family IN ('combination-72', 'container-combination-72') \
@@ -31,31 +76,29 @@ macro_rules! part_errors {
               AND p.icon IS NOT NULL AND COALESCE((SELECT v.status FROM reviews v WHERE v.icon = p.icon AND v.svg_sha256 = \
                   COALESCE(p.built_sha, (SELECT x.svg_sha256 FROM icons x WHERE x.key = p.icon))), '') != 'approve'), \
          errs AS (SELECT key, json_group_array(upper(substr(role, 1, 1)) || substr(role, 2) || ' ' || \
-                         substr(icon, instr(icon, '/') + 1) || ' is not approved in Icon review') AS errors \
-                  FROM (SELECT key, role, icon FROM parts ORDER BY key, role) GROUP BY key) "
+                         COALESCE(substr(icon, instr(icon, '/') + 1), '(none picked)') || ' is not approved in Icon review') AS errors \
+                  FROM (SELECT key, role, icon FROM parts ORDER BY key, role) GROUP BY key) ")
     };
 }
 
-/// The parts of side 64 pair `?` that keep its combined icon from being approved: those whose current drawing is not
-/// approved in Icon review. A native text sub (no icon; its `form` is the typeface glyph, `native_text`) has no
-/// drawing or review of its own and never waits, as the build (`POST /api/combinations/build`) and `part_errors`
-/// treat it. A part with no icon that is not native text still waits, shown as "(none picked)"; so does one whose
-/// form is not valid JSON (json_extract would fail the whole query).
-pub const UNAPPROVED_64: &str = "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon \
-    WHERE p.reference_id = ? AND NOT (p.icon IS NULL AND COALESCE(CASE WHEN json_valid(p.form) THEN json_extract(p.form, '$.native_text') END, 0) = 1) \
-      AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve' \
-    ORDER BY p.role";
+/// Parts blocking side-64 approval: current approval plus matching build/form hashes.
+pub const UNAPPROVED_64: &str = concat!(parts64!(),
+    "SELECT p.role, p.resolved_icon AS icon FROM parts64 p LEFT JOIN icons x ON x.key = p.resolved_icon \
+     WHERE p.reference_id = ?1 AND (", invalid_native64!(), " \
+       OR (p.built_sha IS NOT NULL AND p.built_sha IS NOT x.svg_sha256) \
+       OR COALESCE((SELECT status FROM reviews v WHERE v.icon = x.key AND v.svg_sha256 = x.svg_sha256), '') != 'approve') \
+     ORDER BY p.role");
 
 /// The combined icons (keys) built from a part (`?1`, its icon key) in any size: the ones to check again after
 /// that part's review changed. It runs on every review, so the 64 branches look icons up by key, from the part
 /// tables (a combined 64 icon's key is `<family>/<reference_id>`, a fill output's is its pick's `combined`), never
 /// by walking a family: Side combination 64 holds the fill outputs too.
-pub const USING_PART: &str = "SELECT i.key FROM icons i WHERE (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) AND (\
-    i.key IN (SELECT f.family || '/' || p.reference_id FROM reference_parts p, \
-        (SELECT 'side_combination64' AS family UNION ALL SELECT 'container_combination64') f WHERE p.icon = ?1) \
+pub const USING_PART: &str = concat!(parts64!(), "SELECT i.key FROM icons i WHERE (i.uploaded = 0 OR (i.family = 'container-combination-72' AND json_extract(i.record, '$.built_at') IS NOT NULL)) AND (\
+    i.key IN (SELECT f.family || '/' || p.reference_id FROM parts64 p, \
+        (SELECT 'side_combination64' AS family UNION ALL SELECT 'container_combination64') f WHERE p.resolved_icon = ?1) \
     OR (i.family IN ('combination-72', 'container-combination-72') AND COALESCE(json_extract(i.record, '$.reference_id'), i.icon_id) IN (SELECT reference_id FROM reference_part_sizes WHERE icon = ?1 AND size = 72)) \
     OR i.key IN (SELECT m.combined FROM reference_part_fills m WHERE m.role = 'main' AND m.combined IS NOT NULL \
-        AND m.reference_id IN (SELECT reference_id FROM reference_part_fills WHERE icon = ?1)))";
+        AND m.reference_id IN (SELECT reference_id FROM reference_part_fills WHERE icon = ?1)))");
 
 /// The icons in `?1` whose failed flag or errors are no longer what their parts' reviews say.
 pub const CHANGED: &str = concat!(part_errors!(),
@@ -183,16 +226,134 @@ mod tests {
             .map(Result::unwrap).collect()
     }
 
-    #[test]
-    fn a_native_text_sub_never_waits_for_approval() {
+    fn native_db() -> (Connection, String) {
+        use sha2::{Digest, Sha256};
         let db = db();
-        // t1: main solo/bag and a native text sub "9" (no icon, drawn from the typeface).
-        db.execute_batch("INSERT INTO reference_parts VALUES ('t1', 'main', 'solo/bag', 'm1', NULL),
-              ('t1', 'sub', NULL, NULL, '{\"family\":\"text\",\"native_text\":true}');
-            INSERT INTO reviews VALUES ('solo/bag', 'm1', 'pending');").unwrap();
-        assert_eq!(waiting(&db, "t1"), vec![("main".to_string(), Some("solo/bag".to_string()))], "the main still waits");
-        db.execute("UPDATE reviews SET status = 'approve' WHERE icon = 'solo/bag'", []).unwrap();
-        assert!(waiting(&db, "t1").is_empty(), "the text sub has nothing to approve");
+        let document = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"><path d=\"M8 8V24\"/></svg>";
+        let sha = hex::encode(Sha256::digest(document.as_bytes()));
+        let form = serde_json::json!({"native_text": true, "family": "text", "icon": "nine",
+            "model_key": "text/nine", "sha256": sha, "document": document});
+        db.execute("UPDATE reference_parts SET icon = NULL, built_sha = ?1, form = ?2 WHERE role = 'sub'",
+                   params![sha, form.to_string()]).unwrap();
+        db.execute("INSERT INTO icons(key, family, svg_sha256) VALUES ('text/nine', 'text', ?1)", params![sha]).unwrap();
+        db.execute("INSERT INTO reviews VALUES ('text/nine', ?1, 'approve')", params![sha]).unwrap();
+        db.execute_batch("INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve');").unwrap();
+        (db, sha)
+    }
+
+    fn native_part(db: &Connection) -> crate::combination_build::NativeTextPart {
+        db.query_row(NATIVE_TEXT_PARTS, params![r#"["p1"]"#], |r| Ok(crate::combination_build::NativeTextPart {
+            reference_id: r.get(0)?, role: r.get(1)?, icon: r.get(2)?, svg_sha256: r.get(3)?,
+            document: r.get(4)?, current_sha: r.get(5)?, review: r.get(6)?,
+        })).unwrap()
+    }
+
+    #[test]
+    fn approved_matching_native_text_can_build_and_be_approved() {
+        for remove in ["$.unused", "$.model_key", "$.icon"] {
+            let (db, sha) = native_db();
+            db.execute("UPDATE reference_parts SET form = json_remove(form, ?1) WHERE role = 'sub'", [remove]).unwrap();
+            assert!(waiting(&db, "p1").is_empty());
+            assert_eq!(native_part(&db).validate(Some(&sha)), Ok(None));
+            assert!(!update(&db).0);
+            assert!(changed(&db).is_empty());
+        }
+        // Legacy pairs have no built hash for native text: use the form's exact drawing.
+        let (db, sha) = native_db();
+        db.execute_batch("UPDATE reference_parts SET built_sha = NULL WHERE role = 'sub'").unwrap();
+        assert!(waiting(&db, "p1").is_empty());
+        assert_eq!(native_part(&db).validate(Some(&sha)), Ok(None));
+        assert!(!update(&db).0);
+    }
+
+    #[test]
+    fn native_text_approval_and_disapproval_propagate_to_the_combination() {
+        let (db, sha) = native_db();
+        assert_eq!(db.query_row(USING_PART, ["text/nine"], |r| r.get::<_, String>(0)).unwrap(), "side_combination64/p1");
+        assert_eq!(db.prepare(USING_PART).unwrap().query_map(["text/unrelated"], |r| r.get::<_, String>(0)).unwrap().count(), 0);
+        update(&db);
+        for status in ["pending", "approve", "rejected"] {
+            db.execute("UPDATE reviews SET status = ?1 WHERE icon = 'text/nine'", [status]).unwrap();
+            assert_eq!(changed(&db), vec!["side_combination64/p1"]);
+            let approved = status == "approve";
+            assert_eq!(waiting(&db, "p1").is_empty(), approved);
+            assert_eq!(native_part(&db).validate(Some(&sha)).unwrap().is_none(), approved);
+            let (failed, errors, card) = update(&db);
+            assert_eq!(failed, !approved);
+            assert_eq!(serde_json::from_str::<serde_json::Value>(&card).unwrap()["build_failed"], !approved);
+            if !approved { assert_eq!(errors, r#"["Sub nine is not approved in Icon review"]"#); }
+            assert!(changed(&db).is_empty());
+        }
+    }
+
+    #[test]
+    fn missing_or_conflicting_native_identities_fail_closed() {
+        let cases = [
+            "UPDATE reference_parts SET form = '{bad json' WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = '{\"native_text\":true}' WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.model_key', 'text/other') WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.model_key', 123) WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.icon', 123) WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.family', 'sub') WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.native_text', 0) WHERE role = 'sub'",
+            "UPDATE reference_parts SET role = 'main' WHERE role = 'sub'",
+            "DELETE FROM icons WHERE key = 'text/nine'",
+            "UPDATE icons SET family = 'sub' WHERE key = 'text/nine'",
+        ];
+        for sql in cases {
+            let (db, sha) = native_db();
+            // Another approved icon must not make an ambiguous form acceptable.
+            db.execute_batch("INSERT INTO icons(key, family, svg_sha256) SELECT 'text/other', 'text', svg_sha256 FROM icons WHERE key = 'text/nine';
+                INSERT INTO reviews SELECT 'text/other', svg_sha256, 'approve' FROM icons WHERE key = 'text/nine';").unwrap();
+            db.execute_batch(sql).unwrap();
+            assert!(!waiting(&db, "p1").is_empty(), "{sql}");
+            assert!(update(&db).0, "{sql}");
+            assert!(native_part(&db).validate(Some(&sha)).is_err(), "{sql}");
+        }
+    }
+
+    #[test]
+    fn native_text_needs_approval_of_the_matching_drawing() {
+        for sql in [
+            "DELETE FROM reviews WHERE icon = 'text/nine'",
+            "UPDATE reviews SET svg_sha256 = 'other' WHERE icon = 'text/nine'",
+            "UPDATE reference_parts SET built_sha = 'old' WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_set(form, '$.sha256', 'old') WHERE role = 'sub'",
+            "UPDATE reference_parts SET built_sha = NULL, form = json_remove(form, '$.sha256') WHERE role = 'sub'",
+            "UPDATE icons SET svg_sha256 = 'new' WHERE key = 'text/nine'; INSERT INTO reviews VALUES ('text/nine', 'new', 'approve')",
+        ] {
+            let (db, _) = native_db();
+            db.execute_batch(sql).unwrap();
+            assert!(!waiting(&db, "p1").is_empty(), "{sql}");
+            assert!(update(&db).0, "{sql}");
+        }
+    }
+
+    #[test]
+    fn native_build_rejects_missing_stale_or_forged_drawing_hashes() {
+        let (db, sha) = native_db();
+        assert!(native_part(&db).validate(None).is_err());
+        assert!(native_part(&db).validate(Some("old")).is_err());
+        for sql in [
+            "UPDATE reference_parts SET form = json_set(form, '$.document', '<svg/>') WHERE role = 'sub'",
+            "UPDATE reference_parts SET form = json_remove(form, '$.document') WHERE role = 'sub'",
+            "UPDATE icons SET svg_sha256 = 'new' WHERE key = 'text/nine'",
+        ] {
+            let (db, _) = native_db();
+            db.execute_batch(sql).unwrap();
+            assert!(native_part(&db).validate(Some(&sha)).is_err(), "{sql}");
+        }
+    }
+
+    #[test]
+    fn ordinary_parts_still_require_current_approval_and_matching_builds() {
+        let db = db();
+        db.execute_batch("INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve'), ('sub/check', 's2', 'approve')").unwrap();
+        assert_eq!(waiting(&db, "p1"), vec![("sub".into(), Some("sub/check".into()))]);
+        db.execute_batch("UPDATE reference_parts SET built_sha = 's2' WHERE role = 'sub'").unwrap();
+        assert!(waiting(&db, "p1").is_empty());
+        db.execute_batch("UPDATE reviews SET status = 'pending' WHERE icon = 'solo/bag'").unwrap();
+        assert_eq!(waiting(&db, "p1"), vec![("main".into(), Some("solo/bag".into()))]);
     }
 
     #[test]
