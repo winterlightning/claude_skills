@@ -15,6 +15,10 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
+  // Slash (crossing-mark) containers: the slash crosses the symbol's room, so the container is always cut out
+  // around the symbol (Combine.container's overlay, the side engine's clearance) unless a saved layout says
+  // otherwise. Add a container key here when a new slash container is drawn.
+  const SLASH_CONTAINERS = new Set(['container/universal-prohibited-symbol']);
   const SOURCES = {preference: 'placement preference', area: 'reviewed content area', anchor: 'container anchor'};
   const part = (item, role) => item.parts.find(p => p.role === role) || {role};
   const layoutOf = p => Array.isArray(p.layout) ? p.layout[0] || null : null;
@@ -36,6 +40,17 @@
   // the container's published default, the canvas centre. `label` says which, `scope` where a save would go.
   function placementOf(item, icons = {}, own = true, defaults = {}) {
     if (defaults.canvas === 72) return placement72(item, icons, own, defaults);
+    const containerKey = icons.container ?? part(item, 'container').icon;
+    // A slash container is an overlay: its slash is erased around the symbol. It stays a container pair (side-pair
+    // routing would change its roles and placement). Older saved layouts and container-centers.json did not record
+    // the composition mode.
+    const savedOverlay = containerKey === part(item, 'container').icon ? layoutOf(part(item, 'symbol'))?.overlay : undefined;
+    const overlay = savedOverlay ?? SLASH_CONTAINERS.has(containerKey);
+    const placement = placement64(item, icons, own, defaults);
+    return overlay || savedOverlay !== undefined ? {...placement, overlay: !!overlay} : placement;
+  }
+
+  function placement64(item, icons, own, defaults) {
     const s = part(item, 'symbol'), containerKey = icons.container ?? part(item, 'container').icon, symbolKey = icons.symbol ?? s.icon;
     if (own && symbolKey === s.icon) {
       const box = pairBox(s), center = box ? null : pairCenter(s);
@@ -86,7 +101,9 @@
   // container's placement (`kept`) carried along.
   function builtLayout(boxes, placement, kept) {
     const scope = placement.pinned ? 'pair' : placement.saved === 'container' ? 'container' : 'default';
-    return boxes.map(b => ({...b, scope, ...(placement.canvas === 72 ? {overlay: !!placement.overlay, native_text: !!placement.nativeText} : {}), ...(kept ? {container: kept} : {})}));
+    const composition = placement.canvas === 72 ? {overlay: !!placement.overlay, native_text: !!placement.nativeText}
+      : placement.overlay !== undefined ? {overlay: !!placement.overlay} : {};
+    return boxes.map(b => ({...b, scope, ...composition, ...(kept ? {container: kept} : {})}));
   }
 
   // A pair's symbol layout once its container's placement is `target` ({center, size}, or null to remove it): its
@@ -153,6 +170,6 @@
     return {source, results};
   }
 
-  return {SOURCES, part, layoutOf, idOf, sizeOf, sameBox, savedBox, pairBox, pairCenter, containerTarget, placementOf,
+  return {SOURCES, SLASH_CONTAINERS, part, layoutOf, idOf, sizeOf, sameBox, savedBox, pairBox, pairCenter, containerTarget, placementOf,
           builtLayout, containerLayout, relatedPairs, applySelected};
 });

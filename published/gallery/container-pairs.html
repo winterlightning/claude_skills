@@ -240,6 +240,10 @@ function combinedState(item) {
     try { if (!sameBox(compose(c.icon, s.icon, placementOf(item)).layout.symbol[0], built)) changes.push('the symbol position or size changed'); }
     catch (error) { /* a part without a drawing: nothing to compare */ }
   }
+  // At 64 a slash container cuts out around its symbol; a pair built before that (no overlay stored) is drawn
+  // wrong. Not at 72: older native builds there were cut out without storing the flag.
+  if (CANVAS !== 72 && !!placementOf(item).overlay !== !!layoutOf(s)?.overlay)
+    changes.push(placementOf(item).overlay ? 'the container now cuts out around the symbol' : 'the container no longer cuts out around the symbol');
   if (changes.length) return {label: 'Outdated: recombine', tone: 'fix', why: 'Since it was built, ' + changes.join(', ') + '.', rebuild: true};
   const check = checks.get(icon.key);
   if (check?.build_failed && !['pending', 'rejected', 'approve'].includes(icon.review)) {
@@ -1056,6 +1060,8 @@ $('edSave').onclick = async () => {
       const target = containerPlacement();
       const n = await saveContainerPlacement(icons.container, target, item.reference_id);
       const s = part(item, 'symbol'), {scope: _, ...rest} = layoutOf(s) || {};
+      // Composition belongs to the old container, not the replacement used in `followed` below.
+      if (icons.container !== part(item, 'container').icon) delete rest.overlay;
       // On the container picked in the editor, so the placement just saved applies to it.
       const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]}
                                                     : p.role === 'container' ? {...p, icon: icons.container} : p)};

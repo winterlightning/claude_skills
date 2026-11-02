@@ -487,7 +487,22 @@
       const rings = placed.map(([a, b]) => overlayEngine.capsule(a, b, 8));
       const hull = overlayEngine.internals.hull(placed.flat());
       if (hull) rings.push(hull);
-      const {kept} = overlayEngine.internals.clip(overlayEngine.engineSegments(mainSvg), new overlayEngine.internals.Area(rings), canvas / 1024);
+      const {kept: clipped} = overlayEngine.internals.clip(overlayEngine.engineSegments(mainSvg), new overlayEngine.internals.Area(rings), canvas / 1024);
+      // A piece of the container left shorter than half a stroke draws as a stray dot: drop it.
+      // Pieces are measured as chains (segments sharing an end, so an arc split across the path's start counts
+      // whole), broken at junctions where three or more ends meet, such as a slash ending on a ring.
+      // Drawings can repeat a stroke, so segments are measured once each.
+      const pointKey = p => p.map(v => Math.round(v * 1e4)).join(',');
+      const segKey = ([a, b]) => [pointKey(a), pointKey(b)].sort().join(' ');
+      const unique = [...new Map(clipped.map(seg => [segKey(seg), seg])).values()];
+      const index = new Map(unique.map((seg, i) => [segKey(seg), i]));
+      const parent = unique.map((_, i) => i), find = i => parent[i] === i ? i : (parent[i] = find(parent[i]));
+      const ends = new Map();
+      unique.forEach((seg, i) => seg.forEach(p => { const k = pointKey(p); ends.set(k, [...(ends.get(k) || []), i]); }));
+      for (const at of ends.values()) if (at.length === 2) parent[find(at[0])] = find(at[1]);
+      const length = new Map();
+      unique.forEach(([a, b], i) => length.set(find(i), (length.get(find(i)) || 0) + Math.hypot(b[0] - a[0], b[1] - a[1])));
+      const kept = clipped.filter(seg => length.get(find(index.get(segKey(seg)))) >= STROKE / 2);
       out.children[0].children = [{tag: 'path', attrs: {d: kept.map(([a, b]) => `M${a.map(overlayEngine.pyFixed2).join(',')}L${b.map(overlayEngine.pyFixed2).join(',')}`).join(' ')}, children: []}];
     }
     const centreline = v => ({x: v[0], y: v[1], w: v[2] - v[0], h: v[3] - v[1]});
