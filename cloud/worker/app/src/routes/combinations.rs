@@ -12,7 +12,7 @@
 use crate::args;
 use crate::db::{self, Arg};
 use crate::http::{self, Ctx};
-use pictographic_core::{combination_query, combination_build};
+use pictographic_core::{combination_query, combination_build, combined_parts};
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
@@ -595,9 +595,8 @@ pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str, size:
         WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
         ORDER BY p.role"
     } else {
-        "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
-        WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
-        ORDER BY p.role"
+        // A native text sub has no drawing to approve (combined_parts::UNAPPROVED_64).
+        combined_parts::UNAPPROVED_64
     };
     let rows: Vec<Waiting> = db::all(db, sql, args![reference_id]).await?;
     Ok((!rows.is_empty()).then(|| rows.iter().map(|w| format!("the {} {}", w.role,

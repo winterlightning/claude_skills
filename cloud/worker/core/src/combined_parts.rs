@@ -36,6 +36,15 @@ macro_rules! part_errors {
     };
 }
 
+/// The parts of side 64 pair `?` that keep its combined icon from being approved: those whose current drawing is not
+/// approved in Icon review. A native text sub (no icon; its `form` is the typeface glyph, `native_text`) has no
+/// drawing or review of its own and never waits, as the build (`POST /api/combinations/build`) and `part_errors`
+/// treat it. A part with no icon that is not native text still waits, shown as "(none picked)".
+pub const UNAPPROVED_64: &str = "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon \
+    WHERE p.reference_id = ? AND NOT (p.icon IS NULL AND COALESCE(json_extract(p.form, '$.native_text'), 0) = 1) \
+      AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve' \
+    ORDER BY p.role";
+
 /// The combined icons (keys) built from a part (`?1`, its icon key) in any size: the ones to check again after
 /// that part's review changed. It runs on every review, so the 64 branches look icons up by key, from the part
 /// tables (a combined 64 icon's key is `<family>/<reference_id>`, a fill output's is its pick's `combined`), never
@@ -86,7 +95,7 @@ mod tests {
         db.execute_batch("CREATE TABLE icons (key TEXT PRIMARY KEY, icon_id TEXT, family TEXT, svg_sha256 TEXT, uploaded INTEGER DEFAULT 0, \
                             build_failed INTEGER DEFAULT 0, record TEXT, card TEXT, style TEXT NOT NULL DEFAULT 'normal');
                           CREATE TABLE reviews (icon TEXT, svg_sha256 TEXT, status TEXT, PRIMARY KEY (icon, svg_sha256));
-                          CREATE TABLE reference_parts (reference_id TEXT, role TEXT, icon TEXT, built_sha TEXT);
+                          CREATE TABLE reference_parts (reference_id TEXT, role TEXT, icon TEXT, built_sha TEXT, form TEXT);
                           CREATE TABLE reference_part_sizes (reference_id TEXT, role TEXT, size INTEGER, icon TEXT, built_sha TEXT);
                           CREATE TABLE reference_part_fills (reference_id TEXT, role TEXT, rank INTEGER, icon TEXT, built_sha TEXT, combined TEXT);").unwrap();
         for (key, sha) in [("solo/bag", "m1"), ("sub/check", "s2")] {
@@ -94,7 +103,7 @@ mod tests {
                        params![key, key, key.split('/').next().unwrap(), sha]).unwrap();
         }
         // Built from main m1 and sub s1; the sub has since been redrawn (s2).
-        db.execute_batch("INSERT INTO reference_parts VALUES ('p1', 'main', 'solo/bag', 'm1'), ('p1', 'sub', 'sub/check', 's1');
+        db.execute_batch("INSERT INTO reference_parts VALUES ('p1', 'main', 'solo/bag', 'm1', NULL), ('p1', 'sub', 'sub/check', 's1', NULL);
             INSERT INTO icons(key, icon_id, family, svg_sha256, build_failed, record, card) VALUES ('side_combination64/p1', 'p1',
               'side_combination64', 'c1', 1, '{\"parts\":{\"main\":\"solo/bag\",\"sub\":\"sub/check\"},\"errors\":[\"Main bag is not approved in Icon review\"]}',
               '{\"key\":\"side_combination64/p1\",\"build_failed\":true,\"validation\":{\"status\":\"invalid\",\"automatic_status\":\"fail\"}}');").unwrap();
@@ -167,5 +176,32 @@ mod tests {
         assert_eq!(db.prepare(CHANGED).unwrap().query_map(params![key], |r| r.get::<_, String>(0)).unwrap().count(), 1);
         for sql in UPDATE { db.execute(sql, params![key]).unwrap(); }
         assert_eq!(db.query_row("SELECT build_failed FROM icons WHERE key = 'side_combination64/f1--fill-2'", [], |r| r.get::<_, i64>(0)).unwrap(), 0);
+    }
+    fn waiting(db: &Connection, reference_id: &str) -> Vec<(String, Option<String>)> {
+        db.prepare(UNAPPROVED_64).unwrap().query_map(params![reference_id], |r| Ok((r.get(0)?, r.get(1)?))).unwrap()
+            .map(Result::unwrap).collect()
+    }
+
+    #[test]
+    fn a_native_text_sub_never_waits_for_approval() {
+        let db = db();
+        // t1: main solo/bag and a native text sub "9" (no icon, drawn from the typeface).
+        db.execute_batch("INSERT INTO reference_parts VALUES ('t1', 'main', 'solo/bag', 'm1', NULL),
+              ('t1', 'sub', NULL, NULL, '{\"family\":\"text\",\"native_text\":true}');
+            INSERT INTO reviews VALUES ('solo/bag', 'm1', 'pending');").unwrap();
+        assert_eq!(waiting(&db, "t1"), vec![("main".to_string(), Some("solo/bag".to_string()))], "the main still waits");
+        db.execute("UPDATE reviews SET status = 'approve' WHERE icon = 'solo/bag'", []).unwrap();
+        assert!(waiting(&db, "t1").is_empty(), "the text sub has nothing to approve");
+    }
+
+    #[test]
+    fn a_sub_with_no_icon_that_is_not_text_still_waits() {
+        let db = db();
+        db.execute_batch("INSERT INTO reference_parts VALUES ('u1', 'main', 'solo/bag', 'm1', NULL), ('u1', 'sub', NULL, NULL, NULL),
+              ('u2', 'main', 'solo/bag', 'm1', NULL), ('u2', 'sub', NULL, NULL, '{\"native_text\":false}');
+            INSERT INTO reviews VALUES ('solo/bag', 'm1', 'approve');").unwrap();
+        assert_eq!(waiting(&db, "u1"), vec![("sub".to_string(), None)]);
+        assert_eq!(waiting(&db, "u2"), vec![("sub".to_string(), None)]);
+        assert_eq!(waiting(&db, "p1"), vec![("sub".to_string(), Some("sub/check".to_string()))], "a drawn sub on its unapproved drawing waits");
     }
 }
