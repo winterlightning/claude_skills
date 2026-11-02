@@ -460,9 +460,22 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let (profile, category) = if size == 72 && kind == "container" { ("CONTAINER_COMBINATION72", "Container 72") }
                                   else if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
                                   else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
+        // The drawing the build replaces. A container's is the one the page loaded (checked against expected_sha256
+        // above). The side pages send no expected_sha256, so a side pair's is the one stored now; an uploaded icon on
+        // the side key is not replaced by the build below, so its artwork choice is left alone.
+        #[derive(Deserialize)]
+        struct Stored { svg_sha256: String, uploaded: f64 }
+        let (replaced, selects) = if kind == "container" {
+            (existing.first().map(|e| e.svg_sha256.clone()), true)
+        } else {
+            let stored: Option<Stored> = db::first(&ctx.db, "SELECT svg_sha256, uploaded FROM icons WHERE key = ?",
+                                                   args![key.clone()]).await?;
+            let selects = stored.as_ref().is_none_or(|s| s.uploaded == 0.0);
+            (stored.map(|s| s.svg_sha256), selects)
+        };
         // Snapshot the choice as well as the drawing: another Pick can change its revision without
         // changing the SVG hash. Recheck both inside the same D1 transaction as every build write.
-        if kind == "container" {
+        if selects {
             #[derive(Deserialize)]
             struct Choice { document: String }
             let choice: Option<Choice> = db::first(&ctx.db,
@@ -470,15 +483,16 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             let part_hashes: Map<String, Value> = parts.values().filter_map(|p| p["icon"].as_str().map(|k|
                 (k.to_string(), json!({"svg_sha256": p["svg_sha256"]})))).collect();
             statements.push(db::stmt(&ctx.db, combination_build::GUARD,
-                args![key.clone(), existing.first().map(|e| e.svg_sha256.as_str()), choice.map(|c| c.document),
-                      json!(part_hashes).to_string()])?);
+                args![key.clone(), replaced.as_deref(), choice.map(|c| c.document), json!(part_hashes).to_string()])?);
         }
         let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
                             "errors": errors, "reference_id": id, "built_by": user, "built_at": now});
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
-        if kind == "container" {
+        // The build is what Icon review shows: an older Browser or Manual Edit pick would otherwise still apply to it
+        // (icon_state applies a pick while the drawing has no generated graph, and a browser build never has one).
+        if selects {
             statements.push(db::stmt(&ctx.db, combination_build::SELECT_BUILD,
                                      args![key.clone(), sha.clone(), now.clone(), user])?);
         }

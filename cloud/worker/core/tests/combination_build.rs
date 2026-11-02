@@ -205,3 +205,26 @@ fn no_selection_does_not_create_artwork_choice() {
     );
     tx.commit().unwrap();
 }
+
+fn shown(db: &Connection) -> (String, Option<String>) {
+    db.query_row("SELECT svg_sha256, picked FROM icons WHERE key=?", [KEY], |r| Ok((r.get(0)?, r.get(1)?)))
+        .unwrap()
+}
+
+#[test]
+fn side_rebuild_supersedes_a_manual_edit_pick() {
+    // A side pair's combined icon with a Manual Edit picked: a browser build has no generated graph, so without
+    // SELECT_BUILD the old pick still applies to the new drawing and Icon review keeps serving the pick.
+    let mut db = database();
+    db.execute("UPDATE icons SET family='side_combination64' WHERE key=?", [KEY]).unwrap();
+    db.execute("UPDATE icons SET svg_sha256='unselected' WHERE key=?", [KEY]).unwrap();
+    db.execute(icon_query::REFRESH_KEY, [KEY]).unwrap();
+    assert_eq!(shown(&db), ("unselected".into(), Some("use_upload".into())));
+
+    db.execute("UPDATE icons SET svg_sha256='old' WHERE key=?", [KEY]).unwrap();
+    let old = choice(&db);
+    build(&mut db, "old", &old, "side-new").unwrap();
+    assert_eq!(shown(&db), ("side-new".into(), Some("use_org".into())));
+    let c: Value = serde_json::from_str(&choice(&db)).unwrap();
+    assert_eq!(c["uploaded"]["svg_sha256"], "old");
+}
