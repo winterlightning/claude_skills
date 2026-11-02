@@ -265,6 +265,7 @@ def test_side_native_text_pair_builds_without_a_sub_icon(client):
             status, drawings = client.get('/api/combinations/drawings', keys=main['icon'])
             built = side_request(item, drawings)
             assert built['request']['parts']['sub']['icon'] is None
+            assert built['request']['parts']['sub']['svg_sha256'] == sub['form']['sha256']
             result = client.call('POST', '/api/combinations/build', {'builds': [built['request']]})[1]['results'][0]
             assert result['ok'], result
             return

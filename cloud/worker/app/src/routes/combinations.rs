@@ -12,7 +12,7 @@
 use crate::args;
 use crate::db::{self, Arg};
 use crate::http::{self, Ctx};
-use pictographic_core::{combination_query, combination_build};
+use pictographic_core::{combination_query, combination_build, combined_parts};
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
@@ -363,6 +363,9 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     };
     let ids: Vec<&str> = builds.iter().filter_map(|b| b["reference_id"].as_str()).collect();
     let roles = roles_of(ctx, &ids).await?;
+    let native: Vec<combination_build::NativeTextPart> = if size == 64 {
+        db::all(&ctx.db, combined_parts::NATIVE_TEXT_PARTS, args![json!(ids).to_string()]).await?
+    } else { vec![] };
     let keys: Vec<String> = builds.iter().filter_map(|b| b["parts"].as_object())
         .flat_map(|parts| parts.values().filter_map(|p| p["icon"].as_str().map(str::to_string))).collect();
     let current = if keys.is_empty() { HashMap::new() } else { drawings_of(ctx, &keys).await? };
@@ -381,9 +384,25 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let mut problem = None;
         let mut errors = Vec::new();
         for (role, part) in parts {
-            // A native text sub is drawn from the typeface: no icon, nothing to have been redrawn (64 only).
-            let textual = size == 64 && part["icon"].is_null() && own.iter().any(|(r, icon)| r == role && icon.is_none());
-            if textual {
+            // Validate every part's layout and position, including native text.
+            if !layout_ok(&part["layout"]) {
+                problem = Some(format!("The {role} layout must be a list of {{x, y, w, h}} boxes."));
+                break;
+            }
+            if !part["position"].is_null() && !(role == "sub" && part["position"].as_str().is_some_and(|p| SIDE_POSITIONS.contains(&p))) {
+                problem = Some("A side sub's position is one of tl, tr, bl, br, ri, le, bo, to.".into());
+                break;
+            }
+            if size == 64 && part["icon"].is_null() {
+                let Some(text) = native.iter().find(|p| p.reference_id == id && p.role == *role) else {
+                    problem = Some(format!("The {role} must be an existing icon of its family."));
+                    break;
+                };
+                match text.validate(part["svg_sha256"].as_str()) {
+                    Ok(Some(error)) => errors.push(error),
+                    Ok(None) => {},
+                    Err(error) => { problem = Some(error); break; },
+                }
                 continue;
             }
             let icon = part["icon"].as_str().unwrap_or("");
@@ -393,14 +412,6 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             };
             if part["svg_sha256"].as_str() != Some(drawing.svg_sha256.as_str()) {
                 problem = Some(format!("The {role} {icon} was redrawn since it was loaded. Reload and build again."));
-                break;
-            }
-            if !layout_ok(&part["layout"]) {
-                problem = Some(format!("The {role} layout must be a list of {{x, y, w, h}} boxes."));
-                break;
-            }
-            if !part["position"].is_null() && !(role == "sub" && part["position"].as_str().is_some_and(|p| SIDE_POSITIONS.contains(&p))) {
-                problem = Some("A side sub's position is one of tl, tr, bl, br, ri, le, bo, to.".into());
                 break;
             }
             if drawing.review.as_deref() != Some("approve") {
@@ -595,9 +606,8 @@ pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str, size:
         WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
         ORDER BY p.role"
     } else {
-        "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
-        WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
-        ORDER BY p.role"
+        // Native text resolves to its reviewed catalog drawing and must match the stored form/build.
+        combined_parts::UNAPPROVED_64
     };
     let rows: Vec<Waiting> = db::all(db, sql, args![reference_id]).await?;
     Ok((!rows.is_empty()).then(|| rows.iter().map(|w| format!("the {} {}", w.role,

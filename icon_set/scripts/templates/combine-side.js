@@ -1460,7 +1460,7 @@
     const hand = layout === undefined ? handLayout(item) : layout;
     const result = render(current.row, {main: current.main, sub: current.sub, position: row.position, layout: hand, size});
     const box = p => [{x: p.painted_box.x + 2, y: p.painted_box.y + 2, w: p.painted_box.w - 4, h: p.painted_box.h - 4}];
-    const part = (role, i) => ({icon: icons[role] || null, svg_sha256: icons[role] ? drawings.get(icons[role]).svg_sha256 : null,
+    const part = (role, i) => ({icon: icons[role] || null, svg_sha256: icons[role] ? drawings.get(icons[role]).svg_sha256 : (partOf(item, role).form?.sha256 || null),
                                 layout: (hand && hand[role]) || box(result.placements[i]), ...(role === 'sub' ? {position: row.position} : {})});
     return {svg: result.svg, result, current,
             request: {reference_id: item.reference_id, svg: result.svg, parts: {main: part('main', 0), sub: part('sub', 1)}}};

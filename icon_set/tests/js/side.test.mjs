@@ -7,11 +7,31 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {existsSync, readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 const require = createRequire(import.meta.url);
 const Side = require('../../scripts/templates/combine-side.js');
 const file = process.env.SIDE_GOLDENS || new URL('./side-goldens.json', import.meta.url).pathname;
 const cases = existsSync(file) ? JSON.parse(readFileSync(file)) : [];
+
+test('native text builds carry the hash of the embedded form drawing', () => {
+  const c = cases.find(c => !c.error && c.row.subs.some(s => s.native_text));
+  assert.ok(c, 'native text fixture is required');
+  const main = c.row.mains.find(m => m.icon === c.request.main) || c.row.mains[0];
+  const sub = c.row.subs.find(s => s.native_text);
+  const key = main.model_key || `${main.family}/${main.icon}`;
+  const hash = svg => createHash('sha256').update(svg).digest('hex');
+  const item = {reference_id: c.row.id, parts: [
+    {role: 'main', icon: key, form: main},
+    {role: 'sub', icon: null, form: {...sub, sha256: hash(sub.document)}, position: c.row.position},
+  ]};
+  const drawings = new Map([[key, {svg: main.document, svg_sha256: hash(main.document)}]]);
+  const built = Side.pairRequest(item, drawings);
+  assert.equal(built.request.parts.sub.icon, null);
+  assert.equal(built.request.parts.sub.svg_sha256, hash(sub.document));
+  assert.equal(built.request.parts.main.svg_sha256, hash(main.document));
+  assert.equal(built.svg, Side.render(c.row, {main: main.icon, sub: sub.icon}).svg);
+});
 
 // Where two SVGs first differ, for the failure message.
 function firstDifference(a, b) {
