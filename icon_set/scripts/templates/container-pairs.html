@@ -240,6 +240,10 @@ function combinedState(item) {
     try { if (!sameBox(compose(c.icon, s.icon, placementOf(item)).layout.symbol[0], built)) changes.push('the symbol position or size changed'); }
     catch (error) { /* a part without a drawing: nothing to compare */ }
   }
+  // The composition changed: the placement now clears the container around the symbol (or no longer does) while the
+  // build stored the other. A pair's own box keeps its place, so this is checked whatever the box's scope.
+  if (built && CANVAS === 72 && !!layoutOf(s).overlay !== !!placementOf(item).overlay)
+    changes.push(placementOf(item).overlay ? 'the container now clears around the symbol' : 'the container no longer clears around the symbol');
   if (changes.length) return {label: 'Outdated: recombine', tone: 'fix', why: 'Since it was built, ' + changes.join(', ') + '.', rebuild: true};
   const check = checks.get(icon.key);
   if (check?.build_failed && !['pending', 'rejected', 'approve'].includes(icon.review)) {

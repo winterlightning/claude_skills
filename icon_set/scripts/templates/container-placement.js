@@ -61,19 +61,22 @@
       && p.container_sha256 === (icons.containerSha ?? c.current_sha)
       && p.symbol_sha256 === (icons.symbolSha ?? s.current_sha);
     const active = record && record.container === ck && record.symbol === sk ? record : null;
-    const extra = {canvas: 72, overlay: !!(layoutOf(s)?.overlay ?? active?.overlay), nativeText: !!(layoutOf(s)?.native_text ?? active?.native_text)};
+    const d = defaults.containers?.[ck], room = d?.room;
+    // A crossing mark (a prohibition slash through the room) is always an overlay: the side engine erases the
+    // container around the symbol. Recorded and saved layouts of such a container predate the rule and say false.
+    const overlayOf = v => room?.status === 'crossing-mark' || !!v;
+    const extra = {canvas: 72, overlay: overlayOf(layoutOf(s)?.overlay ?? active?.overlay), nativeText: !!(layoutOf(s)?.native_text ?? active?.native_text)};
     if (own && ck === c.icon && sk === s.icon) {
       const box = pairBox(s), center = box ? null : pairCenter(s);
       if (box || center) return {...extra, ...(box ? {box} : center), pinned: true, label: 'Saved · this pair', scope: 'pair', by: s.updated_by};
     }
     const whole = ck === c.icon ? containerTarget(s) : null;
     if (whole) return {...extra, ...whole, saved: 'container', label: 'Saved · this container', scope: 'container'};
-    const recorded = p => ({...extra, center: p.center.map((v, i) => v + (p.offset?.[i] || 0)), size: p.size, nativeText: !!(p.native_text ?? active?.native_text), overlay: !!p.overlay, scope: 'pair'});
+    const recorded = p => ({...extra, center: p.center.map((v, i) => v + (p.offset?.[i] || 0)), size: p.size, nativeText: !!(p.native_text ?? active?.native_text), overlay: overlayOf(p.overlay), scope: 'pair'});
     if (own && matches(active) && active.baseline_sha256 && item.icon?.svg_sha256 === active.baseline_sha256)
       return {...recorded(active), label: 'Recorded · current uploaded layout'};
     if (own && matches(active?.proposal) && active.proposal.status === 'accepted')
       return {...recorded(active.proposal), label: 'Reviewed · accepted pair layout'};
-    const d = defaults.containers?.[ck], room = d?.room;
     const stale = d && d.sha256 !== (icons.containerSha ?? c.current_sha);
     const proposal = active?.proposal;
     const note = [stale ? 'Container artwork changed; room needs review.' : '', proposal && !matches(proposal) ? 'Recorded pair layout belongs to older artwork; review it again.' : proposal?.status === 'propose' ? 'A pair proposal is available; it has not been accepted.' : '', room?.note || ''].filter(Boolean).join(' ');
