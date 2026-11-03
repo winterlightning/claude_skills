@@ -88,6 +88,7 @@ class ArtworkTests(unittest.TestCase):
 
     def build(self, icon, *, all=False, report=False):
         with patch.object(builder, 'icons_in', return_value=[icon]), \
+             patch.object(builder, 'create', return_value=icon), \
              patch('icon_set.model.icons.registry.all_icons', return_value=[icon]), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), redirect_stdout(io.StringIO()):
             return builder.build(self.root/'dist', self.root/'png', write_png=True, only=['solo'],
@@ -100,6 +101,7 @@ class ArtworkTests(unittest.TestCase):
         self.store.save(self.icon, self.data, 'jakes', self.edits)
         model = icon_from_graph(self.icon)
         with patch.object(builder, 'icons_in', return_value=[model]), \
+             patch.object(builder, 'create', return_value=model), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), \
              patch.object(builder, 'open_artwork_store', side_effect=AssertionError('Original build read manual state')), \
              redirect_stdout(io.StringIO()):

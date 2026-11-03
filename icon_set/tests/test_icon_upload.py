@@ -195,6 +195,7 @@ class IconUploadTests(unittest.TestCase):
         self.assertEqual(len(categories), len(set(categories)))
 
     def test_custom_family_upload_review_and_persistence(self):
+        original_families = self.call('GET', '/api/icon-families')[1]['families']
         payload = dict(id='rounded', name='Rounded icons', canvas_size=72)
         self.assertEqual(self.call('POST', '/api/icon-families', payload)[0], 201)
         self.assertEqual(self.call('POST', '/api/icon-families', payload)[0], 409)
@@ -206,7 +207,8 @@ class IconUploadTests(unittest.TestCase):
         self.server.shutdown(); self.server.server_close()
         self.start()
         families = self.call('GET', '/api/icon-families')[1]['families']
-        self.assertEqual(len(families), 6)
+        self.assertEqual({row['id'] for row in families},
+                         {row['id'] for row in original_families} | {'rounded'})
         self.assertIn('rounded', [row['id'] for row in families])
         self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'approve')
         self.assertIn(icon['key'], [row['key'] for row in self.call('GET', '/gallery/icons.json')[1]['icons']])

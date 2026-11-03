@@ -1,0 +1,61 @@
+name: Edited icon regressions
+
+on:
+  pull_request:
+    branches: [cloudflare-db]
+  push:
+    branches: [fix/edited-icon-thumbnails]
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Avoid multi-GB artwork datasets and build outputs on the test runner.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /cloud/worker/
+            /cloud/graphics/
+            /icon_set/
+            !/icon_set/assets/
+            !/icon_set/data/
+            !/icon_set/work/
+            !/icon_set/references/
+            /published/gallery/icon-artwork.js
+            /published/gallery/stroke-editor.js
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Install graphics test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2
+          python -m pip install -r icon_set/requirements-qa.txt
+      - name: Worker and migration regressions
+        working-directory: cloud/worker
+        run: cargo test --locked -p pictographic-core -p pictographic-worker
+      - name: Graphics, artwork, and workflow regressions
+        run: >-
+          python -m unittest
+          icon_set.tests.test_svg_graph
+          icon_set.tests.test_edit_validation
+          icon_set.tests.test_icon_artwork
+          icon_set.tests.test_stroke_edits
+          icon_set.tests.test_workflow_isolation
+          icon_set.tests.test_publish
+          icon_set.tests.test_generation
+          icon_set.tests.test_metadata
+      - name: Browser logic and published asset parity
+        run: |
+          node icon_set/tests/test_icon_artwork_ui.cjs
+          node icon_set/tests/test_stroke_editor_ui.cjs
+          cmp icon_set/scripts/templates/icon-artwork.js published/gallery/icon-artwork.js
+          cmp icon_set/scripts/templates/stroke-editor.js published/gallery/stroke-editor.js
