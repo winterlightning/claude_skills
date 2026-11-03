@@ -3,8 +3,6 @@ name: Edited icon regressions
 on:
   pull_request:
     branches: [cloudflare-db]
-  push:
-    branches: [fix/edited-icon-thumbnails]
 
 permissions:
   contents: read
@@ -28,6 +26,7 @@ jobs:
             !/icon_set/references/
             /published/gallery/icon-artwork.js
             /published/gallery/stroke-editor.js
+            /published/gallery/index.html
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
@@ -57,5 +56,6 @@ jobs:
         run: |
           node icon_set/tests/test_icon_artwork_ui.cjs
           node icon_set/tests/test_stroke_editor_ui.cjs
+          node icon_set/tests/test_uploaded_editor_ui.cjs
           cmp icon_set/scripts/templates/icon-artwork.js published/gallery/icon-artwork.js
           cmp icon_set/scripts/templates/stroke-editor.js published/gallery/stroke-editor.js
