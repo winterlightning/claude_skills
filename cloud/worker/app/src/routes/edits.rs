@@ -41,10 +41,19 @@ async fn document(ctx: &Ctx, store: &str, key: &str) -> Result<Option<Value>> {
 /// already shows a picked drawing, whose choice names the generated revision it was made from.
 async fn baseline_sha(ctx: &Ctx, icon: &Icon, choice: Option<&Value>) -> Result<String> {
     let built = data::exists(&ctx.db, "SELECT 1 FROM icon_graphs WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?;
-    Ok(match choice.and_then(|c| c["source_svg_sha256"].as_str()) {
-        Some(source) if !built => source.to_string(),
-        _ => icon.svg_sha256.clone(),
-    })
+    Ok(artwork_baseline(&icon.svg_sha256, icon.uploaded, built, choice).to_string())
+}
+
+fn artwork_baseline<'a>(current: &'a str, uploaded: bool, has_graph: bool, choice: Option<&'a Value>) -> &'a str {
+    let Some(choice) = choice else { return current };
+    let Some(source) = choice["source_svg_sha256"].as_str() else { return current };
+    // Upload graphs are cached on first open. Their existence does not make a selected
+    // revision the original. An unrelated replacement must not revive an older pick.
+    if source == current || choice["selected_svg_sha256"].as_str() == Some(current) || (!uploaded && !has_graph) {
+        source
+    } else {
+        current
+    }
 }
 
 async fn graph(ctx: &Ctx, sha: &str) -> Result<Option<Value>> {
@@ -557,8 +566,8 @@ pub async fn override_of(ctx: &Ctx, key: &str) -> Result<Option<Value>> {
 
 async fn overrides_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
     #[derive(Deserialize)]
-    struct Row { key: String, document: String, icon_sha: String, built: f64 }
-    let sql = format!("SELECT s.key, s.document, i.svg_sha256 AS icon_sha, \
+    struct Row { key: String, document: String, icon_sha: String, built: f64, uploaded: f64 }
+    let sql = format!("SELECT s.key, s.document, i.svg_sha256 AS icon_sha, i.uploaded, \
         EXISTS (SELECT 1 FROM icon_graphs g WHERE g.svg_sha256 = i.svg_sha256) AS built \
         FROM store_documents s JOIN icons i ON i.key = s.key WHERE s.store = 'icon-artwork'{}",
         if key.is_some() { " AND s.key = ?" } else { "" });
@@ -566,9 +575,9 @@ async fn overrides_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
     let records: Vec<Value> = rows.into_iter().filter_map(|row| {
         let choice: Value = serde_json::from_str(&row.document).ok()?;
         let source = choice["source_svg_sha256"].as_str()?.to_string();
-        let baseline = if row.built != 0.0 { row.icon_sha } else { source.clone() };
+        let baseline = artwork_baseline(&row.icon_sha, row.uploaded != 0.0, row.built != 0.0, Some(&choice));
         // A choice made for an older generated drawing no longer applies once the icon is rebuilt.
-        (source == baseline).then(|| artwork_overlay(&row.key, &baseline, Some(&choice))).flatten()
+        (source == baseline).then(|| artwork_overlay(&row.key, baseline, Some(&choice))).flatten()
     }).collect();
     Ok(records)
 }
@@ -681,8 +690,11 @@ pub async fn get_artwork_variant(ctx: &Ctx, variant: &str) -> Result<Response> {
             return match svg { Some(svg) => http::svg(svg), None => http::error(400, "That artwork version has not been saved.") };
         }
         "browser_edit" => {
-            let edit = document(ctx, EDITS, &edit_key(&key, &sha)).await?;
-            edit.as_ref().and_then(edited_graph).or_else(|| choice.as_ref().and_then(|c| edited_graph(&c["edited"])))
+            let Some(base) = edit_base(&sha, choice.as_ref(), ctx.param("sha")) else { return base_changed() };
+            let edit = document(ctx, EDITS, &edit_key(&key, &base)).await?;
+            edit.as_ref().and_then(edited_graph).or_else(|| choice.as_ref()
+                .filter(|c| c["edited"]["source_svg_sha256"].as_str() == Some(base.as_str()))
+                .and_then(|c| edited_graph(&c["edited"])))
         }
         "use_edited" => {
             if let Some(selected) = choice.as_ref().and_then(|c| c["selected_svg_sha256"].as_str()) {
@@ -709,7 +721,7 @@ async fn stored_drawing(ctx: &Ctx, sha: &str) -> Result<Response> {
 }
 
 /// The drawing an icon's artwork choice displays, or None. The caller has read from the stored `icons.picked` that the
-/// choice applies (made for the current drawing, not an uploaded icon), as the gallery card does.
+/// choice applies to the current drawing, including uploaded icons, as the gallery card does.
 pub async fn picked_drawing(ctx: &Ctx, key: &str) -> Result<Option<Response>> {
     let Some(choice) = document(ctx, ARTWORK, key).await? else { return Ok(None) };
     Ok(match (choice["source_mode"].as_str(), choice["selected_svg_sha256"].as_str()) {
@@ -718,4 +730,31 @@ pub async fn picked_drawing(ctx: &Ctx, key: &str) -> Result<Option<Response>> {
             .map(http::svg).transpose()?,
         _ => None,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn cached_selected_graph_does_not_replace_the_original_base() {
+        let choice = json!({"source_svg_sha256": "original", "selected_svg_sha256": "selected"});
+        for uploaded in [false, true] {
+            for cached in [false, true] {
+                assert_eq!(artwork_baseline("selected", uploaded, cached, Some(&choice)), "original");
+                assert_eq!(artwork_baseline("original", uploaded, cached, Some(&choice)), "original");
+            }
+        }
+        assert_eq!(artwork_baseline("replacement", true, false, Some(&choice)), "replacement");
+        assert_eq!(artwork_baseline("replacement", true, true, Some(&choice)), "replacement");
+        assert_eq!(artwork_baseline("rebuilt", false, true, Some(&choice)), "rebuilt");
+    }
+
+    #[test]
+    fn browser_preview_base_must_be_original_or_current_manual_upload() {
+        let choice = json!({"uploaded": {"svg_sha256": "manual", "svg": "<svg/>"}});
+        assert_eq!(edit_base("original", Some(&choice), Some("manual")).as_deref(), Some("manual"));
+        assert_eq!(edit_base("original", Some(&choice), Some("original")).as_deref(), Some("original"));
+        assert_eq!(edit_base("original", Some(&choice), Some("replaced-manual")), None);
+    }
 }

@@ -450,6 +450,21 @@ mod tests {
     use super::*;
 
     #[test]
+    fn uploaded_picks_use_the_selected_revision_for_thumbnails() {
+        for mode in ["use_edited", "use_upload", "use_org"] {
+            let row: Row = serde_json::from_value(json!({
+                "key": "solo-64/example", "icon_id": "example", "family": "solo-64",
+                "uploaded": 1, "picked": mode, "mode": mode, "svg_sha256": "selected-sha",
+                "preview_url": "../api/icon-artwork/svg?icon=solo-64/example&v=old-sha",
+            })).unwrap();
+            let cards = items(vec![row]);
+            assert_eq!(cards[0]["preview_url"], "../api/icon-artwork/svg?icon=solo-64%2Fexample&v=selected-sha");
+            assert_eq!(cards[0]["artwork_source"].as_str().unwrap_or("use_org"), mode);
+            assert_eq!(cards[0]["uploaded_icon"], true);
+        }
+    }
+
+    #[test]
     fn index_guard_narrows_the_keyed_row() {
         // Unparenthesised, `key = ? AND uploaded = 0 OR family = 'container-combination-72'` updated every 72 container
         // on each combination build (their cards all became the built pair's).

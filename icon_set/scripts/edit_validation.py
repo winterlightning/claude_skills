@@ -4,6 +4,52 @@ import hashlib
 import json
 
 
+def svg_from_graph(graph):
+    """Render saved edits without requiring a build-validation profile for custom uploads.
+
+    Known profiles keep their canonical renderer (including natural-width text).
+    Custom family graphs already carry their canvas and stroke geometry. Rendering
+    them does not grant validation or change their saved approval.
+    """
+    # The editor distinguishes contour:ID from primitive:ID. Uploaded graphs may
+    # reuse an ID across those namespaces; only the emitted SVG IDs need to differ.
+    contours = graph.get('contours', [])
+    claimed = {member for c in contours for member in c['members']}
+    loose = {p['element_id'] for p in graph['primitives']} - claimed
+    if any(c['contour_id'] in loose for c in contours):
+        used = loose | {c['contour_id'] for c in contours}
+        normalized = []
+        for contour in contours:
+            name = contour['contour_id']
+            if name in loose:
+                candidate = 'contour-' + name
+                while candidate in used:
+                    candidate = 'contour-' + candidate
+                used.add(candidate)
+                contour = dict(contour, contour_id=candidate)
+            normalized.append(contour)
+        graph = dict(graph, contours=normalized)
+    from icon_set.model.profiles import Profile, STROKE_WIDTH
+    if graph['profile'] in Profile.__members__:
+        return icon_from_graph(graph).to_svg()
+    from icon_set.model.primitives import primitive_from_dict, Contour, ResolvedDrawing
+    from icon_set.renderers.svg import render_drawing
+    import math
+
+    canvas = graph['canvas_size']
+    if type(canvas) is not int or not 16 <= canvas <= 256:
+        raise ValueError('The saved graph needs an integer canvas size from 16 to 256.')
+    width = graph.get('style', {}).get('stroke_width', STROKE_WIDTH)
+    if type(width) not in (int, float) or not math.isfinite(width) or width <= 0:
+        raise ValueError('The saved graph needs a finite positive stroke width.')
+    drawing = ResolvedDrawing(
+        tuple(primitive_from_dict(p) for p in graph['primitives']),
+        tuple(Contour(c['contour_id'], tuple(c['members']), c['closed']) for c in graph.get('contours', [])),
+        (), (),
+    )
+    return render_drawing(drawing, width=canvas, height=canvas, icon_id=graph['icon_id'], stroke_width=width)
+
+
 def icon_from_graph(graph):
     from icon_set.model.icons.base import Icon
     from icon_set.model.keyshapes import Keyshape, FreeKeyshapeSpec

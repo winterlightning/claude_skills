@@ -23,7 +23,7 @@ let downloadedSVG;
 const elements=new Map(), storage=new Map();
 const $=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id);};
 const context=vm.createContext({console,Blob:class{constructor(parts){downloadedSVG=parts.join('');}},URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}},setTimeout:fn=>fn(),window:{addEventListener(){},confirm:()=>true},
-  document:{getElementById:$,createElement:()=>new Element(),createElementNS:()=>new Element(),addEventListener:(_event,fn)=>fn()},
+  document:{getElementById:$,querySelector:()=>null,createElement:()=>new Element(),createElementNS:()=>new Element(),addEventListener:(_event,fn)=>fn()},
   localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
   fetch:async()=>response({svg_sha256:'sha',edit:null,previous_versions:[]})});
 function response(body,ok=true){return {ok,headers:{get:()=> 'application/json'},json:async()=>body};}
@@ -265,6 +265,16 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   const references={...resizeIcon,relationships:[{kind:'touching',members:['outline','extra']}],human_figures:[{head:'outline',torso:'extra'}]};
   const remaining=editor.withoutStrokes(references,editor.groups(references),['contour:outline']);
   assert.equal(remaining.primitives.length,1);assert.equal(remaining.contours.length,0);assert.equal(remaining.relationships.length,0);assert.equal(remaining.human_figures.length,0);
+  const overlappingIds={primitives:[
+    {kind:'line',element_id:'stroke-1',start:[2,2],end:[10,2]},
+    {kind:'line',element_id:'stroke-2',start:[2,10],end:[10,10]}
+  ],contours:[
+    {contour_id:'stroke-2',members:['stroke-1'],closed:false},
+    {contour_id:'stroke-1',members:['stroke-2'],closed:false}
+  ]};
+  const kept=editor.withoutStrokes(overlappingIds,editor.groups(overlappingIds),['contour:stroke-2']);
+  assert.deepEqual(Array.from(kept.primitives,p=>p.element_id),['stroke-2']);
+  assert.deepEqual(Array.from(kept.contours,c=>c.contour_id),['stroke-1']);
   // Curve handles edit only their own controls, keeping endpoints and joins intact.
   context.fetch=async()=>response({svg_sha256:'sha',edit:null});
   editor.open({...icon,key:'sub/curve-controls'});$('editingTab').onclick();await tick();

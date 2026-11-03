@@ -38,7 +38,7 @@ if __package__:
     from .reviewer_stats import current_decisions, current_reviews, reviewer_stats
     from . import icon_query
     from .upload_validation import validate_upload
-    from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
+    from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, svg_from_graph, sha, safe_svg
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from .generation import GenerationManager
     from .review_icon import FeedbackReviewManager
@@ -60,7 +60,7 @@ else:
     from reviewer_stats import current_decisions, current_reviews, reviewer_stats
     import icon_query
     from upload_validation import validate_upload
-    from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
+    from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, svg_from_graph, sha, safe_svg
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from generation import GenerationManager
     from review_icon import FeedbackReviewManager
@@ -900,10 +900,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 variant = parse_qs(parsed.query).get('variant', [None])[0]
                 choice = self.server.artwork.get(key)
                 if variant == 'browser_edit':
-                    edit = self.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
+                    base = parse_qs(parsed.query).get('sha', [baseline(icon)['svg_sha256']])[0]
+                    if base not in (baseline(icon)['svg_sha256'], ((choice or {}).get('uploaded') or {}).get('svg_sha256')):
+                        raise ValueError('The manual upload changed. Reload before editing it.')
+                    edit = self.stroke_edits.get(key, base)
+                    selected_edit = (choice or {}).get('edited') or {}
+                    if not edit and selected_edit.get('source_svg_sha256') == base:
+                        edit = selected_edit
                     if not edit:
                         raise ValueError('No browser edit has been saved yet.')
-                    selected = {'svg': icon_from_graph(edit['edited_graph']).to_svg()}
+                    selected = {'svg': svg_from_graph(edit['edited_graph'])}
                 else:
                     selected = resolve_artwork(icon, choice, variant=variant)
                 if not choice and not icon.get('uploaded_icon') and variant is None and icon.get('artwork_source', 'use_org') != 'use_org':

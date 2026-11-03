@@ -5,7 +5,9 @@
   let icon=null, data=null, file=null, token=0, busy=false;
   const labels={use_org:'Original',use_upload:'Manual Edit',use_edited:'Browser Edit'};
   const current=()=>{const mode=data?.choice?.source_mode || data?.source_mode || icon?.artwork_source || 'use_org';return mode==='work_fix'?'use_org':mode;};
-  const preview=variant=>'../api/icon-artwork/svg?icon='+encodeURIComponent(icon.key)+'&variant='+variant+'&v='+(data?.choice?.revision || 0)+'-'+(data?.edit_revision || 0);
+  const preview=variant=>'../api/icon-artwork/svg?icon='+encodeURIComponent(icon.key)+'&variant='+variant+
+    (variant==='browser_edit'?'&sha='+encodeURIComponent(window.StrokeEditor?.baseSha?.(icon.key) || data?.svg_sha256 || icon.svg_sha256):'')+
+    '&v='+(data?.choice?.revision || 0)+'-'+(data?.edit_revision || 0);
   function tab(name,focus=false){
     for(const key of tabs){$(key+'EditPanel').hidden=key!==name;$(key+'EditTab').setAttribute('aria-selected',String(key===name));$(key+'EditTab').tabIndex=key===name?0:-1;}
     if(focus)$(name+'EditTab').focus();

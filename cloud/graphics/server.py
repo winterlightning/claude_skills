@@ -21,7 +21,7 @@ import json
 import os
 import traceback
 
-from icon_set.scripts.edit_validation import icon_from_graph
+from icon_set.scripts.edit_validation import svg_from_graph
 from icon_set.scripts.icon_artwork import baseline, build_artwork_choice, resolve_artwork, sha
 from icon_set.scripts.stroke_edits import EditConflict, GRAPH_FIELDS, build_edit_document, validate_edit
 from icon_set.scripts.svg_graph import graph_from_svg
@@ -30,7 +30,7 @@ MAX_BODY = 4 * 1024 * 1024
 
 
 def render(graph: dict) -> dict:
-    document = icon_from_graph(graph).to_svg()
+    document = svg_from_graph(graph)
     return {'svg': document, 'svg_sha256': sha(document)}
 
 

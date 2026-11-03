@@ -150,8 +150,16 @@ def build_paths(drawing: ResolvedDrawing) -> list[dict]:
 def render_svg(icon: "Icon") -> str:
     from ..model.icons.sub._text_base import canvas_dimensions
     width, canvas = canvas_dimensions(icon)
-    paths = build_paths(icon.draw())
-    overrides = getattr(icon, "PATH_STROKE_WIDTHS", {})
+    return render_drawing(icon.draw(), width=width, height=canvas, icon_id=icon.icon_id,
+                          stroke_width=icon.STROKE_WIDTH,
+                          path_stroke_widths=getattr(icon, "PATH_STROKE_WIDTHS", {}))
+
+
+def render_drawing(drawing: ResolvedDrawing, *, width: int, height: int, icon_id: str,
+                   stroke_width: float = STROKE_WIDTH, path_stroke_widths: dict | None = None) -> str:
+    """Render saved geometry on its own canvas, including custom uploaded families."""
+    paths = build_paths(drawing)
+    overrides = path_stroke_widths or {}
     unknown = set(overrides) - {path["id"] for path in paths}
     if unknown:
         raise ValueError(f"Unknown stroke override paths: {sorted(unknown)}")
@@ -160,13 +168,13 @@ def render_svg(icon: "Icon") -> str:
            for v in overrides.values()):
         raise ValueError("Path stroke widths must be finite positive numbers")
     if not paths:
-        raise ValueError(f"{icon.icon_id}: an icon must contain drawable geometry")
+        raise ValueError(f"{icon_id}: an icon must contain drawable geometry")
     lines = [
-        f'<svg xmlns="{SVG_NS}" width="{width}" height="{canvas}" '
-        f'viewBox="0 0 {width} {canvas}" fill="{FILL}" stroke="{STROKE}" '
-        f'stroke-width="{icon.STROKE_WIDTH}" stroke-linecap="{LINE_CAP}" '
+        f'<svg xmlns="{SVG_NS}" width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}" fill="{FILL}" stroke="{STROKE}" '
+        f'stroke-width="{stroke_width}" stroke-linecap="{LINE_CAP}" '
         f'stroke-linejoin="{LINE_JOIN}">',
-        f'  <title>{escape(icon.icon_id)}</title>',
+        f'  <title>{escape(icon_id)}</title>',
     ]
     for path in paths:
         width_attr = (f' stroke-width="{overrides[path["id"]]}"'

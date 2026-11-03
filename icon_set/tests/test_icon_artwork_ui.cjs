@@ -12,6 +12,12 @@ const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
  const ui=context.window.IconArtwork;
  ui.open(original);await tick();assert.equal($('artworkMode').value,'use_org');
+ assert.match($('pickPreview_use_edited').src,/variant=browser_edit&sha=source&/);
+ context.window.StrokeEditor.baseSha=()=> 'manual-base';
+ ui.editSaved(original.key,2);
+ assert.match($('pickPreview_use_edited').src,/variant=browser_edit&sha=manual-base&/);
+ assert.doesNotMatch($('pickPreview_use_org').src,/&sha=/);
+ context.window.StrokeEditor.baseSha=()=>null;
  $('artworkMode').value='use_upload';await $('artworkApply').onclick();assert.match($('artworkStatus').textContent,/Manual Edit first/);
  $('artworkFile').files=[{name:'bad.png',size:1}];$('artworkFile').onchange();assert.match($('manualEditStatus').textContent,/SVG file/);
  const svg='<svg viewBox="0 0 48 48"><path d="M0 0L20 20"/></svg>';
