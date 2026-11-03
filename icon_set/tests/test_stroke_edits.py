@@ -29,6 +29,19 @@ def example():
 
 
 class StrokeEditTests(unittest.TestCase):
+    def test_deletion_keeps_primitive_and_contour_namespaces_separate(self):
+        from icon_set.scripts.stroke_edits import stroke_groups, without_strokes
+        graph = {'primitives': [
+            {'kind': 'line', 'element_id': 'stroke-1', 'start': [2, 2], 'end': [10, 2]},
+            {'kind': 'line', 'element_id': 'stroke-2', 'start': [2, 10], 'end': [10, 10]},
+        ], 'contours': [
+            {'contour_id': 'stroke-2', 'members': ['stroke-1'], 'closed': False},
+            {'contour_id': 'stroke-1', 'members': ['stroke-2'], 'closed': False},
+        ]}
+        remaining = without_strokes(deepcopy(graph), stroke_groups(graph), ['contour:stroke-2'])
+        self.assertEqual([p['element_id'] for p in remaining['primitives']], ['stroke-2'])
+        self.assertEqual([c['contour_id'] for c in remaining['contours']], ['stroke-1'])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

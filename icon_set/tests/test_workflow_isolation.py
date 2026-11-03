@@ -91,7 +91,8 @@ class ProductionTests(IconUploadTests):
         status, runtime = self.call('GET', '/api/runtime')
         self.assertEqual(status, 200)
         self.assertEqual(runtime, {'mode': 'production', 'can_generate': False,
-                                  'can_edit': True, 'can_upload': True})
+                                  'can_edit': True, 'can_upload': True,
+                                  'production_api': '', 'storage': 'sqlite'})
 
     def test_agent_and_source_mutations_are_disabled(self):
         self.assertFalse(hasattr(self.server, 'generation'))

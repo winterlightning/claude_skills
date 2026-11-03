@@ -88,6 +88,7 @@ class ArtworkTests(unittest.TestCase):
 
     def build(self, icon, *, all=False, report=False):
         with patch.object(builder, 'icons_in', return_value=[icon]), \
+             patch.object(builder, 'create', return_value=icon), \
              patch('icon_set.model.icons.registry.all_icons', return_value=[icon]), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), redirect_stdout(io.StringIO()):
             return builder.build(self.root/'dist', self.root/'png', write_png=True, only=['solo'],
@@ -100,6 +101,7 @@ class ArtworkTests(unittest.TestCase):
         self.store.save(self.icon, self.data, 'jakes', self.edits)
         model = icon_from_graph(self.icon)
         with patch.object(builder, 'icons_in', return_value=[model]), \
+             patch.object(builder, 'create', return_value=model), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), \
              patch.object(builder, 'open_artwork_store', side_effect=AssertionError('Original build read manual state')), \
              redirect_stdout(io.StringIO()):
@@ -198,6 +200,35 @@ class ArtworkAPITests(StrokeEditAPITests):
         self.assertEqual(response.read().decode(),icon_from_graph(edit['edited_graph']).to_svg())
         connection.close()
         self.assertIsNone(self.server.artwork.get(icon['key']))
+
+    def test_browser_preview_uses_the_requested_edit_base(self):
+        import http.client
+        from icon_set.scripts.svg_graph import graph_from_svg
+        from icon_set.scripts.edit_validation import svg_from_graph
+
+        icon = portrait()
+        (self.dist/'gallery/icons.json').write_text(json.dumps({'icons': [icon]}))
+        choice = self.server.artwork.save(icon, {'svg_sha256': 'fixture', 'revision': 0,
+            'action': 'upload', 'source_mode': 'use_org', 'svg': SVG}, 'jakes', self.server.stroke_edits)
+        upload = choice['uploaded']
+        manual = dict(icon, **graph_from_svg(upload['svg'], canvas=48, family='solo',
+                                             profile='SOLO48', icon_id=icon['icon_id']))
+        manual['svg_sha256'] = upload['svg_sha256']
+        edits = []
+        for base in (icon, manual):
+            edit = self.server.stroke_edits.save(base, {'svg_sha256': base['svg_sha256'],
+                'revision': 0, 'offsets': {}}, 'jakes')
+            edits.append(svg_from_graph(edit['edited_graph']))
+        self.assertNotEqual(*edits)
+        for base, expected in [('fixture', edits[0]), (upload['svg_sha256'], edits[1]), ('stale', None)]:
+            connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+            connection.request('GET', '/api/icon-artwork/svg?icon='+icon['key']+'&variant=browser_edit&sha='+base)
+            response = connection.getresponse()
+            body = response.read().decode()
+            connection.close()
+            self.assertEqual(response.status, 200 if expected else 400)
+            if expected:
+                self.assertEqual(body, expected)
 
     def test_published_manual_svg_still_displays_without_local_choice_store(self):
         icon = portrait()

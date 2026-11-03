@@ -43,9 +43,10 @@
   }
   function withoutStrokes(drawing, allGroups, deleted) {
     const result=clone(drawing),removed=new Set(allGroups.filter(g=>deleted.includes(g.id)).flatMap(g=>g.members));
-    for(const c of result.contours || [])if(c.members.some(id=>removed.has(id)))removed.add(c.contour_id);
+    const removedContours=new Set((result.contours || []).filter(c=>c.members.some(id=>removed.has(id))).map(c=>c.contour_id));
     result.primitives=result.primitives.filter(p=>!removed.has(p.element_id));
-    if(result.contours)result.contours=result.contours.filter(c=>!removed.has(c.contour_id));
+    if(result.contours)result.contours=result.contours.filter(c=>!removedContours.has(c.contour_id));
+    for(const id of removedContours)removed.add(id);
     if(result.relationships)result.relationships=result.relationships.filter(r=>!r.members.some(id=>removed.has(id)));
     if(result.human_figures)result.human_figures=result.human_figures.filter(f=>!removed.has(f.head)&&!removed.has(f.torso));
     return result;

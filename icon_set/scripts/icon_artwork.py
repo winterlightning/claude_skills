@@ -17,12 +17,12 @@ import xml.etree.ElementTree as ET
 
 if __package__:
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
-    from .edit_validation import icon_from_graph
+    from .edit_validation import icon_from_graph, svg_from_graph
     from .workspace import DEFAULT_DATABASE
     from . import state_db
 else:
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
-    from edit_validation import icon_from_graph
+    from edit_validation import icon_from_graph, svg_from_graph
     from workspace import DEFAULT_DATABASE
     import state_db
 
@@ -295,7 +295,7 @@ def resolve_artwork(record, choice, *, variant=None):
         edit = choice.get('edited')
         if not edit or effective_validation_status(edit) != 'pass':
             raise ValueError('The saved gallery edit is not accepted for use.')
-        document = icon_from_graph(edit['edited_graph']).to_svg()
+        document = svg_from_graph(edit['edited_graph'])
         return {'svg': document, 'svg_sha256': sha(document), 'source_mode': mode,
                 'graph': edit['edited_graph'], 'validation_override': edit.get('validation_override'),
                 'automatic_status': edit['validation']['status'], 'edit': edit}

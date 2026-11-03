@@ -316,6 +316,34 @@ accepted failed originals are also available in the live icon catalog.
 Deploy this feature by pulling the published assets and restarting the Python
 server once. Later edits and approvals need no rebuild or restart.
 
+### Uploaded icon thumbnails and saved edit previews
+
+Uploaded families such as `solo-64` use their saved canvas for Browser Edit
+previews, even when their profile name is not a Python build profile. Preview
+rendering does not change validation or approval. The gallery list must also
+include an uploaded icon's current artwork choice so its thumbnail URL names
+the selected revision rather than the cached original.
+
+The renderer supports saved custom canvas sizes; it does not require a new
+hard-coded profile for each family. Pick previews name the editor's active base
+(Original or Manual Upload). A cached upload graph must not change that base,
+and deleting a contour must not delete another contour with a matching primitive ID.
+
+The regression came from an integration gap: `02642835` excluded uploaded
+choices from the list view, then `dce21418` enabled browser edits for uploads
+without updating that view or the custom-profile renderer. `f7b53787` later
+made SVG serving depend on the same stored pick. Immutable thumbnail caching
+(`a376188c`) makes a stale original URL persist; the fix restores URLs containing
+the selected revision hash. Rebuilds must still discard superseded choices.
+
+The fix requires deploying the updated Worker, graphics container and gallery
+JavaScript assets, and applying
+`cloud/worker/migrations/0025_uploaded_artwork_choices.sql` to the serving D1
+database. The migration repairs existing current artwork selections in the
+list and preserves drawings, choice documents, reviews, and counts. No icon
+rebuild is needed. The production and `-next`
+Workers currently share that database; this is a production release step.
+
 ## Side combination 64 (combine run → Experiment → review)
 
 **Combine approved side pairs** (Progression › Side pairs) shows the number of available pairs

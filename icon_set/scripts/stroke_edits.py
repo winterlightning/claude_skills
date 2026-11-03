@@ -127,10 +127,11 @@ def normalized_deleted_strokes(icon, deleted):
 def without_strokes(graph, groups, deleted):
     """Remove entire strokes and declarations that reference their geometry."""
     removed = {member for group in groups if group['id'] in deleted for member in group['members']}
-    removed.update(c['contour_id'] for c in graph.get('contours', []) if any(m in removed for m in c['members']))
+    removed_contours = {c['contour_id'] for c in graph.get('contours', []) if any(m in removed for m in c['members'])}
     graph['primitives'] = [p for p in graph['primitives'] if p['element_id'] not in removed]
     if 'contours' in graph:
-        graph['contours'] = [c for c in graph['contours'] if c['contour_id'] not in removed]
+        graph['contours'] = [c for c in graph['contours'] if c['contour_id'] not in removed_contours]
+    removed.update(removed_contours)
     if 'relationships' in graph:
         graph['relationships'] = [r for r in graph['relationships'] if not any(m in removed for m in r['members'])]
     if 'human_figures' in graph:
