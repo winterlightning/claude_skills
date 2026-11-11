@@ -31,6 +31,12 @@ const LAB = JSON.parse(readFileSync(new URL('../../published/gallery/laboratory.
 const {values: args} = parseArgs({options: {'base-url': {type: 'string'}, ids: {type: 'string'}, size: {type: 'string', default: '64'},
   // How far a refit may move from the pick (defaults: the strict pass). A wider pass is for a person to review.
   'max-cut': {type: 'string', default: '0.04'}, 'max-gap': {type: 'string', default: '4'}, balance: {type: 'string', default: '0.8-1.3'},
+  // --search: for the picks no stack or corner fits, every main and sub size (×0.7–1.25) with each part anchored in its
+  // corner of each keyshape, the least changed first; a drawing the page cannot split (transforms, element numbers
+  // that no longer match it) moves whole. For a person to review, like a wider pass.
+  search: {type: 'boolean'},
+  // --any-side: no same-side check (the sub may sit level instead of beside the main): only with a person's review.
+  'any-side': {type: 'boolean'},
   out: {type: 'string'}}});
 const MAX_CUT = Number(args['max-cut']), MAX_GAP = Number(args['max-gap']);
 const SIZE = Number(args.size);
@@ -62,6 +68,7 @@ const inner = name => KEYSHAPES[name].map((v, i) => i < 2 ? v + 2 : v - 2);     
 const box = layout => [Math.min(...layout.map(b => b.x)), Math.min(...layout.map(b => b.y)),
                        Math.max(...layout.map(b => b.x + b.w)), Math.max(...layout.map(b => b.y + b.h))];
 const union = (a, b) => [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
+const unionBox = layout => { const [x0, y0, x1, y1] = box(layout);return {x: x0, y: y0, w: x1 - x0, h: y1 - y0}; };
 function measure(main, sub) {
   const u = union(box(main), box(sub)), painted = [u[0] - 2, u[1] - 2, u[2] + 2, u[3] + 2];
   let best = null;
@@ -176,6 +183,25 @@ function candidates(position, main, sub) {
   return out;
 }
 
+// --search candidates: each part anchored in its corner of a keyshape at a size of its own, least changed first.
+const CORNERS = {br: [[0, 0], [1, 1]], tr: [[0, 1], [1, 0]], bl: [[1, 0], [0, 1]], tl: [[1, 1], [0, 0]],
+                 ri: [[0, .5], [1, .5]], le: [[1, .5], [0, .5]], to: [[.5, 1], [.5, 0]], bo: [[.5, 0], [.5, 1]]};
+function searchCandidates(position, main, sub) {
+  const anchors = CORNERS[position] || [[0, 0], [1, 1]];
+  const [mw, mh] = size(main), [sw, sh] = size(sub), out = [];
+  for (const target of Object.keys(KEYSHAPES)) {
+    const [x0, y0, x1, y1] = inner(target), W = x1 - x0, H = y1 - y0;
+    for (let km = 0.7; km <= 1.25; km += 0.02) for (let ks = 0.7; ks <= 1.3; ks += 0.025) {
+      if (mw * km > W + .5 || mh * km > H + .5 || sw * ks > W + .5 || sh * ks > H + .5) continue;
+      const m = place(main, km, x0 + (W - mw * km) * anchors[0][0], y0 + (H - mh * km) * anchors[0][1]);
+      const s = place(sub, ks, x0 + (W - sw * ks) * anchors[1][0], y0 + (H - sh * ks) * anchors[1][1]);
+      if (!measure(m, s).ok) continue;
+      out.push({target, main: m, sub: s, score: Math.abs(Math.log(km)) + Math.abs(Math.log(ks)) + 2 * Math.abs(Math.log(ks / km))});
+    }
+  }
+  return out.sort((a, b) => a.score - b.score).slice(0, 80);
+}
+
 const keyshapes = KEYSHAPE_TABLE;
 const wanted = args.ids ? new Set(args.ids.split(',')) : null;
 const result = {}, unfit = [];
@@ -202,12 +228,29 @@ for (let after = null; ;) {
       // A single box without element numbers takes them all (side-fill-data.js units), as the pages place it.
       const units = (layout, source) => layout.length === 1 && !layout[0].paths
         ? [{...layout[0], paths: Layout.elements(drawings[source].svg).sources.map((b, i) => b ? i : null).filter(i => i !== null)}] : layout;
-      let mainUnits, subUnits;
+      let mainUnits, subUnits, whole = false;
       try { mainUnits = units(pick.main.layout, pair.main); subUnits = units(pick.sub.layout, pair.sub); }
       catch (error) {
-        // A drawing with transforms cannot be split into elements: its pick is laid out by hand on its pair page.
-        unfit.push({id: pair.id, rank: pick.rank, concept: pair.concept, measured: measure(pick.main.layout, pick.sub.layout).painted, why: error.message});
-        continue;
+        // A drawing with transforms cannot be split into elements: its pick is laid out by hand on its pair page, or
+        // with --search moved whole (its boxes as they are; the page places such a drawing whole in them).
+        if (!args.search) {
+          unfit.push({id: pair.id, rank: pick.rank, concept: pair.concept, measured: measure(pick.main.layout, pick.sub.layout).painted, why: error.message});
+          continue;
+        }
+        mainUnits = pick.main.layout; subUnits = pick.sub.layout; whole = true;
+      }
+      // Element numbers that no longer match the drawing (it was redrawn): with --search one box over all of it.
+      const allOf = (layout, source) => [{...unionBox(layout), paths: Layout.elements(drawings[source].svg).sources.map((b, i) => b ? i : null).filter(i => i !== null)}];
+      if (args.search && !whole) {
+        for (const [role, source] of [['main', pair.main], ['sub', pair.sub]]) {
+          const listed = (role === 'main' ? mainUnits : subUnits).flatMap(u => u.paths || []).sort((a, b) => a - b);
+          let drawable;
+          try { drawable = Layout.elements(drawings[source].svg).sources.map((b, i) => b ? i : null).filter(i => i !== null); }
+          catch { whole = true; break; }
+          if (listed.length !== drawable.length || listed.some((v, i) => v !== drawable[i])) {
+            if (role === 'main') mainUnits = allOf(mainUnits, source); else subUnits = allOf(subUnits, source);
+          }
+        }
       }
       // What the sub cuts from the main, and how far apart the parts are.
       const reading = (mainLayout, subLayout) => {
@@ -221,16 +264,25 @@ for (let after = null; ;) {
         return [0, 1].map(i => { const d = (b[i] + b[i + 2]) / 2 - (a[i] + a[i + 2]) / 2;return Math.abs(d) < 4 ? 0 : Math.sign(d); }); };
       const sideBefore = side(mainUnits, subUnits);
       let kept = null, why = 'no candidate';
-      for (const c of candidates(pair.id.slice(-2), mainUnits, subUnits)) {
+      const tries = args.search ? [...candidates(pair.id.slice(-2), mainUnits, subUnits), ...searchCandidates(pair.id.slice(-2), mainUnits, subUnits)]
+        : candidates(pair.id.slice(-2), mainUnits, subUnits);
+      for (const c of tries) {
         const m = measure(c.main, c.sub);
         if (!m.ok) { why = `candidate measures ${m.painted.join(',')}`; if (process.env.DEBUG) console.log(c.target, why); continue; }
         try {
-          Layout.preview({keyshapes, position: pair.id.slice(-2), options: pick.options, size: SIZE, main: part('main', pair.main), sub: part('sub', pair.sub),
-                          proposal: {main: {units: c.main}, sub: {units: c.sub}}});
+          if (whole) {
+            // Not splittable: combined as the page will combine it, held to the canvas.
+            const r = Fill.combine({main: {...part('main', pair.main), layout: c.main}, sub: {...part('sub', pair.sub), layout: c.sub}, options: pick.options, size: SIZE});
+            const b = I.bounds(r.geometry);
+            if (!b || b.some(v => v < -.01 || v > SIZE + .01)) throw new Error('ink outside the canvas');
+          } else {
+            Layout.preview({keyshapes, position: pair.id.slice(-2), options: pick.options, size: SIZE, main: part('main', pair.main), sub: part('sub', pair.sub),
+                            proposal: {main: {units: c.main}, sub: {units: c.sub}}});
+          }
           const after = reading(c.main, c.sub);
           if (after.cut > before.cut + MAX_CUT) throw new Error(`cuts ${Math.round(after.cut * 100)}% of the main away (now ${Math.round(before.cut * 100)}%)`);
           const sideAfter = side(c.main, c.sub);
-          if (sideAfter.some((v, i) => v !== sideBefore[i])) throw new Error(`the sub moves to another side of the main (${sideBefore} → ${sideAfter})`);
+          if (!args['any-side'] && sideAfter.some((v, i) => v !== sideBefore[i])) throw new Error(`the sub moves to another side of the main (${sideBefore} → ${sideAfter})`);
           if (after.gap > before.gap + MAX_GAP) throw new Error(`parts drift apart (${after.gap.toFixed(1)}px, now ${before.gap.toFixed(1)}px)`);
           kept = {main: c.main, sub: c.sub, keyshape: m.name};
           break;
