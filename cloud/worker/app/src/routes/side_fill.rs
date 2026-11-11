@@ -663,13 +663,13 @@ pub async fn unapproved_parts(db: &worker::D1Database, key: &str) -> Result<Opti
 
 /// The keyshape a pick fills, as the fill side pair pages measure it (side-fill-overlay.js keyshape): the parts' boxes
 /// (placed centerlines) plus the 4px stroke, the nearest of a 56 square, 60×44 or 44×60 when within 1px, else the
-/// measured box as FREE. At 72 the same keyshapes scaled by 72/64 (a 63 square, 67.5×49.5, 49.5×67.5). No profile
-/// defines side combination keyshapes, so Icon review reads them from the record.
+/// measured box as FREE. At 72 the keyshapes the site's Side combination 72 icons carry: a 64 square (4..68), 68×54,
+/// 54×68, 68×50 and 50×68. No profile defines side combination keyshapes, so Icon review reads them from the record.
 fn keyshape_of(layouts: &[Option<&str>], grid: i64) -> (String, Vec<f64>) {
-    let k = grid as f64 / 64.0;
-    let scaled = |b: [f64; 4]| b.map(|v| v * k);
-    let keyshapes: [(&str, [f64; 4]); 3] = [("SQUARE", scaled([4.0, 4.0, 60.0, 60.0])), ("HRECT", scaled([2.0, 10.0, 62.0, 54.0])),
-                                            ("VRECT", scaled([10.0, 2.0, 54.0, 62.0]))];
+    const AT_64: [(&str, [f64; 4]); 3] = [("SQUARE", [4.0, 4.0, 60.0, 60.0]), ("HRECT", [2.0, 10.0, 62.0, 54.0]), ("VRECT", [10.0, 2.0, 54.0, 62.0])];
+    const AT_72: [(&str, [f64; 4]); 5] = [("SQUARE", [4.0, 4.0, 68.0, 68.0]), ("HRECT", [2.0, 9.0, 70.0, 63.0]), ("VRECT", [9.0, 2.0, 63.0, 70.0]),
+                                          ("HRECT_M", [2.0, 11.0, 70.0, 61.0]), ("VRECT_M", [11.0, 2.0, 61.0, 70.0])];
+    let keyshapes: &[(&str, [f64; 4])] = if grid == 72 { &AT_72 } else { &AT_64 };
     let mut b = [f64::INFINITY, f64::INFINITY, f64::NEG_INFINITY, f64::NEG_INFINITY];
     for layout in layouts.iter().flatten() {
         for g in serde_json::from_str::<Vec<Value>>(layout).unwrap_or_default() {

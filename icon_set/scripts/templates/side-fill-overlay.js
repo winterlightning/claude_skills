@@ -1,17 +1,18 @@
 /* The grid and keyshape overlay of a fill side pair tile, at the page's size (64, or 72 with ?size=72).
 
    keyshape(mainLayout, subLayout) measures where a pick's parts sit (their boxes, the placed centerline, plus the 4px
-   stroke): {box, main, sub, ok, name, off_by}. A 64 pair should fill a 56 square, 60×44 or 44×60 (±1); a 72 pair the
-   same scaled 72/64: a 63 square, 67.5×49.5 or 49.5×67.5 (±1). */
+   stroke): {box, main, sub, ok, name, off_by}. A 64 pair should fill a 56 square, 60×44 or 44×60 (±1). A 72 pair one
+   of the keyshapes the site's Side combination 72 icons carry: a 64 square (4..68), 68×54, 54×68, 68×50 or 50×68 (±1). */
 (function () {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
-  const SIZE = window.SideFillData?.size || {canvas: 64, scale: 1};
-  const C = SIZE.canvas, K = SIZE.scale;
-  const KEYSHAPES = Object.fromEntries(Object.entries({SQUARE: [4, 4, 60, 60], HRECT: [2, 10, 62, 54], VRECT: [10, 2, 54, 62]})
-    .map(([n, b]) => [n, b.map(v => v * K)]));
-  const dim = v => +(v * K).toFixed(1);
-  const LABEL = {SQUARE: `SQUARE ${dim(56)}`, HRECT: `RECT ${dim(60)}×${dim(44)}`, VRECT: `VRECT ${dim(44)}×${dim(60)}`};
+  const SIZE = window.SideFillData?.size || {canvas: 64};
+  const C = SIZE.canvas;
+  const KEYSHAPES = C === 72
+    ? {SQUARE: [4, 4, 68, 68], HRECT: [2, 9, 70, 63], VRECT: [9, 2, 63, 70], HRECT_M: [2, 11, 70, 61], VRECT_M: [11, 2, 61, 70]}
+    : {SQUARE: [4, 4, 60, 60], HRECT: [2, 10, 62, 54], VRECT: [10, 2, 54, 62]};
+  const LABEL = Object.fromEntries(Object.entries(KEYSHAPES).map(([n, [x0, y0, x1, y1]]) =>
+    [n, n === 'SQUARE' ? `SQUARE ${x1 - x0}` : `${n.replace('HRECT', 'RECT')} ${x1 - x0}×${y1 - y0}`]));
   const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [a, v] of Object.entries(attrs)) e.setAttribute(a, v); return e; };
   const rect = (cls, [x0, y0, x1, y1]) => el('rect', {class: cls, x: x0, y: y0, width: x1 - x0, height: y1 - y0});
 

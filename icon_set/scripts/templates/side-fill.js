@@ -149,7 +149,7 @@
     document.querySelector('.sc-intro h1').textContent = 'Fill side pairs 72';
     document.querySelector('.sc-intro p:last-child').textContent = 'Every 72px side pair (a 54 main and a 36 sub) combined from the fill variants of '
       + 'its main and sub. A picked pair shows each pick\'s combined icon in order (the first is the pair\'s output; each is in Icon review); open a pair '
-      + 'to pick, adjust the layout or rebuild. The overlay draws the 72px keyshape: a layout must fill a 63 square, 67.5×49.5 or 49.5×67.5 on its guides.';
+      + 'to pick, adjust the layout or rebuild. The overlay draws the 72px keyshape the site\'s Side combination 72 icons use: a layout must fill a 64 square, 68×54, 54×68, 68×50 or 50×68 on its guides.';
     $('guides').title = 'Show the 72px grid and the keyshape over each tile';
     $('original').title = 'Show each pair\'s normal Side combination 72 icon beside its fill output';
   }

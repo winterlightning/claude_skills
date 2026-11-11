@@ -13,7 +13,8 @@ The snapshot (icon_set/data/side-fill-72, data: not in git):
   export.json                   pairs (picks, the pair's own placement, state, note), parts (status, variants), excluded
   parts/<role>/<name>/source.svg            the part's main-54 / sub-36 drawing (its icon on the site)
   parts/<role>/<name>/<variant>.svg         a fill variant as fill-remake made it (stroke-fill/v1 regions tucked 0.5 px)
-  renders/<pair>.svg            the pick fill-remake rendered and reviewed (its rank 1): the goldens' expected drawing
+  renders/<pair>.svg            the pick fill-remake rendered and reviewed (its rank 1)
+  keyshape-fit-layouts.json     picks laid out again to fill a 72 keyshape (cloud/migrate/fit_fill_keyshapes.mjs --size 72)
 
 Pairs fill-remake could only make from a part that is not a main-54 / sub-36 icon (drawn from 64 or a 48 drawing, a
 text label, or none) are not here: export.json `excluded` lists them (the user's decision, 2026-11-11).
@@ -136,6 +137,12 @@ def export_icons():
 
 # ======== d1-import72 ========
 
+def keyshape_fits():
+    """{pair: {rank: {main, sub, keyshape}}}: 72 picks laid out again to fill a 72 keyshape
+    (cloud/migrate/fit_fill_keyshapes.mjs --size 72), by rank."""
+    path = DATA72 / 'keyshape-fit-layouts.json'
+    return json.loads(path.read_text())['pairs'] if path.is_file() else {}
+
 def pick_icon(pair, role, variant):
     source = pair[role]
     return source if variant == 'outline' else fill_key(source, variant)
@@ -147,16 +154,20 @@ def d1_statements(now=None):
     limited to size 72."""
     snap = snapshot()
     now = now or datetime.now(timezone.utc).isoformat(timespec='seconds')
+    fits = keyshape_fits()
     pairs_sql, parts_sql, picks_sql = [], [], []
     for pair in snap['pairs']:
         layouts = [D.q(json.dumps(pair['layout'][r])) if pair['layout'].get(r) else 'NULL' for r in ('main', 'sub')]
         pairs_sql.append(D.pair_statement(pair['id'], D.sort_key(pair['concept'], pair['id']), pair['state'], pair['main'], pair['sub'],
                                           layouts, pair['note'], now, size=SIZE))
         for pick in pair['picks']:
+            fit = fits.get(pair['id'], {}).get(str(pick['rank']))
             for role in ('main', 'sub'):
                 chosen = pick[role]
                 icon = pick_icon(pair, role, chosen['variant'])
-                layout = json.dumps(chosen['layout']) if chosen.get('layout') else None
+                # A pick laid out again to fill a 72 keyshape (fit_fill_keyshapes.mjs --size 72) uses those boxes.
+                boxes = fit[role] if fit else chosen.get('layout')
+                layout = json.dumps(boxes) if boxes else None
                 picks_sql.append(D.pick_statement(pair['id'], role, pick['rank'], icon, layout, None, now,
                                                   exists=chosen['variant'] != 'outline', size=SIZE))
     pairs_sql.append(f"DELETE FROM fill_pairs WHERE size = {SIZE} AND updated_at != {D.q(now)};")
