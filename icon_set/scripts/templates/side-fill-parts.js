@@ -151,6 +151,16 @@
   }
   function restart() { state.cursors = [null];state.at = 0;load(); }
 
+  if (window.SideFillData.size.size === 72) {
+    // The 72 set's parts: main-54 mains and sub-36 subs (the HTML is written for 64).
+    const what = role === 'main' ? 'Fill main icons 72' : 'Fill sub icons 72';
+    document.title = `${what} · Pictographic`;
+    document.querySelector('.sc-intro .eyebrow').textContent = 'SIDE COMBINATIONS 72 · FILL';
+    document.querySelector('.sc-intro h1').textContent = what;
+    document.querySelector('.sc-intro p:last-child').textContent = `Every ${role === 'main' ? '54px main (main-54)' : '36px sub (sub-36)'} a 72 fill `
+      + 'side pair uses: its own icon (the outline) and each fill variant icon with its Icon review status. Redraw any of them in Icon review and every '
+      + 'pair that uses it changes.';
+  }
   let typing;
   $('search').value = state.q;
   $('search').placeholder = 'Name starts with…';

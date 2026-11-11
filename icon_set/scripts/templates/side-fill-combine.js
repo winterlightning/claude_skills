@@ -1,10 +1,12 @@
 /* Fill side pairs combined in the browser: a port of icon_set/scripts/side_fill/pick_combine.py.
  *
- *   SideFillCombine.combine({main: {svg, source, layout, outline}, sub: {…}, options}) → {svg, area, bounds, how}
+ *   SideFillCombine.combine({main: {svg, source, layout, outline}, sub: {…}, options, size}) → {svg, area, bounds, how}
  *
  * A pick's main and sub are icons: a fill variant (stroke-fill/v1, or a flat fill) or, for the outline, the solo /
  * sub icon itself; `source` is that part's solo / sub drawing (its element numbers are what a layout's `paths` name),
- * `layout` the part's boxes on the 64 grid. The main is placed and cut clear of the placed sub exactly as the Python
+ * `layout` the part's boxes on the pair's grid. `size` is 64 (the default) or 72: the 72 pairs are drawn on a 72 canvas
+ * and their stroke-fill regions are tucked 0.5 px under each stroke (stroke-width 1 regions, so no resize opens a gap),
+ * where the 64 ones keep 1.0. The main is placed and cut clear of the placed sub exactly as the Python
  * build does it (combine_fill_side_layouts.place_part, combine_fill_side.cut_main / cut_outline_strokes); shapely's
  * buffers and booleans are Clipper's here (clipper.js), with GEOS's 8 segments per quarter circle, so a combined
  * drawing matches the Python one to a fraction of a square pixel (icon_set/tests/js/side-fill.test.mjs).
@@ -18,11 +20,14 @@
 
   const {parseXml} = CombineSide;
   const {segmentsOf, bbox, unionBoxes, bake, drawables, local} = CombineSide.internals;
-  const CANVAS = 64, HALF_STROKE = 2.0, GAP = 4.0, EPS = 0.05;
+  const HALF_STROKE = 2.0, GAP = 4.0, EPS = 0.05;
+  // What a pair's size sets for the combine (combine() sets them for its own call only).
+  const SIZES = {64: {canvas: 64, tuck: 1.0}, 72: {canvas: 72, tuck: 0.5}};
+  let CANVAS = 64, TUCK = 1.0;
   const MIN_PART_AREA = 4.0, MIN_HOLE_AREA = 2.0, MIN_PART_WIDTH = 2.0, STUB_SHARE = 0.5, DETAIL_AREA = 48.0;
   const SCRAP_AREA = 64.0, FRAGMENT_AREA = 24.0;
   const SAME_MAP = 0.75, OWNER_SHARE = 0.9, SAMPLE_STEP = 0.5, MAX_GROUP_SCALE = 2.0, MAX_GROUP_STRETCH = 1.5;
-  const CLASSIFY_STEP = 0.5, SLIVER = 0.4, TUCK = 1.0, DEFAULT_WIDTH = 4.0;
+  const CLASSIFY_STEP = 0.5, SLIVER = 0.4, DEFAULT_WIDTH = 4.0;
   const CURVE_SAMPLES = 20, CIRCLE_SAMPLES = 64;
   const INHERITED = ['fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit',
                      'fill-rule', 'opacity', 'stroke-opacity', 'fill-opacity'];
@@ -654,9 +659,11 @@
   // stroke_fill_format._dashed: the dash pieces of one continuous centerline, in path-length units.
   function dashed(el, centerline) {
     let pattern = el.attrib['stroke-dasharray'].replace(/,/g, ' ').trim().split(/\s+/).map(Number);
-    const runs = chainSegments(centerline).filter(r => lineLength(r.points) > 0);
-    if (runs.length !== 1) return centerline;
-    const line = runs[0].points, lineLen = lineLength(line);
+    // shapely's linemerge: the runs joined wherever one ends where another starts or ends (a closed path of arcs
+    // comes out of the engine as several runs). Dashing applies only when they make one line, as in Python.
+    const merged = lineMerge(chainSegments(centerline).filter(r => lineLength(r.points) > 0));
+    if (merged === null) return centerline;
+    const line = merged, lineLen = lineLength(line);
     let length = lineLen;
     if (local(el.tag) === 'path' && el.attrib.d) {
       length = pathChains(el.attrib.d, 'fine').reduce((s, c) => s + lineLength(c.points), 0) || lineLen;
@@ -675,6 +682,26 @@
       position = end; into = 0; index = (index + 1) % pattern.length;
     }
     return pieces;
+  }
+
+  // linemerge of runs into one polyline (points), or null when they do not form one unbranched line. A run joins the
+  // line at either end, reversed when needed; the first run sets the direction.
+  function lineMerge(runs) {
+    if (!runs.length) return null;
+    const EPS = 1e-6, same = (a, b) => Math.abs(a[0] - b[0]) <= EPS && Math.abs(a[1] - b[1]) <= EPS;
+    const rest = runs.slice(1).map(r => r.points);
+    let line = runs[0].points.slice();
+    while (rest.length) {
+      const start = line[0], end = line[line.length - 1];
+      const at = rest.findIndex(p => same(p[0], end) || same(p[p.length - 1], end) || same(p[p.length - 1], start) || same(p[0], start));
+      if (at < 0) return null;
+      const [p] = rest.splice(at, 1);
+      if (same(p[0], end)) line = line.concat(p.slice(1));
+      else if (same(p[p.length - 1], end)) line = line.concat(p.slice(0, -1).reverse());
+      else if (same(p[p.length - 1], start)) line = p.slice(0, -1).concat(line);
+      else line = p.slice(1).reverse().concat(line);
+    }
+    return line;
   }
 
   // LineString.interpolate: the point a distance along a polyline (its start for a zero-length one).
@@ -1152,8 +1179,15 @@
     return placePart(fill, source, part.layout || [], options);
   }
 
-  // {main|sub: {svg, source, layout, outline}, options} → {svg, area, bounds, how, main, sub}
+  // {main|sub: {svg, source, layout, outline}, options, size} → {svg, area, bounds, how, main, sub}
   function combine(pick) {
+    const sized = SIZES[pick.size ?? 64] || fail('A fill side pair is 64 or 72.');
+    const before = [CANVAS, TUCK];
+    [CANVAS, TUCK] = [sized.canvas, sized.tuck];
+    try { return combineAt(pick); } finally { [CANVAS, TUCK] = before; }
+  }
+
+  function combineAt(pick) {
     const options = pick.options || {}, main = pick.main, sub = pick.sub;
     let mainSource = main.source, mainFill = main.outline ? null : main.svg;
     if (options.omit && options.omit.length) [mainSource, mainFill] = omitted(mainSource, mainFill, options.omit);
@@ -1218,7 +1252,10 @@
     return best / SCALE;
   }
 
-  return {combine, differs, toSvg, FillError,
+  // A drawing as an SVG on a size's canvas (toSvg outside combine() draws on 64).
+  const toSvgAt = (shape, size = 64) => toSvg(shape, (SIZES[size] || SIZES[64]).canvas);
+
+  return {combine, differs, toSvg, toSvgAt, FillError, SIZES,
           internals: {loaded, placePart, cutMain, distance, normalize, mapShape, cutOutlineStrokes, clearance, readShapes, strokeToPolygon, pathChains,
                       polygons, area, bounds, union, difference, intersection, buffer, stroke, convexHull, outlineBoxes}};
 });

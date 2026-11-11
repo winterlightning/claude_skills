@@ -1,4 +1,7 @@
-//! Fill side pairs (migration 0023): the 64 side pairs combined from fill variants of their main and sub.
+//! Fill side pairs (migrations 0023, 0026): the side pairs combined from fill variants of their main and sub, at 64 (solo /
+//! sub parts, side_combination64 outputs) and at 72 (main-54 / sub-36 parts, combination-72 outputs). Every route takes
+//! `size` (query or body: 64, the default, or 72); a pair is a reference at a size, and nothing of one size is read or
+//! written by a request for the other.
 //!
 //! Every read is bounded: lists are keyset pages on (state, sort_key) indexes with LIMIT (no OFFSET, no COUNT(*)),
 //! picks are primary-key lookups, a part's fill variants come through icons_style_of (style_of, style), and the
@@ -38,10 +41,31 @@ use worker::{Response, Result};
 // A part's fill variants are icons of style fill in its own family (POST /api/icons/styled): solo/<name>--fill,
 // solo/<name>--fill-region-3…, sub/<name>--fill, style_of the solo / sub icon, which is itself the outline.
 const PART_STYLE: &str = "fill";
-// A pick's combined icon is a Side combination 64 icon of style fill (as round / sharp icons are styles of a
-// normal icon, migration 0019): key side_combination64/<reference_id>--fill[-n], style_of the pair's normal key.
-const COMBINED_FAMILY: &str = "side_combination64";
+// A pick's combined icon is a side combination icon of style fill (as round / sharp icons are styles of a normal icon,
+// migration 0019): key side_combination64/<reference_id>--fill[-n] at 64, combination-72/<reference_id>--fill[-n] at 72,
+// style_of the pair's normal key.
 const COMBINED_STYLE: &str = "fill";
+
+/// What differs between the two sizes of fill side pairs.
+struct Size { size: i64, combined_family: &'static str, profile: &'static str, category: &'static str }
+
+const SIZES: [Size; 2] = [
+    Size { size: 64, combined_family: "side_combination64", profile: "SIDE_COMBINATION64", category: "Side" },
+    Size { size: 72, combined_family: "combination-72", profile: "SIDE_COMBINATION72", category: "Side 72" },
+];
+
+fn size_of(n: i64) -> Option<&'static Size> {
+    SIZES.iter().find(|s| s.size == n)
+}
+/// The size a GET names (?size=, default 64), or None for anything but 64 / 72.
+fn size_param(ctx: &Ctx) -> Option<&'static Size> {
+    match ctx.param("size") { None | Some("") => size_of(64), Some(v) => v.parse::<i64>().ok().and_then(size_of) }
+}
+/// The size a POST names ("size": 64 | 72, default 64).
+fn size_field(data: &Value) -> Option<&'static Size> {
+    match data.get("size") { None | Some(Value::Null) => size_of(64), Some(v) => v.as_i64().and_then(size_of) }
+}
+const BAD_SIZE: &str = "size must be 64 or 72.";
 const MAX_LIMIT: i64 = 120;
 const MAX_RANK: i64 = 9;
 const PAIR_STATES: [&str; 3] = ["picked", "unpicked", "uncombined"];
@@ -127,18 +151,18 @@ async fn counts(reads: &Reads<'_>, scope: &str) -> Result<Value> {
 /// The picks and their combined icons of some pairs, by key; with `variants` (the pair page) also every fill variant
 /// of their parts with its review status. The grid leaves the variants out: a pick names its own label. With
 /// `originals`, each pair's normal Side combination 64 icon (the outline pair the fill one is a style of).
-async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool, originals: bool) -> Result<Vec<Value>> {
+async fn details(reads: &Reads<'_>, size: &Size, pairs: &[PairRow], variants_too: bool, originals: bool) -> Result<Vec<Value>> {
     let ids: Vec<&str> = pairs.iter().map(|p| p.reference_id.as_str()).collect();
     let picks: Vec<PickRow> = if ids.is_empty() { vec![] } else {
         reads.all(&format!("SELECT {PICK_COLUMNS} FROM {PICK_FROM} \
-            WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.rank, p.role"),
-            args![json!(ids).to_string()]).await?
+            WHERE p.reference_id IN (SELECT value FROM json_each(?)) AND p.size = ? ORDER BY p.reference_id, p.rank, p.role"),
+            args![json!(ids).to_string(), size.size]).await?
     };
     let mains: Vec<&str> = pairs.iter().filter_map(|p| p.main_source.as_deref()).collect();
     let subs: Vec<&str> = pairs.iter().filter_map(|p| p.sub_source.as_deref()).collect();
     let variants = if variants_too { variants_of(reads, &[mains, subs].concat()).await? } else { HashMap::new() };
     let mut combined_keys: Vec<String> = picks.iter().filter_map(|p| p.combined.clone()).collect();
-    if originals { combined_keys.extend(pairs.iter().map(|p| format!("{COMBINED_FAMILY}/{}", p.reference_id))); }
+    if originals { combined_keys.extend(pairs.iter().map(|p| format!("{}/{}", size.combined_family, p.reference_id))); }
     let combined: HashMap<String, CombinedRow> = if combined_keys.is_empty() { HashMap::new() } else {
         reads.all::<CombinedRow>("SELECT i.key, i.svg_sha256, i.build_failed, \
                 (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review \
@@ -165,9 +189,9 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool, origi
                 "review": c.review.clone().unwrap_or_else(|| "ready".into())}));
             ranks.push(json!({"rank": rank, "main": part("main"), "sub": part("sub"), "options": options, "combined": built}));
         }
-        json!({"id": p.reference_id, "concept": p.concept, "state": p.state, "note": p.note, "sort_key": p.sort_key, "version": p.version as i64,
+        json!({"id": p.reference_id, "size": size.size, "concept": p.concept, "state": p.state, "note": p.note, "sort_key": p.sort_key, "version": p.version as i64,
                "main": p.main_source, "sub": p.sub_source, "picks": ranks,
-               "original": if originals { combined.get(&format!("{COMBINED_FAMILY}/{}", p.reference_id)).map(|c| json!({"key": c.key,
+               "original": if originals { combined.get(&format!("{}/{}", size.combined_family, p.reference_id)).map(|c| json!({"key": c.key,
                    "svg_sha256": c.svg_sha256, "review": c.review.clone().unwrap_or_else(|| "ready".into())})) } else { None },
                "layout": {"main": p.main_layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok()),
                           "sub": p.sub_layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok())},
@@ -178,15 +202,17 @@ async fn details(reads: &Reads<'_>, pairs: &[PairRow], variants_too: bool, origi
 
 /// A key for a pick's combined icon: the pair's `--fill` key when no other pick of the pair holds it, else `--fill-2`,
 /// `--fill-3`… (kept on the pick, so a key never changes hands when ranks move up).
-fn free_combined_key(reference_id: &str, taken: &[String]) -> String {
-    let base = format!("{COMBINED_FAMILY}/{reference_id}--{COMBINED_STYLE}");
+fn free_combined_key(size: &Size, reference_id: &str, taken: &[String]) -> String {
+    let base = format!("{}/{reference_id}--{COMBINED_STYLE}", size.combined_family);
     if !taken.contains(&base) { return base; }
     (2..).map(|n| format!("{base}-{n}")).find(|k| !taken.contains(k)).unwrap()
 }
 
-/// Whether an icon key is a fill side pair's combined icon (side_combination64/<id>--fill[-n]).
+/// Whether an icon key is a fill side pair's combined icon (side_combination64/<id>--fill[-n] or
+/// combination-72/<id>--fill[-n]).
 pub fn is_fill_combined(key: &str) -> bool {
-    key.strip_prefix("side_combination64/").and_then(|rest| rest.split_once("--fill")).is_some_and(|(id, n)| {
+    key.strip_prefix("side_combination64/").or_else(|| key.strip_prefix("combination-72/"))
+        .and_then(|rest| rest.split_once("--fill")).is_some_and(|(id, n)| {
         !id.is_empty() && (n.is_empty() || n.strip_prefix('-').is_some_and(|d| !d.is_empty() && d.bytes().all(|b| b.is_ascii_digit())))
     })
 }
@@ -194,37 +220,41 @@ pub fn is_fill_combined(key: &str) -> bool {
 /// GET /api/side-fill/pairs?state=&after=&limit=&q= → {pairs, next, counts}
 pub async fn pairs(ctx: &Ctx) -> Result<Response> {
     let reads = Reads::new(ctx);
+    let Some(size) = size_param(ctx) else { return http::error(400, BAD_SIZE) };
     let Some(limit) = limit_param(ctx, 60) else { return http::error(400, &format!("limit must be 1 to {MAX_LIMIT}.")) };
     let state = ctx.param("state").filter(|s| !s.is_empty() && *s != "all");
     if state.is_some_and(|s| !PAIR_STATES.contains(&s)) {
         return http::error(400, "state must be picked, unpicked or uncombined.");
     }
-    let mut filters = vec![];
-    let mut values: Vec<Arg> = vec![];
+    let mut filters = vec!["f.size = ?"];
+    let mut values: Vec<Arg> = vec![size.size.into()];
     if let Some(s) = state { filters.push("f.state = ?"); values.push(s.into()); }
     if let Some((from, to)) = prefix_range(ctx.param("q")) { filters.push("f.sort_key >= ? AND f.sort_key < ?"); values.push(from.into()); values.push(to.into()); }
     if let Some(after) = ctx.param("after").filter(|a| !a.is_empty()) { filters.push("f.sort_key > ?"); values.push(after.into()); }
     values.push((limit + 1).into());
-    let filter = if filters.is_empty() { String::new() } else { format!("WHERE {}", filters.join(" AND ")) };
+    let filter = format!("WHERE {}", filters.join(" AND "));
     let mut rows: Vec<PairRow> = reads.all(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f {filter} ORDER BY f.sort_key LIMIT ?"), values).await?;
     let next = if rows.len() as i64 > limit { rows.truncate(limit as usize); rows.last().map(|r| r.sort_key.clone()) } else { None };
-    let items = details(&reads, &rows, false, ctx.param("original") == Some("1")).await?;
-    let totals = counts(&reads, "pairs").await?;
+    let items = details(&reads, size, &rows, false, ctx.param("original") == Some("1")).await?;
+    let totals = counts(&reads, &sql::scope("pairs", size.size)).await?;
     reads.answer(&json!({"pairs": items, "next": next, "counts": totals}))
 }
 
 /// GET /api/side-fill/pair?id= → the pair (as in pairs) with {neighbours: {previous, next}}
 pub async fn pair(ctx: &Ctx) -> Result<Response> {
     let reads = Reads::new(ctx);
+    let Some(size) = size_param(ctx) else { return http::error(400, BAD_SIZE) };
     let Some(id) = ctx.param("id").filter(|i| !i.is_empty()) else { return http::error(400, "Give the pair id.") };
-    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
+    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ? AND f.size = ?"), args![id, size.size]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
     #[derive(Deserialize)]
     struct Id { reference_id: String }
-    let previous = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE sort_key < ? ORDER BY sort_key DESC LIMIT 1", args![row.sort_key.clone()]).await?;
-    let next = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE sort_key > ? ORDER BY sort_key LIMIT 1", args![row.sort_key.clone()]).await?;
-    let mut item = details(&reads, std::slice::from_ref(&row), true, true).await?.remove(0);
+    let previous = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE size = ? AND sort_key < ? ORDER BY sort_key DESC LIMIT 1",
+        args![size.size, row.sort_key.clone()]).await?;
+    let next = reads.first::<Id>("SELECT reference_id FROM fill_pairs WHERE size = ? AND sort_key > ? ORDER BY sort_key LIMIT 1",
+        args![size.size, row.sort_key.clone()]).await?;
+    let mut item = details(&reads, size, std::slice::from_ref(&row), true, true).await?.remove(0);
     item["neighbours"] = json!({"previous": previous.map(|p| p.reference_id), "next": next.map(|p| p.reference_id)});
     reads.answer(&item)
 }
@@ -236,14 +266,15 @@ struct PartRow { key: String, role: String, sort_key: String, status: String, no
 /// GET /api/side-fill/parts?role=main|sub&status=&after=&limit=&q= → {parts: [{…, variants}], next, counts}
 pub async fn parts(ctx: &Ctx) -> Result<Response> {
     let reads = Reads::new(ctx);
+    let Some(size) = size_param(ctx) else { return http::error(400, BAD_SIZE) };
     let role = if ctx.param("role") == Some("sub") { "sub" } else { "main" };
     let Some(limit) = limit_param(ctx, 48) else { return http::error(400, &format!("limit must be 1 to {MAX_LIMIT}.")) };
     let status = ctx.param("status").filter(|s| !s.is_empty() && *s != "all");
     if status.is_some_and(|s| !PART_STATUSES.contains(&s)) {
         return http::error(400, "Unknown part status.");
     }
-    let mut filters = vec!["p.role = ?"];
-    let mut values: Vec<Arg> = vec![role.into()];
+    let mut filters = vec!["p.size = ?", "p.role = ?"];
+    let mut values: Vec<Arg> = vec![size.size.into(), role.into()];
     if let Some(s) = status { filters.push("p.status = ?"); values.push(s.into()); }
     if let Some((from, to)) = prefix_range(ctx.param("q")) { filters.push("p.sort_key >= ? AND p.sort_key < ?"); values.push(from.into()); values.push(to.into()); }
     if let Some(after) = ctx.param("after").filter(|a| !a.is_empty()) { filters.push("p.sort_key > ?"); values.push(after.into()); }
@@ -260,13 +291,13 @@ pub async fn parts(ctx: &Ctx) -> Result<Response> {
         "pair_count": r.pair_count as i64, "sort_key": r.sort_key, "source_sha256": r.source_sha,
         "source_review": r.source_review.clone().unwrap_or_else(|| "ready".into()),
         "variants": variants.get(&r.key).cloned().unwrap_or_default()})).collect();
-    let totals = counts(&reads, role).await?;
+    let totals = counts(&reads, &sql::scope(role, size.size)).await?;
     reads.answer(&json!({"parts": items, "next": next, "counts": totals}))
 }
 
 /// The pair (`id`) moved to the state `next` with its totals, from the state it has when the batch runs (sql::state_moves).
-fn state_moves(ctx: &Ctx, id: &str, next: &str, now: &str) -> Result<Vec<worker::D1PreparedStatement>> {
-    sql::state_moves(next).iter().map(|q| db::stmt(&ctx.db, q, args![id, now])).collect()
+fn state_moves(ctx: &Ctx, id: &str, size: &Size, next: &str, now: &str) -> Result<Vec<worker::D1PreparedStatement>> {
+    sql::state_moves(next).iter().map(|q| db::stmt(&ctx.db, q, args![id, now, size.size])).collect()
 }
 
 /// The pair version a request names, when it names one (a number; anything else is refused by the caller).
@@ -300,11 +331,12 @@ fn committed_version(results: &[worker::D1Result], at: usize) -> Result<i64> {
 pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" { return http::error(401, "Log in to pick fill variants."); }
     let reads = Reads::new(ctx);
+    let Some(size) = size_field(data) else { return http::error(400, BAD_SIZE) };
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
     let (append, insert) = (data["append"] == json!(true), data["insert"] == json!(true));
     if append && insert { return http::error(400, "A pick is appended or inserted, not both."); }
-    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
+    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ? AND f.size = ?"), args![id, size.size]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
     if version.is_some_and(|v| v != row.version as i64) {
@@ -313,8 +345,8 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     #[derive(Deserialize)]
     struct Ranks { top: Option<f64>, here: Option<f64> }
     let asked = data["rank"].as_i64().unwrap_or(1);
-    let ranks = reads.first::<Ranks>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ?",
-        args![asked, id]).await?;
+    let ranks = reads.first::<Ranks>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ? AND size = ?",
+        args![asked, id, size.size]).await?;
     let top = ranks.as_ref().and_then(|r| r.top).unwrap_or(0.0) as i64;
     let exists = ranks.as_ref().and_then(|r| r.here).unwrap_or(0.0) > 0.0;
     // Appending and inserting add a pick (at most 9); replacing changes one that is there.
@@ -340,8 +372,8 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         }
     }
     for role in ["main", "sub"] {
-        if !layout_ok(&data["layout"][role]) {
-            return http::error(400, &format!("The {role} layout must be a list of {{x, y, w, h}} boxes on the 64 grid."));
+        if !layout_ok(&data["layout"][role], size.size) {
+            return http::error(400, &format!("The {role} layout must be a list of {{x, y, w, h}} boxes on the {} grid.", size.size));
         }
     }
     let Some(options) = options_of(&data["options"]) else {
@@ -349,41 +381,43 @@ pub async fn pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     };
     let now = iso_utc(chrono::Utc::now());
     let mut statements = vec![];
-    if let Some(v) = version { statements.push(db::stmt(&ctx.db, sql::GUARD, args![id, v])?); }
+    if let Some(v) = version { statements.push(db::stmt(&ctx.db, sql::GUARD, args![id, v, size.size])?); }
     if insert {
         // Through negative ranks, so the primary key never collides mid-update.
-        statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank + 1) WHERE reference_id = ? AND rank >= ?", args![id, rank])?);
-        statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?);
+        statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank + 1) WHERE reference_id = ? AND size = ? AND rank >= ?",
+            args![id, size.size, rank])?);
+        statements.push(db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND size = ? AND rank < 0", args![id, size.size])?);
     }
     for (role, key) in &chosen {
         let layout = data["layout"][*role].clone();
         let layout_arg: Arg = if layout.is_null() { Arg::Null } else { layout.to_string().into() };
         let options_arg: Arg = match (&options, *role) { (Some(o), "main") => o.to_string().into(), _ => Arg::Null };
         // A changed pick needs building again: built_sha is cleared, the combined icon's key stays with the pick.
-        statements.push(db::stmt(&ctx.db, "INSERT INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) \
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(reference_id, role, rank) DO UPDATE SET icon = excluded.icon, \
+        statements.push(db::stmt(&ctx.db, "INSERT INTO reference_part_fills(reference_id, size, role, rank, icon, layout, options, updated_at, updated_by) \
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(reference_id, size, role, rank) DO UPDATE SET icon = excluded.icon, \
             layout = COALESCE(excluded.layout, reference_part_fills.layout), options = excluded.options, built_sha = NULL, \
             updated_at = excluded.updated_at, updated_by = excluded.updated_by",
-            args![id, *role, rank, key.as_str(), layout_arg, options_arg, now.clone(), user])?);
+            args![id, size.size, *role, rank, key.as_str(), layout_arg, options_arg, now.clone(), user])?);
     }
-    statements.extend(state_moves(ctx, id, "'picked'", &now)?);
+    statements.extend(state_moves(ctx, id, size, "'picked'", &now)?);
     let edited = statements.len();
-    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?);
-    statements.push(db::activity(&ctx.db, user, "fill_pick", Some(id), db::details(vec![("rank", json!(rank)),
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone(), size.size])?);
+    statements.push(db::activity(&ctx.db, user, "fill_pick", Some(id), db::details(vec![("size", json!(size.size)), ("rank", json!(rank)),
         ("main", json!(chosen[0].1)), ("sub", json!(chosen[1].1))]))?);
     let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
     let version = committed_version(&results, edited)?;
-    reads.answer(&json!({"reference_id": id, "rank": rank, "main": chosen[0].1, "sub": chosen[1].1, "updated_at": now, "version": version}))
+    reads.answer(&json!({"reference_id": id, "size": size.size, "rank": rank, "main": chosen[0].1, "sub": chosen[1].1, "updated_at": now, "version": version}))
 }
 
 /// POST /api/side-fill/unpick {reference_id, rank}: drop a pick; the later ranks move up one.
 pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" { return http::error(401, "Log in to change fill picks."); }
     let reads = Reads::new(ctx);
+    let Some(size) = size_field(data) else { return http::error(400, BAD_SIZE) };
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let Some(rank) = data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)) else { return http::error(400, "rank must be 1 to 9.") };
     let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
-    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
+    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ? AND f.size = ?"), args![id, size.size]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
     if version.is_some_and(|v| v != row.version as i64) {
@@ -391,42 +425,44 @@ pub async fn unpick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     }
     #[derive(Deserialize)]
     struct Top { top: Option<f64> }
-    let top = reads.first::<Top>("SELECT max(rank) AS top FROM reference_part_fills WHERE reference_id = ?", args![id]).await?
+    let top = reads.first::<Top>("SELECT max(rank) AS top FROM reference_part_fills WHERE reference_id = ? AND size = ?", args![id, size.size]).await?
         .and_then(|t| t.top).unwrap_or(0.0) as i64;
     // The dropped pick's combined icon goes too unless someone reviewed it (then it stays in Icon review as it is).
     #[derive(Deserialize)]
     struct Orphan { combined: String, reviewed: f64 }
     let orphan = reads.first::<Orphan>("SELECT p.combined, EXISTS (SELECT 1 FROM reviews v WHERE v.icon = p.combined) AS reviewed \
-        FROM reference_part_fills p WHERE p.reference_id = ? AND p.role = 'main' AND p.rank = ? AND p.combined IS NOT NULL",
-        args![id, rank]).await?.filter(|o| o.reviewed == 0.0);
+        FROM reference_part_fills p WHERE p.reference_id = ? AND p.size = ? AND p.role = 'main' AND p.rank = ? AND p.combined IS NOT NULL",
+        args![id, size.size, rank]).await?.filter(|o| o.reviewed == 0.0);
     let now = iso_utc(chrono::Utc::now());
     let left = if top >= rank { top - 1 } else { top };
     let state = if left > 0 { "picked" } else { "unpicked" };
-    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v])).transpose()?.into_iter().collect::<Vec<_>>();
+    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v, size.size])).transpose()?.into_iter().collect::<Vec<_>>();
     statements.extend([
-        db::stmt(&ctx.db, "DELETE FROM reference_part_fills WHERE reference_id = ? AND rank = ?", args![id, rank])?,
+        db::stmt(&ctx.db, "DELETE FROM reference_part_fills WHERE reference_id = ? AND size = ? AND rank = ?", args![id, size.size, rank])?,
         // Later ranks move up; done through a negative rank so the primary key never collides mid-update.
-        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank - 1) WHERE reference_id = ? AND rank > ?", args![id, rank])?,
-        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
+        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -(rank - 1) WHERE reference_id = ? AND size = ? AND rank > ?", args![id, size.size, rank])?,
+        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND size = ? AND rank < 0", args![id, size.size])?,
     ]);
-    statements.extend(state_moves(ctx, id, sql::STATE_AFTER_UNPICK, &now)?);
+    statements.extend(state_moves(ctx, id, size, sql::STATE_AFTER_UNPICK, &now)?);
     let edited = statements.len();
-    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone()])?);
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now.clone(), size.size])?);
     if let Some(o) = &orphan {
         statements.extend(super::icon_list::remove(&ctx.db, &o.combined)?);
         statements.push(db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![o.combined.clone()])?);
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND family = ? AND style = ?", args![o.combined.clone(), COMBINED_FAMILY, COMBINED_STYLE])?);
+        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND family = ? AND style = ?", args![o.combined.clone(), size.combined_family, COMBINED_STYLE])?);
     }
-    statements.push(db::activity(&ctx.db, user, "fill_unpick", Some(id), db::details(vec![("rank", json!(rank)),
+    statements.push(db::activity(&ctx.db, user, "fill_unpick", Some(id), db::details(vec![("size", json!(size.size)), ("rank", json!(rank)),
         ("removed_icon", json!(orphan.as_ref().map(|o| o.combined.clone())))]))?);
     let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
     let version = committed_version(&results, edited)?;
-    reads.answer(&json!({"reference_id": id, "rank": rank, "picks_left": left, "state": state, "version": version}))
+    reads.answer(&json!({"reference_id": id, "size": size.size, "rank": rank, "picks_left": left, "state": state, "version": version}))
 }
 
-/// Layout boxes as reference_part_fills stores them: null, or a list of {x, y, w, h} (and `paths`) on the 64 grid.
-fn layout_ok(layout: &Value) -> bool {
-    let number = |v: &Value| v.as_f64().is_some_and(|n| n.is_finite() && (-64.0..=128.0).contains(&n));
+/// Layout boxes as reference_part_fills stores them: null, or a list of {x, y, w, h} (and `paths`) on the pair's grid
+/// (64 or 72).
+fn layout_ok(layout: &Value, grid: i64) -> bool {
+    let grid = grid as f64;
+    let number = |v: &Value| v.as_f64().is_some_and(|n| n.is_finite() && (-grid..=2.0 * grid).contains(&n));
     layout.is_null() || layout.as_array().is_some_and(|boxes| boxes.len() <= 64 && boxes.iter().all(|b| {
         ["x", "y", "w", "h"].iter().all(|k| number(&b[*k]))
             && (b["paths"].is_null() || b["paths"].as_array().is_some_and(|p| p.len() <= 200 && p.iter().all(|i| i.as_u64().is_some_and(|n| n < 1000))))
@@ -471,18 +507,19 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let user = if user == "system" && super::internal::authorized(ctx) { "side-fill import" } else { user };
     if user == "system" { return http::error(401, "Log in to save fill side pairs."); }
     let reads = Reads::new(ctx);
+    let Some(size) = size_field(data) else { return http::error(400, BAD_SIZE) };
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let Some(rank) = data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)) else { return http::error(400, "rank must be 1 to 9.") };
     let Some(version) = data["version"].as_i64() else {
         return http::error(400, "Give the pair version the drawing was combined from (reload the pair).");
     };
-    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ?"), args![id]).await? else {
+    let Some(row) = reads.first::<PairRow>(&format!("SELECT {PAIR_COLUMNS} FROM fill_pairs f WHERE f.reference_id = ? AND f.size = ?"), args![id, size.size]).await? else {
         return http::error(404, "Unknown fill side pair.");
     };
     if version != row.version as i64 {
         return http::error(409, "This pair changed since it was loaded (in another tab, or by someone else). Reload it and build again.");
     }
-    let picks: Vec<PickRow> = reads.all(&format!("SELECT {PICK_COLUMNS} FROM {PICK_FROM} WHERE p.reference_id = ?"), args![id]).await?;
+    let picks: Vec<PickRow> = reads.all(&format!("SELECT {PICK_COLUMNS} FROM {PICK_FROM} WHERE p.reference_id = ? AND p.size = ?"), args![id, size.size]).await?;
     let mine = |role: &str| picks.iter().find(|p| p.rank as i64 == rank && p.role == role);
     let (Some(main), Some(sub)) = (mine("main"), mine("sub")) else { return http::error(409, "That pick is gone. Reload the pair.") };
     #[derive(Deserialize)]
@@ -509,7 +546,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         }
     }
     let svg = data["svg"].as_str().unwrap_or("").to_string();
-    if let Err(error) = pictographic_core::svg::safe_svg(&svg, 64) { return http::error(400, &error); }
+    if let Err(error) = pictographic_core::svg::safe_svg(&svg, size.size) { return http::error(400, &error); }
     let sha = hex::encode(Sha256::digest(svg.as_bytes()));
     let fresh = main.combined.is_none();
     let key = match &main.combined {
@@ -518,22 +555,22 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             #[derive(Deserialize)]
             struct Key { key: String }
             let mut taken: Vec<String> = picks.iter().filter(|p| p.rank as i64 != rank).filter_map(|p| p.combined.clone()).collect();
-            taken.extend(reads.all::<Key>(sql::OUTPUT_KEYS, args![format!("{COMBINED_FAMILY}/{id}--{COMBINED_STYLE}")]).await?
+            taken.extend(reads.all::<Key>(sql::OUTPUT_KEYS, args![format!("{}/{id}--{COMBINED_STYLE}", size.combined_family)]).await?
                 .into_iter().map(|k| k.key));
-            free_combined_key(id, &taken)
+            free_combined_key(size, id, &taken)
         }
     };
     let icon_id = key.split_once('/').map_or(key.as_str(), |(_, n)| n).to_string();
     let now = iso_utc(chrono::Utc::now());
     let preview = format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(&key), &sha[..12]);
     let parts = json!({"main": main.icon, "sub": sub.icon});
-    let style_of = format!("{COMBINED_FAMILY}/{id}");
-    let (keyshape, keyshape_bounds) = keyshape_of(&[main.layout.as_deref(), sub.layout.as_deref()]);
-    let record = json!({"parts": parts, "errors": errors, "reference_id": id, "rank": rank, "built_by": user, "built_at": now,
+    let style_of = format!("{}/{id}", size.combined_family);
+    let (keyshape, keyshape_bounds) = keyshape_of(&[main.layout.as_deref(), sub.layout.as_deref()], size.size);
+    let record = json!({"parts": parts, "errors": errors, "reference_id": id, "size": size.size, "rank": rank, "built_by": user, "built_at": now,
                         "icon_style": COMBINED_STYLE, "style_of": style_of, "keyshape": keyshape, "keyshape_bounds": keyshape_bounds});
-    let listed = json!({"add": true, "key": key, "icon_id": icon_id, "name": row.concept, "family": COMBINED_FAMILY,
+    let listed = json!({"add": true, "key": key, "icon_id": icon_id, "name": row.concept, "family": size.combined_family,
         "icon_style": COMBINED_STYLE, "style_of": style_of, "keyshape": keyshape, "keyshape_bounds": keyshape_bounds,
-        "profile": "SIDE_COMBINATION64", "category": "Side", "canvas_size": 64, "svg_sha256": sha, "preview_url": preview,
+        "profile": size.profile, "category": size.category, "canvas_size": size.size, "svg_sha256": sha, "preview_url": preview,
         "build_failed": !errors.is_empty(), "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
             "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
         "original_sources": [], "combination_reference_id": id, "main_key": main.icon, "sub_key": sub.icon, "created_at": now,
@@ -542,7 +579,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     let mut statements = vec![
         // The pair at the version, the pick still of these icons, each still the drawing combined: or nothing lands.
         db::stmt(db, sql::BUILD_GUARD, args![id, version, rank, main.icon.clone(), data["main"]["svg_sha256"].as_str().unwrap_or(""),
-                                            sub.icon.clone(), data["sub"]["svg_sha256"].as_str().unwrap_or("")])?,
+                                            sub.icon.clone(), data["sub"]["svg_sha256"].as_str().unwrap_or(""), size.size])?,
         // origin combination-build, as a side pair build: a catalog push leaves the icon and its list columns alone.
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'combination-build', ?)",
                  args![sha.clone(), key.clone(), svg, now.clone()])?,
@@ -554,10 +591,10 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         preview_url = excluded.preview_url, build_failed = excluded.build_failed, record = excluded.record \
         WHERE icons.family = excluded.family AND icons.style = excluded.style" };
     statements.push(db::stmt(db, &format!("INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
-        build_failed, uploaded, record, pushed_at, style, style_of) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, 'Side', \
-        'SIDE_COMBINATION64', 64, ?, ?, ?, 0, ?, ?, ?, ?){upsert}"),
-        args![key.clone(), icon_id.clone(), id, COMBINED_FAMILY, sha.clone(), preview.clone(), !errors.is_empty(), record.to_string(), now.clone(),
-              COMBINED_STYLE, style_of.clone()])?);
+        build_failed, uploaded, record, pushed_at, style, style_of) VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, \
+        ?, ?, ?, ?, ?, 0, ?, ?, ?, ?){upsert}"),
+        args![key.clone(), icon_id.clone(), id, size.combined_family, size.category, size.profile, size.size, sha.clone(), preview.clone(),
+              !errors.is_empty(), record.to_string(), now.clone(), COMBINED_STYLE, style_of.clone()])?);
     statements.push(super::icon_list::index_statement(db, &key, &listed, Some("style = 'fill'"))?);
     statements.push(db::stmt(db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
         search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND style = ?",
@@ -566,13 +603,13 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     statements.push(db::stmt(db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)", args![key.clone(), id])?);
     for (role, part) in [("main", main), ("sub", sub)] {
         statements.push(db::stmt(db, "UPDATE reference_part_fills SET built_sha = ?, combined = CASE WHEN role = 'main' THEN ? ELSE combined END \
-            WHERE reference_id = ? AND role = ? AND rank = ?",
-            args![part.icon_sha.clone(), key.clone(), id, role, rank])?);
+            WHERE reference_id = ? AND size = ? AND role = ? AND rank = ?",
+            args![part.icon_sha.clone(), key.clone(), id, size.size, role, rank])?);
     }
-    statements.push(db::activity(db, user, "fill_build", Some(&key), db::details(vec![("svg_sha256", json!(sha)), ("rank", json!(rank)),
+    statements.push(db::activity(db, user, "fill_build", Some(&key), db::details(vec![("svg_sha256", json!(sha)), ("size", json!(size.size)), ("rank", json!(rank)),
         ("errors", json!(errors))]))?);
     if let Err(refused) = write(ctx, statements).await? { return Ok(refused); }
-    reads.answer(&json!({"reference_id": id, "rank": rank, "key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(),
+    reads.answer(&json!({"reference_id": id, "size": size.size, "rank": rank, "key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(),
                          "errors": errors, "preview_url": preview, "version": version}))
 }
 
@@ -581,6 +618,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
 pub async fn move_pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" { return http::error(401, "Log in to change fill picks."); }
     let reads = Reads::new(ctx);
+    let Some(size) = size_field(data) else { return http::error(400, BAD_SIZE) };
     let Some(id) = data["reference_id"].as_str() else { return http::error(400, "Give the pair's reference_id.") };
     let (Some(from), Some(to)) = (data["rank"].as_i64().filter(|r| (1..=MAX_RANK).contains(r)), data["to"].as_i64().filter(|r| (1..=MAX_RANK).contains(r))) else {
         return http::error(400, "rank and to must be 1 to 9.");
@@ -588,24 +626,25 @@ pub async fn move_pick(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     let Ok(version) = named_version(data) else { return http::error(400, "version must be the pair's version number.") };
     #[derive(Deserialize)]
     struct Top { top: Option<f64>, here: f64 }
-    let found = reads.first::<Top>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ?", args![from, id]).await?;
+    let found = reads.first::<Top>("SELECT max(rank) AS top, sum(rank = ?) AS here FROM reference_part_fills WHERE reference_id = ? AND size = ?",
+        args![from, id, size.size]).await?;
     let Some(found) = found.filter(|f| f.here > 0.0) else { return http::error(404, "That pick is gone. Reload the pair.") };
     let to = to.min(found.top.unwrap_or(1.0) as i64);
-    if to == from { return reads.answer(&json!({"reference_id": id, "rank": from, "to": to})); }
+    if to == from { return reads.answer(&json!({"reference_id": id, "size": size.size, "rank": from, "to": to})); }
     let (low, high, step) = if to < from { (to, from - 1, 1) } else { (from + 1, to, -1) };
     let now = iso_utc(chrono::Utc::now());
-    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v])).transpose()?.into_iter().collect::<Vec<_>>();
+    let mut statements = version.map(|v| db::stmt(&ctx.db, sql::GUARD, args![id, v, size.size])).transpose()?.into_iter().collect::<Vec<_>>();
     statements.extend([
         db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = CASE WHEN rank = ? THEN -? ELSE -(rank + ?) END \
-            WHERE reference_id = ? AND (rank = ? OR rank BETWEEN ? AND ?)", args![from, to, step, id, from, low, high])?,
-        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND rank < 0", args![id])?,
+            WHERE reference_id = ? AND size = ? AND (rank = ? OR rank BETWEEN ? AND ?)", args![from, to, step, id, size.size, from, low, high])?,
+        db::stmt(&ctx.db, "UPDATE reference_part_fills SET rank = -rank WHERE reference_id = ? AND size = ? AND rank < 0", args![id, size.size])?,
     ]);
     let edited = statements.len();
-    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now])?);
-    statements.push(db::activity(&ctx.db, user, "fill_move", Some(id), db::details(vec![("rank", json!(from)), ("to", json!(to))]))?);
+    statements.push(db::stmt(&ctx.db, sql::EDITED, args![id, now, size.size])?);
+    statements.push(db::activity(&ctx.db, user, "fill_move", Some(id), db::details(vec![("size", json!(size.size)), ("rank", json!(from)), ("to", json!(to))]))?);
     let results = match write(ctx, statements).await? { Ok(results) => results, Err(refused) => return Ok(refused) };
     let version = committed_version(&results, edited)?;
-    reads.answer(&json!({"reference_id": id, "rank": from, "to": to, "version": version}))
+    reads.answer(&json!({"reference_id": id, "size": size.size, "rank": from, "to": to, "version": version}))
 }
 
 /// The parts of a fill side pair's combined icon (`key`) that are not approved on their current drawing, as
@@ -614,7 +653,7 @@ pub async fn unapproved_parts(db: &worker::D1Database, key: &str) -> Result<Opti
     #[derive(Deserialize)]
     struct Waiting { role: String, icon: Option<String> }
     let rows: Vec<Waiting> = db::all(db, "SELECT p.role, p.icon FROM reference_part_fills m \
-        JOIN reference_part_fills p ON p.reference_id = m.reference_id AND p.rank = m.rank LEFT JOIN icons i ON i.key = p.icon \
+        JOIN reference_part_fills p ON p.reference_id = m.reference_id AND p.size = m.size AND p.rank = m.rank LEFT JOIN icons i ON i.key = p.icon \
         WHERE m.combined = ? AND m.role = 'main' \
           AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve' ORDER BY p.role",
         args![key]).await?;
@@ -624,9 +663,13 @@ pub async fn unapproved_parts(db: &worker::D1Database, key: &str) -> Result<Opti
 
 /// The keyshape a pick fills, as the fill side pair pages measure it (side-fill-overlay.js keyshape): the parts' boxes
 /// (placed centerlines) plus the 4px stroke, the nearest of a 56 square, 60×44 or 44×60 when within 1px, else the
-/// measured box as FREE. No profile defines Side combination 64 keyshapes, so Icon review reads them from the record.
-fn keyshape_of(layouts: &[Option<&str>]) -> (String, Vec<f64>) {
-    const KEYSHAPES: [(&str, [f64; 4]); 3] = [("SQUARE", [4.0, 4.0, 60.0, 60.0]), ("HRECT", [2.0, 10.0, 62.0, 54.0]), ("VRECT", [10.0, 2.0, 54.0, 62.0])];
+/// measured box as FREE. At 72 the keyshapes the site's Side combination 72 icons carry: a 64 square (4..68), 68×54,
+/// 54×68, 68×50 and 50×68. No profile defines side combination keyshapes, so Icon review reads them from the record.
+fn keyshape_of(layouts: &[Option<&str>], grid: i64) -> (String, Vec<f64>) {
+    const AT_64: [(&str, [f64; 4]); 3] = [("SQUARE", [4.0, 4.0, 60.0, 60.0]), ("HRECT", [2.0, 10.0, 62.0, 54.0]), ("VRECT", [10.0, 2.0, 54.0, 62.0])];
+    const AT_72: [(&str, [f64; 4]); 5] = [("SQUARE", [4.0, 4.0, 68.0, 68.0]), ("HRECT", [2.0, 9.0, 70.0, 63.0]), ("VRECT", [9.0, 2.0, 63.0, 70.0]),
+                                          ("HRECT_M", [2.0, 11.0, 70.0, 61.0]), ("VRECT_M", [11.0, 2.0, 61.0, 70.0])];
+    let keyshapes: &[(&str, [f64; 4])] = if grid == 72 { &AT_72 } else { &AT_64 };
     let mut b = [f64::INFINITY, f64::INFINITY, f64::NEG_INFINITY, f64::NEG_INFINITY];
     for layout in layouts.iter().flatten() {
         for g in serde_json::from_str::<Vec<Value>>(layout).unwrap_or_default() {
@@ -634,8 +677,8 @@ fn keyshape_of(layouts: &[Option<&str>]) -> (String, Vec<f64>) {
             b = [b[0].min(x - 2.0), b[1].min(y - 2.0), b[2].max(x + w + 2.0), b[3].max(y + h + 2.0)];
         }
     }
-    if !b.iter().all(|v| v.is_finite()) { return ("FREE".into(), vec![0.0, 0.0, 64.0, 64.0]); }
-    let (name, target, off) = KEYSHAPES.iter().map(|(n, k)| (*n, *k, k.iter().zip(b).map(|(a, v)| (a - v).abs()).fold(0.0, f64::max)))
+    if !b.iter().all(|v| v.is_finite()) { return ("FREE".into(), vec![0.0, 0.0, grid as f64, grid as f64]); }
+    let (name, target, off) = keyshapes.iter().map(|(n, k)| (*n, *k, k.iter().zip(b).map(|(a, v)| (a - v).abs()).fold(0.0, f64::max)))
         .min_by(|a, c| a.2.total_cmp(&c.2)).unwrap();
     if off <= 1.0 { (name.into(), target.to_vec()) } else { ("FREE".into(), b.to_vec()) }
 }

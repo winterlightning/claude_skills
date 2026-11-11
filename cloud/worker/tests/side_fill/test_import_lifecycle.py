@@ -14,7 +14,7 @@ sys.path.insert(0, str(REPO))
 from icon_set.scripts.side_fill import d1_import as D  # noqa: E402
 
 NOW = '2026-10-29T00:00:00+00:00'
-EDITED = "UPDATE fill_pairs SET version = version + 1, edited_at = ?2, updated_at = ?2 WHERE reference_id = ?1"  # core side_fill::EDITED
+EDITED = "UPDATE fill_pairs SET version = version + 1, edited_at = ?2, updated_at = ?2 WHERE reference_id = ?1 AND size = 64"  # core side_fill::EDITED at 64
 
 
 def database():
@@ -103,3 +103,29 @@ def test_a_part_filled_on_the_site_stays_filled_and_its_pair_pickable():
              D.part_statement('solo/a', 'main', 'a', 'outline', 'only an outline', None, 1, NOW)] + D.COUNTS)
     assert db.execute("SELECT status FROM fill_parts WHERE key = 'solo/a'").fetchone() == ('ready',)
     assert db.execute("SELECT state, note FROM fill_pairs WHERE reference_id = 'p1'").fetchone() == ('unpicked', None)
+
+
+def test_a_64_import_and_a_72_import_leave_each_other_alone():
+    """Migration 0026: the same references at 72 are their own pairs. Importing 64 again never removes or recounts the
+    72 pairs, parts or picks, and a 72 import never touches the 64 ones."""
+    db = database()
+    db.execute("INSERT INTO icons(key, icon_id, family, svg_sha256, record, pushed_at) VALUES ('main-54/a', 'a', 'main-54', 's', '{}', 'x'), "
+               "('main-54/a--fill', 'a--fill', 'main-54', 's', '{}', 'x'), ('sub-36/b', 'b', 'sub-36', 's', '{}', 'x')")
+    run(db, pairs(db) + picks())
+    later = '2026-11-11T00:00:00+00:00'
+    run(db, [D.pair_statement('p1', 'p1', 'picked', 'main-54/a', 'sub-36/b', ['NULL', 'NULL'], None, later, size=72),
+             D.part_statement('main-54/a', 'main', 'a', 'ready', None, None, 1, later, size=72),
+             D.pick_statement('p1', 'main', 1, 'main-54/a--fill', None, None, later, exists=True, size=72),
+             D.pick_statement('p1', 'sub', 1, 'sub-36/b', None, None, later, size=72),
+             D.picks_tail(later, size=72), f"DELETE FROM fill_pairs WHERE size = 72 AND updated_at != '{later}';"] + D.counts_sql(72))
+    before64 = db.execute("SELECT COUNT(*) FROM reference_part_fills WHERE size = 64").fetchone()[0]
+    # The 64 import again, a day later: its deletes and totals are its own size's.
+    again = '2026-11-12T00:00:00+00:00'
+    run(db, [s.replace(NOW, again) for s in pairs(db)] + [s.replace(NOW, again) for s in picks()[:-len(D.COUNTS) - 1]]
+        + [D.picks_tail(again), f"DELETE FROM fill_pairs WHERE size = 64 AND updated_at != '{again}';"] + D.COUNTS)
+    assert db.execute("SELECT COUNT(*) FROM fill_pairs WHERE size = 72").fetchone()[0] == 1
+    assert db.execute("SELECT COUNT(*) FROM reference_part_fills WHERE size = 72").fetchone()[0] == 2
+    assert db.execute("SELECT COUNT(*) FROM reference_part_fills WHERE size = 64").fetchone()[0] == before64
+    counts = dict(((s, st), n) for s, st, n in db.execute("SELECT scope, status, n FROM fill_counts"))
+    assert counts[('pairs:72', 'picked')] == 1 and counts[('pairs:72', 'all')] == 1 and counts[('main:72', 'ready')] == 1
+    assert counts[('pairs', 'all')] == 2

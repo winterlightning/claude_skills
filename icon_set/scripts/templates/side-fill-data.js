@@ -6,7 +6,35 @@
    text from /api/combinations/drawings (100 keys a request) when the page combines parts itself. */
 (function () {
   'use strict';
+  // The fill side pairs come in two sizes (?size=72 on every page): 64, a 48 main and a 32 sub of the solo / sub
+  // families combined on 64 into side_combination64 outputs; and 72, a 54 main and a 36 sub (main-54 / sub-36)
+  // combined on 72 into combination-72 outputs, whose stroke-fill regions are tucked 0.5 px (stroke-width 1).
+  const SIZES = {
+    64: {size: 64, canvas: 64, main: 48, sub: 32, tuck: 1.0, scale: 1, combined: 'side_combination64', normal: 'Side combination 64'},
+    72: {size: 72, canvas: 72, main: 54, sub: 36, tuck: 0.5, scale: 72 / 64, combined: 'combination-72', normal: 'Side combination 72'},
+  };
+  const size = typeof location !== 'undefined' && new URLSearchParams(location.search).get('size') === '72' ? SIZES[72] : SIZES[64];
+  // A link to another fill side pairs page, at this page's size.
+  function link(href) {
+    if (size.size === 64) return href;
+    const url = new URL(href, typeof location !== 'undefined' ? location.href : 'http://localhost/');
+    url.searchParams.set('size', '72');
+    return url.pathname.split('/').pop() + url.search + url.hash;
+  }
+  // Every in-page link to a fill side pairs page keeps the size.
+  if (typeof document !== 'undefined' && size.size === 72) {
+    const keep = () => {
+      for (const a of document.querySelectorAll('a[href^="side-fill"]')) a.setAttribute('href', link(a.getAttribute('href')));
+      document.body?.setAttribute('data-size', '72');
+    };
+    document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', keep) : keep();
+  }
+
   async function api(path, body) {
+    if (size.size === 72) {
+      if (body === undefined) path += (path.includes('?') ? '&' : '?') + 'size=72';
+      else body = {...body, size: 72};
+    }
     const response = await fetch('/api/side-fill/' + path, body === undefined ? {cache: 'no-store', credentials: 'same-origin'}
       : {method: 'POST', credentials: 'same-origin', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
     const data = await response.json().catch(() => ({}));
@@ -38,11 +66,13 @@
   const iconUrl = (key, sha) => key ? `/api/icon-artwork/svg?icon=${encodeURIComponent(key)}${sha ? '&v=' + sha.slice(0, 12) : ''}` : null;
   const svgUrl = svg => svg ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}` : null;
   // The contract's SOLO48 / SUB32 keyshapes as centerline bounds ({main: {name: bounds}, sub: …}), from laboratory.json
-  // as the Side pairs editor reads them.
+  // as the Side pairs editor reads them. No contract defines 54 / 36 keyshapes: at 72 they are these scaled 72/64,
+  // as the 54 main and 36 sub are the 48 and 32 ones scaled.
   let keyshapeTable = null;
   const keyshapes = () => keyshapeTable ||= fetch('laboratory.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
     .then(d => Object.fromEntries([['main', 'SOLO48'], ['sub', 'SUB32']].map(([role, profile]) => [role, Object.fromEntries(
-      Object.entries(d?.keyshapes?.resolved?.[profile] || {}).map(([n, k]) => [n, k.centerline_bounds]).filter(([, b]) => Array.isArray(b)))])));
+      Object.entries(d?.keyshapes?.resolved?.[profile] || {}).map(([n, k]) => [n, k.centerline_bounds]).filter(([, b]) => Array.isArray(b))
+        .map(([n, b]) => [n, b.map(v => v * size.scale)]))])));
 
   // What a pick's part is: its variant label, or 'outline' when it is the solo / sub icon itself.
   function labelOf(pairRow, role, key) {
@@ -82,7 +112,8 @@
     return box;
   }
 
-  const exported = {api, pairsPage, pair, partsPage, pick, unpick, build, move, drawings, iconUrl, svgUrl, keyshapes, labelOf, stale, units, artBox, subFor};
+  const exported = {api, pairsPage, pair, partsPage, pick, unpick, build, move, drawings, iconUrl, svgUrl, keyshapes, labelOf, stale, units, artBox, subFor,
+                    size, SIZES, link};
   if (typeof window !== 'undefined') window.SideFillData = exported;
   if (typeof module === 'object' && module.exports) module.exports = exported;
 })();

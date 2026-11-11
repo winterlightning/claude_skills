@@ -8,11 +8,17 @@
   // from takes these boxes). The source keyshape stays locked; every layout is sent as explicit element boxes.
   // open(row, candidate, host, backend): backend = {keyshapes(), elements(), preview(proposal), save(proposal, result)}.
   const NS = 'http://www.w3.org/2000/svg';
-  const STROKE = 4, EDGE = 1e-9, CANVAS = 64, PAD = 4;
+  // The page's pair size (SideFillData.size: 64, or 72 with ?size=72): the canvas and the preset sizes.
+  const SIZE = window.SideFillData?.size || {size: 64, canvas: 64};
+  const STROKE = 4, EDGE = 1e-9, CANVAS = SIZE.canvas, PAD = (window.SideFillLayout?.PADDING_AT || {})[SIZE.canvas] ?? 4;
   const ROLES = ['main', 'sub'];
   const range = (from, to) => Array.from({length: (to - from) / 4 + 1}, (_v, i) => from + 4 * i);
-  // pair_layout_review.keyshape_preset_box: main 32–64 (48 automatic), sub 12–44 (32 automatic).
-  const PRESETS = {main: {base: 48, sizes: range(32, 64), label: 'Main'}, sub: {base: 32, sizes: range(12, 44), label: 'Sub'}};
+  // pair_layout_review.keyshape_preset_box: main 32–64 (48 automatic), sub 12–44 (32 automatic); at 72 the same steps
+  // around a 54 main (38–70) and a 36 sub (16–48), as side-fill-layout.js PRESETS_AT.
+  const PRESET_RANGES = (window.SideFillLayout?.PRESETS_AT || {})[CANVAS]
+    || {main: {base: 48, min: 32, max: 64}, sub: {base: 32, min: 12, max: 44}};
+  const PRESETS = {main: {base: PRESET_RANGES.main.base, sizes: range(PRESET_RANGES.main.min, PRESET_RANGES.main.max), label: 'Main'},
+                   sub: {base: PRESET_RANGES.sub.base, sizes: range(PRESET_RANGES.sub.min, PRESET_RANGES.sub.max), label: 'Sub'}};
   const ANCHORS = {br: [1, 1], bl: [0, 1], tr: [1, 0], tl: [0, 0], ri: [1, .5], le: [0, .5], bo: [.5, 1], to: [.5, 0]};
   const fmt = n => String(Math.round(n * 100) / 100);
   // Python's round (half to even), so preset boxes land where the server's validation puts them.
@@ -274,15 +280,15 @@
       const check = checks[role], problems = [];
       if (check?.keyshape_overflow_px > .05) problems.push(`${check.keyshape_overflow_px}px beyond its ${check.guide_size}px keyshape`);
       if (check?.ink_outside_guide_px2 > .5) problems.push(`${check.ink_outside_guide_px2} px² of ink outside its guide`);
-      if (check?.stroke_envelope_inside_canvas === false) problems.push('outside the 64px canvas');
+      if (check?.stroke_envelope_inside_canvas === false) problems.push(`outside the ${CANVAS}px canvas`);
       return `${PRESETS[role].label}: ${problems.join(', ') || 'does not fit its keyshape'}`;
     });
     ctx.valid = !invalid.length;
     // Only keyshape problems (still inside the canvas): a manual edit may be forced past them.
     ctx.forceable = !ctx.valid && ROLES.every(role => checks[role]?.stroke_envelope_inside_canvas);
     setStatus(`Main ${checks.main?.preset || 'own'} · guide ${checks.main?.guide_size ?? '—'}px. Sub ${checks.sub?.preset || 'own'} · guide ${checks.sub?.guide_size ?? '—'}px. `
-      + (issues.length ? `${issues.join('; ')}. ${ctx.forceable ? 'Save is disabled until both fit (make the part smaller or move it into its keyshape), or tick Force to save this manual edit anyway. ' : 'Save is disabled until both are inside the 64px canvas. '}`
-                       : 'Both painted icons fit their anchored keyshapes and the 64px canvas. ')
+      + (issues.length ? `${issues.join('; ')}. ${ctx.forceable ? 'Save is disabled until both fit (make the part smaller or move it into its keyshape), or tick Force to save this manual edit anyway. ' : 'Save is disabled until both are inside the ${CANVAS}px canvas. '}`
+                       : `Both painted icons fit their anchored keyshapes and the ${CANVAS}px canvas. `)
       + `4px gap ${c.render_gap_px.toFixed(2)}px · 8px border loss ${damaged.length ? damaged.map(x => `${x.region}: ${x.lost_black_border_px2}`).join(', ') : '0'} px².`,
       damaged.length > 0 || invalid.length > 0);
   }
@@ -627,7 +633,7 @@
     ctx.openedPosition = ctx.position;
     // The proposal this edit takes the place of when saved (the tile it was opened from).
     ctx.replaces = candidate?.replaces ?? candidate?.variant ?? candidate?.base_variant ?? null;
-    $('layout-title').textContent = `Adjust layout · 64×64 · ${row.concept}${candidate?.label ? ` · ${candidate.label}` : ''}`;
+    $('layout-title').textContent = `Adjust layout · ${CANVAS}×${CANVAS} · ${row.concept}${candidate?.label ? ` · ${candidate.label}` : ''}`;
     const base = $('layout-base');
     base.replaceChildren(...(row.variants || []).map(name => new Option(name, name)));
     if (!base.options.length) base.add(new Option('current', 'current'));
@@ -678,6 +684,18 @@
     if (ctx !== opening) return;
     ctx.opened = Object.fromEntries(ROLES.map(role => [role, plain(ctx.roles[role].units)]));
     render();canvas.focus();
+  }
+  // The dialog's canvas and guide views at the page's size (the HTML is written for 64).
+  if (CANVAS !== 64) {
+    $('layout-canvas')?.setAttribute('viewBox', `-1 -1 ${CANVAS + 2} ${CANVAS + 2}`);
+    $('layout-canvas')?.setAttribute('aria-label', `Layout editor, ${CANVAS} by ${CANVAS} grid`);
+    for (const g of document.querySelectorAll('#layout-editor .layout-guides')) g.setAttribute('viewBox', `0 0 ${CANVAS} ${CANVAS}`);
+    for (const img of document.querySelectorAll('#layout-editor [data-layout-size="64"]')) {
+      img.dataset.layoutSize = String(CANVAS);img.width = img.height = CANVAS;img.alt = `${CANVAS}px output`;
+      const caption = img.parentElement?.querySelector('figcaption');if (caption) caption.textContent = `${CANVAS} px`;
+    }
+    const meta = document.querySelector('#layout-editor .dialog-head .meta');
+    if (meta) meta.textContent = `Source keyshape locked · 4px stroke · ${CANVAS}px canvas`;
   }
   window.SideLayoutEditor = {open, park, reattach};
 })();

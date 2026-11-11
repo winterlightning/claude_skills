@@ -95,8 +95,9 @@ def combine(pick):
         if boxes is None:
             cut, details = cut_main(placed['main'], sub, GAP)
         else:
+            from . import combine_fill_side
             document = cls.component({'role': 'main', 'document': main_source, 'scale': 1, 'tx': 0, 'ty': 0,
-                                      'layout': boxes}, 64)['document']
+                                      'layout': boxes}, combine_fill_side.CANVAS)['document']
             cut, details = cut_outline_strokes(document, sub, GAP)
     else:
         cut, details = cut_main(placed['main'], sub, GAP)

@@ -422,3 +422,62 @@ def test_each_save_returns_its_own_version_so_a_slower_tab_cannot_build_over_a_n
         assert status == 200, answer
         status, answer, _ = build(pair['id'], pick['rank'], answer['version'], old['svg'], pick)
         assert status == 200 and answer['key'] == key, answer
+
+
+# ---- the 72 pairs (migration 0026): the same routes with size=72, never touching the 64 rows -------------------------
+
+def test_a_size_other_than_64_or_72_is_refused():
+    for path in ('/api/side-fill/pairs', '/api/side-fill/parts'):
+        status, data, _ = call('GET', path, size=48)
+        assert status == 400, data
+    status, data, _ = call('POST', '/api/side-fill/pick', {'reference_id': 'x', 'size': 48, 'main': 'a', 'sub': 'b'})
+    assert status == 400, data
+
+
+def test_72_pages_stay_in_budget_and_list_only_72_pairs():
+    data, rows = get('/api/side-fill/pairs', size=72, limit=60)
+    assert rows <= BUDGET['pairs60']
+    assert data['counts']['all'] == sum(n for s, n in data['counts'].items() if s != 'all')
+    for pair in data['pairs']:
+        assert pair['size'] == 72 and pair['main'].startswith('main-54/') and pair['sub'].startswith('sub-36/')
+    for role, family in (('main', 'main-54/'), ('sub', 'sub-36/')):
+        parts, rows = get('/api/side-fill/parts', role=role, size=72, limit=48)
+        assert rows <= BUDGET['parts48'] and parts['parts'] and all(p['key'].startswith(family) for p in parts['parts'])
+
+
+def test_a_72_pick_and_unpick_leave_the_64_pair_alone():
+    data, _ = get('/api/side-fill/pairs', size=72, state='picked', limit=60)
+    pair72 = next(p for p in data['pairs'] if len(p['picks']) == 1)
+    status, pair64, _ = call('GET', '/api/side-fill/pair', id=pair72['id'])
+    full, rows = get('/api/side-fill/pair', id=pair72['id'], size=72)
+    assert rows <= BUDGET['pair']
+    variant = (full['main_variants'] or [{'key': full['main']}])[0]['key']
+    status, picked, rows = call('POST', '/api/side-fill/pick', {'reference_id': full['id'], 'size': 72, 'append': True, 'version': full['version'],
+                                                                'main': variant, 'sub': full['sub']})
+    assert status == 200 and picked['rank'] == 2 and picked['size'] == 72 and rows <= BUDGET['pick'], picked
+    status, refused, _ = call('POST', '/api/side-fill/pick', {'reference_id': full['id'], 'size': 72, 'append': True, 'version': full['version'],
+                                                                'main': variant, 'sub': full['sub']})
+    assert status == 409, refused
+    status, gone, rows = call('POST', '/api/side-fill/unpick', {'reference_id': full['id'], 'size': 72, 'rank': 2, 'version': picked['version']})
+    assert status == 200 and gone['picks_left'] == 1 and rows <= BUDGET['unpick'], gone
+    if status == 200 and pair64.get('id'):
+        again, _ = get('/api/side-fill/pair', id=pair72['id'])
+        assert again['version'] == pair64['version'] and len(again['picks']) == len(pair64['picks'])
+
+
+def test_a_72_pick_names_a_72_part_or_its_fill():
+    data, _ = get('/api/side-fill/pairs', size=72, state='picked', limit=60)
+    full, _ = get('/api/side-fill/pair', id=data['pairs'][0]['id'], size=72)
+    status, refused, _ = call('POST', '/api/side-fill/pick', {'reference_id': full['id'], 'size': 72, 'append': True, 'main': 'solo/not-a-72-part',
+                                                              'sub': full['sub']})
+    assert status == 400, refused
+
+
+def test_a_72_output_is_a_combination_72_icon_of_style_fill():
+    data, _ = get('/api/side-fill/pairs', size=72, state='picked', limit=60)
+    built = [p['picks'][0]['combined'] for p in data['pairs'] if p['picks'] and p['picks'][0].get('combined')]
+    assert built, 'no built 72 picks: run build_fill_pairs.mjs --size 72'
+    for combined in built[:5]:
+        assert combined['key'].startswith('combination-72/') and '--fill' in combined['key']
+        _, found, _ = call('GET', '/api/combinations/drawings', keys=combined['key'])
+        assert 'viewBox="0 0 72 72"' in found[combined['key']]['svg']

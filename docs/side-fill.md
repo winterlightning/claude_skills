@@ -154,3 +154,58 @@ python3 -m icon_set side-fill goldens      # fixtures for side-fill.test.mjs
 Locally: `wrangler dev --persist-to <dir> --var PUSH_TOKEN:<32+ characters>` on a seeded D1 (`cloud/worker/tests/side_fill/make_local_seed.py`), the same
 steps against `http://localhost:<port>`, and `python3 -m icon_set dev --cloud-api http://localhost:<port>` for the pages
 (they read D1 only, so they need cloud mode).
+
+## The 72 pairs (migration 0026)
+
+The same feature for the 72 set (a main-54 and a sub-36 on the 72 canvas): every page with `?size=72`
+(Progression › Side pairs › *Fill side pairs 72*, `side-fill.html?size=72`). Pick, adjust the layout, move, remove and
+build work exactly as at 64.
+
+| | 64 | 72 |
+| --- | --- | --- |
+| Parts | `solo/<name>`, `sub/<name>` | `main-54/<name>`, `sub-36/<name>` |
+| Fill variants | `solo/<name>--fill[-<variant>]` | `main-54/<name>--fill[-<variant>]`, `sub-36/<name>--fill[-<variant>]` |
+| Outputs | `side_combination64/<id>--fill[-n]` | `combination-72/<id>--fill[-n]` (profile SIDE_COMBINATION72, category Side 72) |
+| Stroke-fill regions | tucked 1.0 px under each stroke | tucked 0.5 px (stroke-width 1 regions: no resize opens a gap) |
+| Keyshape | 56 square, 60×44, 44×60 (±1) | the ones the site's Side combination 72 icons carry: SQUARE 4..68 (64), HRECT 68×54, VRECT 54×68, HRECT_M 68×50, VRECT_M 50×68 (±1) |
+| Layout presets | main 32–64 (48), sub 12–44 (32) | main 38–70 (54), sub 16–48 (36) |
+| Totals (`fill_counts`) | scopes `pairs`, `main`, `sub` | scopes `pairs:72`, `main:72`, `sub:72` |
+
+**Storage.** `reference_part_fills` is keyed `(reference_id, size, role, rank)` and `fill_pairs` `(reference_id, size)`;
+`fill_parts` has a `size` column (a part's key already names its family). Every route takes `size` (query or body; 64
+by default, anything but 64 or 72 is refused), and every read, write, guard and total is of that size only: a pair
+at 64 and the same reference at 72 never share a version, a pick or a count. 0026 copies every 0023 row as size 64.
+
+**Where the 72 work comes from.** fill-remake made and reviewed the 72 fills and picks
+(`python3 -m side_combinations.export_fill72_app` there writes `side_combinations/output/fill72-app`):
+
+```
+python3 -m icon_set side-fill import72 --from ~/Downloads/fill-remake --write   # → icon_set/data/side-fill-72 (data, not in git)
+python3 -m icon_set side-fill icons72        # the fill variant icons + manifest (icon_set/state/side-fill-72/fill-icons)
+python3 -m icon_set side-fill d1-import72    # side-fill-72-import.sql and side-fill-72-picks.sql
+python3 -m icon_set side-fill goldens72      # icon_set/tests/js/fixtures/side-fill-72 (side-fill.test.mjs)
+```
+
+Only pairs whose main and sub are the 72 export's own main-54 / sub-36 icons are imported. A part fill-remake drew
+from 64 (`d64-*`), from a 48 drawing (`s48-*`), a text label, or nothing leaves its pairs out; `export.json` lists them
+under `excluded` with the reason. Rank 1 of a pair is the reviewer's choice on fill-remake's all-combinations page when
+there is one, else Claude's accepted pick; a pending or rejected pair is unpicked with the reason as its note. A
+stroke-fill variant whose regions a pick's layout divides is also imported flat (`<variant>-flat`) for that pick, as
+fill-remake placed it.
+
+**Keyshape at 72.** Most 72 picks were laid out 68×68 at a 2px inset, larger than the 72 square.
+`node cloud/migrate/fit_fill_keyshapes.mjs --size 72 --base-url <site>` lays them out again into
+`icon_set/data/side-fill-72/keyshape-fit-layouts.json`, which `d1-import72` applies: at 72 the whole pick is first
+scaled together into the keyshape nearest its proportions (composition kept), then the 64 tool's stacks and corners,
+each checked as at 64 (no more cut, no drift apart, the sub on the same side). Picks it cannot fit are listed under
+`unfit` for a hand layout on the pair page.
+
+**Putting it on a site**, after 0026 and the Worker: `side-fill-72-import.sql`, then
+`upload_fill_parts.py --size 72` (dry run, then `--send --approve` as at 64), then `side-fill-72-picks.sql`, then
+`build_fill_pairs.mjs --size 72`. The 64 import is limited to size 64 the same way (its deletes and totals never touch
+the 72 rows). `pick_new_pairs.mjs` is 64 only.
+
+**Known differences.** A part drawn with SVG transforms cannot be split into elements in the browser, so its pairs place
+it whole in its boxes (12 of the 1,369 72 parts; the 64 set has 3). A dashed white cut of a closed stroke is drawn as its
+dash: the Python reader now chains the stroke's pieces as side-fill-combine.js does (stroke_fill_format._chained), where
+it used to paint the whole stroke white.

@@ -1,20 +1,26 @@
-/* The 64px grid and keyshape overlay of a fill side pair tile.
+/* The grid and keyshape overlay of a fill side pair tile, at the page's size (64, or 72 with ?size=72).
 
    keyshape(mainLayout, subLayout) measures where a pick's parts sit (their boxes, the placed centerline, plus the 4px
-   stroke): {box, main, sub, ok, name, off_by}. The pair should fill a 56 square, 60×44 or 44×60 (±1). */
+   stroke): {box, main, sub, ok, name, off_by}. A 64 pair should fill a 56 square, 60×44 or 44×60 (±1). A 72 pair one
+   of the keyshapes the site's Side combination 72 icons carry: a 64 square (4..68), 68×54, 54×68, 68×50 or 50×68 (±1). */
 (function () {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
-  const KEYSHAPES = {SQUARE: [4, 4, 60, 60], HRECT: [2, 10, 62, 54], VRECT: [10, 2, 54, 62]};
-  const LABEL = {SQUARE: 'SQUARE 56', HRECT: 'RECT 60×44', VRECT: 'VRECT 44×60'};
+  const SIZE = window.SideFillData?.size || {canvas: 64};
+  const C = SIZE.canvas;
+  const KEYSHAPES = C === 72
+    ? {SQUARE: [4, 4, 68, 68], HRECT: [2, 9, 70, 63], VRECT: [9, 2, 63, 70], HRECT_M: [2, 11, 70, 61], VRECT_M: [11, 2, 61, 70]}
+    : {SQUARE: [4, 4, 60, 60], HRECT: [2, 10, 62, 54], VRECT: [10, 2, 54, 62]};
+  const LABEL = Object.fromEntries(Object.entries(KEYSHAPES).map(([n, [x0, y0, x1, y1]]) =>
+    [n, n === 'SQUARE' ? `SQUARE ${x1 - x0}` : `${n.replace('HRECT', 'RECT')} ${x1 - x0}×${y1 - y0}`]));
   const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [a, v] of Object.entries(attrs)) e.setAttribute(a, v); return e; };
   const rect = (cls, [x0, y0, x1, y1]) => el('rect', {class: cls, x: x0, y: y0, width: x1 - x0, height: y1 - y0});
 
   function overlay(keyshape) {
-    const svg = el('svg', {class: 'sf-guide', viewBox: '0 0 64 64', 'aria-hidden': 'true'});
-    for (let v = 4; v < 64; v += 4) {
+    const svg = el('svg', {class: 'sf-guide', viewBox: `0 0 ${C} ${C}`, 'aria-hidden': 'true'});
+    for (let v = 4; v < C; v += 4) {
       const cls = 'g' + (v % 16 === 0 ? ' major' : '');
-      svg.append(el('line', {class: cls, x1: v, y1: 0, x2: v, y2: 64}), el('line', {class: cls, x1: 0, y1: v, x2: 64, y2: v}));
+      svg.append(el('line', {class: cls, x1: v, y1: 0, x2: v, y2: C}), el('line', {class: cls, x1: 0, y1: v, x2: C, y2: v}));
     }
     if (keyshape?.box) {
       for (const part of [keyshape.main, keyshape.sub]) if (part) svg.append(rect('part', part));
@@ -44,8 +50,8 @@
   function label(keyshape) {
     if (!keyshape?.box) return '';
     const [x0, y0, x1, y1] = keyshape.box;
-    return keyshape.ok ? `${LABEL[keyshape.name]} · ${x1 - x0}×${y1 - y0}`
-      : `off keyshape · ${x1 - x0}×${y1 - y0} (nearest ${LABEL[keyshape.name]})`;
+    const w = +(x1 - x0).toFixed(2), h = +(y1 - y0).toFixed(2);
+    return keyshape.ok ? `${LABEL[keyshape.name]} · ${w}×${h}` : `off keyshape · ${w}×${h} (nearest ${LABEL[keyshape.name]})`;
   }
   window.SideFillOverlay = {overlay, label, keyshape};
 })();

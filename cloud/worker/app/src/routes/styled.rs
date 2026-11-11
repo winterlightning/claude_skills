@@ -1,4 +1,4 @@
-//! Round and sharp records of icons (corner_processing) and the fill variants of the 64 side pairs' parts:
+//! Round and sharp records of icons (corner_processing) and the fill variants of the 64 and 72 side pairs' parts:
 //! POST /api/icons/styled.
 //!
 //! Each item `{source_key, style, svg, check, expected_sha256}` stores `<source_key>--<style>` as its own icon in the
@@ -32,8 +32,9 @@ use worker::{Response, Result};
 
 const MAX_ITEMS: usize = 50;
 const CHECKS: [&str; 3] = ["ok", "contact", "fail"];
-/// The families whose icons have fill variants: the mains (solo, a few container) and subs of the 64 side pairs.
-const FILL_FAMILIES: [&str; 3] = ["solo", "container", "sub"];
+/// The families whose icons have fill variants: the mains (solo, a few container) and subs of the 64 side pairs, and
+/// the main-54 / sub-36 parts of the 72 ones.
+const FILL_FAMILIES: [&str; 5] = ["solo", "container", "sub", "main-54", "sub-36"];
 
 /// The record an item stores: `<source_key>--<style>`, or for a fill variant other than the fill itself
 /// `<source_key>--fill-<variant>`. None for a variant that is not a short lowercase name.
@@ -50,7 +51,8 @@ fn styled_key(item: &Value) -> Option<String> {
 /// The fill variant a styled key names (current for a main's fill, fill for a sub's), or None for another key.
 pub fn fill_variant<'a>(key: &'a str, source: &str) -> Option<&'a str> {
     let rest = key.strip_prefix(source)?.strip_prefix("--fill")?;
-    if rest.is_empty() { Some(if source.starts_with("sub/") { "fill" } else { "current" }) } else { rest.strip_prefix('-').filter(|v| !v.is_empty()) }
+    if rest.is_empty() { Some(if source.starts_with("sub/") || source.starts_with("sub-36/") { "fill" } else { "current" }) }
+    else { rest.strip_prefix('-').filter(|v| !v.is_empty()) }
 }
 
 #[derive(Deserialize)]
