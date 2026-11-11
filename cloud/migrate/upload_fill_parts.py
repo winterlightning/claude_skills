@@ -5,6 +5,7 @@ its solo / sub icon's own family (solo/<name>--fill, solo/<name>--fill-region-3�
 normal icon, Ready in Icon review. The outline is the normal solo / sub icon itself and is not sent.
 
     python3 cloud/migrate/upload_fill_parts.py --base-url http://127.0.0.1:8821            # dry run
+    python3 cloud/migrate/upload_fill_parts.py --size 72 --base-url …     # the 72 pairs' main-54 / sub-36 variants
     python3 cloud/migrate/upload_fill_parts.py --base-url … --send                         # push token from cloud/.env
     PICTOGRAPHIC_SESSION=<the reviewer's pictographic_session cookie> \
     python3 cloud/migrate/upload_fill_parts.py --base-url … --send --approve               # and approve each, as them
@@ -35,11 +36,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cloudapi  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
-WORK = REPO / 'icon_set/state/side-fill'
+# The 64 pairs' variants (side-fill icons) or, with --size 72, the 72 pairs' (side-fill icons72).
+WORKS = {64: REPO / 'icon_set/state/side-fill', 72: REPO / 'icon_set/state/side-fill-72'}
+WORK = WORKS[64]
 MANIFEST = WORK / 'fill-icons/manifest.json'
 # What was sent and what the site stored (the route cleans the SVG, so its sha is not the file's).
 LEDGER = WORK / 'fill-icons/uploaded.json'
 BATCH = 50
+
+
+def use_size(size: int) -> None:
+    """Read and record the variants of one size's pairs."""
+    global WORK, MANIFEST, LEDGER
+    WORK = WORKS[size]
+    MANIFEST = WORK / 'fill-icons/manifest.json'
+    LEDGER = WORK / 'fill-icons/uploaded.json'
 
 
 def as_reviewer(base_url: str, session: str, path: str, payload: dict) -> dict:
@@ -84,7 +95,9 @@ def main() -> int:
     parser.add_argument('--replace', action='store_true', help='also replace variants people have worked on')
     parser.add_argument('--limit', type=int)
     parser.add_argument('--approve', action='store_true', help='approve each variant as the PICTOGRAPHIC_SESSION reviewer')
+    parser.add_argument('--size', type=int, choices=(64, 72), default=64, help='the 64 pairs (default) or the 72 pairs')
     args = parser.parse_args()
+    use_size(args.size)
     manifest = json.loads(MANIFEST.read_text())
     ledger_all = json.loads(LEDGER.read_text()) if LEDGER.is_file() else {}
     ledger = ledger_all.setdefault(args.base_url.rstrip('/'), {})

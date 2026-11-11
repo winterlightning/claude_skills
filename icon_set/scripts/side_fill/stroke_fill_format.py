@@ -71,6 +71,39 @@ def _dashed(line, length, pattern, offset):
     return unary_union(pieces) if pieces else LineString()
 
 
+def _chained(segments, eps=1e-6):
+    """The engine segments of one stroked element as one line in drawing order, or None when they do not make one
+    unbranched line (side-fill-combine.js chainSegments + lineMerge). A closed path of arcs comes out of the engine as
+    many segments; shapely's unary_union nodes a closed loop into a MultiLineString, so testing for a single LineString
+    left such a path undashed and its white cut painted the whole outline away."""
+    if not segments:
+        return None
+    runs = []
+    for seg in segments:
+        points = [tuple(p) for p in seg]
+        if runs and abs(runs[-1][-1][0] - points[0][0]) <= 1e-9 and abs(runs[-1][-1][1] - points[0][1]) <= 1e-9:
+            runs[-1].extend(points[1:])
+        else:
+            runs.append(points)
+    same = lambda a, b: abs(a[0] - b[0]) <= eps and abs(a[1] - b[1]) <= eps
+    line, rest = runs[0], runs[1:]
+    while rest:
+        start, end = line[0], line[-1]
+        at = next((i for i, p in enumerate(rest) if same(p[0], end) or same(p[-1], end) or same(p[-1], start) or same(p[0], start)), None)
+        if at is None:
+            return None
+        p = rest.pop(at)
+        if same(p[0], end):
+            line = line + p[1:]
+        elif same(p[-1], end):
+            line = line + p[:-1][::-1]
+        elif same(p[-1], start):
+            line = p[:-1] + line
+        else:
+            line = p[1:][::-1] + line
+    return LineString(line)
+
+
 @lru_cache(maxsize=4096)
 def _parts(path, modified):
     from .combination_layout_svg import elements as walk_elements, segments_of
@@ -102,13 +135,10 @@ def _parts(path, modified):
         dash = None
         if element.get('stroke-dasharray') and stroked:
             pattern = [float(v) for v in element.get('stroke-dasharray').replace(',', ' ').split()]
-            run = [line for line in lines if isinstance(line, LineString)]
-            if len(run) == 1 or (run and unary_union(run).geom_type == 'LineString'):
-                from shapely.ops import linemerge
-                merged = linemerge(run) if len(run) > 1 else run[0]
-                if merged.geom_type == 'LineString':
-                    length = svg_length(element) or merged.length
-                    dash = _dashed(merged, length, pattern, float(element.get('stroke-dashoffset', '0')))
+            merged = _chained([seg for seg in segments if len(seg) > 1 and LineString(seg).length > 1e-9])
+            if merged is not None:
+                length = svg_length(element) or merged.length
+                dash = _dashed(merged, length, pattern, float(element.get('stroke-dashoffset', '0')))
         entries.append({'index': index, 'paint': 'white' if 'white' in group_id else 'black',
                         'under': group_id == 'white-strokes-under', 'width': width,
                         'centerline': dash if dash is not None else centerline, 'stroked': stroked,

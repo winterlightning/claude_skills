@@ -68,3 +68,57 @@ test('the layout editor previews a pick as it is combined', {skip}, () => {
     assert.equal(result.stress_svg === null, !!c.pick.main.outline, `${c.id}: stress cut only for a filled main`);
   }
 });
+
+// The 72 pairs (fixtures/side-fill-72, `python3 -m icon_set side-fill goldens72` from the 72 snapshot): fill-remake's
+// own renders of real 72 picks (main-54 + sub-36 on 72, stroke-fill regions tucked 0.5 px), combined here at size 72.
+const folder72 = process.env.SIDE_FILL_GOLDENS_72 || new URL('./fixtures/side-fill-72/', import.meta.url).pathname;
+const cases72 = existsSync(folder72) ? readdirSync(folder72).filter(f => f.endsWith('.json.gz')).sort()
+  .map(f => JSON.parse(gunzipSync(readFileSync(folder72 + f)))) : [];
+const skip72 = cases72.length ? false : `no 72 side fill goldens in ${folder72}: import the 72 snapshot and run \`python3 -m icon_set side-fill goldens72\``;
+
+// A part drawn with SVG transforms cannot be split into elements here (CombineSide.elementParts refuses it), so the
+// page places it whole in its boxes where Python bakes the transforms and moves each box's elements: those picks are
+// listed, not held to the tolerance (12 of the 1,369 72 parts; the 64 set has the same few).
+const transformed = c => ['main', 'sub'].some(role => /\btransform=/.test(c.pick[role].source));
+
+test('72 fill side pairs match the Python combine at 72', {skip: skip72}, () => {
+  assert.ok(cases72.length >= 100, `72 side fill goldens missing (${folder72})`);
+  const failures = [], slow = [], known = [];
+  let worst = 0;
+  for (const c of cases72) {
+    const label = `${c.id} #${c.rank} ${c.variant} [${c.kind.join(' / ')}]`;
+    const started = performance.now();
+    let result;
+    try { result = Fill.combine(c.pick); } catch (error) { failures.push(`${label}: ${error.stack.split('\n').slice(0, 3).join(' ')}`); continue; }
+    if (performance.now() - started > 1500) slow.push(`${label}: ${(performance.now() - started).toFixed(0)} ms`);
+    assert.ok(result.svg.includes('viewBox="0 0 72 72"'), `${label}: not drawn on the 72 canvas`);
+    const differs = Fill.differs(result.svg, c.expected.svg);
+    if (transformed(c)) { if (differs > TOLERANCE) known.push(`${label}: ${differs.toFixed(2)} px²`); continue; }
+    worst = Math.max(worst, differs);
+    if (differs > TOLERANCE) failures.push(`${label}: ${differs.toFixed(2)} px² differ (area js ${result.area.toFixed(2)} py ${c.expected.area})`);
+  }
+  if (known.length) console.log(`# ${known.length} picks of a transformed drawing placed whole:\n# ` + known.join('\n# '));
+  assert.ok(known.length <= 5, `more transformed drawings than expected: ${known.length}`);
+  assert.equal(failures.length, 0, `${failures.length} of ${cases72.length} differ (worst ${worst.toFixed(2)} px²):\n` + failures.slice(0, 15).join('\n'));
+  assert.equal(slow.length, 0, `slow combines:\n${slow.slice(0, 10).join('\n')}`);
+});
+
+test('the layout editor previews a 72 pick on the 72 canvas', {skip: skip72}, () => {
+  const Layout = require('../../scripts/templates/side-fill-layout.js');
+  const base = JSON.parse(readFileSync(new URL('../../data/side-fill/data/side-keyshapes.json', import.meta.url)));
+  // The 72 keyshapes are the 48 / 32 ones scaled 72/64 (side-fill-data.js keyshapes()).
+  const keyshapes = Object.fromEntries(Object.entries(base).map(([role, t]) => [role, Object.fromEntries(Object.entries(t).map(([n, b]) => [n, b.map(v => v * 72 / 64)]))]));
+  const integral = c => ['main', 'sub'].every(role => c.pick[role].layout?.every(b => b.paths && ['x', 'y', 'w', 'h'].every(k => Number.isInteger(b[k]))));
+  const picks = cases72.filter(c => integral(c) && !transformed(c)).slice(0, 25);
+  assert.ok(picks.length >= 10, 'integral 72 goldens missing');
+  for (const c of picks) {
+    const position = c.id.slice(-2);
+    const change = role => ({units: c.pick[role].layout.map(b => ({...b}))});
+    const result = Layout.preview({keyshapes, position, main: c.pick.main, sub: c.pick.sub, options: null, size: 72,
+                                   proposal: {position, main: change('main'), sub: change('sub')}});
+    assert.ok(Fill.differs(result.svg, Fill.combine(c.pick).svg) < 0.01, `${c.id}: preview differs from the pick`);
+    assert.equal(result.stress_svg === null, !!c.pick.main.outline, `${c.id}: stress cut only for a filled main`);
+    if (result.stress_svg) assert.ok(result.stress_svg.includes('viewBox="0 0 72 72"'), `${c.id}: stress cut not on 72`);
+    for (const role of ['main', 'sub']) assert.equal(typeof result.candidate.keyshape_validation[role].fits_keyshape, 'boolean');
+  }
+});

@@ -7,7 +7,7 @@
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
-  const {pairsPage, artBox, iconUrl, labelOf, stale} = window.SideFillData;
+  const {pairsPage, artBox, iconUrl, labelOf, stale, link, size} = window.SideFillData;
   const {overlay, label, keyshape} = window.SideFillOverlay;
   const GROUPS = [['all', 'All pairs'], ['picked', 'Picked'], ['unpicked', 'Not picked'], ['uncombined', 'Not combined']];
   const params = new URLSearchParams(location.search);
@@ -28,7 +28,7 @@
   function tile(pair, pick) {
     const card = document.createElement('article');
     card.className = 'sf-tile';card.dataset.group = pair.state;
-    const href = 'side-fill-pair.html?id=' + encodeURIComponent(pair.id);
+    const href = link('side-fill-pair.html?id=' + encodeURIComponent(pair.id));
     const guides = $('guides').getAttribute('aria-pressed') === 'true';
     const ks = pick ? keyshape(pick.main?.layout, pick.sub?.layout) : null;
     const built = pick?.combined;
@@ -142,5 +142,16 @@
     load();
   });
   $('tileSize').addEventListener('change', () => document.documentElement.style.setProperty('--sf-tile', $('tileSize').value));
+  if (size.size === 72) {
+    // The 72 set: the page's words follow it (the HTML is written for 64).
+    document.title = 'Fill side pairs 72 · Pictographic';
+    document.querySelector('.sc-intro .eyebrow').textContent = 'SIDE COMBINATIONS 72 · FILL';
+    document.querySelector('.sc-intro h1').textContent = 'Fill side pairs 72';
+    document.querySelector('.sc-intro p:last-child').textContent = 'Every 72px side pair (a 54 main and a 36 sub) combined from the fill variants of '
+      + 'its main and sub. A picked pair shows each pick\'s combined icon in order (the first is the pair\'s output; each is in Icon review); open a pair '
+      + 'to pick, adjust the layout or rebuild. The overlay draws the 72px keyshape: a layout must fill a 63 square, 67.5×49.5 or 49.5×67.5 on its guides.';
+    $('guides').title = 'Show the 72px grid and the keyshape over each tile';
+    $('original').title = 'Show each pair\'s normal Side combination 72 icon beside its fill output';
+  }
   load();
 })();

@@ -5,6 +5,7 @@
 //
 //   node cloud/migrate/build_fill_pairs.mjs --base-url http://localhost:8821 --cookie pictographic_session=…   # dry run
 //   node cloud/migrate/build_fill_pairs.mjs --base-url https://… --token "$PICTOGRAPHIC_PUSH_TOKEN" --send
+//   … --size 72                     the 72 pairs (main-54 + sub-36 on 72, combination-72/<id>--fill outputs)
 //
 // Reads are bounded: the picked pairs in keyset pages of 120 (GET /api/side-fill/pairs), and the drawings of their
 // icons and sources 100 keys at a time (GET /api/combinations/drawings). A pick is built when it has no combined
@@ -16,7 +17,9 @@ const require = createRequire(import.meta.url);
 const Fill = require('../../icon_set/scripts/templates/side-fill-combine.js');
 const {values: args} = parseArgs({options: {
   'base-url': {type: 'string'}, token: {type: 'string'}, cookie: {type: 'string'}, send: {type: 'boolean'},
-  all: {type: 'boolean'}, limit: {type: 'string'}, ids: {type: 'string'}}});
+  all: {type: 'boolean'}, limit: {type: 'string'}, ids: {type: 'string'}, size: {type: 'string', default: '64'}}});
+const size = Number(args.size);
+if (size !== 64 && size !== 72) { console.error('error: --size is 64 or 72'); process.exit(2); }
 const base = (args['base-url'] || '').replace(/\/$/, '');
 if (!base) { console.error('error: --base-url is required'); process.exit(2); }
 const headers = {'User-Agent': 'pictographic-migrate/1.0', 'Content-Type': 'application/json',
@@ -32,7 +35,7 @@ async function call(method, path, body) {
 const wanted = args.ids ? new Set(args.ids.split(',')) : null;
 const pairs = [];
 for (let after = null; ;) {
-  const page = await call('GET', '/api/side-fill/pairs?' + new URLSearchParams({state: 'picked', limit: '120', ...(after ? {after} : {})}));
+  const page = await call('GET', '/api/side-fill/pairs?' + new URLSearchParams({state: 'picked', limit: '120', size: String(size), ...(after ? {after} : {})}));
   pairs.push(...page.pairs.filter(p => !wanted || wanted.has(p.id)));
   if (!page.next) break;
   after = page.next;
@@ -60,9 +63,9 @@ for (const [n, {pair, pick}] of jobs.entries()) {
   };
   try {
     const main = part('main', pair.main), sub = part('sub', pair.sub);
-    const {svg} = Fill.combine({main, sub, options: pick.options});
+    const {svg} = Fill.combine({main, sub, options: pick.options, size});
     // The pair version the picks were read at: a pair changed on the site since is refused, not overwritten.
-    const answer = await call('POST', '/api/side-fill/build', {reference_id: pair.id, rank: pick.rank, version: pair.version, svg,
+    const answer = await call('POST', '/api/side-fill/build', {reference_id: pair.id, size, rank: pick.rank, version: pair.version, svg,
       main: {icon: pick.main.icon, svg_sha256: main.sha}, sub: {icon: pick.sub.icon, svg_sha256: sub.sha}});
     built++;
     if (answer.build_failed) partsNotApproved++;

@@ -12,6 +12,7 @@
   const D = window.SideFillData, Fill = window.SideFillCombine, Layout = window.SideFillLayout;
   const {overlay, label, keyshape} = window.SideFillOverlay;
   const id = new URLSearchParams(location.search).get('id');
+  const SIZE = D.size;            // 64, or 72 with ?size=72
   let pair = null, drawings = {}, busy = false, renders = new Map(), token = 0;
   const MAX_PICKS = 9;
 
@@ -48,7 +49,7 @@
   function render(main, sub, options) {
     const cacheKey = JSON.stringify([main.key, drawings[main.key]?.svg_sha256, main.layout, sub.key, drawings[sub.key]?.svg_sha256, sub.layout, options]);
     if (!renders.has(cacheKey)) {
-      try { renders.set(cacheKey, {svg: Fill.combine({main: part('main', main.key, main.layout), sub: part('sub', sub.key, sub.layout), options}).svg}); }
+      try { renders.set(cacheKey, {svg: Fill.combine({main: part('main', main.key, main.layout), sub: part('sub', sub.key, sub.layout), options, size: SIZE.size}).svg}); }
       catch (error) { renders.set(cacheKey, {error: error.message}); }
     }
     return renders.get(cacheKey);
@@ -135,7 +136,7 @@
       preview: async proposal => {
         const mainKey = keyOfName('main', proposal.base_variant) || main.key, sKey = subKey(proposal.sub_variant) || sub.key;
         const keyshapes = await D.keyshapes();
-        return Layout.preview({keyshapes, position: pair.id.slice(-2), options,
+        return Layout.preview({keyshapes, position: pair.id.slice(-2), options, size: SIZE.size,
                                main: part('main', mainKey), sub: part('sub', sKey), proposal});
       },
       save: async (proposal, result) => {
@@ -188,7 +189,7 @@
     const o = pair.original, card = document.createElement('article');
     card.className = 'sf-tile';
     const caption = document.createElement('p');
-    caption.textContent = o ? `${o.key} · ${o.review === 'approve' ? 'approved' : o.review}` : `No normal icon side_combination64/${pair.id}`;
+    caption.textContent = o ? `${o.key} · ${o.review === 'approve' ? 'approved' : o.review}` : `No normal icon ${SIZE.combined}/${pair.id}`;
     caption.title = caption.textContent;
     card.append(D.artBox(o ? D.iconUrl(o.key, o.svg_sha256) : null, {empty: 'No normal icon'}), caption);
     $('original').replaceChildren(card);
@@ -220,10 +221,15 @@
     if (!id) { $('title').textContent = 'No pair chosen';status('Open a pair from Fill side pairs.', true);return; }
     try { await load(); }
     catch (error) { $('title').textContent = 'Pair not available';status(error.message, true);return; }
-    document.title = `${pair.concept} · Fill side pair`;
+    document.title = `${pair.concept} · Fill side pair${SIZE.size === 72 ? ' 72' : ''}`;
+    if (SIZE.size === 72) {
+      const note = document.querySelector('#original')?.previousElementSibling;
+      if (note) note.textContent = `The pair's normal ${SIZE.normal} icon: the fill output is its fill style.`;
+      document.querySelector('.sc-intro .eyebrow').textContent = 'FILL SIDE PAIR · 72';
+    }
     $('title').textContent = pair.concept;
     $('subtitle').textContent = `${pair.main} + ${pair.sub} · ${pair.id.slice(-2)} · ${pair.id} · ${pair.state}`;
-    const go = to => { location.search = '?id=' + encodeURIComponent(to); };
+    const go = to => { location.search = '?id=' + encodeURIComponent(to) + (SIZE.size === 72 ? '&size=72' : ''); };
     $('prev').disabled = !pair.neighbours?.previous;$('next').disabled = !pair.neighbours?.next;
     $('prev').onclick = () => go(pair.neighbours.previous);$('next').onclick = () => go(pair.neighbours.next);
     original();

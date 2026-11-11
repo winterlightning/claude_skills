@@ -42,35 +42,42 @@ def sort_key(text, ref):
 
 NO_FILL_NOTE = 'Neither the main nor the sub has a fill: this pair has no fill version.'   # core side_fill::NO_FILL_NOTE
 READY_NOTE = 'Has a fill: combined in its pairs.'
-NOT_EDITED = "NOT EXISTS (SELECT 1 FROM fill_pairs e WHERE e.reference_id = {ref} AND e.edited_at IS NOT NULL)"
+# Every statement names its size (migration 0026: a pair is a reference at 64 or 72), so an import of one size never
+# touches the other's pairs, parts, picks or totals.
+NOT_EDITED = "NOT EXISTS (SELECT 1 FROM fill_pairs e WHERE e.reference_id = {ref} AND e.size = {size} AND e.edited_at IS NOT NULL)"
 
 
-def pick_statement(ref, role, rank, icon, layout, options, now, exists=False):
+def scope(base, size):
+    """fill_counts scope of a base scope at a size (core side_fill::scope): pairs, main, sub at 64; pairs:72 … at 72."""
+    return base if size == 64 else f'{base}:{size}'
+
+
+def pick_statement(ref, role, rank, icon, layout, options, now, exists=False, size=64):
     """One imported pick row: written unless the pair was edited on the site, as an upsert that keeps its output and
     (with the same icon, layout and options) its built drawing. `exists`: only when the icon is there (a variant)."""
-    where = NOT_EDITED.format(ref=q(ref)) + (f" AND EXISTS (SELECT 1 FROM icons WHERE key = {q(icon)})" if exists else '')
-    return (f"INSERT INTO reference_part_fills(reference_id, role, rank, icon, layout, options, updated_at, updated_by) "
-            f"SELECT {q(ref)}, {q(role)}, {rank}, {q(icon)}, {q(layout)}, {q(options)}, {q(now)}, 'side-fill import' WHERE {where} "
-            f"ON CONFLICT(reference_id, role, rank) DO UPDATE SET "
+    where = NOT_EDITED.format(ref=q(ref), size=size) + (f" AND EXISTS (SELECT 1 FROM icons WHERE key = {q(icon)})" if exists else '')
+    return (f"INSERT INTO reference_part_fills(reference_id, size, role, rank, icon, layout, options, updated_at, updated_by) "
+            f"SELECT {q(ref)}, {size}, {q(role)}, {rank}, {q(icon)}, {q(layout)}, {q(options)}, {q(now)}, 'side-fill import' WHERE {where} "
+            f"ON CONFLICT(reference_id, size, role, rank) DO UPDATE SET "
             f"built_sha = CASE WHEN reference_part_fills.icon IS excluded.icon AND reference_part_fills.layout IS excluded.layout "
             f"AND reference_part_fills.options IS excluded.options THEN reference_part_fills.built_sha END, "
             f"icon = excluded.icon, layout = excluded.layout, options = excluded.options, updated_at = excluded.updated_at "
             f"WHERE reference_part_fills.updated_by = 'side-fill import';")
 
 
-def picks_tail(now):
-    """After the picks: removes the imported picks this import did not write (stamped `now`), of pairs not edited on
-    the site. A stamp, not a list of keys: D1 refuses a statement that long."""
-    return ("DELETE FROM reference_part_fills WHERE updated_by = 'side-fill import' AND " + NOT_EDITED.format(ref='reference_part_fills.reference_id')
-            + f" AND updated_at != {q(now)};")
+def picks_tail(now, size=64):
+    """After the picks: removes the imported picks of this size this import did not write (stamped `now`), of pairs not
+    edited on the site. A stamp, not a list of keys: D1 refuses a statement that long."""
+    return (f"DELETE FROM reference_part_fills WHERE size = {size} AND updated_by = 'side-fill import' AND "
+            + NOT_EDITED.format(ref='reference_part_fills.reference_id', size=size) + f" AND updated_at != {q(now)};")
 
 
-def pair_statement(ref, sort, state, main, sub, layouts, note, now):
+def pair_statement(ref, sort, state, main, sub, layouts, note, now, size=64):
     """One fill_pairs row, upserted: a pair edited on the site keeps its state and note, and one a site fill made
     pickable (FIRST_FILL) is not put back to waiting for a fill."""
-    return (f"INSERT INTO fill_pairs(reference_id, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
-            f"VALUES ({q(ref)}, {q(sort)}, {q(state)}, {q(main)}, {q(sub)}, {layouts[0]}, {layouts[1]}, {q(note)}, {q(now)}) "
-            f"ON CONFLICT(reference_id) DO UPDATE SET sort_key = excluded.sort_key, main_source = excluded.main_source, "
+    return (f"INSERT INTO fill_pairs(reference_id, size, sort_key, state, main_source, sub_source, main_layout, sub_layout, note, updated_at) "
+            f"VALUES ({q(ref)}, {size}, {q(sort)}, {q(state)}, {q(main)}, {q(sub)}, {layouts[0]}, {layouts[1]}, {q(note)}, {q(now)}) "
+            f"ON CONFLICT(reference_id, size) DO UPDATE SET sort_key = excluded.sort_key, main_source = excluded.main_source, "
             f"sub_source = excluded.sub_source, main_layout = excluded.main_layout, sub_layout = excluded.sub_layout, "
             f"state = CASE WHEN fill_pairs.edited_at IS NOT NULL THEN fill_pairs.state "
             f"WHEN fill_pairs.state = 'unpicked' AND excluded.state = 'uncombined' AND excluded.note = {q(NO_FILL_NOTE)} THEN 'unpicked' "
@@ -79,24 +86,30 @@ def pair_statement(ref, sort, state, main, sub, layouts, note, now):
             f"THEN fill_pairs.note ELSE excluded.note END, updated_at = excluded.updated_at;")
 
 
-def part_statement(key, role, sort, status, note, text, pair_count, now):
+def part_statement(key, role, sort, status, note, text, pair_count, now, size=64):
     """One fill_parts row, upserted: a part filled on the site (FIRST_FILL) stays filled."""
-    return (f"INSERT INTO fill_parts(key, role, sort_key, status, note, text, pair_count, updated_at) VALUES "
-            f"({q(key)}, {q(role)}, {q(sort)}, {q(status)}, {q(note)}, {q(text)}, {pair_count}, {q(now)}) "
-            f"ON CONFLICT(key) DO UPDATE SET role = excluded.role, sort_key = excluded.sort_key, text = excluded.text, "
+    return (f"INSERT INTO fill_parts(key, role, size, sort_key, status, note, text, pair_count, updated_at) VALUES "
+            f"({q(key)}, {q(role)}, {size}, {q(sort)}, {q(status)}, {q(note)}, {q(text)}, {pair_count}, {q(now)}) "
+            f"ON CONFLICT(key) DO UPDATE SET role = excluded.role, size = excluded.size, sort_key = excluded.sort_key, text = excluded.text, "
             f"pair_count = excluded.pair_count, updated_at = excluded.updated_at, "
             f"status = CASE WHEN fill_parts.status = 'ready' AND excluded.status IN ('no-fill', 'outline') THEN 'ready' ELSE excluded.status END, "
             f"note = CASE WHEN fill_parts.status = 'ready' AND excluded.status IN ('no-fill', 'outline') THEN fill_parts.note ELSE excluded.note END;")
 
 
-# The totals, counted from the rows written (one pass over each table, at import only).
-COUNTS = ["DELETE FROM fill_counts;",
-          "UPDATE fill_pairs SET state = 'picked', note = NULL WHERE state != 'picked' "
-          "AND EXISTS (SELECT 1 FROM reference_part_fills p WHERE p.reference_id = fill_pairs.reference_id);",
-          "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', state, COUNT(*) FROM fill_pairs GROUP BY state;",
-          "INSERT INTO fill_counts(scope, status, n) SELECT 'pairs', 'all', COUNT(*) FROM fill_pairs;",
-          "INSERT INTO fill_counts(scope, status, n) SELECT role, status, COUNT(*) FROM fill_parts GROUP BY role, status;",
-          "INSERT INTO fill_counts(scope, status, n) SELECT role, 'all', COUNT(*) FROM fill_parts GROUP BY role;"]
+def counts_sql(size=64):
+    """The totals of one size, counted from the rows written (one pass over that size's rows, at import only)."""
+    scopes = ', '.join(q(scope(b, size)) for b in ('pairs', 'main', 'sub'))
+    role_scope = 'role' if size == 64 else f"role || ':{size}'"
+    return [f"DELETE FROM fill_counts WHERE scope IN ({scopes});",
+            f"UPDATE fill_pairs SET state = 'picked', note = NULL WHERE size = {size} AND state != 'picked' "
+            f"AND EXISTS (SELECT 1 FROM reference_part_fills p WHERE p.reference_id = fill_pairs.reference_id AND p.size = {size});",
+            f"INSERT INTO fill_counts(scope, status, n) SELECT {q(scope('pairs', size))}, state, COUNT(*) FROM fill_pairs WHERE size = {size} GROUP BY state;",
+            f"INSERT INTO fill_counts(scope, status, n) SELECT {q(scope('pairs', size))}, 'all', COUNT(*) FROM fill_pairs WHERE size = {size};",
+            f"INSERT INTO fill_counts(scope, status, n) SELECT {role_scope}, status, COUNT(*) FROM fill_parts WHERE size = {size} GROUP BY role, status;",
+            f"INSERT INTO fill_counts(scope, status, n) SELECT {role_scope}, 'all', COUNT(*) FROM fill_parts WHERE size = {size} GROUP BY role;"]
+
+
+COUNTS = counts_sql(64)
 
 
 def keyshape_fits():
@@ -240,7 +253,7 @@ def build():
         layouts = [q(json.dumps(parts[r]['layout']) if parts.get(r, {}).get('layout') else None) for r in ('main', 'sub')]
         pairs.append(pair_statement(ref, sort_key(item['concept'], ref), state, parts.get('main', {}).get('icon'),
                                     parts.get('sub', {}).get('icon'), layouts, note, now))
-    pairs.append(f"DELETE FROM fill_pairs WHERE updated_at != {q(now)};")          # pairs no longer listed
+    pairs.append(f"DELETE FROM fill_pairs WHERE size = 64 AND updated_at != {q(now)};")          # pairs no longer listed
     fitted = keyshape_fits()
     for spec in specs:
         ref, rank = spec['reference_id'], spec['rank']
@@ -268,11 +281,11 @@ def build():
             parts_sql.append(part_statement(entry['key'], role, sort_key(entry['name'], entry['key']), entry['status'],
                                             entry['note'], art.get('text'), len(entry['pairs']), now))
     listed_parts = [entry['key'] for listing in (mains, subs) for entry, _ in listing]
-    parts_sql.append(f"DELETE FROM fill_parts WHERE updated_at != {q(now)};")       # parts no longer listed
+    parts_sql.append(f"DELETE FROM fill_parts WHERE size = 64 AND updated_at != {q(now)};")       # parts no longer listed
     IMPORT.write_text('\n'.join(pairs + parts_sql + COUNTS) + '\n')
     # Picks made or changed on the site are kept; open pair pages of the pairs whose picks this may change reload.
     PICKS.write_text('\n'.join(picks + [picks_tail(now)] + COUNTS
-                               + ["UPDATE fill_pairs SET version = version + 1 WHERE edited_at IS NULL;"]) + '\n')
+                               + ["UPDATE fill_pairs SET version = version + 1 WHERE size = 64 AND edited_at IS NULL;"]) + '\n')
     return {'pairs': len(items), 'parts': len(listed_parts), 'pick_rows': len(picks), 'pick_fallbacks': fallbacks, 'dropped_rejected_picks': len(dropped),
             'counts': {f'{s}:{st}': n for (s, st), n in counts.items()}, 'import_sql': str(IMPORT), 'picks_sql': str(PICKS)}
 
